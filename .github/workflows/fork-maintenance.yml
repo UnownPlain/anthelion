@@ -1,0 +1,22 @@
+name: Fork Maintenance
+
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+jobs:
+  fork-maintenance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+      - name: Install Komac
+        run: cargo binstall komac -y
+      - name: Sync Fork & Cleanup Branches
+        env:
+          KOMAC_FORK_OWNER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+        run: |
+          komac sync
+          komac cleanup -a

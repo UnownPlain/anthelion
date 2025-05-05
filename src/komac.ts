@@ -1,0 +1,39 @@
+export async function runKomac(...args: string[]) {
+	const cmd = new Deno.Command('komac', {
+		args: args,
+		stdin: 'piped',
+		stdout: 'piped',
+		stderr: 'piped',
+	}).spawn();
+
+	const { code, stdout, stderr } = await cmd.output();
+	const decodedStdout = new TextDecoder().decode(stdout);
+	const decodedStderr = new TextDecoder().decode(stderr);
+
+	if (code !== 0) {
+		throw new Error(decodedStderr);
+	}
+
+	return { decodedStdout, decodedStderr, code };
+}
+
+export async function komac(...args: string[]) {
+	const output = await runKomac(...args);
+	console.log(output.decodedStdout);
+}
+
+export async function komacSilent(...args: string[]) {
+	const output = await runKomac(...args);
+	return output.decodedStdout.trim();
+}
+
+export async function updatePackage(
+	packageId: string,
+	version: string,
+	urls: string[],
+	...args: string[]
+) {
+	console.log('Version:', version);
+	console.log('URL(s):', ...urls, '\n');
+	await komac('update', packageId, `-v`, version, `-u`, ...urls, '-s', ...args);
+}

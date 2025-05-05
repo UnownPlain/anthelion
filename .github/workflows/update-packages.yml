@@ -1,0 +1,45 @@
+name: Update Packages
+
+on:
+  schedule:
+    - cron: '8 * * * *'
+    - cron: '29 * * * *'
+    - cron: '53 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-packages:
+    runs-on: ubuntu-latest
+    env:
+      DENO_DIR: ${{ github.workspace }}/.deno
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      # - name: Setup cargo-binstall
+      #   uses: cargo-bins/cargo-binstall@main
+      # - name: Install Komac
+      #   run: cargo binstall komac -y
+      - name: Install Komac (Custom Build)
+        run: |
+          sudo wget -P /usr/bin/ https://github.com/UnownPlain/Komac/releases/download/2.12.0/komac
+          sudo chmod +x /usr/bin/komac
+      - name: Cache Deno Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.DENO_DIR }}
+          key: ${{ runner.os }}-${{ runner.arch }}-deno-${{ hashFiles('deno.lock') }}
+      - name: Update Packages
+        env:
+          KOMAC_FORK_OWNER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+          FORCE_COLOR: 3
+        run: deno run start
+      # - name: Install Komac (Nightly)
+      #   run: |
+      #     wget -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/nightly/komac-nightly-x86_64-unknown-linux-gnu.tar.gz
+      #     tar -xf /usr/local/bin/komac-nightly-x86_64-unknown-linux-gnu.tar.gz -C /usr/local/bin/
+      #     echo "/usr/local/bin/" >> $GITHUB_PATH
