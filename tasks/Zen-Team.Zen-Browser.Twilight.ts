@@ -20,20 +20,24 @@ export default async function () {
 	}
 
 	const version = validateMatch(
-		validateString(versionInfo.name).match(/(?<=Twilight build - )\S+/),
+		latestVersion.match(/(?<=Twilight build - )\S+/),
+	)[0];
+	const repoVersion = validateMatch(
+		validateString(currentVersion).match(/(?<=Twilight build - )\S+/),
 	)[0];
 	const urls = [
 		`https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer.exe|x64`,
 		`https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer-arm64.exe`,
 	];
 
-	await updatePackage(
-		'Zen-Team.Zen-Browser.Twilight',
-		version,
-		urls,
-		'-r',
-		'--skip-pr-check',
-	);
+	const packageId = 'Zen-Team.Zen-Browser.Twilight';
+	const options = ['--skip-pr-check'];
+
+	if (version != repoVersion) {
+		options.push('-r');
+	}
+
+	await updatePackage(packageId, version, urls, ...options);
 
 	const mutation = `
     mutation UpdateFile($input: CreateCommitOnBranchInput!) {
