@@ -7,7 +7,7 @@ export default async function () {
 	const versionInfo = await getReleaseByTag(
 		'zen-browser',
 		'desktop',
-		'twilight',
+		'twilight'
 	);
 
 	const VERSION_STATE_PATH = 'version-state/Zen-Team.Zen-Browser.Twilight';
@@ -20,10 +20,10 @@ export default async function () {
 	}
 
 	const version = validateMatch(
-		latestVersion.match(/(?<=Twilight build - )\S+/),
+		latestVersion.match(/(?<=Twilight build - )\S+/)
 	)[0];
 	const repoVersion = validateMatch(
-		validateString(currentVersion).match(/(?<=Twilight build - )\S+/),
+		validateString(currentVersion).match(/(?<=Twilight build - )\S+/)
 	)[0];
 	const urls = [
 		`https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer.exe|x64`,
@@ -70,8 +70,12 @@ export default async function () {
 		},
 	});
 
+	// Wait 3 seconds for API to update
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+
 	const prSearch = await octokit.rest.search.issuesAndPullRequests({
 		q: 'Zen-Team.Zen-Browser.Twilight+is:pr+author:UnownBot+is:open+repo:microsoft/winget-pkgs+sort:created-desc',
+		advanced_search: 'true',
 	});
 
 	for (let i = 1; i < prSearch.data.total_count; i++) {
