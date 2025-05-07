@@ -70,8 +70,8 @@ export default async function () {
 		},
 	});
 
-	// Wait 3 seconds for API to update
-	await new Promise((resolve) => setTimeout(resolve, 3000));
+	// Wait 5 seconds for API to update
+	await new Promise((resolve) => setTimeout(resolve, 5000));
 
 	const prSearch = await octokit.rest.search.issuesAndPullRequests({
 		q: 'Zen-Team.Zen-Browser.Twilight+is:pr+author:UnownBot+is:open+repo:microsoft/winget-pkgs+sort:created-desc',
