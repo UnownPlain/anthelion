@@ -7,7 +7,7 @@ export default async function () {
 	const versionInfo = await getReleaseByTag(
 		'zen-browser',
 		'desktop',
-		'twilight'
+		'twilight',
 	);
 
 	const VERSION_STATE_PATH = 'version-state/Zen-Team.Zen-Browser.Twilight';
@@ -20,10 +20,10 @@ export default async function () {
 	}
 
 	const version = validateMatch(
-		latestVersion.match(/(?<=Twilight build - )\S+/)
+		latestVersion.match(/(?<=Twilight build - )\S+/),
 	)[0];
 	const repoVersion = validateMatch(
-		validateString(currentVersion).match(/(?<=Twilight build - )\S+/)
+		validateString(currentVersion).match(/(?<=Twilight build - )\S+/),
 	)[0];
 	const urls = [
 		`https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer.exe|x64`,
