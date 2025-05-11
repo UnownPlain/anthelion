@@ -2,7 +2,7 @@ name: Lint Project
 
 on:
   push:
-    paths-ignore: 
+    paths-ignore:
       - version-state/**
   workflow_dispatch:
 
