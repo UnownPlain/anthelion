@@ -16,7 +16,9 @@ async function getLatestReleaseData(owner: string, repo: string) {
 export async function getLatestRelease(owner: string, repo: string) {
 	const release = await getLatestReleaseData(owner, repo);
 
-	return release.data.tag_name.replace(/^v/, '');
+	return release.data.tag_name.startsWith('v')
+		? release.data.tag_name.substring(1)
+		: release.data.tag_name;
 }
 
 export async function getLatestUrls(owner: string, repo: string) {
@@ -40,9 +42,10 @@ export async function getLatestPreRelease(owner: string, repo: string) {
 		repo,
 	});
 
-	return release.data
-		.filter((release) => release.prerelease)[0]
-		.tag_name.replace(/^v/, '');
+	const version = release.data.filter((release) => release.prerelease)[0]
+		.tag_name;
+
+	return version.startsWith('v') ? version.substring(1) : version;
 }
 
 export async function getTagHash(owner: string, repo: string) {

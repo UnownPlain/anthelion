@@ -13,20 +13,17 @@ async function runAllTasks() {
 		console.log(blue`Running task: ${entry.name}\n`);
 
 		try {
-			const taskModule = await import(`../tasks/${entry.name}`);
-			await taskModule.default();
-
-			console.log(green`✅ Successfully completed task: ${entry.name}`);
+			const task = await import(`../tasks/${entry.name}`);
+			await task.default();
 		} catch (taskError) {
-			const errorMessage = taskError instanceof Error
-				? taskError.message
-				: String(taskError);
 			console.error(
 				bgRed`❌ Error in task ${entry.name}:\n`,
-				redBright`${errorMessage}`,
+				redBright`${taskError as Error}`,
 			);
+			continue;
 		}
 
+		console.log(green`✅ Successfully completed task: ${entry.name}`);
 		console.log('-'.repeat(55));
 	}
 
