@@ -9,8 +9,6 @@ try {
 
 	console.log(green`✅ Successfully completed task: ${pkg}`);
 } catch (taskError) {
-	console.error(
-		bgRed`❌ Error in task ${pkg}:\n`,
-		redBright`${taskError as Error}`,
-	);
+	const error = taskError as Error;
+	console.error(bgRed`❌ Error in task ${pkg}:\n`, redBright`${error.message}`);
 }
