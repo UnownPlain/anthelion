@@ -9,7 +9,7 @@ on:
 
 jobs:
   update-packages:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     env:
       DENO_DIR: ${{ github.workspace }}/.deno
     steps:
@@ -19,22 +19,17 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      # - name: Setup cargo-binstall
-      #   uses: cargo-bins/cargo-binstall@main
-      # - name: Install Komac
-      #   run: cargo binstall komac -y
+          cache: true
       - name: Install Komac (Nightly)
         run: |
-          wget -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/nightly/komac-nightly-x86_64-unknown-linux-gnu.tar.gz
-          tar -xf /usr/local/bin/komac-nightly-x86_64-unknown-linux-gnu.tar.gz -C /usr/local/bin/
-          echo "/usr/local/bin/" >> $GITHUB_PATH
-      - name: Cache Deno Dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.DENO_DIR }}
-          key: ${{ runner.os }}-${{ runner.arch }}-deno-${{ hashFiles('deno.lock') }}
+          wget -nv -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/nightly/komac-nightly-aarch64-unknown-linux-gnu.tar.gz
+          tar -xf /usr/local/bin/*.tar.gz -C /usr/local/bin/
       - name: Update Packages
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
         run: deno run start
+      # - name: Setup cargo-binstall
+      #   uses: cargo-bins/cargo-binstall@main
+      # - name: Install Komac (Stable)
+      #   run: cargo binstall komac -y

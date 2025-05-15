@@ -12,7 +12,7 @@ export default async function () {
 	const version = validateMatch(match)[1];
 
 	const urls = [
-		`https://epilogue.nyc3.cdn.digitaloceanspaces.com/releases/software/Playback/version/${version}/release/windows/playback-setup.exe`,
+		`https://epilogue.nyc3.cdn.digitaloceanspaces.com/releases/software/Playback/version/${version}/release/windows/playback-setup.exe|64`,
 	];
 
 	await updatePackage('Epilogue.EpilogueOperator', version, urls);

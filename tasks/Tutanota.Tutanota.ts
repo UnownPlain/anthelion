@@ -8,7 +8,7 @@ export default async function () {
 
 	const version = electronBuilder(versionInfo);
 	const urls = [
-		`https://github.com/tutao/tutanota/releases/download/tutanota-desktop-release-${version}/tutanota-desktop-win.exe`,
+		`https://github.com/tutao/tutanota/releases/download/tutanota-desktop-release-${version}/tutanota-desktop-win.exe|x64`,
 	];
 
 	await updatePackage('Tutanota.Tutanota', version, urls);

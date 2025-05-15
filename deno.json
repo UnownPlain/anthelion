@@ -1,8 +1,8 @@
 {
 	"tasks": {
 		"start": "deno run --allow-read --allow-net --allow-env --allow-run=\"komac\" ./src/main.ts",
-		"start-dev": "deno run --allow-read --allow-net --allow-env --env-file=\"./.env\" --allow-run=\"komac\" ./src/main.ts",
-		"pkg-test": "deno run --allow-read --allow-net --allow-env --env-file=\"./.env\" --allow-run=\"komac\" ./src/test.ts"
+		"start-test": "deno run --allow-read --allow-net --allow-env --env-file=\"./.env\" --allow-run=\"komac\" ./src/main.ts",
+		"test": "deno run --allow-read --allow-net --allow-env --env-file=\"./.env\" --allow-run=\"komac\" ./src/test.ts"
 	},
 	"fmt": {
 		"useTabs": true,

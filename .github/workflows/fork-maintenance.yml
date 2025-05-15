@@ -7,7 +7,7 @@ on:
 
 jobs:
   fork-maintenance:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Setup cargo-binstall
         uses: cargo-bins/cargo-binstall@main

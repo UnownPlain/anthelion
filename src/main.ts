@@ -15,15 +15,14 @@ async function runAllTasks() {
 		try {
 			const task = await import(`../tasks/${entry.name}`);
 			await task.default();
+			console.log(green`✅ Successfully completed task: ${entry.name}`);
 		} catch (taskError) {
 			console.error(
-				bgRed`❌ Error in task ${entry.name}:\n`,
-				redBright`\n${taskError as Error}`,
+				bgRed`❌ Error in task ${entry.name}:\n` +
+					redBright`\n${taskError as Error}`,
 			);
-			continue;
 		}
 
-		console.log(green`✅ Successfully completed task: ${entry.name}`);
 		console.log('-'.repeat(55));
 	}
 

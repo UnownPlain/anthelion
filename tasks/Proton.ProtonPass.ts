@@ -13,7 +13,7 @@ export default async function () {
 
 	const version = validateString(versions[0].Version);
 	const urls = [
-		`https://proton.me/download/pass/windows/ProtonPass_Setup_${version}.exe`,
+		`https://proton.me/download/pass/windows/ProtonPass_Setup_${version}.exe|64`,
 	];
 
 	await updatePackage('Proton.ProtonPass', version, urls);

@@ -11,7 +11,7 @@ export default async function () {
 	);
 
 	const version = validateMatch(match)[1];
-	const urls = [`https://nginx.org/download/nginx-${version}.zip`];
+	const urls = [`https://nginx.org/download/nginx-${version}.zip|x64`];
 
 	await updatePackage(
 		'nginxinc.nginx',
