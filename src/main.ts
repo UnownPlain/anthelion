@@ -18,7 +18,7 @@ async function runAllTasks() {
 		} catch (taskError) {
 			console.error(
 				bgRed`❌ Error in task ${entry.name}:\n`,
-				redBright`${taskError as Error}`,
+				redBright`\n${taskError as Error}`,
 			);
 			continue;
 		}
