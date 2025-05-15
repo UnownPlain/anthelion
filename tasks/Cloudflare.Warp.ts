@@ -6,7 +6,7 @@ export default async function () {
 		'https://downloads.cloudflareclient.com/v1/update/json/windows/ga',
 	).then((res) => res.json());
 
-	const version = validateString(versionInfo.items[0].version).substring(2);
+	const version = validateString(versionInfo.items[0].version);
 	const releaseDate = validateString(versionInfo.items[0].releaseDate).split(
 		'T',
 	)[0];
@@ -16,7 +16,7 @@ export default async function () {
 
 	await updatePackage(
 		'Cloudflare.Warp',
-		version,
+		version.substring(2),
 		urls,
 		'--release-notes-url',
 		`https://developers.cloudflare.com/changelog/${releaseDate}-warp-ga-windows/`,
