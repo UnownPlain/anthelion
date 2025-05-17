@@ -48,6 +48,15 @@ export async function getLatestPreRelease(owner: string, repo: string) {
 	return version.startsWith('v') ? version.substring(1) : version;
 }
 
+export async function getAllReleases(owner: string, repo: string) {
+	const release = await octokit.rest.repos.listReleases({
+		owner,
+		repo,
+	});
+
+	return release.data.filter((release) => !release.prerelease);
+}
+
 export async function getTagHash(owner: string, repo: string) {
 	const release = await octokit.rest.repos.listTags({
 		owner,

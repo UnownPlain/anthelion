@@ -37,7 +37,7 @@ export async function updatePackage(
 	...args: string[]
 ) {
 	console.log('Version:', version);
-	console.log('URL(s):', ...urls, '\n\n');
+	console.log('URL(s):', ...urls, '\n');
 	await komac('update', packageId, `-v`, version, `-u`, ...urls, '-s', ...args);
 }
 
