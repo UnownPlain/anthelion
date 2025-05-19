@@ -2,10 +2,10 @@ import { updatePackage } from '../src/komac.ts';
 import { validateString } from '../src/validate.ts';
 
 export default async function () {
-	const versionInfo = await fetch(
+	const response = await fetch(
 		'https://protonvpn.com/download/windows/x64/v1/version.json',
-	).then((res) => res.json());
-
+	);
+	const versionInfo = await response.json();
 	const versions = versionInfo.Releases.filter(
 		// @ts-ignore .
 		(version) => version.CategoryName === 'Stable',

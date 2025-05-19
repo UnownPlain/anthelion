@@ -2,15 +2,15 @@ import { updatePackage } from '../src/komac.ts';
 import { validateMatch } from '../src/validate.ts';
 
 export default async function () {
-	const versionInfo = await fetch(
+	const response = await fetch(
 		'https://www.videolan.org/vlc/download-windows.html',
-	).then((res) => res.text());
-
+	);
+	const versionInfo = await response.text();
 	const match = versionInfo.match(
 		/vlc\/([\d\.]+)\/win(?:32|64)\/vlc-[\d\.]+-win(?:32|64)\.exe/,
 	);
-	const version = validateMatch(match)[1];
 
+	const version = validateMatch(match)[1];
 	const urls = [
 		`https://download.videolan.org/videolan/vlc/${version}/win64/vlc-${version}-win64.exe`,
 		`https://download.videolan.org/videolan/vlc/${version}/win32/vlc-${version}-win32.exe`,

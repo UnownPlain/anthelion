@@ -2,10 +2,8 @@ import { updatePackage } from '../src/komac.ts';
 import { validateMatch } from '../src/validate.ts';
 
 export default async function () {
-	const versionInfo = await fetch('https://www.torproject.org/download/').then(
-		(res) => res.text(),
-	);
-
+	const response = await fetch('https://www.torproject.org/download/');
+	const versionInfo = await response.text();
 	const match = versionInfo.match(
 		/href=.*?tor-browser-windows-x86_64-portable[._-]v?(\d+(?:\.\d+)+)\.exe/i,
 	);

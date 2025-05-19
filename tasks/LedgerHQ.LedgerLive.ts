@@ -2,9 +2,8 @@ import { electronBuilder } from '../src/helpers.ts';
 import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
-	const versionInfo = await fetch(
-		'https://download.live.ledger.com/latest.yml',
-	).then((res) => res.text());
+	const response = await fetch('https://download.live.ledger.com/latest.yml');
+	const versionInfo = await response.text();
 
 	const version = electronBuilder(versionInfo);
 	const urls = [

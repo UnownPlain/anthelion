@@ -17,9 +17,9 @@ async function runAllTasks() {
 			await task.default();
 			console.log(green`✅ Successfully completed task: ${entry.name}`);
 		} catch (taskError) {
+			const error = taskError as Error;
 			console.error(
-				bgRed`❌ Error in task ${entry.name}:\n` +
-					redBright`${taskError as Error}`,
+				bgRed`❌ Error in task ${entry.name}:\n` + redBright`${error.message}`,
 			);
 		}
 

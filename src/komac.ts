@@ -37,7 +37,8 @@ export async function updatePackage(
 	...args: string[]
 ) {
 	console.log('Version:', version);
-	console.log('URL(s):', ...urls, '\n');
+	console.log(`URL(s): ${urls.join(' ')}`);
+	console.log(); // Explicitly log a blank line after the URL(s)
 	await komac('update', packageId, `-v`, version, `-u`, ...urls, '-s', ...args);
 }
 

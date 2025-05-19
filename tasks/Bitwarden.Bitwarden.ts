@@ -2,9 +2,10 @@ import { electronBuilder } from '../src/helpers.ts';
 import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
-	const versionInfo = await fetch(
+	const response = await fetch(
 		'https://artifacts.bitwarden.com/desktop/latest.yml',
-	).then((res) => res.text());
+	);
+	const versionInfo = await response.text();
 
 	const version = electronBuilder(versionInfo);
 	const urls = [

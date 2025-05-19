@@ -2,9 +2,10 @@ import { updatePackage } from '../src/komac.ts';
 import { validateString } from '../src/validate.ts';
 
 export default async function () {
-	const versionInfo = await fetch(
+	const response = await fetch(
 		'https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json',
-	).then((res) => res.json());
+	);
+	const versionInfo = await response.json();
 
 	const version = validateString(versionInfo.channels.Stable.version);
 	const urls = [
