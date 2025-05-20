@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import { parse as parseYaml } from '@std/yaml';
 
 export async function runKomac(...args: string[]) {
@@ -43,18 +42,6 @@ export async function updatePackage(
 }
 
 export async function getInstallerInfo(url: string) {
-	const appsAndFeaturesEntrySchema = z
-		.object({
-			DisplayVersion: z.string(),
-		})
-		.passthrough();
-
-	const installerInfoSchema = z
-		.object({
-			AppsAndFeaturesEntries: z.array(appsAndFeaturesEntrySchema),
-		})
-		.passthrough();
-
 	const response = await fetch(url);
 	const installerBytes = await response.bytes();
 
@@ -62,5 +49,5 @@ export async function getInstallerInfo(url: string) {
 	await Deno.writeFile(installer, installerBytes);
 
 	const output = await komacSilent('analyse', installer);
-	return installerInfoSchema.parse(parseYaml(output));
+	return parseYaml(output);
 }
