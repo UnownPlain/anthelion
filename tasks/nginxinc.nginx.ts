@@ -11,7 +11,6 @@ export default async function () {
 	const urls = [`https://nginx.org/download/nginx-${version}.zip|x64`];
 
 	return {
-		packageId: 'nginxinc.nginx',
 		version,
 		urls,
 		args: ['--release-notes-url', 'https://nginx.org/en/CHANGES'],

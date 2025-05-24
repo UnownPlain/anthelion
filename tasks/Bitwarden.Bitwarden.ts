@@ -12,7 +12,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Bitwarden.Bitwarden',
 		version,
 		urls,
 	};

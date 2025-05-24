@@ -7,7 +7,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'FeatherWallet.Feather',
 		version,
 		urls,
 	};

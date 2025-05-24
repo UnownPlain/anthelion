@@ -13,7 +13,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Google.CloudSDK',
 		version,
 		urls,
 		args: ['-r'],

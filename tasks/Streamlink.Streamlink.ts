@@ -5,7 +5,6 @@ export default async function () {
 	const urls = await getLatestUrls('streamlink', 'windows-builds');
 
 	return {
-		packageId: 'Streamlink.Streamlink',
 		version,
 		urls,
 	};

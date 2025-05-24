@@ -8,7 +8,6 @@ export default async function () {
 	const urls = [`https://releases.fontba.se/win/FontBase-${version}.exe`];
 
 	return {
-		packageId: 'Levitsky.FontBase',
 		version,
 		urls,
 	};

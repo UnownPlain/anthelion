@@ -13,7 +13,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Chromium.ChromeDriver',
 		version,
 		urls,
 	};

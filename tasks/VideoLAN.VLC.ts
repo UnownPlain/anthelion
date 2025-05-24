@@ -16,7 +16,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'VideoLAN.VLC',
 		version,
 		urls,
 	};

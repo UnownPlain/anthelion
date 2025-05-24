@@ -15,7 +15,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'BZFlag.BZFlag',
 		version,
 		urls,
 	};

@@ -10,7 +10,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'GoACME.lego',
 		version,
 		urls,
 	};

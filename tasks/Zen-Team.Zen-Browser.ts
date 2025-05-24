@@ -8,7 +8,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Zen-Team.Zen-Browser',
 		version,
 		urls,
 		args: [

@@ -8,7 +8,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Derailed.k9s',
 		version,
 		urls,
 	};

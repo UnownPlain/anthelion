@@ -10,7 +10,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'JesseDuffield.lazygit',
 		version,
 		urls,
 	};

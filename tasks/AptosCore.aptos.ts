@@ -11,7 +11,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'AptosCore.aptos',
 		version,
 		urls,
 	};

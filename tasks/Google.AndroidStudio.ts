@@ -13,7 +13,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Google.AndroidStudio',
 		version,
 		urls,
 		args: ['--release-notes-url', 'https://androidstudio.googleblog.com/'],

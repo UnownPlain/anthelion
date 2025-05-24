@@ -13,7 +13,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Plex.PlexMediaServer',
 		version,
 		urls,
 	};

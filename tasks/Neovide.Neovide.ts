@@ -7,7 +7,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Neovide.Neovide',
 		version,
 		urls,
 	};

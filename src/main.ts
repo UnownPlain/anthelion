@@ -19,14 +19,13 @@ async function runAllTasks() {
 
 			if (result) {
 				interface TaskResult {
-					packageId: string;
 					version: string;
 					urls: string[];
 					args?: string[];
 				}
 
-				const { packageId, version, urls, args = [] }: TaskResult = result;
-				await updatePackage(packageId, version, urls, ...args);
+				const { version, urls, args = [] }: TaskResult = result;
+				await updatePackage(entry.name.slice(0, -3), version, urls, ...args);
 			}
 
 			console.log(green`✅ Successfully completed task: ${entry.name}`);

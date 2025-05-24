@@ -7,7 +7,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'M2Team.NanaZip.Preview',
 		version,
 		urls,
 	};

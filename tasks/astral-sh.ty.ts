@@ -9,7 +9,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'astral-sh.ty',
 		version,
 		urls,
 	};

@@ -13,7 +13,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Epilogue.EpilogueOperator',
 		version,
 		urls,
 	};

@@ -12,7 +12,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Modrinth.ModrinthApp',
 		version,
 		urls,
 		args: [

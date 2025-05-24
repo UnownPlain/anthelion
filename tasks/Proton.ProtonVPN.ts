@@ -17,7 +17,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Proton.ProtonVPN',
 		version,
 		urls,
 	};

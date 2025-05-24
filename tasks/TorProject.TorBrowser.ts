@@ -14,7 +14,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'TorProject.TorBrowser',
 		version,
 		urls,
 		args: [

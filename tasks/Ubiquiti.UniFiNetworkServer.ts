@@ -14,7 +14,6 @@ export default async function () {
 	const urls = [`https://dl.ui.com/unifi/${version}/UniFi-installer.exe`];
 
 	return {
-		packageId: 'Ubiquiti.UniFiNetworkServer',
 		version,
 		urls,
 	};

@@ -8,7 +8,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Navidrome.Navidrome',
 		version,
 		urls,
 	};

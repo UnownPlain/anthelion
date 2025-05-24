@@ -12,7 +12,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'VRCX.VRCX',
 		version,
 		urls,
 	};

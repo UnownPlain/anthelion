@@ -5,7 +5,6 @@ export default async function () {
 	const urls = await getLatestUrls('adventuregamestudio', 'ags');
 
 	return {
-		packageId: 'AGSProjectTeam.AdventureGameStudio',
 		version,
 		urls,
 	};

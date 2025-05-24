@@ -12,7 +12,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Kopia.KopiaCLI',
 		version,
 		urls,
 	};

@@ -10,7 +10,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Syncthing.Syncthing',
 		version,
 		urls,
 	};

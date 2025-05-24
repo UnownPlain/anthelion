@@ -12,7 +12,6 @@ export default async function () {
 	];
 
 	return {
-		packageId: 'Cloudflare.Warp',
 		version: version.substring(2),
 		urls,
 		args: [
