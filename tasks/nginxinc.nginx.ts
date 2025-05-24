@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateMatch } from '../src/validate.ts';
 
 export default async function () {
@@ -11,11 +10,10 @@ export default async function () {
 	const version = validateMatch(match)[1];
 	const urls = [`https://nginx.org/download/nginx-${version}.zip|x64`];
 
-	await updatePackage(
-		'nginxinc.nginx',
+	return {
+		packageId: 'nginxinc.nginx',
 		version,
 		urls,
-		'--release-notes-url',
-		'https://nginx.org/en/CHANGES',
-	);
+		args: ['--release-notes-url', 'https://nginx.org/en/CHANGES'],
+	};
 }

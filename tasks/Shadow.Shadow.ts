@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { electronBuilder } from '../src/helpers.ts';
 
 export default async function () {
@@ -12,5 +11,9 @@ export default async function () {
 		`https://update.shadow.tech/launcher/prod/win/x64/ShadowPCSetup-${version}.exe`,
 	];
 
-	await updatePackage('Shadow.Shadow', version, urls);
+	return {
+		packageId: 'Shadow.Shadow',
+		version,
+		urls,
+	};
 }

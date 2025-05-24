@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateMatch } from '../src/validate.ts';
 
 export default async function () {
@@ -16,5 +15,9 @@ export default async function () {
 		`https://download.videolan.org/videolan/vlc/${version}/win32/vlc-${version}-win32.exe`,
 	];
 
-	await updatePackage('VideoLAN.VLC', version, urls);
+	return {
+		packageId: 'VideoLAN.VLC',
+		version,
+		urls,
+	};
 }

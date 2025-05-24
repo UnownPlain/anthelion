@@ -1,5 +1,4 @@
 import { sortSemver } from '../src/helpers.ts';
-import { updatePackage } from '../src/komac.ts';
 import { validateString } from '../src/validate.ts';
 
 export default async function () {
@@ -15,5 +14,9 @@ export default async function () {
 		`https://download.bzflag.org/bzflag/windows/${version}/bzflag-${version}.exe`,
 	];
 
-	await updatePackage('BZFlag.BZFlag', version, urls);
+	return {
+		packageId: 'BZFlag.BZFlag',
+		version,
+		urls,
+	};
 }

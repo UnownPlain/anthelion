@@ -1,5 +1,4 @@
 import { getLatestRelease } from '../src/github.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const version = await getLatestRelease('go-acme', 'lego');
@@ -10,5 +9,9 @@ export default async function () {
 		`https://github.com/go-acme/lego/releases/download/v${version}/lego_v${version}_windows_arm64.zip`,
 	];
 
-	await updatePackage('GoACME.lego', version, urls);
+	return {
+		packageId: 'GoACME.lego',
+		version,
+		urls,
+	};
 }

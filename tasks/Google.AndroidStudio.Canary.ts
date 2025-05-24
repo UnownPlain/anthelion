@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateMatch } from '../src/validate.ts';
 
 export default async function () {
@@ -13,11 +12,10 @@ export default async function () {
 		`https://redirector.gvt1.com/edgedl/android/studio/install/${version}/android-studio-${version}-windows.exe`,
 	];
 
-	await updatePackage(
-		'Google.AndroidStudio.Canary',
+	return {
+		packageId: 'Google.AndroidStudio.Canary',
 		version,
 		urls,
-		'--release-notes-url',
-		'https://androidstudio.googleblog.com/',
-	);
+		args: ['--release-notes-url', 'https://androidstudio.googleblog.com/'],
+	};
 }

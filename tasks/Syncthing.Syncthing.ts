@@ -1,5 +1,4 @@
 import { getLatestRelease } from '../src/github.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const version = await getLatestRelease('syncthing', 'syncthing');
@@ -10,5 +9,9 @@ export default async function () {
 		`https://github.com/syncthing/syncthing/releases/download/v${version}/syncthing-windows-arm64-v${version}.zip`,
 	];
 
-	await updatePackage('Syncthing.Syncthing', version, urls);
+	return {
+		packageId: 'Syncthing.Syncthing',
+		version,
+		urls,
+	};
 }

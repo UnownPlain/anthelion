@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateMatch } from '../src/validate.ts';
 
 export default async function () {
@@ -14,11 +13,13 @@ export default async function () {
 		`https://archive.torproject.org/tor-package-archive/torbrowser/${version}/tor-browser-windows-x86_64-portable-${version}.exe`,
 	];
 
-	await updatePackage(
-		'TorProject.TorBrowser',
+	return {
+		packageId: 'TorProject.TorBrowser',
 		version,
 		urls,
-		'--release-notes-url',
-		'https://blog.torproject.org/category/releases/',
-	);
+		args: [
+			'--release-notes-url',
+			'https://blog.torproject.org/category/releases/',
+		],
+	};
 }

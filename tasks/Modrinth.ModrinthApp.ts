@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateString } from '../src/validate.ts';
 
 export default async function () {
@@ -12,11 +11,13 @@ export default async function () {
 		`https://launcher-files.modrinth.com/versions/${version}/windows/Modrinth%20App_${version}_x64-setup.exe`,
 	];
 
-	await updatePackage(
-		'Modrinth.ModrinthApp',
+	return {
+		packageId: 'Modrinth.ModrinthApp',
 		version,
 		urls,
-		'--release-notes-url',
-		'https://modrinth.com/news/changelog?filter=app',
-	);
+		args: [
+			'--release-notes-url',
+			'https://modrinth.com/news/changelog?filter=app',
+		],
+	};
 }

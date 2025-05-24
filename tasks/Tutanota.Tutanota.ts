@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { electronBuilder } from '../src/helpers.ts';
 
 export default async function () {
@@ -10,5 +9,9 @@ export default async function () {
 		`https://github.com/tutao/tutanota/releases/download/tutanota-desktop-release-${version}/tutanota-desktop-win.exe|x64`,
 	];
 
-	await updatePackage('Tutanota.Tutanota', version, urls);
+	return {
+		packageId: 'Tutanota.Tutanota',
+		version,
+		urls,
+	};
 }

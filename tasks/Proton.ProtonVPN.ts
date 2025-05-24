@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateString } from '../src/validate.ts';
 
 export default async function () {
@@ -17,5 +16,9 @@ export default async function () {
 		`https://vpn.protondownload.com/download/ProtonVPN_v${version}_arm64.exe`,
 	];
 
-	await updatePackage('Proton.ProtonVPN', version, urls);
+	return {
+		packageId: 'Proton.ProtonVPN',
+		version,
+		urls,
+	};
 }

@@ -1,5 +1,4 @@
 import { electronBuilder } from '../src/helpers.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const response = await fetch(
@@ -12,5 +11,9 @@ export default async function () {
 		`https://github.com/bitwarden/clients/releases/download/desktop-v${version}/Bitwarden-Installer-${version}.exe`,
 	];
 
-	await updatePackage('Bitwarden.Bitwarden', version, urls);
+	return {
+		packageId: 'Bitwarden.Bitwarden',
+		version,
+		urls,
+	};
 }

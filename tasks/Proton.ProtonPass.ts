@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateString } from '../src/validate.ts';
 
 export default async function () {
@@ -16,5 +15,9 @@ export default async function () {
 		`https://proton.me/download/pass/windows/ProtonPass_Setup_${version}.exe|x64`,
 	];
 
-	await updatePackage('Proton.ProtonPass', version, urls);
+	return {
+		packageId: 'Proton.ProtonPass',
+		version,
+		urls,
+	};
 }

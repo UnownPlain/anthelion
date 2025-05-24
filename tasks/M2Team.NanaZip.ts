@@ -1,5 +1,4 @@
 import { getLatestRelease } from '../src/github.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const version = await getLatestRelease('M2Team', 'NanaZip');
@@ -7,5 +6,9 @@ export default async function () {
 		`https://github.com/M2Team/NanaZip/releases/download/${version}/NanaZip_${version}.msixbundle`,
 	];
 
-	await updatePackage('M2Team.NanaZip', version, urls);
+	return {
+		packageId: 'M2Team.NanaZip',
+		version,
+		urls,
+	};
 }

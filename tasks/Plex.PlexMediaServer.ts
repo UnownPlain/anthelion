@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateString } from '../src/validate.ts';
 
 export default async function () {
@@ -13,5 +12,9 @@ export default async function () {
 		versionInfo.computer.Windows.releases[1].url,
 	];
 
-	await updatePackage('Plex.PlexMediaServer', version, urls);
+	return {
+		packageId: 'Plex.PlexMediaServer',
+		version,
+		urls,
+	};
 }

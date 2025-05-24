@@ -1,5 +1,4 @@
 import { getLatestRelease, getTagHash } from '../src/github.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const version = await getLatestRelease('ethereum', 'go-ethereum');
@@ -8,5 +7,9 @@ export default async function () {
 		`https://gethstore.blob.core.windows.net/builds/geth-windows-amd64-${version}-${commit}.exe`,
 	];
 
-	await updatePackage('Ethereum.geth', version, urls);
+	return {
+		packageId: 'Ethereum.geth',
+		version,
+		urls,
+	};
 }

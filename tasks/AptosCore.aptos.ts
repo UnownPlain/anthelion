@@ -1,5 +1,4 @@
 import { getAllReleases } from '../src/github.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const versionInfo = await getAllReleases('aptos-labs', 'aptos-core');
@@ -11,5 +10,9 @@ export default async function () {
 		`https://github.com/aptos-labs/aptos-core/releases/download/aptos-cli-v${version}/aptos-cli-${version}-Windows-x86_64.zip`,
 	];
 
-	await updatePackage('AptosCore.aptos', version, urls);
+	return {
+		packageId: 'AptosCore.aptos',
+		version,
+		urls,
+	};
 }

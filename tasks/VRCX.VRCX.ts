@@ -1,5 +1,4 @@
 import { getLatestRelease } from '../src/github.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const version = await getLatestRelease('vrcx-team', 'VRCX');
@@ -12,5 +11,9 @@ export default async function () {
 		}_Setup.exe`,
 	];
 
-	await updatePackage('VRCX.VRCX', version, urls);
+	return {
+		packageId: 'VRCX.VRCX',
+		version,
+		urls,
+	};
 }

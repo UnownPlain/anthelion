@@ -1,5 +1,4 @@
 import { electronBuilder } from '../src/helpers.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const response = await fetch(
@@ -12,5 +11,9 @@ export default async function () {
 		`https://github.com/kopia/kopia/releases/download/v${version}/KopiaUI-Setup-${version}.exe`,
 	];
 
-	await updatePackage('Kopia.KopiaUI', version, urls);
+	return {
+		packageId: 'Kopia.KopiaUI',
+		version,
+		urls,
+	};
 }

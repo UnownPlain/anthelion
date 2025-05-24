@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateMatch } from '../src/validate.ts';
 
 export default async function () {
@@ -13,5 +12,9 @@ export default async function () {
 		`https://epilogue.nyc3.cdn.digitaloceanspaces.com/releases/software/Playback/version/${version}/release/windows/playback-setup.exe|x64`,
 	];
 
-	await updatePackage('Epilogue.EpilogueOperator', version, urls);
+	return {
+		packageId: 'Epilogue.EpilogueOperator',
+		version,
+		urls,
+	};
 }

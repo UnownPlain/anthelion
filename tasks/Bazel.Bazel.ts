@@ -1,5 +1,4 @@
 import { getLatestRelease } from '../src/github.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const version = await getLatestRelease('bazelbuild', 'bazel');
@@ -8,5 +7,9 @@ export default async function () {
 		`https://github.com/bazelbuild/bazel/releases/download/${version}/bazel-${version}-windows-x86_64.exe`,
 	];
 
-	await updatePackage('Bazel.Bazel', version, urls);
+	return {
+		packageId: 'Bazel.Bazel',
+		version,
+		urls,
+	};
 }

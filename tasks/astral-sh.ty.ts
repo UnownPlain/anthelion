@@ -1,5 +1,4 @@
 import { getLatestPreRelease } from '../src/github.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const version = await getLatestPreRelease('astral-sh', 'ty');
@@ -9,5 +8,9 @@ export default async function () {
 		`https://github.com/astral-sh/ty/releases/download/${version}/ty-aarch64-pc-windows-msvc.zip`,
 	];
 
-	await updatePackage('astral-sh.ty', version, urls);
+	return {
+		packageId: 'astral-sh.ty',
+		version,
+		urls,
+	};
 }

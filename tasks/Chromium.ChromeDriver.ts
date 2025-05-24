@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateString } from '../src/validate.ts';
 
 export default async function () {
@@ -13,5 +12,9 @@ export default async function () {
 		`https://storage.googleapis.com/chrome-for-testing-public/${version}/win32/chromedriver-win32.zip`,
 	];
 
-	await updatePackage('Chromium.ChromeDriver', version, urls);
+	return {
+		packageId: 'Chromium.ChromeDriver',
+		version,
+		urls,
+	};
 }

@@ -1,4 +1,3 @@
-import { updatePackage } from '../src/komac.ts';
 import { validateMatch } from '../src/validate.ts';
 
 export default async function () {
@@ -13,5 +12,10 @@ export default async function () {
 		'https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe',
 	];
 
-	await updatePackage('Google.CloudSDK', version, urls, '-r');
+	return {
+		packageId: 'Google.CloudSDK',
+		version,
+		urls,
+		args: ['-r'],
+	};
 }

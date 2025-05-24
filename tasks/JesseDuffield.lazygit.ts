@@ -1,5 +1,4 @@
 import { getLatestRelease } from '../src/github.ts';
-import { updatePackage } from '../src/komac.ts';
 
 export default async function () {
 	const version = await getLatestRelease('jesseduffield', 'lazygit');
@@ -10,5 +9,9 @@ export default async function () {
 		`https://github.com/jesseduffield/lazygit/releases/download/v${version}/lazygit_${version}_Windows_armv6.zip`,
 	];
 
-	await updatePackage('JesseDuffield.lazygit', version, urls);
+	return {
+		packageId: 'JesseDuffield.lazygit',
+		version,
+		urls,
+	};
 }
