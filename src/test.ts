@@ -16,7 +16,7 @@ try {
 		}
 
 		const { version, urls, args = [] }: TaskResult = result;
-		await updatePackage(pkg.slice(0, -3), version, urls, ...args);
+		await updatePackage(pkg, version, urls, ...args);
 	}
 
 	console.log(green`✅ Successfully completed task: ${pkg}`);
