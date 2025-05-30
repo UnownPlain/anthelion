@@ -9,11 +9,11 @@
 		"singleQuote": true
 	},
 	"imports": {
-		"@std/path": "jsr:@std/path@^1.0.9",
+		"@std/path": "jsr:@std/path@^1.1.0",
 		"@std/semver": "jsr:@std/semver@^1.0.5",
-		"@std/yaml": "jsr:@std/yaml@^1.0.6",
-		"ansis": "npm:ansis@^4.0.0",
-		"octokit": "npm:octokit@^5.0.2",
-		"zod": "npm:zod@^3.25.28"
+		"@std/yaml": "jsr:@std/yaml@^1.0.7",
+		"ansis": "npm:ansis@^4.1.0",
+		"octokit": "npm:octokit@^5.0.3",
+		"zod": "npm:zod@^3.25.42"
 	}
 }
