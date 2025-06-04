@@ -14,6 +14,6 @@
 		"@std/yaml": "jsr:@std/yaml@^1.0.7",
 		"ansis": "npm:ansis@^4.1.0",
 		"octokit": "npm:octokit@^5.0.3",
-		"zod": "npm:zod@^3.25.42"
+		"zod": "npm:zod@^3.25.51"
 	}
 }

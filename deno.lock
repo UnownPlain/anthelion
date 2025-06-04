@@ -6,7 +6,7 @@
     "jsr:@std/yaml@^1.0.7": "1.0.7",
     "npm:ansis@^4.1.0": "4.1.0",
     "npm:octokit@^5.0.3": "5.0.3_@octokit+core@7.0.2",
-    "npm:zod@^3.25.42": "3.25.42"
+    "npm:zod@^3.25.51": "3.25.51"
   },
   "jsr": {
     "@std/path@1.1.0": {
@@ -252,8 +252,8 @@
     "universal-user-agent@7.0.3": {
       "integrity": "sha512-TmnEAEAsBJVZM/AADELsK76llnwcf9vMKuPz8JflO1frO8Lchitr0fNaN9d+Ap0BjKtqWqd/J17qeDnXh8CL2A=="
     },
-    "zod@3.25.42": {
-      "integrity": "sha512-PcALTLskaucbeHc41tU/xfjfhcz8z0GdhhDcSgrCTmSazUuqnYqiXO63M0QUBVwpBlsLsNVn5qHSC5Dw3KZvaQ=="
+    "zod@3.25.51": {
+      "integrity": "sha512-TQSnBldh+XSGL+opiSIq0575wvDPqu09AqWe1F7JhUMKY+M91/aGlK4MhpVNO7MgYfHcVCB1ffwAUTJzllKJqg=="
     }
   },
   "workspace": {
@@ -263,7 +263,7 @@
       "jsr:@std/yaml@^1.0.7",
       "npm:ansis@^4.1.0",
       "npm:octokit@^5.0.3",
-      "npm:zod@^3.25.42"
+      "npm:zod@^3.25.51"
     ]
   }
 }
