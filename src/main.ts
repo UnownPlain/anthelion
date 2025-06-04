@@ -8,7 +8,7 @@ async function runAllTasks() {
 			return entry.isFile && entry.name.endsWith('.ts');
 		});
 
-	console.log(`Found ${taskEntries.length} tasks to run`);
+	console.log(`Found ${taskEntries.length} tasks to run\n`);
 
 	for (const entry of taskEntries) {
 		console.log(blue`Running task: ${entry.name}\n`);
@@ -32,7 +32,9 @@ async function runAllTasks() {
 		} catch (taskError) {
 			const error = taskError as Error;
 			console.error(
-				bgRed`❌ Error in task ${entry.name}:\n` + redBright`${error.message}`,
+				bgRed`❌ Error in task ${entry.name}:` +
+					'\n' +
+					redBright`${error.message}`,
 			);
 		}
 

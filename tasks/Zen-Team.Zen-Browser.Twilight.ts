@@ -15,7 +15,7 @@ export default async function () {
 	const currentVersion = Deno.readTextFileSync(VERSION_STATE_PATH).trim();
 
 	if (latestVersion === currentVersion) {
-		console.log('Current version matches latest version.');
+		console.log('Current version matches latest version.\n');
 		return;
 	}
 
