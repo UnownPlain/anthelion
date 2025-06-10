@@ -22,7 +22,8 @@ jobs:
           cache: true
       - name: Install Komac (Nightly)
         run: |
-          wget -nv -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/nightly/komac-nightly-aarch64-unknown-linux-gnu.tar.gz
+          wget -nv -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/nightly/komac-nightly-aarch64-unknown-linux-gnu.tar.gz || \
+          wget -nv -P /usr/local/bin/ https://github.com/UnownPlain/Komac/releases/download/2.12.0/komac-2.12.0-aarch64-unknown-linux-gnu.tar.gz
           tar -xf /usr/local/bin/*.tar.gz -C /usr/local/bin/
       - name: Update Packages
         env:
