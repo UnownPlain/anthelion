@@ -3,10 +3,10 @@
   "specifiers": {
     "jsr:@std/path@^1.1.0": "1.1.0",
     "jsr:@std/semver@^1.0.5": "1.0.5",
-    "jsr:@std/yaml@^1.0.7": "1.0.7",
+    "jsr:@std/yaml@^1.0.8": "1.0.8",
     "npm:ansis@^4.1.0": "4.1.0",
     "npm:octokit@^5.0.3": "5.0.3_@octokit+core@7.0.2",
-    "npm:zod@^3.25.51": "3.25.51"
+    "npm:zod@^3.25.64": "3.25.64"
   },
   "jsr": {
     "@std/path@1.1.0": {
@@ -15,8 +15,8 @@
     "@std/semver@1.0.5": {
       "integrity": "529f79e83705714c105ad0ba55bec0f9da0f24d2f726b6cc1c15e505cc2c0624"
     },
-    "@std/yaml@1.0.7": {
-      "integrity": "b4b9f6a625a6827ca2b75a3d240558b5ffd8b9a29945ec7614871be7b711a10a"
+    "@std/yaml@1.0.8": {
+      "integrity": "90b8aab62995e929fa0ea5f4151c287275b63e321ac375c35ff7406ca60c169d"
     }
   },
   "npm": {
@@ -252,18 +252,18 @@
     "universal-user-agent@7.0.3": {
       "integrity": "sha512-TmnEAEAsBJVZM/AADELsK76llnwcf9vMKuPz8JflO1frO8Lchitr0fNaN9d+Ap0BjKtqWqd/J17qeDnXh8CL2A=="
     },
-    "zod@3.25.51": {
-      "integrity": "sha512-TQSnBldh+XSGL+opiSIq0575wvDPqu09AqWe1F7JhUMKY+M91/aGlK4MhpVNO7MgYfHcVCB1ffwAUTJzllKJqg=="
+    "zod@3.25.64": {
+      "integrity": "sha512-hbP9FpSZf7pkS7hRVUrOjhwKJNyampPgtXKc3AN6DsWtoHsg2Sb4SQaS4Tcay380zSwd2VPo9G9180emBACp5g=="
     }
   },
   "workspace": {
     "dependencies": [
       "jsr:@std/path@^1.1.0",
       "jsr:@std/semver@^1.0.5",
-      "jsr:@std/yaml@^1.0.7",
+      "jsr:@std/yaml@^1.0.8",
       "npm:ansis@^4.1.0",
       "npm:octokit@^5.0.3",
-      "npm:zod@^3.25.51"
+      "npm:zod@^3.25.64"
     ]
   }
 }
