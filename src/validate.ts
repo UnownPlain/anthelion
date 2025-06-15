@@ -5,9 +5,10 @@ export function validateString(str: any) {
 	return z.string().parse(str).trim();
 }
 
-export function validateMatch(match: RegExpMatchArray | null) {
+export function matchAndValidate(str: string, regex: RegExp): string[] {
+	const match = str.match(regex);
 	if (!match) {
 		throw new Error('Unable to parse version');
 	}
-	return match;
+	return Array.from(match);
 }

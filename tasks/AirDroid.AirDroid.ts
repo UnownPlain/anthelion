@@ -1,4 +1,4 @@
-import { validateMatch } from '../src/validate.ts';
+import { matchAndValidate } from '../src/validate.ts';
 
 export default async function () {
 	const response = await fetch(
@@ -8,12 +8,13 @@ export default async function () {
 		},
 	);
 	const redirect = response.headers.get('location');
-	// @ts-ignore .
-	const match = redirect.match(
-		/AirDroid_Desktop_Client_(?<Version>[\d\.]+)\.exe/i,
-	);
+	if (!redirect) {
+		throw new Error('No redirect location found');
+	}
 
-	const version = validateMatch(match)[1];
+	const regex = /AirDroid_Desktop_Client_(?<Version>[\d\.]+)\.exe/i;
+
+	const version = matchAndValidate(redirect, regex)[1];
 	const urls = [redirect];
 
 	return {

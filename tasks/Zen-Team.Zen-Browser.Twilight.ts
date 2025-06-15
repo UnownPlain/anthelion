@@ -1,7 +1,7 @@
 import { octokit } from '../src/github.ts';
 import { getReleaseByTag } from '../src/github.ts';
 import { updatePackage } from '../src/komac.ts';
-import { validateMatch, validateString } from '../src/validate.ts';
+import { matchAndValidate, validateString } from '../src/validate.ts';
 
 export default async function () {
 	const versionInfo = await getReleaseByTag(
@@ -19,11 +19,13 @@ export default async function () {
 		return;
 	}
 
-	const version = validateMatch(
-		latestVersion.match(/(?<=Twilight build - )\S+/),
+	const version = matchAndValidate(
+		latestVersion,
+		/(?<=Twilight build - )\S+/,
 	)[0];
-	const repoVersion = validateMatch(
-		validateString(currentVersion).match(/(?<=Twilight build - )\S+/),
+	const repoVersion = matchAndValidate(
+		validateString(currentVersion),
+		/(?<=Twilight build - )\S+/,
 	)[0];
 	const urls = [
 		`https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer.exe|x64`,
