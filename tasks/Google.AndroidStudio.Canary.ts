@@ -1,8 +1,10 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch('https://developer.android.com/studio/preview/');
-	const versionInfo = await response.text();
+	const versionInfo = await ky(
+		'https://developer.android.com/studio/preview/',
+	).text();
 	const regex =
 		/agree_canary_win_bundle_download[\s\S]+?android-studio-([\d.]+)-windows\.exe/;
 

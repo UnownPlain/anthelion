@@ -1,8 +1,8 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch('https://www.epilogue.co/downloads');
-	const versionInfo = await response.text();
+	const versionInfo = await ky('https://www.epilogue.co/downloads').text();
 	const regex = /href=.*?\/v?(\d+(?:\.\d+)+)\/release\/windows/i;
 
 	const version = matchAndValidate(versionInfo, regex)[1];

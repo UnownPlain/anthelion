@@ -1,8 +1,10 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch('https://www.gethomebank.org/en/downloads.php');
-	const versionInfo = await response.text();
+	const versionInfo = await ky(
+		'https://www.gethomebank.org/en/downloads.php',
+	).text();
 	const regex = /href="[^"]*HomeBank[._-](\d+(?:\.\d+)+)[._-]setup\.exe"/i;
 
 	const version = matchAndValidate(versionInfo, regex)[1];

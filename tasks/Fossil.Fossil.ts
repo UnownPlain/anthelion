@@ -1,10 +1,10 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch(
+	const versionInfo = await ky(
 		'https://www.fossil-scm.org/home/uv/download.js',
-	);
-	const versionInfo = await response.text();
+	).text();
 	const regex = /"title":\s*?"Version (\d+(?:\.\d+)+)\s*?\(/i;
 
 	const version = matchAndValidate(versionInfo, regex)[1];

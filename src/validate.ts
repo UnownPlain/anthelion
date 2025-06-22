@@ -1,7 +1,7 @@
 import { z } from 'zod/v4';
 
 // deno-lint-ignore no-explicit-any
-export function validateString(str: any) {
+export function validateString(str: any | unknown) {
 	return z.string().parse(str).trim();
 }
 

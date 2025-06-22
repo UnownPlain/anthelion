@@ -1,10 +1,10 @@
 import { validateString } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch(
+	const versionInfo = (await ky(
 		'https://gitlab.com/api/v4/projects/gitlab-org%2Fgitlab-runner/releases',
-	);
-	const versionInfo = await response.json();
+	).json()) as Array<{ tag_name: string }>;
 
 	const version = validateString(versionInfo[0].tag_name.substring(1));
 	const urls = [

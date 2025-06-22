@@ -1,10 +1,10 @@
 import { sortSemver } from '../src/helpers.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch(
+	const versionInfo = await ky(
 		'https://gstreamer.freedesktop.org/src/gstreamer/?C=M;O=D',
-	);
-	const versionInfo = await response.text();
+	).text();
 	const regex = /href=.*?gstreamer[._-]v?(\d+\.\d*[02468](?:\.\d+)*)\.t/gi;
 	const matches = [...versionInfo.matchAll(regex)];
 	const match = matches.map((m) => m[1]);

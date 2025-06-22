@@ -1,11 +1,11 @@
 import { parse as parseYaml } from '@std/yaml';
 import { validateString } from './validate.ts';
 import { compare, parse as parseSemver } from '@std/semver';
+import ky from 'ky';
 
 export async function electronBuilder(url: string) {
-	const response = await fetch(url);
-	const yaml = await response.text();
-	const data = parseYaml(yaml);
+	const response = await ky(url).text();
+	const data = parseYaml(response);
 	// @ts-ignore .
 	return validateString(data.version);
 }

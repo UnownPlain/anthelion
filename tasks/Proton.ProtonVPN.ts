@@ -1,12 +1,11 @@
 import { validateString } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch(
+	const versionInfo = (await ky(
 		'https://protonvpn.com/download/windows/x64/v1/version.json',
-	);
-	const versionInfo = await response.json();
+	).json()) as { Releases: Array<{ Version: string; CategoryName: string }> };
 	const versions = versionInfo.Releases.filter(
-		// @ts-ignore .
 		(version) => version.CategoryName === 'Stable',
 	);
 

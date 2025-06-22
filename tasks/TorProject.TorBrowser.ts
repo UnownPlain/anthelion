@@ -1,8 +1,8 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch('https://www.torproject.org/download/');
-	const versionInfo = await response.text();
+	const versionInfo = await ky('https://www.torproject.org/download/').text();
 	const regex =
 		/href=.*?tor-browser-windows-x86_64-portable[._-]v?(\d+(?:\.\d+)+)\.exe/i;
 

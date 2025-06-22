@@ -1,8 +1,8 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch('https://www.stunnel.org/downloads.html');
-	const versionInfo = await response.text();
+	const versionInfo = await ky('https://www.stunnel.org/downloads.html').text();
 	const regex = /href=.*?stunnel[._-]v?(\d+(?:\.\d+)+)\.t/i;
 
 	const version = matchAndValidate(versionInfo, regex)[1];

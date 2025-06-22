@@ -1,10 +1,10 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch(
+	const versionInfo = await ky(
 		'https://www.videolan.org/vlc/download-windows.html',
-	);
-	const versionInfo = await response.text();
+	).text();
 	const regex = /vlc\/([\d\.]+)\/win(?:32|64)\/vlc-[\d\.]+-win(?:32|64)\.exe/;
 
 	const version = matchAndValidate(versionInfo, regex)[1];

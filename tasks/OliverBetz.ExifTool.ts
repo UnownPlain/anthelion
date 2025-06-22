@@ -1,10 +1,10 @@
 import { validateString } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch(
+	const versionInfo = await ky(
 		'https://oliverbetz.de/cms/files/Artikel/ExifTool-for-Windows/exiftool_latest_version.txt',
-	);
-	const versionInfo = await response.text();
+	).text();
 
 	const version = validateString(versionInfo);
 	const urls = [

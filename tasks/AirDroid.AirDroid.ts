@@ -1,10 +1,12 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch(
+	const response = await ky(
 		'https://srv3.airdroid.com/p20/web/getbinaryredirect?type=exe&channel=&version=',
 		{
 			redirect: 'manual',
+			throwHttpErrors: false,
 		},
 	);
 	const redirect = response.headers.get('location');

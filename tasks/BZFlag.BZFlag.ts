@@ -1,9 +1,12 @@
 import { sortSemver } from '../src/helpers.ts';
 import { validateString } from '../src/validate.ts';
 
+import ky from 'ky';
+
 export default async function () {
-	const response = await fetch('https://download.bzflag.org/bzflag/windows/');
-	const versionInfo = await response.text();
+	const versionInfo = await ky(
+		'https://download.bzflag.org/bzflag/windows/',
+	).text();
 	const matches = versionInfo.matchAll(
 		/href=["']?v?(\d+(?:\.\d+)+)\/?["' >]/gi,
 	);

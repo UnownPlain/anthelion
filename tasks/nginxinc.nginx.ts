@@ -1,8 +1,8 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch('https://nginx.org/');
-	const versionInfo = await response.text();
+	const versionInfo = await ky('https://nginx.org/').text();
 	const regex = /nginx[._-]v?(\d+(?:\.\d+)+)<\/a>[\s\S]*?mainline version/i;
 
 	const version = matchAndValidate(versionInfo, regex)[1];

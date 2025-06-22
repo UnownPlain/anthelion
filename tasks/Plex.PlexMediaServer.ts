@@ -1,8 +1,17 @@
 import { validateString } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch('https://plex.tv/pms/downloads/5.json');
-	const versionInfo = await response.json();
+	const versionInfo = (await ky(
+		'https://plex.tv/pms/downloads/5.json',
+	).json()) as {
+		computer: {
+			Windows: {
+				version: string;
+				releases: Array<{ url: string }>;
+			};
+		};
+	};
 
 	const version = validateString(versionInfo.computer.Windows.version).split(
 		'-',

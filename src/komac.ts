@@ -1,4 +1,5 @@
 import { parse as parseYaml } from '@std/yaml';
+import ky from 'ky';
 
 export async function runKomac(...args: string[]) {
 	const cmd = new Deno.Command('komac', {
@@ -41,11 +42,10 @@ export async function updatePackage(
 }
 
 export async function getInstallerInfo(url: string) {
-	const response = await fetch(url);
-	const installerBytes = await response.bytes();
+	const installerBytes = await ky(url).arrayBuffer();
 
 	const installer = await Deno.makeTempFile();
-	await Deno.writeFile(installer, installerBytes);
+	await Deno.writeFile(installer, new Uint8Array(installerBytes));
 
 	const output = await komacSilent('analyse', installer);
 	return parseYaml(output);

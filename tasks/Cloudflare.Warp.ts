@@ -1,10 +1,10 @@
 import { validateString } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch(
+	const versionInfo = (await ky(
 		'https://downloads.cloudflareclient.com/v1/update/json/windows/ga',
-	);
-	const versionInfo = await response.json();
+	).json()) as { items: Array<{ version: string; url: string }> };
 
 	const version = validateString(versionInfo.items[0].version);
 	const urls = [

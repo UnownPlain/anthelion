@@ -1,10 +1,10 @@
 import { validateString } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch(
+	const versionInfo = (await ky(
 		'https://streamer.bot/api/releases/streamer.bot',
-	);
-	const versionInfo = await response.json();
+	).json()) as { stable: { version: string; url: string } };
 
 	const version = validateString(versionInfo.stable.version);
 	const urls = [validateString(versionInfo.stable.url)];

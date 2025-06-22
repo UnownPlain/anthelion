@@ -1,8 +1,10 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch('https://developer.android.com/studio/');
-	const versionInfo = await response.text();
+	const versionInfo = await ky
+		.get('https://developer.android.com/studio/')
+		.text();
 	const regex = /android[._-]studio[._-]v?(\d+(?:\.\d+)+)[._-]windows\.exe/i;
 
 	const version = matchAndValidate(versionInfo, regex)[1];

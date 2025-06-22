@@ -1,8 +1,10 @@
 import { matchAndValidate } from '../src/validate.ts';
+import ky from 'ky';
 
 export default async function () {
-	const response = await fetch('https://www.virtualbox.org/wiki/Downloads');
-	const versionInfo = await response.text();
+	const versionInfo = await ky(
+		'https://www.virtualbox.org/wiki/Downloads',
+	).text();
 	const regex =
 		/href=.*?VirtualBox[._-]v?(\d+(?:\.\d+)+)[._-](\d+)[._-]Win\.exe/i;
 
