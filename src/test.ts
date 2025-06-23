@@ -16,7 +16,9 @@ try {
 		}
 
 		const { version, urls, args = [] }: TaskResult = result;
-		await updatePackage(pkg, version, urls, ...args);
+		console.log(`Version: ${version}`);
+		console.log(`URL(s): ${urls.join(' ')}\n`);
+		console.log(await updatePackage(pkg, version, urls, ...args));
 	}
 
 	console.log(green`✅ Successfully completed task: ${pkg}`);
