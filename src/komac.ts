@@ -1,7 +1,7 @@
 import { parse as parseYaml } from '@std/yaml';
 import ky from 'ky';
 
-export async function runKomac(...args: string[]) {
+export async function komac(...args: string[]) {
 	const cmd = new Deno.Command('komac', {
 		args: args,
 		stdin: 'piped',
@@ -17,17 +17,7 @@ export async function runKomac(...args: string[]) {
 		throw new Error(decodedStderr);
 	}
 
-	return { decodedStdout, decodedStderr, code };
-}
-
-export async function komac(...args: string[]) {
-	const output = await runKomac(...args);
-	console.log(output.decodedStdout);
-}
-
-export async function komacSilent(...args: string[]) {
-	const output = await runKomac(...args);
-	return output.decodedStdout.trim();
+	return decodedStdout;
 }
 
 export async function updatePackage(
@@ -36,9 +26,16 @@ export async function updatePackage(
 	urls: string[],
 	...args: string[]
 ) {
-	console.log('Version:', version);
-	console.log(`URL(s): ${urls.join(' ')}\n`);
-	await komac('update', packageId, `-v`, version, `-u`, ...urls, '-s', ...args);
+	return await komac(
+		'update',
+		packageId,
+		`-v`,
+		version,
+		`-u`,
+		...urls,
+		'-s',
+		...args,
+	);
 }
 
 export async function getInstallerInfo(url: string) {
@@ -47,6 +44,6 @@ export async function getInstallerInfo(url: string) {
 	const installer = await Deno.makeTempFile();
 	await Deno.writeFile(installer, new Uint8Array(installerBytes));
 
-	const output = await komacSilent('analyse', installer);
+	const output = await komac('analyse', installer);
 	return parseYaml(output);
 }
