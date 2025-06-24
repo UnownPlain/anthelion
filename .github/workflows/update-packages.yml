@@ -23,14 +23,10 @@ jobs:
       - name: Install Komac (Nightly)
         run: |
           wget -nv -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/nightly/komac-nightly-aarch64-unknown-linux-gnu.tar.gz || \
-          wget -nv -P /usr/local/bin/ https://github.com/UnownPlain/Komac/releases/download/2.12.0/komac-2.12.0-aarch64-unknown-linux-gnu.tar.gz
+          wget -nv -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/v2.12.0/komac-2.12.0-aarch64-unknown-linux-gnu.tar.gz
           tar -xf /usr/local/bin/*.tar.gz -C /usr/local/bin/
       - name: Update Packages
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
         run: deno run start
-      # - name: Setup cargo-binstall
-      #   uses: cargo-bins/cargo-binstall@main
-      # - name: Install Komac (Stable)
-      #   run: cargo binstall komac -y
