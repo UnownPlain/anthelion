@@ -9,6 +9,7 @@
 		"singleQuote": true
 	},
 	"imports": {
+		"@es-toolkit/es-toolkit": "jsr:@es-toolkit/es-toolkit@^1.39.5",
 		"@std/path": "jsr:@std/path@^1.1.0",
 		"@std/semver": "jsr:@std/semver@^1.0.5",
 		"@std/yaml": "jsr:@std/yaml@^1.0.8",

@@ -1,23 +1,30 @@
-import { bgRed, blue, green, redBright } from 'ansis';
 import { updatePackage } from './komac.ts';
+import { Semaphore } from '@es-toolkit/es-toolkit';
+import { bgRed, blue, green, redBright } from 'ansis';
+import z from 'zod/v4';
 
-interface TaskResult {
-	version: string;
-	urls: string[];
-	args?: string[];
-}
+const TaskResultSchema = z.object({
+	version: z.string(),
+	urls: z.array(z.string()),
+	args: z.array(z.string()).optional(),
+});
 
-const CONCURRENT_TASKS = 16;
+type TaskResult = z.infer<typeof TaskResultSchema>;
 
-async function processTask(entry: Deno.DirEntry) {
+const sema = new Semaphore(16);
+
+async function executeTask(entry: Deno.DirEntry) {
+	await sema.acquire();
+
 	let output = blue`Running task: ${entry.name}\n\n`;
 
 	try {
 		const task = await import(`../tasks/${entry.name}`);
 		const result = await task.default();
 
-		if (result) {
+		if (TaskResultSchema.safeParse(result).success) {
 			const { version, urls, args = [] }: TaskResult = result;
+
 			output += `Version: ${version}\n`;
 			output += `URL(s): ${urls.join(' ')}\n\n`;
 
@@ -28,51 +35,40 @@ async function processTask(entry: Deno.DirEntry) {
 				urls,
 				...args,
 			);
-			output += updateResult + '\n';
+
+			output += `${updateResult}\n`;
+		} else {
+			output += `${result}\n`;
 		}
 
 		output += green`✅ Successfully completed task: ${entry.name}`;
-		return { success: true, name: entry.name, output };
+		return true;
 	} catch (error) {
-		const taskErorr = error as Error;
+		const taskError = error as Error;
 		output += bgRed`❌ Error in task ${entry.name}:\n`;
-		output += redBright`${taskErorr.message}\n`;
-		return { success: false, name: entry.name, output };
+		output += redBright`${taskError.message}\n`;
+		return false;
+	} finally {
+		console.log(output);
+		console.log('─'.repeat(55));
+		sema.release();
 	}
-}
-
-async function runTasksConcurrently(
-	tasks: Deno.DirEntry[],
-	maxConcurrency: number,
-) {
-	const results = [];
-
-	for (let i = 0; i < tasks.length; i += maxConcurrency) {
-		const batch = tasks.slice(i, i + maxConcurrency);
-		const batchResults = await Promise.all(batch.map(processTask));
-
-		results.push(...batchResults);
-
-		batchResults.forEach((result) => {
-			console.log(result.output);
-			console.log('-'.repeat(55));
-		});
-	}
-
-	return results;
 }
 
 async function runAllTasks() {
-	const taskEntries = Array.from(Deno.readDirSync('./tasks')).filter(
-		(entry) => entry.isFile && entry.name.endsWith('.ts'),
-	);
+	const taskEntries = Deno.readDirSync('./tasks')
+		.toArray()
+		.filter((entry) => entry.isFile && entry.name.endsWith('.ts'))
+		.map(executeTask);
 
 	console.log(`Found ${taskEntries.length} tasks to run\n`);
 
-	const results = await runTasksConcurrently(taskEntries, CONCURRENT_TASKS);
-	const successful = results.filter((r) => r.success).length;
+	const results = await Promise.all(taskEntries);
+	const successfulCount = results.filter((success) => success).length;
 
-	console.log(`\nCompleted: ${successful}/${results.length} tasks successful`);
+	console.log(
+		`\nCompleted: ${successfulCount}/${taskEntries.length} tasks successful`,
+	);
 }
 
 await runAllTasks();

@@ -1,6 +1,7 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@es-toolkit/es-toolkit@^1.39.5": "1.39.5",
     "jsr:@std/path@^1.1.0": "1.1.0",
     "jsr:@std/semver@^1.0.5": "1.0.5",
     "jsr:@std/yaml@^1.0.8": "1.0.8",
@@ -10,6 +11,9 @@
     "npm:zod@^3.25.67": "3.25.67"
   },
   "jsr": {
+    "@es-toolkit/es-toolkit@1.39.5": {
+      "integrity": "f16bef4e1eff94f74981d8ad04dab27d35568bc7088454a0a0269d6c36b215c0"
+    },
     "@std/path@1.1.0": {
       "integrity": "ddc94f8e3c275627281cbc23341df6b8bcc874d70374f75fec2533521e3d6886"
     },
@@ -291,6 +295,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@es-toolkit/es-toolkit@^1.39.5",
       "jsr:@std/path@^1.1.0",
       "jsr:@std/semver@^1.0.5",
       "jsr:@std/yaml@^1.0.8",

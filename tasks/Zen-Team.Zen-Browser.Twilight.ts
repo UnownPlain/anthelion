@@ -15,8 +15,7 @@ export default async function () {
 	const currentVersion = Deno.readTextFileSync(VERSION_STATE_PATH).trim();
 
 	if (latestVersion === currentVersion) {
-		console.log('Current version matches latest version.\n');
-		return;
+		return 'Current version matches latest version.\n';
 	}
 
 	const version = matchAndValidate(
@@ -39,7 +38,7 @@ export default async function () {
 		options.push('-r');
 	}
 
-	await updatePackage(packageId, version, urls, ...options);
+	const output = await updatePackage(packageId, version, urls, ...options);
 
 	const mutation = `
     mutation UpdateFile($input: CreateCommitOnBranchInput!) {
@@ -88,4 +87,6 @@ export default async function () {
 			state: 'closed',
 		});
 	}
+
+	return output;
 }
