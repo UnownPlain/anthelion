@@ -2,12 +2,12 @@ import { validateString } from '../src/validate.ts';
 import ky from 'ky';
 
 export default async function () {
-	const versionInfo = (await ky(
+	const versionInfo = await ky(
 		'https://launcher-files.modrinth.com/updates.json',
-	).json()) as {
+	).json<{
 		version: string;
 		platforms: { [key: string]: { url: string } };
-	};
+	}>();
 
 	const version = validateString(versionInfo.version);
 	const urls = [

@@ -2,9 +2,9 @@ import { validateString } from '../src/validate.ts';
 import ky from 'ky';
 
 export default async function () {
-	const versionInfo = (await ky(
+	const versionInfo = await ky(
 		'https://assets.dataflare.app/release/windows/x86_64/latest.json',
-	).json()) as { version: string };
+	).json<{ version: string }>();
 
 	const version = validateString(versionInfo.version);
 	const urls = [

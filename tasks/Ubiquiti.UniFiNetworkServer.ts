@@ -2,9 +2,9 @@ import { validateString } from '../src/validate.ts';
 import ky from 'ky';
 
 export default async function () {
-	const versionInfo = (await ky(
+	const versionInfo = await ky(
 		'https://download.svc.ui.com/v1/software-downloads',
-	).json()) as { downloads: { platform: string; version: string }[] };
+	).json<{ downloads: { platform: string; version: string }[] }>();
 	const versions = versionInfo.downloads.filter(
 		(version) => version.platform === 'windows',
 	);

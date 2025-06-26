@@ -2,9 +2,9 @@ import { validateString } from '../src/validate.ts';
 import ky from 'ky';
 
 export default async function () {
-	const versionInfo = (await ky(
+	const versionInfo = await ky(
 		'https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json',
-	).json()) as { channels: { Stable: { version: string } } };
+	).json<{ channels: { Stable: { version: string } } }>();
 
 	const version = validateString(versionInfo.channels.Stable.version);
 	const urls = [

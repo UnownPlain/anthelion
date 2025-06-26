@@ -2,9 +2,9 @@ import { validateString } from '../src/validate.ts';
 import ky from 'ky';
 
 export default async function () {
-	const versionInfo = (await ky(
+	const versionInfo = await ky(
 		'https://protonvpn.com/download/windows/x64/v1/version.json',
-	).json()) as { Releases: Array<{ Version: string; CategoryName: string }> };
+	).json<{ Releases: Array<{ Version: string; CategoryName: string }> }>();
 	const versions = versionInfo.Releases.filter(
 		(version) => version.CategoryName === 'Stable',
 	);
