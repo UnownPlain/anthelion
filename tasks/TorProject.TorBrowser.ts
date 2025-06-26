@@ -1,12 +1,10 @@
-import { matchAndValidate } from '../src/validate.ts';
-import ky from 'ky';
+import { pageMatch } from '../src/helpers.ts';
 
 export default async function () {
-	const versionInfo = await ky('https://www.torproject.org/download/').text();
-	const regex =
-		/href=.*?tor-browser-windows-x86_64-portable[._-]v?(\d+(?:\.\d+)+)\.exe/i;
-
-	const version = matchAndValidate(versionInfo, regex)[1];
+	const version = await pageMatch(
+		'https://www.torproject.org/download/',
+		/href=.*?tor-browser-windows-x86_64-portable[._-]v?(\d+(?:\.\d+)+)\.exe/i,
+	);
 	const urls = [
 		`https://archive.torproject.org/tor-package-archive/torbrowser/${version}/tor-browser-windows-i686-portable-${version}.exe`,
 		`https://archive.torproject.org/tor-package-archive/torbrowser/${version}/tor-browser-windows-x86_64-portable-${version}.exe`,

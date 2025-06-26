@@ -1,14 +1,10 @@
-import { matchAndValidate } from '../src/validate.ts';
-import ky from 'ky';
+import { pageMatch } from '../src/helpers.ts';
 
 export default async function () {
-	const versionInfo = await ky(
+	const version = await pageMatch(
 		'https://developer.android.com/studio/preview/',
-	).text();
-	const regex =
-		/agree_beta_win_bundle_download[\s\S]+?android-studio-([\d.]+)-windows\.exe/;
-
-	const version = matchAndValidate(versionInfo, regex)[1];
+		/agree_beta_win_bundle_download[\s\S]+?android-studio-([\d.]+)-windows\.exe/i,
+	);
 	const urls = [
 		`https://redirector.gvt1.com/edgedl/android/studio/install/${version}/android-studio-${version}-windows.exe`,
 	];

@@ -1,13 +1,10 @@
-import { matchAndValidate } from '../src/validate.ts';
-import ky from 'ky';
+import { pageMatch } from '../src/helpers.ts';
 
 export default async function () {
-	const versionInfo = await ky(
+	const version = await pageMatch(
 		'https://www.fossil-scm.org/home/uv/download.js',
-	).text();
-	const regex = /"title":\s*?"Version (\d+(?:\.\d+)+)\s*?\(/i;
-
-	const version = matchAndValidate(versionInfo, regex)[1];
+		/"title":\s*?"Version (\d+(?:\.\d+)+)\s*?\(/i,
+	);
 	const urls = [
 		`https://fossil-scm.org/home/uv/fossil-w64-${version}.zip`,
 		`https://fossil-scm.org/home/uv/fossil-w32-${version}.zip`,
@@ -19,7 +16,10 @@ export default async function () {
 		args: [
 			'--release-notes-url',
 			`https://fossil-scm.org/home/doc/trunk/www/changes.wiki#v${
-				version.replace('.', '_')
+				version.replace(
+					'.',
+					'_',
+				)
 			}`,
 		],
 	};

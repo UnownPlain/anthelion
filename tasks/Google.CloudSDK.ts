@@ -1,13 +1,10 @@
-import { matchAndValidate } from '../src/validate.ts';
-import ky from 'ky';
+import { pageMatch } from '../src/helpers.ts';
 
 export default async function () {
-	const versionInfo = await ky(
+	const version = await pageMatch(
 		'https://cloud.google.com/sdk/docs/install-sdk',
-	).text();
-	const regex = /latest\s*gcloud\s*CLI\s*version\s*\(v?(\d+(?:\.\d+)+)\)/i;
-
-	const version = matchAndValidate(versionInfo, regex)[1];
+		/latest\s*gcloud\s*CLI\s*version\s*\(v?(\d+(?:\.\d+)+)\)/i,
+	);
 	const urls = [
 		'https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe',
 	];

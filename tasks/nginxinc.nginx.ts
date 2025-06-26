@@ -1,11 +1,10 @@
-import { matchAndValidate } from '../src/validate.ts';
-import ky from 'ky';
+import { pageMatch } from '../src/helpers.ts';
 
 export default async function () {
-	const versionInfo = await ky('https://nginx.org/').text();
-	const regex = /nginx[._-]v?(\d+(?:\.\d+)+)<\/a>[\s\S]*?mainline version/i;
-
-	const version = matchAndValidate(versionInfo, regex)[1];
+	const version = await pageMatch(
+		'https://nginx.org/',
+		/nginx[._-]v?(\d+(?:\.\d+)+)<\/a>[\s\S]*?mainline version/i,
+	);
 	const urls = [`https://nginx.org/download/nginx-${version}.zip|x64`];
 
 	return {
