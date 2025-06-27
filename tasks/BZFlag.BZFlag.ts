@@ -7,9 +7,8 @@ export default async function () {
 	const versionInfo = await ky(
 		'https://download.bzflag.org/bzflag/windows/',
 	).text();
-	const matches = versionInfo.matchAll(
-		/href=["']?v?(\d+(?:\.\d+)+)\/?["' >]/gi,
-	);
+	const regex = /href=["']?v?(\d+(?:\.\d+)+)\/?["' >]/gi;
+	const matches = versionInfo.matchAll(regex);
 	const versions = sortSemver(Array.from(matches, (match) => match[1]));
 
 	const version = validateString(versions[0]);
