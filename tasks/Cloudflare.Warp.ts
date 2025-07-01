@@ -4,7 +4,7 @@ import ky from 'ky';
 export default async function () {
 	const versionInfo = await ky(
 		'https://downloads.cloudflareclient.com/v1/update/json/windows/ga',
-	).json<{ items: Array<{ version: string; url: string }> }>();
+	).json<{ items: Array<{ version: string; releaseDate: string }> }>();
 
 	const version = validateString(versionInfo.items[0].version);
 	const urls = [
@@ -16,7 +16,9 @@ export default async function () {
 		urls,
 		args: [
 			'--release-notes-url',
-			`https://developers.cloudflare.com/cloudflare-one/changelog/warp/#${version}`,
+			`https://developers.cloudflare.com/cloudflare-one/changelog/warp/${
+				versionInfo.items[0].releaseDate.split('T')[0]
+			}`,
 		],
 	};
 }
