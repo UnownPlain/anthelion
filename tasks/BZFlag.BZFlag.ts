@@ -1,6 +1,5 @@
 import { sortSemver } from '../src/helpers.ts';
 import { validateString } from '../src/validate.ts';
-
 import ky from 'ky';
 
 export default async function () {
