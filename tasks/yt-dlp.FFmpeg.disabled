@@ -1,0 +1,34 @@
+import { getAllReleases } from '../src/github.ts';
+import { matchAndValidate } from '../src/validate.ts';
+
+export default async function () {
+	const versionInfo = await getAllReleases('yt-dlp', 'FFmpeg-Builds');
+	const date = Temporal.Now.plainDateISO('UTC')
+		.with({ day: 1 })
+		.subtract({ days: 1 })
+		.toString();
+
+	const release =
+		versionInfo.filter((release) => release.tag_name.includes(date))[0];
+
+	const urls = release.assets
+		.filter(
+			(asset) =>
+				asset.name.includes('win') &&
+				!asset.name.includes('shared') &&
+				asset.name.includes('ffmpeg-N'),
+		)
+		.map((asset) => {
+			const url = asset.browser_download_url;
+			return url.includes('arm64') ? `${url}|arm64` : url;
+		});
+	const version = matchAndValidate(
+		urls[0],
+		/ffmpeg-(N-\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i,
+	)[1];
+
+	return {
+		version,
+		urls,
+	};
+}

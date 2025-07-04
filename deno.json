@@ -8,6 +8,7 @@
 		"useTabs": true,
 		"singleQuote": true
 	},
+	"unstable": ["temporal"],
 	"imports": {
 		"@es-toolkit/es-toolkit": "jsr:@es-toolkit/es-toolkit@^1.39.5",
 		"@std/path": "jsr:@std/path@^1.1.1",
