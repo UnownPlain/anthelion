@@ -3,20 +3,33 @@ import { matchAndValidate } from '../src/validate.ts';
 
 export default async function () {
 	const versionInfo = await getAllReleases('yt-dlp', 'FFmpeg-Builds');
-	const date = Temporal.Now.plainDateISO('UTC')
+	let date = Temporal.Now.plainDateISO('UTC')
 		.with({ day: 1 })
-		.subtract({ days: 1 })
-		.toString();
+		.subtract({ days: 1 });
+	let release;
 
-	const release =
-		versionInfo.filter((release) => release.tag_name.includes(date))[0];
+	for (let i = 0; i < 31; i++) {
+		release = versionInfo.find((release) =>
+			release.tag_name.includes(date.toString())
+		);
+
+		if (release) {
+			break;
+		}
+
+		date = date.subtract({ days: 1 });
+	}
+
+	if (!release) {
+		throw new Error('No release found in the last 31 days');
+	}
 
 	const urls = release.assets
 		.filter(
 			(asset) =>
 				asset.name.includes('win') &&
 				!asset.name.includes('shared') &&
-				asset.name.includes('ffmpeg-N'),
+				asset.name.includes('ffmpeg-N')
 		)
 		.map((asset) => {
 			const url = asset.browser_download_url;
@@ -24,11 +37,11 @@ export default async function () {
 		});
 	const version = matchAndValidate(
 		urls[0],
-		/ffmpeg-(N-\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i,
+		/ffmpeg-(N-\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i
 	)[1];
 
 	return {
-		version,
+		version: `${version}-${date.toString().replaceAll('-', '')}`,
 		urls,
 	};
 }
