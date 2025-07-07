@@ -29,7 +29,7 @@ export default async function () {
 			(asset) =>
 				asset.name.includes('win') &&
 				asset.name.includes('shared') &&
-				asset.name.includes('ffmpeg-N')
+				asset.name.includes('ffmpeg-N'),
 		)
 		.map((asset) => {
 			const url = asset.browser_download_url;
@@ -37,7 +37,7 @@ export default async function () {
 		});
 	const version = matchAndValidate(
 		urls[0],
-		/ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i
+		/ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i,
 	)[1];
 
 	return {
