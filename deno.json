@@ -10,13 +10,13 @@
 	},
 	"unstable": ["temporal"],
 	"imports": {
-		"@es-toolkit/es-toolkit": "jsr:@es-toolkit/es-toolkit@^1.39.6",
+		"@es-toolkit/es-toolkit": "jsr:@es-toolkit/es-toolkit@^1.39.7",
 		"@std/path": "jsr:@std/path@^1.1.1",
 		"@std/semver": "jsr:@std/semver@^1.0.5",
 		"@std/yaml": "jsr:@std/yaml@^1.0.8",
 		"ansis": "npm:ansis@^4.1.0",
 		"ky": "npm:ky@^1.8.1",
 		"octokit": "npm:octokit@^5.0.3",
-		"zod": "npm:zod@^3.25.74"
+		"zod": "npm:zod@^3.25.76"
 	}
 }
