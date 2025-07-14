@@ -1,7 +1,7 @@
 import { updatePackage } from './komac.ts';
 import { Semaphore } from '@es-toolkit/es-toolkit';
 import { bgRed, blue, green, redBright } from 'ansis';
-import z from 'zod/v4';
+import z from 'zod';
 
 const TaskResult = z.object({
 	version: z.string(),

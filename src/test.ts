@@ -1,6 +1,6 @@
 import { bgRed, blue, green, redBright } from 'ansis';
 import { updatePackage } from './komac.ts';
-import z from 'zod/v4';
+import z from 'zod';
 
 const pkg = Deno.args[0];
 

@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
 // deno-lint-ignore no-explicit-any
 export function validateString(str: any | unknown) {
