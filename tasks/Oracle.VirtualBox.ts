@@ -12,7 +12,7 @@ export default async function () {
 	const version = match[1];
 	const version2 = match[2];
 	const urls = [
-		`https://download.virtualbox.org/virtualbox/${version}/VirtualBox-${version}-${version2}-Win.exe`,
+		`https://download.virtualbox.org/virtualbox/${version}/VirtualBox-${version}-${version2}-Win.exe|x64`,
 	];
 
 	return {
