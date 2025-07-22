@@ -5,7 +5,7 @@ export default async function () {
 		'https://github.com/kopia/kopia/releases/latest/download/latest.yml',
 	);
 	const urls = [
-		`https://github.com/kopia/kopia/releases/download/v${version}/KopiaUI-Setup-${version}.exe`,
+		`https://github.com/kopia/kopia/releases/download/v${version}/KopiaUI-Setup-${version}.exe|x64`,
 	];
 
 	return {
