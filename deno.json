@@ -15,7 +15,7 @@
 		"@std/semver": "jsr:@std/semver@^1.0.5",
 		"@std/yaml": "jsr:@std/yaml@^1.0.8",
 		"ansis": "npm:ansis@^4.1.0",
-		"ky": "npm:ky@^1.8.1",
+		"ky": "npm:ky@^1.8.2",
 		"octokit": "npm:octokit@^5.0.3",
 		"zod": "npm:zod@^4.0.5"
 	}

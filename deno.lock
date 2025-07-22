@@ -7,7 +7,7 @@
     "jsr:@std/semver@^1.0.5": "1.0.5",
     "jsr:@std/yaml@^1.0.8": "1.0.8",
     "npm:ansis@^4.1.0": "4.1.0",
-    "npm:ky@^1.8.1": "1.8.1",
+    "npm:ky@^1.8.2": "1.8.2",
     "npm:octokit@^5.0.3": "5.0.3_@octokit+core@7.0.2",
     "npm:zod@^4.0.5": "4.0.5"
   },
@@ -239,8 +239,8 @@
     "fast-content-type-parse@3.0.0": {
       "integrity": "sha512-ZvLdcY8P+N8mGQJahJV5G4U88CSvT1rP8ApL6uETe88MBXrBHAkZlSEySdUlyztF7ccb+Znos3TFqaepHxdhBg=="
     },
-    "ky@1.8.1": {
-      "integrity": "sha512-7Bp3TpsE+L+TARSnnDpk3xg8Idi8RwSLdj6CMbNWoOARIrGrbuLGusV0dYwbZOm4bB3jHNxSw8Wk/ByDqJEnDw=="
+    "ky@1.8.2": {
+      "integrity": "sha512-XybQJ3d4Ea1kI27DoelE5ZCT3bSJlibYTtQuMsyzKox3TMyayw1asgQdl54WroAm+fIA3ZCr8zXW2RpR7qWVpA=="
     },
     "octokit@5.0.3_@octokit+core@7.0.2": {
       "integrity": "sha512-+bwYsAIRmYv30NTmBysPIlgH23ekVDriB07oRxlPIAH5PI0yTMSxg5i5Xy0OetcnZw+nk/caD4szD7a9YZ3QyQ==",
@@ -307,7 +307,7 @@
       "jsr:@std/semver@^1.0.5",
       "jsr:@std/yaml@^1.0.8",
       "npm:ansis@^4.1.0",
-      "npm:ky@^1.8.1",
+      "npm:ky@^1.8.2",
       "npm:octokit@^5.0.3",
       "npm:zod@^4.0.5"
     ]
