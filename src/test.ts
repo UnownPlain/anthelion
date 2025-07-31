@@ -1,8 +1,9 @@
 import { bgRed, blue, green, redBright } from 'ansis';
 import { updatePackage } from './komac.ts';
 import z from 'zod';
+import process from 'node:process';
 
-const pkg = Deno.args[0];
+const pkg = process.argv[2];
 
 const TaskResultSchema = z.object({
 	version: z.string(),

@@ -1,6 +1,8 @@
 import { updatePackage } from './komac.ts';
-import { Semaphore } from '@es-toolkit/es-toolkit';
+import { Semaphore } from 'es-toolkit';
 import { bgRed, blue, green, redBright } from 'ansis';
+import { readDirSync } from '@std/fs/unstable-read-dir';
+import type { DirEntry } from '@std/fs/unstable-types';
 import z from 'zod';
 
 const TaskResult = z.object({
@@ -11,7 +13,7 @@ const TaskResult = z.object({
 
 const semaphore = new Semaphore(16);
 
-async function executeTask(entry: Deno.DirEntry) {
+async function executeTask(entry: DirEntry) {
 	await semaphore.acquire();
 
 	let output = blue`Running task: ${entry.name}\n\n`;
@@ -51,7 +53,7 @@ async function executeTask(entry: Deno.DirEntry) {
 }
 
 async function runAllTasks() {
-	const tasks = Array.from(Deno.readDirSync('./tasks')).filter(
+	const tasks = Array.from(readDirSync('./tasks')).filter(
 		(entry) => entry.isFile && entry.name.endsWith('.ts'),
 	);
 

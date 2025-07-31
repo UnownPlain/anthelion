@@ -10,16 +10,13 @@ on:
 jobs:
   update-packages:
     runs-on: ubuntu-24.04-arm
-    env:
-      DENO_DIR: ${{ github.workspace }}/.deno
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: v2.x
-          cache: true
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      - name: Install Dependencies
+        run: bun ci --production
       - name: Install Komac (Nightly)
         run: |
           wget -nv -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/nightly/komac-nightly-aarch64-unknown-linux-gnu.tar.gz || \
@@ -29,4 +26,4 @@ jobs:
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
-        run: deno run start
+        run: bun start

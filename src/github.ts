@@ -1,7 +1,8 @@
 import { Octokit } from 'octokit';
 import { extname } from '@std/path';
+import process from 'node:process';
 
-export const octokit = new Octokit({ auth: Deno.env.get('GITHUB_TOKEN') });
+export const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 await octokit.rest.users.getAuthenticated();
 
 async function getLatestReleaseData(owner: string, repo: string) {
@@ -23,7 +24,7 @@ export async function getLatestRelease(owner: string, repo: string) {
 
 export async function getLatestUrls(owner: string, repo: string) {
 	const release = (await getLatestReleaseData(owner, repo)).data.assets;
-	const urls = [];
+	const urls: string[] = [];
 	for (const asset of release) {
 		if (
 			['.exe', '.msi', '.msix', '.msixbundle', '.appx'].includes(
@@ -77,4 +78,14 @@ export async function getReleaseByTag(
 	});
 
 	return release.data;
+}
+
+export async function getRepoHeadSha() {
+	const commit = await octokit.rest.repos.getCommit({
+		owner: process.env.GITHUB_REPOSITORY_OWNER!,
+		repo: process.env.GITHUB_REPOSITORY!.split('/')[1],
+		ref: 'HEAD',
+	});
+
+	return commit.data.sha;
 }

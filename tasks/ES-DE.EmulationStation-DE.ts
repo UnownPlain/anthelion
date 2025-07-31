@@ -13,14 +13,10 @@ export default async function () {
 
 	const version = validateString(versionInfo[0].tag_name.substring(1));
 	const urls = [
-		`${
-			validateString(
-				versionInfo[0].assets.links.filter((url) =>
-					url.name.includes('.exe')
-				)[0]
-					.url,
-			)
-		}`,
+		`${validateString(
+			versionInfo[0].assets.links.filter((url) => url.name.includes('.exe'))[0]
+				.url,
+		)}`,
 	];
 
 	return {

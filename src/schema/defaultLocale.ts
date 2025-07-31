@@ -1,4 +1,4 @@
-// deno-lint-ignore-file
+//oxlint-disable
 import { z } from 'zod';
 
 export default z

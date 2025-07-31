@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"rootDir": "src",
+		"noEmit": true,
+		"allowImportingTsExtensions": true,
+		"esModuleInterop": true,
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"strict": true
+	},
+	"include": ["src"]
+}

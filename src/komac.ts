@@ -1,23 +1,38 @@
 import { parse as parseYaml } from '@std/yaml';
+import { spawn } from 'node:child_process';
+import { makeTempFile } from '@std/fs/unstable-make-temp-file';
+import { writeFile } from '@std/fs/unstable-write-file';
 import ky from 'ky';
 
-export async function komac(...args: string[]) {
-	const cmd = new Deno.Command('komac', {
-		args: args,
-		stdin: 'piped',
-		stdout: 'piped',
-		stderr: 'piped',
-	}).spawn();
+export function komac(...args: string[]) {
+	return new Promise((resolve, reject) => {
+		const cmd = spawn('komac', args, {
+			stdio: ['pipe', 'pipe', 'pipe'],
+		});
 
-	const { code, stdout, stderr } = await cmd.output();
-	const decodedStdout = new TextDecoder().decode(stdout);
-	const decodedStderr = new TextDecoder().decode(stderr);
+		let stdout = '';
+		let stderr = '';
 
-	if (code !== 0) {
-		throw new Error(decodedStderr);
-	}
+		cmd.stdout?.on('data', (data) => {
+			stdout += data.toString();
+		});
 
-	return decodedStdout;
+		cmd.stderr?.on('data', (data) => {
+			stderr += data.toString();
+		});
+
+		cmd.on('close', (code) => {
+			if (code !== 0) {
+				reject(new Error(stderr));
+			} else {
+				resolve(stdout);
+			}
+		});
+
+		cmd.on('error', (error) => {
+			reject(error);
+		});
+	});
 }
 
 export async function updatePackage(
@@ -39,11 +54,11 @@ export async function updatePackage(
 }
 
 export async function getInstallerInfo(url: string) {
-	const installerBytes = await ky(url).arrayBuffer();
+	const installerFileBuffer = await ky(url).arrayBuffer();
 
-	const installer = await Deno.makeTempFile();
-	await Deno.writeFile(installer, new Uint8Array(installerBytes));
+	const installer = await makeTempFile();
+	await writeFile(installer, new Uint8Array(installerFileBuffer));
 
 	const output = await komac('analyse', installer);
-	return parseYaml(output);
+	return parseYaml(output as string);
 }

@@ -1,7 +1,9 @@
-import { delay } from '@es-toolkit/es-toolkit';
-import { getReleaseByTag, octokit } from '../src/github.ts';
+import { delay } from 'es-toolkit';
+import { getReleaseByTag, getRepoHeadSha, octokit } from '../src/github.ts';
 import { updatePackage } from '../src/komac.ts';
 import { matchAndValidate, validateString } from '../src/validate.ts';
+import { readTextFileSync } from '@std/fs/unstable-read-text-file';
+import process from 'node:process';
 
 const VERSION_REGEX = /(?<=Twilight build - )\S+/;
 const VERSION_STATE_PATH = 'version-state/Zen-Team.Zen-Browser.Twilight';
@@ -22,7 +24,7 @@ export default async function () {
 	);
 
 	const latestVersion = validateString(versionInfo.name);
-	const currentVersion = Deno.readTextFileSync(VERSION_STATE_PATH).trim();
+	const currentVersion = readTextFileSync(VERSION_STATE_PATH).trim();
 
 	if (latestVersion === currentVersion) {
 		return 'Current version matches latest version.\n';
@@ -60,8 +62,8 @@ export default async function () {
 	await octokit.graphql(mutation, {
 		input: {
 			branch: {
-				repositoryNameWithOwner: Deno.env.get('GITHUB_REPOSITORY'),
-				branchName: Deno.env.get('GITHUB_REF_NAME'),
+				repositoryNameWithOwner: process.env.GITHUB_REPOSITORY,
+				branchName: process.env.GITHUB_REF_NAME,
 			},
 			message: {
 				headline: 'Update Zen Browser Twilight Version',
@@ -74,7 +76,7 @@ export default async function () {
 					},
 				],
 			},
-			expectedHeadOid: Deno.env.get('GITHUB_SHA'),
+			expectedHeadOid: getRepoHeadSha(),
 		},
 	});
 

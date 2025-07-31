@@ -1,3 +1,4 @@
+import { Temporal } from '@js-temporal/polyfill';
 import { getAllReleases } from '../src/github.ts';
 import { matchAndValidate } from '../src/validate.ts';
 
@@ -10,7 +11,7 @@ export default async function () {
 
 	for (let i = 0; i < 15; i++) {
 		release = versionInfo.find((release) =>
-			release.tag_name.includes(date.toString())
+			release.tag_name.includes(date.toString()),
 		);
 
 		if (release) {

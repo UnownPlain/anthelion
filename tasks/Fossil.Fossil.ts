@@ -15,12 +15,10 @@ export default async function () {
 		urls,
 		args: [
 			'--release-notes-url',
-			`https://fossil-scm.org/home/doc/trunk/www/changes.wiki#v${
-				version.replace(
-					'.',
-					'_',
-				)
-			}`,
+			`https://fossil-scm.org/home/doc/trunk/www/changes.wiki#v${version.replace(
+				'.',
+				'_',
+			)}`,
 		],
 	};
 }
