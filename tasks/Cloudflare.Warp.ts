@@ -16,7 +16,7 @@ export default async function () {
 		urls,
 		args: [
 			'--release-notes-url',
-			`https://developers.cloudflare.com/cloudflare-one/changelog/warp/${
+			`https://developers.cloudflare.com/cloudflare-one/changelog/warp/#${
 				versionInfo.items[0].releaseDate.split('T')[0]
 			}`,
 		],
