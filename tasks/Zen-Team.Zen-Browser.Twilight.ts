@@ -76,7 +76,7 @@ export default async function () {
 					},
 				],
 			},
-			expectedHeadOid: getRepoHeadSha(),
+			expectedHeadOid: await getRepoHeadSha(),
 		},
 	});
 
