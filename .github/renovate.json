@@ -1,4 +1,12 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended", ":disableDependencyDashboard"]
+	"extends": ["config:recommended", ":disableDependencyDashboard"],
+	"rangeStrategy": "bump",
+	"packageRules": [
+		{
+			"matchDatasources": ["npm"],
+			"matchPackagePatterns": ["^@jsr/std__"],
+			"registryUrls": ["https://npm.jsr.io"]
+		}
+	]
 }
