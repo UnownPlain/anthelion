@@ -23,7 +23,7 @@ export function komac(...args: string[]) {
 
 		cmd.on('close', (code) => {
 			if (code !== 0) {
-				reject(new Error(stderr));
+				reject(new Error(stderr.trim()));
 			} else {
 				resolve(stdout);
 			}

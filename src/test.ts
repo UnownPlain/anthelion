@@ -32,6 +32,6 @@ try {
 } catch (taskError) {
 	const error = taskError as Error;
 	console.error(
-		bgRed`❌ Error in task ${pkg}:\n` + redBright`${error.message.trim()}`,
+		bgRed`❌ Error in task ${pkg}:\n` + redBright`${error.message}`,
 	);
 }
