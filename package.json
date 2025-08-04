@@ -1,5 +1,5 @@
 {
-	"name": "winget-updater",
+	"name": "anthelion",
 	"author": "UnownPlain",
 	"license": "MIT",
 	"description": "Scripts and tools used to automatically update some packages in the Windows Package Manager Community Repository",
