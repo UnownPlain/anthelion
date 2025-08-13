@@ -23,7 +23,7 @@
 	"dependencies": {
 		"@js-temporal/polyfill": "^0.5.1",
 		"@std/fs": "npm:@jsr/std__fs@^1.0.19",
-		"@std/path": "npm:@jsr/std__path@^1.1.1",
+		"@std/path": "npm:@jsr/std__path@^1.1.2",
 		"@std/semver": "npm:@jsr/std__semver@^1.0.5",
 		"@std/yaml": "npm:@jsr/std__yaml@^1.0.9",
 		"ansis": "^4.1.0",
