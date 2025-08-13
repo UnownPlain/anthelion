@@ -6,6 +6,8 @@ export default async function () {
 		`https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/${version}/dnscrypt-proxy-win32-${version}.zip`,
 		`https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/${version}/dnscrypt-proxy-win64-${version}.zip`,
 		`https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/${version}/dnscrypt-proxy-winarm-${version}.zip`,
+		`https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/${version}/dnscrypt-proxy-x64-${version}.msi`,
+		`https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/${version}/dnscrypt-proxy-x86-${version}.msi`,
 	];
 
 	return {
