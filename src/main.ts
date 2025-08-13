@@ -4,6 +4,10 @@ import { bgRed, blue, green, redBright } from 'ansis';
 import { readDirSync } from '@std/fs/unstable-read-dir';
 import type { DirEntry } from '@std/fs/unstable-types';
 import z from 'zod';
+import ky from 'ky';
+
+const MANIFEST_URL =
+	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests/';
 
 const TaskResult = z.object({
 	version: z.string(),
@@ -22,14 +26,27 @@ async function executeTask(entry: DirEntry) {
 		const task = await import(`../tasks/${entry.name}`);
 		const result = await task.default();
 		const parsed = TaskResult.safeParse(result);
+		const packageId = entry.name.replace('.ts', '');
 
 		if (parsed.success) {
 			const { version, urls, args = [] } = parsed.data;
+			const versionCheck = await ky(
+				`${MANIFEST_URL}/${packageId[0].toLowerCase()}/${packageId.split('.').join('/')}/${version}/${packageId}.yaml`,
+				{
+					throwHttpErrors: false,
+				},
+			);
+
+			if (versionCheck.ok) {
+				output += `Version ${version} is already present in winget-pkgs.`;
+				return true;
+			}
+
 			output += `Version: ${version}\n`;
 			output += `URLs: ${urls.join(' ')}\n\n`;
 
 			const updateResult = await updatePackage(
-				entry.name.replace('.ts', ''),
+				packageId,
 				version,
 				urls,
 				...args,
