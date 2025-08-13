@@ -21,6 +21,7 @@ async function executeTask(entry: DirEntry) {
 	await semaphore.acquire();
 
 	let output = blue`Running task: ${entry.name}\n\n`;
+	let success = true;
 
 	try {
 		const task = await import(`../tasks/${entry.name}`);
@@ -28,41 +29,37 @@ async function executeTask(entry: DirEntry) {
 		const parsed = TaskResult.safeParse(result);
 		const packageId = entry.name.replace('.ts', '');
 
-		if (parsed.success) {
-			const { version, urls, args = [] } = parsed.data;
-			const versionCheck = await ky(
-				`${MANIFEST_URL}/${packageId[0].toLowerCase()}/${packageId.split('.').join('/')}/${version}/${packageId}.yaml`,
-				{
-					throwHttpErrors: false,
-				},
-			);
-
-			if (versionCheck.ok) {
-				output += `Version ${version} is already present in winget-pkgs.`;
-				return true;
-			}
-
-			output += `Version: ${version}\n`;
-			output += `URLs: ${urls.join(' ')}\n\n`;
-
-			const updateResult = await updatePackage(
-				packageId,
-				version,
-				urls,
-				...args,
-			);
-			output += `${updateResult}\n`;
-		} else {
+		if (!parsed.success) {
 			output += `${result}\n`;
+			return success;
 		}
 
-		output += green`✅ Successfully completed: ${entry.name}`;
-		return true;
+		const { version, urls, args = [] } = parsed.data;
+		const versionCheck = await ky(
+			`${MANIFEST_URL}/${packageId[0].toLowerCase()}/${packageId.split('.').join('/')}/${version}/${packageId}.yaml`,
+			{
+				throwHttpErrors: false,
+			},
+		);
+
+		if (versionCheck.ok) {
+			output += `Version ${version} is already present in winget-pkgs.\n\n`;
+			return success;
+		}
+
+		output += `Version: ${version}\n`;
+		output += `URLs: ${urls.join(' ')}\n\n`;
+
+		const updateResult = await updatePackage(packageId, version, urls, ...args);
+		output += `${updateResult}\n`;
+		return success;
 	} catch (error) {
 		output += bgRed`❌ Error in ${entry.name}:\n`;
 		output += redBright`${(error as Error).message}\n`;
-		return false;
+		success = false;
+		return success;
 	} finally {
+		if (success) output += green`✅ Successfully completed: ${entry.name}`;
 		console.log(output);
 		console.log('─'.repeat(55));
 		semaphore.release();
