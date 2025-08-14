@@ -6,7 +6,7 @@ export default async function () {
 		'https://electorrent.vercel.app/update/exe/0.0.0',
 	).json<{ name: string; url: string }>();
 
-	const version = validateString(versionInfo.name);
+	const version = validateString(versionInfo.name).substring(1);
 	const urls = [validateString(versionInfo.url)];
 
 	return {
