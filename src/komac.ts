@@ -4,8 +4,8 @@ import { makeTempFile } from '@std/fs/unstable-make-temp-file';
 import { writeFile } from '@std/fs/unstable-write-file';
 import ky from 'ky';
 
-export function komac(...args: string[]) {
-	return new Promise((resolve, reject) => {
+export function komac(...args: string[]): Promise<string> {
+	return new Promise<string>((resolve, reject) => {
 		const cmd = spawn('komac', args, {
 			stdio: ['pipe', 'pipe', 'pipe'],
 		});
@@ -60,5 +60,5 @@ export async function getInstallerInfo(url: string) {
 	await writeFile(installer, new Uint8Array(installerFileBuffer));
 
 	const output = await komac('analyse', installer);
-	return parseYaml(output as string);
+	return parseYaml(output);
 }
