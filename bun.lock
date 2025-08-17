@@ -10,7 +10,7 @@
         "@std/semver": "npm:@jsr/std__semver@^1.0.5",
         "@std/yaml": "npm:@jsr/std__yaml@^1.0.9",
         "ansis": "^4.1.0",
-        "es-toolkit": "^1.39.9",
+        "es-toolkit": "^1.39.10",
         "ky": "^1.8.2",
         "octokit": "^5.0.3",
         "zod": "^4.0.17",
@@ -126,7 +126,7 @@
 
     "bottleneck": ["bottleneck@2.19.5", "", {}, "sha512-VHiNCbI1lKdl44tGrhNfU3lup0Tj/ZBMJB5/2ZbNXRCPuRCO7ed2mgcK4r17y+KB2EfuYuRaVlwNbAeaWGSpbw=="],
 
-    "es-toolkit": ["es-toolkit@1.39.9", "", {}, "sha512-9OtbkZmTA2Qc9groyA1PUNeb6knVTkvB2RSdr/LcJXDL8IdEakaxwXLHXa7VX/Wj0GmdMJPR3WhnPGhiP3E+qg=="],
+    "es-toolkit": ["es-toolkit@1.39.10", "", {}, "sha512-E0iGnTtbDhkeczB0T+mxmoVlT4YNweEKBLq7oaU4p11mecdsZpNWOglI4895Vh4usbQ+LsJiuLuI2L0Vdmfm2w=="],
 
     "fast-content-type-parse": ["fast-content-type-parse@3.0.0", "", {}, "sha512-ZvLdcY8P+N8mGQJahJV5G4U88CSvT1rP8ApL6uETe88MBXrBHAkZlSEySdUlyztF7ccb+Znos3TFqaepHxdhBg=="],
 

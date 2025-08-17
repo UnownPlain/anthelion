@@ -27,7 +27,7 @@
 		"@std/semver": "npm:@jsr/std__semver@^1.0.5",
 		"@std/yaml": "npm:@jsr/std__yaml@^1.0.9",
 		"ansis": "^4.1.0",
-		"es-toolkit": "^1.39.9",
+		"es-toolkit": "^1.39.10",
 		"ky": "^1.8.2",
 		"octokit": "^5.0.3",
 		"zod": "^4.0.17"
