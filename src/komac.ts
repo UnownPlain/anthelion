@@ -2,6 +2,7 @@ import { parse as parseYaml } from '@std/yaml';
 import { spawn } from 'node:child_process';
 import { makeTempFile } from '@std/fs/unstable-make-temp-file';
 import { writeFile } from '@std/fs/unstable-write-file';
+import { extname } from '@std/path';
 import ky from 'ky';
 
 export function komac(...args: string[]): Promise<string> {
@@ -54,11 +55,24 @@ export async function updatePackage(
 }
 
 export async function getInstallerInfo(url: string) {
-	const installerFileBuffer = await ky(url).arrayBuffer();
+	const installerFile = await ky(url);
+	const contentDisposition = installerFile.headers.get('Content-Disposition');
+	const filename = contentDisposition
+		?.split(';')
+		.map((p) => p.trim())
+		.filter((p) => p.startsWith('filename='))[0]
+		?.split('=')[1];
 
-	const installer = await makeTempFile();
-	await writeFile(installer, new Uint8Array(installerFileBuffer));
+	if (!filename) throw new Error('Failed to parse file name');
+
+	const installer = await makeTempFile({ suffix: extname(filename) });
+	await writeFile(installer, await installerFile.bytes());
 
 	const output = await komac('analyse', installer);
-	return parseYaml(output);
+
+	try {
+		return parseYaml(output);
+	} catch (err) {
+		throw new Error(`Failed to parse YAML output: ${(err as Error).message}`);
+	}
 }
