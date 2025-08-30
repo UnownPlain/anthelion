@@ -3,7 +3,7 @@ name: Lint Project
 on:
   push:
     paths-ignore:
-      - version-state/**
+      - version_state/**
   workflow_dispatch:
 
 jobs:

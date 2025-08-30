@@ -1,82 +1,151 @@
-import { updatePackage } from './komac.ts';
+import { updatePackage } from '@/komac.ts';
+import { checkVersionInRepo, Logger, readTasks, vs } from '@/helpers.ts';
+import {
+	ScriptTaskResult,
+	JsonTaskSchema,
+	Strategy,
+} from '@/schema/task/schema';
 import { Semaphore } from 'es-toolkit';
-import { bgRed, blue, green, redBright } from 'ansis';
-import { readDirSync } from '@std/fs/unstable-read-dir';
 import type { DirEntry } from '@std/fs/unstable-types';
-import z from 'zod';
+import { readFile } from '@std/fs/unstable-read-file';
+import { getLatestPreReleaseVersion, getLatestVersion } from './github';
+import { electronBuilder, pageMatch, redirectMatch } from './strategies';
+import { getProperty } from 'dot-prop';
 import ky from 'ky';
 
-const MANIFEST_URL =
-	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests/';
-
-const TaskResult = z.object({
-	version: z.string(),
-	urls: z.array(z.string()),
-	args: z.array(z.string()).optional(),
-});
-
+const SCRIPTS_FOLDER = 'tasks/script';
+const JSON_FOLDER = 'tasks/json';
 const semaphore = new Semaphore(16);
+let failures = 0;
 
 async function executeTask(entry: DirEntry) {
 	await semaphore.acquire();
+	const logger = new Logger();
 
-	let output = blue`Running task: ${entry.name}\n\n`;
-	let success = true;
+	logger.run(entry.name);
 
 	try {
-		const task = await import(`../tasks/${entry.name}`);
-		const result = await task.default();
-		const parsed = TaskResult.safeParse(result);
-		const packageId = entry.name.replace('.ts', '');
+		if (entry.name.endsWith('ts')) {
+			const task = await import(`../${SCRIPTS_FOLDER}/${entry.name}`);
+			const result = await task.default();
+			const parsed = ScriptTaskResult.safeParse(result);
+			const packageId = entry.name.replace('.ts', '');
 
-		if (!parsed.success) {
-			output += `${result}\n`;
-			return success;
+			if (!parsed.success) {
+				logger.log(result);
+				logger.success(entry.name);
+				return;
+			}
+
+			const { version, urls, args = [] } = parsed.data;
+
+			if (await checkVersionInRepo(version, packageId)) {
+				logger.present(version);
+				logger.success(entry.name);
+				return;
+			}
+
+			logger.log(`Version: ${version}`);
+			logger.log(`URLs: ${urls.join(' ')}\n`);
+
+			const updateResult = await updatePackage(
+				packageId,
+				version,
+				urls,
+				...args,
+			);
+
+			logger.log(updateResult);
+		} else {
+			const decoder = new TextDecoder();
+			const file = await readFile(`./${JSON_FOLDER}/${entry.name}`);
+			const task = JsonTaskSchema.parse(JSON.parse(decoder.decode(file)));
+			let version: string;
+			let urls: string[] = [];
+			let args = task.args || [];
+
+			switch (task.strategy) {
+				case Strategy.GithubRelease:
+					version = task.github.preRelease
+						? await getLatestPreReleaseVersion(
+								task.github.owner,
+								task.github.repo,
+							)
+						: await getLatestVersion(task.github.owner, task.github.repo);
+					break;
+				case Strategy.ElectronBuilder:
+					version = await electronBuilder(task.electronBuilder.url);
+					break;
+				case Strategy.PageMatch:
+					version = await pageMatch(
+						task.pageMatch.url,
+						new RegExp(task.pageMatch.regex, 'i'),
+					);
+					break;
+				case Strategy.Json:
+					const response = await ky(task.json.url).json();
+					// oxlint-disable-next-line
+					version = vs(getProperty(response, task.json.path));
+					break;
+				case Strategy.RedirectMatch:
+					const r = await redirectMatch(
+						task.redirectMatch.url,
+						new RegExp(task.redirectMatch.regex, 'i'),
+					);
+					version = r.version;
+					urls.push(r.url);
+					break;
+			}
+
+			if (await checkVersionInRepo(version, task.packageId)) {
+				logger.present(version);
+				logger.success(entry.name);
+				return;
+			}
+
+			version = version.startsWith('v') ? version.substring(1) : version;
+			if (task.versionRemove) version = version.replace(task.versionRemove, '');
+			if (task.replace) args.push('-r');
+			if (task.releaseNotes)
+				args.push('--release-notes-url', task.releaseNotes);
+			if (urls.length === 0 && task.urls?.length) {
+				urls = task.urls.map((t) => t.replaceAll('{version}', version));
+			}
+
+			logger.log(`Version: ${version}`);
+			logger.log(`URLs: ${urls.join(' ')}\n`);
+
+			const updateResult = await updatePackage(
+				task.packageId,
+				version,
+				urls,
+				...args,
+			);
+
+			logger.log(updateResult);
 		}
 
-		const { version, urls, args = [] } = parsed.data;
-		const versionCheck = await ky(
-			`${MANIFEST_URL}/${packageId[0].toLowerCase()}/${packageId.split('.').join('/')}/${version}/${packageId}.yaml`,
-			{
-				throwHttpErrors: false,
-			},
-		);
-
-		if (versionCheck.ok) {
-			output += `Version ${version} is already present in winget-pkgs.\n\n`;
-			return success;
-		}
-
-		output += `Version: ${version}\n`;
-		output += `URLs: ${urls.join(' ')}\n\n`;
-
-		const updateResult = await updatePackage(packageId, version, urls, ...args);
-		output += `${updateResult}\n`;
-		return success;
-	} catch (error) {
-		output += bgRed`❌ Error in ${entry.name}:\n`;
-		output += redBright`${(error as Error).message}\n`;
-		success = false;
-		return success;
+		logger.success(entry.name);
+	} catch (e) {
+		logger.error(entry.name, (e as Error).message);
+		failures++;
 	} finally {
-		if (success) output += green`✅ Successfully completed: ${entry.name}`;
-		console.log(output);
-		console.log('─'.repeat(55));
+		logger.log('─'.repeat(55));
+		logger.flush();
 		semaphore.release();
 	}
 }
 
 async function runAllTasks() {
-	const tasks = Array.from(readDirSync('./tasks')).filter(
-		(entry) => entry.isFile && entry.name.endsWith('.ts'),
-	);
+	const tasks = readTasks(SCRIPTS_FOLDER).concat(readTasks(JSON_FOLDER));
 
 	console.log(`Found ${tasks.length} tasks to run\n`);
 
-	const results = await Promise.all(tasks.map(executeTask));
-	const successful = results.filter(Boolean).length;
+	await Promise.all(tasks.map(executeTask));
 
-	console.log(`\nCompleted: ${successful}/${tasks.length} tasks successful`);
+	console.log(
+		`\nCompleted: ${tasks.length - failures}/${tasks.length} tasks successful`,
+	);
 }
 
 await runAllTasks();

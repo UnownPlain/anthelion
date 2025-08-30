@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Crossplane.CrossplaneCli",
+	"strategy": "github-release",
+	"github": { "owner": "crossplane", "repo": "crossplane" },
+	"urls": [
+		"https://releases.crossplane.io/stable/v{version}/bin/windows_amd64/crossplane.exe"
+	]
+}

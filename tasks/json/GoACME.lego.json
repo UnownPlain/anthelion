@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "GoACME.lego",
+	"strategy": "github-release",
+	"github": { "owner": "go-acme", "repo": "lego" },
+	"urls": [
+		"https://github.com/go-acme/lego/releases/download/v{version}/lego_v{version}_windows_386.zip",
+		"https://github.com/go-acme/lego/releases/download/v{version}/lego_v{version}_windows_amd64.zip",
+		"https://github.com/go-acme/lego/releases/download/v{version}/lego_v{version}_windows_armv7.zip",
+		"https://github.com/go-acme/lego/releases/download/v{version}/lego_v{version}_windows_arm64.zip"
+	]
+}

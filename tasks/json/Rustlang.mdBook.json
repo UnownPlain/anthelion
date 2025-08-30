@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Rustlang.mdBook",
+	"strategy": "github-release",
+	"github": { "owner": "rust-lang", "repo": "mdBook" },
+	"urls": [
+		"https://github.com/rust-lang/mdBook/releases/download/v{version}/mdbook-v{version}-x86_64-pc-windows-msvc.zip"
+	]
+}

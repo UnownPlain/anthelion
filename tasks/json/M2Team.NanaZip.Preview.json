@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "M2Team.NanaZip.Preview",
+	"strategy": "github-release",
+	"github": { "owner": "M2Team", "repo": "NanaZip", "preRelease": true },
+	"urls": [
+		"https://github.com/M2Team/NanaZip/releases/download/{version}/NanaZipPreview_{version}.msixbundle"
+	]
+}

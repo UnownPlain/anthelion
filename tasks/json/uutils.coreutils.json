@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "uutils.coreutils",
+	"strategy": "github-release",
+	"github": { "owner": "uutils", "repo": "coreutils" },
+	"urls": [
+		"https://github.com/uutils/coreutils/releases/download/{version}/coreutils-{version}-i686-pc-windows-msvc.zip",
+		"https://github.com/uutils/coreutils/releases/download/{version}/coreutils-{version}-x86_64-pc-windows-msvc.zip",
+		"https://github.com/uutils/coreutils/releases/download/{version}/coreutils-{version}-aarch64-pc-windows-msvc.zip"
+	]
+}

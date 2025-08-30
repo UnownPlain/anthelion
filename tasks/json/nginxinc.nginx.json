@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "nginxinc.nginx",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://nginx.org/",
+		"regex": "nginx[._-]v?(\\d+(?:\\.\\d+)+)<\\/a>[\\s\\S]*?mainline version"
+	},
+	"urls": ["https://nginx.org/download/nginx-{version}.zip|x64"],
+	"releaseNotes": "https://nginx.org/en/CHANGES"
+}

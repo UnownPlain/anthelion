@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "XIU2.CloudflareSpeedTest",
+	"strategy": "github-release",
+	"github": { "owner": "XIU2", "repo": "CloudflareSpeedTest" },
+	"urls": [
+		"https://github.com/XIU2/CloudflareSpeedTest/releases/download/v{version}/cfst_windows_386.zip",
+		"https://github.com/XIU2/CloudflareSpeedTest/releases/download/v{version}/cfst_windows_amd64.zip",
+		"https://github.com/XIU2/CloudflareSpeedTest/releases/download/v{version}/cfst_windows_arm64.zip"
+	]
+}

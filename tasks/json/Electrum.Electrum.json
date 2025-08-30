@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Electrum.Electrum",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://electrum.org/#download",
+		"regex": "href=.*?electrum[._-](\\d+(?:\\.\\d+)+)[._-]setup\\.exe"
+	},
+	"urls": [
+		"https://download.electrum.org/{version}/electrum-{version}-setup.exe"
+	]
+}

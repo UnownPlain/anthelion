@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "simonmichael.hledger",
+	"strategy": "github-release",
+	"github": { "owner": "simonmichael", "repo": "hledger" },
+	"urls": [
+		"https://github.com/simonmichael/hledger/releases/download/{version}/hledger-windows-x64.zip"
+	]
+}

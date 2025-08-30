@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "SteelSeries.GG",
+	"strategy": "redirect-match",
+	"redirectMatch": {
+		"url": "https://steelseries.com/gg/downloads/gg/latest/windows",
+		"regex": "SteelSeriesGG(\\d+(?:\\.\\d+)+)Setup\\.exe"
+	}
+}

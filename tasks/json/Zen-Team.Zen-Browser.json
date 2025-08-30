@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Zen-Team.Zen-Browser",
+	"strategy": "github-release",
+	"github": { "owner": "zen-browser", "repo": "desktop" },
+	"urls": [
+		"https://github.com/zen-browser/desktop/releases/download/{version}/zen.installer.exe|x64",
+		"https://github.com/zen-browser/desktop/releases/download/{version}/zen.installer-arm64.exe"
+	],
+	"releaseNotes": "https://zen-browser.app/release-notes/#{version}"
+}

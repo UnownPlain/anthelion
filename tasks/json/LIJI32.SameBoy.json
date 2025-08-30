@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "LIJI32.SameBoy",
+	"strategy": "github-release",
+	"github": { "owner": "LIJI32", "repo": "SameBoy" },
+	"urls": [
+		"https://github.com/LIJI32/SameBoy/releases/download/v{version}/sameboy_winsdl_v{version}.zip"
+	]
+}

@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Bitwarden.Bitwarden",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://artifacts.bitwarden.com/desktop/latest.yml"
+	},
+	"urls": [
+		"https://github.com/bitwarden/clients/releases/download/desktop-v{version}/Bitwarden-Installer-{version}.exe|neutral"
+	]
+}

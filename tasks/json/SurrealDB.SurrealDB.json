@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "SurrealDB.SurrealDB",
+	"strategy": "github-release",
+	"github": { "owner": "surrealdb", "repo": "surrealdb" },
+	"urls": [
+		"https://github.com/surrealdb/surrealdb/releases/download/v{version}/surreal-v{version}.windows-amd64.exe"
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Waterfox.Waterfox",
+	"strategy": "redirect-match",
+	"redirectMatch": {
+		"url": "https://cdn1.waterfox.net/waterfox/releases/latest/windows",
+		"regex": "Waterfox\\s+Setup\\s+(\\d+(?:\\.\\d+)+)\\.exe"
+	}
+}

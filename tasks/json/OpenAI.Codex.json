@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "OpenAI.Codex",
+	"strategy": "github-release",
+	"github": { "owner": "openai", "repo": "codex" },
+	"urls": [
+		"https://github.com/openai/codex/releases/download/rust-v{version}/codex-x86_64-pc-windows-msvc.exe.zip"
+	],
+	"versionRemove": "rust-v"
+}

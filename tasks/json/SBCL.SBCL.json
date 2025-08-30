@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "SBCL.SBCL",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://sourceforge.net/projects/sbcl/rss?path=/sbcl",
+		"regex": "url=.*?/sbcl[._-]v?(\\d+(?:\\.\\d+)+)[._-]"
+	},
+	"urls": [
+		"https://sourceforge.net/projects/sbcl/files/sbcl/{version}/sbcl-{version}-x86-64-windows-binary.msi/download"
+	]
+}

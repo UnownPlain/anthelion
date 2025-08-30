@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Drawpile.Drawpile",
+	"strategy": "github-release",
+	"github": { "owner": "drawpile", "repo": "Drawpile" },
+	"urls": [
+		"https://github.com/drawpile/Drawpile/releases/download/{version}/Drawpile-{version}-x86.msi",
+		"https://github.com/drawpile/Drawpile/releases/download/{version}/Drawpile-{version}-x86_64.msi"
+	]
+}

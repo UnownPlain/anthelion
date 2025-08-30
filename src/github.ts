@@ -5,17 +5,11 @@ import process from 'node:process';
 export const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 await octokit.rest.users.getAuthenticated();
 
-async function getLatestReleaseData(owner: string, repo: string) {
+export async function getLatestVersion(owner: string, repo: string) {
 	const release = await octokit.rest.repos.getLatestRelease({
 		owner,
 		repo,
 	});
-
-	return release;
-}
-
-export async function getLatestRelease(owner: string, repo: string) {
-	const release = await getLatestReleaseData(owner, repo);
 
 	return release.data.tag_name.startsWith('v')
 		? release.data.tag_name.substring(1)
@@ -23,9 +17,14 @@ export async function getLatestRelease(owner: string, repo: string) {
 }
 
 export async function getLatestUrls(owner: string, repo: string) {
-	const release = (await getLatestReleaseData(owner, repo)).data.assets;
+	const release = await octokit.rest.repos.getLatestRelease({
+		owner,
+		repo,
+	});
+
 	const urls: string[] = [];
-	for (const asset of release) {
+
+	for (const asset of release.data.assets) {
 		if (
 			['.exe', '.msi', '.msix', '.msixbundle', '.appx'].includes(
 				extname(asset.name),
@@ -34,36 +33,33 @@ export async function getLatestUrls(owner: string, repo: string) {
 			urls.push(asset.browser_download_url);
 		}
 	}
+
 	return urls;
 }
 
-export async function getLatestPreRelease(owner: string, repo: string) {
+export async function getLatestPreReleaseVersion(owner: string, repo: string) {
 	const release = await octokit.rest.repos.listReleases({
 		owner,
 		repo,
 	});
 
-	const version = release.data.filter((release) => release.prerelease)[0]
-		.tag_name;
+	const releases = release.data.filter((release) => release.prerelease)[0];
+	if (!releases) {
+		throw new Error('No pre-release versions found');
+	}
+
+	const version = releases.tag_name;
 
 	return version.startsWith('v') ? version.substring(1) : version;
 }
 
 export async function getAllReleases(owner: string, repo: string) {
-	const release = await octokit.rest.repos.listReleases({
+	const releases = await octokit.rest.repos.listReleases({
 		owner,
 		repo,
 	});
 
-	return release.data.filter((release) => !release.prerelease);
-}
-
-export async function getTagHash(owner: string, repo: string) {
-	const release = await octokit.rest.repos.listTags({
-		owner,
-		repo,
-	});
-	return release.data[0].commit.sha;
+	return releases.data.filter((release) => !release.prerelease);
 }
 
 export async function getReleaseByTag(
@@ -81,9 +77,23 @@ export async function getReleaseByTag(
 }
 
 export async function getRepoHeadSha() {
+	const REPO_OWNER = process.env.GITHUB_REPOSITORY_OWNER;
+	const REPO = process.env.GITHUB_REPOSITORY;
+
+	if (!REPO_OWNER || !REPO) {
+		throw new Error(
+			'Missing GITHUB_REPOSITORY_OWNER or GITHUB_REPOSITORY environment variable',
+		);
+	}
+
+	const parts = REPO.split('/');
+	if (!parts[1]) {
+		throw new Error('Invalid GITHUB_REPOSITORY format; expected owner/repo');
+	}
+
 	const commit = await octokit.rest.repos.getCommit({
-		owner: process.env.GITHUB_REPOSITORY_OWNER!,
-		repo: process.env.GITHUB_REPOSITORY!.split('/')[1],
+		owner: REPO_OWNER,
+		repo: parts[1],
 		ref: 'HEAD',
 	});
 

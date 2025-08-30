@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "VideoLAN.VLC",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.videolan.org/vlc/download-windows.html",
+		"regex": "vlc\\/([\\d.]+)\\/win(?:32|64)\\/vlc-[\\d.]+-win(?:32|64)\\.exe"
+	},
+	"urls": [
+		"https://download.videolan.org/videolan/vlc/{version}/win64/vlc-{version}-win64.exe",
+		"https://download.videolan.org/videolan/vlc/{version}/win32/vlc-{version}-win32.exe"
+	]
+}

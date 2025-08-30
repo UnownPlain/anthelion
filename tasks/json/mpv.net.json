@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "mpv.net",
+	"strategy": "github-release",
+	"github": { "owner": "mpvnet-player", "repo": "mpv.net" },
+	"urls": [
+		"https://github.com/mpvnet-player/mpv.net/releases/download/v{version}/mpv.net-v{version}-setup.exe"
+	]
+}

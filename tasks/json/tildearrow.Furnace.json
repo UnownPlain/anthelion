@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "tildearrow.Furnace",
+	"strategy": "github-release",
+	"github": { "owner": "tildearrow", "repo": "furnace" },
+	"urls": [
+		"https://github.com/tildearrow/furnace/releases/download/v{version}/furnace-{version}-win32.zip",
+		"https://github.com/tildearrow/furnace/releases/download/v{version}/furnace-{version}-win64.zip"
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "buildpacks.pack",
+	"strategy": "github-release",
+	"github": { "owner": "buildpacks", "repo": "pack" },
+	"urls": [
+		"https://github.com/buildpacks/pack/releases/download/v{version}/pack-v{version}-windows.zip"
+	]
+}

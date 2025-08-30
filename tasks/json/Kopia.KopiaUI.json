@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Kopia.KopiaUI",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/kopia/kopia/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/kopia/kopia/releases/download/v{version}/KopiaUI-Setup-{version}.exe|x64"
+	]
+}

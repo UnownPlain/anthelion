@@ -1,0 +1,14 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "zig.zig",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://ziglang.org/download/",
+		"regex": "href=.*?zig[._-]v?(\\d+(?:\\.\\d+)+)\\.t"
+	},
+	"urls": [
+		"https://ziglang.org/download/{version}/zig-x86-windows-{version}.zip",
+		"https://ziglang.org/download/{version}/zig-x86_64-windows-{version}.zip",
+		"https://ziglang.org/download/{version}/zig-aarch64-windows-{version}.zip"
+	]
+}

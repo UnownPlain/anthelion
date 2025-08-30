@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Modrinth.ModrinthApp",
+	"strategy": "json",
+	"json": {
+		"url": "https://launcher-files.modrinth.com/updates.json",
+		"path": "version"
+	},
+	"urls": [
+		"https://launcher-files.modrinth.com/versions/{version}/windows/Modrinth%20App_{version}_x64-setup.exe"
+	],
+	"releaseNotes": "https://modrinth.com/news/changelog?filter=app"
+}

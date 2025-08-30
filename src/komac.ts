@@ -66,7 +66,7 @@ export async function getInstallerInfo(url: string) {
 	if (!filename) throw new Error('Failed to parse file name');
 
 	const installer = await makeTempFile({ suffix: extname(filename) });
-	await writeFile(installer, await installerFile.bytes());
+	await writeFile(installer, new Uint8Array(await installerFile.arrayBuffer()));
 
 	const output = await komac('analyse', installer);
 

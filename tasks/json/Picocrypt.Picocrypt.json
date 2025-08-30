@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Picocrypt.Picocrypt",
+	"strategy": "github-release",
+	"github": { "owner": "Picocrypt", "repo": "Picocrypt" },
+	"urls": [
+		"https://github.com/Picocrypt/Picocrypt/releases/download/{version}/Picocrypt.exe"
+	]
+}

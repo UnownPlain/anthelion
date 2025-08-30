@@ -1,0 +1,22 @@
+import { matchAndValidate } from '@/helpers.ts';
+import ky from 'ky';
+
+export default async function () {
+	const response = await ky('https://www.sqlite.org/download.html').text();
+	const regex =
+		/DLL for Windows x64, SQLite version ([\d.]+)\..*?(\d+)\/sqlite-tools-win-x64-(\d+)/ms;
+
+	const match = matchAndValidate(response, regex);
+	const year = match[2];
+	const encodedVersion = match[3];
+
+	const version = match[1];
+	const urls = [
+		`https://www.sqlite.org/${year}/sqlite-tools-win-x64-${encodedVersion}.zip`,
+	];
+
+	return {
+		version,
+		urls,
+	};
+}

@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Microsoft.VFSforGit",
+	"strategy": "github-release",
+	"github": { "owner": "microsoft", "repo": "VFSForGit" },
+	"urls": [
+		"https://github.com/microsoft/VFSForGit/releases/download/v{version}/SetupGVFS.{version}.exe"
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "GLab.GLab",
+	"strategy": "json",
+	"json": {
+		"url": "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/releases",
+		"path": "[0].tag_name"
+	},
+	"urls": [
+		"https://gitlab.com/gitlab-org/cli/-/releases/v{version}/downloads/glab_{version}_Windows_x86_64_installer.exe"
+	]
+}

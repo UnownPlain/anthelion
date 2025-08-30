@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "FelixZeller.markdown-oxide",
+	"strategy": "github-release",
+	"github": { "owner": "Feel-ix-343", "repo": "markdown-oxide" },
+	"urls": [
+		"https://github.com/Feel-ix-343/markdown-oxide/releases/download/v{version}/markdown-oxide-v{version}-x86_64-pc-windows-gnu.zip"
+	]
+}

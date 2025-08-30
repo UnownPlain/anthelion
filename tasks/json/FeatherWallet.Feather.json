@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "FeatherWallet.Feather",
+	"strategy": "github-release",
+	"github": { "owner": "feather-wallet", "repo": "feather" },
+	"urls": [
+		"https://github.com/feather-wallet/feather/releases/download/{version}/FeatherWalletSetup-{version}.exe"
+	]
+}

@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Chromium.ChromeDriver",
+	"strategy": "json",
+	"json": {
+		"url": "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json",
+		"path": "channels.Stable.version"
+	},
+	"urls": [
+		"https://storage.googleapis.com/chrome-for-testing-public/{version}/win64/chromedriver-win64.zip",
+		"https://storage.googleapis.com/chrome-for-testing-public/{version}/win32/chromedriver-win32.zip"
+	]
+}

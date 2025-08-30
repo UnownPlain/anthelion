@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Helix.Helix",
+	"strategy": "github-release",
+	"github": { "owner": "helix-editor", "repo": "helix" },
+	"urls": [
+		"https://github.com/helix-editor/helix/releases/download/{version}/helix-{version}-x86_64-windows.zip"
+	]
+}

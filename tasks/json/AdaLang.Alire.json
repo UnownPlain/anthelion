@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "AdaLang.Alire",
+	"strategy": "github-release",
+	"github": { "owner": "alire-project", "repo": "alire" },
+	"urls": [
+		"https://github.com/alire-project/alire/releases/download/v{version}/alr-{version}-installer-x86_64-windows.exe"
+	]
+}

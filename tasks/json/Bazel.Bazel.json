@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Bazel.Bazel",
+	"strategy": "github-release",
+	"github": { "owner": "bazelbuild", "repo": "bazel" },
+	"urls": [
+		"https://github.com/bazelbuild/bazel/releases/download/{version}/bazel-{version}-windows-arm64.exe",
+		"https://github.com/bazelbuild/bazel/releases/download/{version}/bazel-{version}-windows-x86_64.exe"
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Ripose.Memento",
+	"strategy": "github-release",
+	"github": { "owner": "ripose-jp", "repo": "Memento" },
+	"urls": [
+		"https://github.com/ripose-jp/Memento/releases/download/v{version}/Memento_Windows_x86_64_Installer.exe"
+	]
+}

@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "EclipseFoundation.SUMO",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://sumo.dlr.de/docs/Downloads.php#windows",
+		"regex": "href=.[^\"' >]*?releases\\/v?(\\d+(?:\\.\\d+)+)\\/sumo-win64-\\1\\.msi"
+	},
+	"urls": ["https://sumo.dlr.de/releases/{version}/sumo-win64-{version}.msi"]
+}

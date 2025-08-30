@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "UpliftGames.wally",
+	"strategy": "github-release",
+	"github": { "owner": "UpliftGames", "repo": "wally" },
+	"urls": [
+		"https://github.com/UpliftGames/wally/releases/download/v{version}/wally-v{version}-win64.zip"
+	]
+}

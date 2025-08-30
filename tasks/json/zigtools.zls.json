@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "zigtools.zls",
+	"strategy": "github-release",
+	"github": { "owner": "zigtools", "repo": "zls" },
+	"urls": [
+		"https://github.com/zigtools/zls/releases/download/{version}/zls-x86_64-windows.zip"
+	]
+}

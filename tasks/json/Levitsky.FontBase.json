@@ -1,0 +1,7 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Levitsky.FontBase",
+	"strategy": "electron-builder",
+	"electronBuilder": { "url": "https://releases.fontba.se/win/latest.yml" },
+	"urls": ["https://releases.fontba.se/win/FontBase-{version}.exe|x64"]
+}

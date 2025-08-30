@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Neovide.Neovide",
+	"strategy": "github-release",
+	"github": { "owner": "neovide", "repo": "neovide" },
+	"urls": [
+		"https://github.com/neovide/neovide/releases/download/{version}/neovide.msi"
+	]
+}

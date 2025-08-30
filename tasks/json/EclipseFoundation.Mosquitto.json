@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "EclipseFoundation.Mosquitto",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://mosquitto.org/download/",
+		"regex": "href=.*?mosquitto[._-](\\d+(?:\\.\\d+)+)[._-]install[._-]windows"
+	},
+	"urls": [
+		"https://mosquitto.org/files/binary/win64/mosquitto-{version}-install-windows-x64.exe",
+		"https://mosquitto.org/files/binary/win32/mosquitto-{version}-install-windows-x86.exe"
+	]
+}

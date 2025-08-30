@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Google.AndroidStudio",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://developer.android.com/studio/",
+		"regex": "android[._-]studio[._-]v?(\\d+(?:\\.\\d+)+)[._-]windows\\.exe"
+	},
+	"urls": [
+		"https://redirector.gvt1.com/edgedl/android/studio/install/{version}/android-studio-{version}-windows.exe"
+	],
+	"releaseNotes": "https://androidstudio.googleblog.com/"
+}

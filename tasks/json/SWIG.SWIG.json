@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "SWIG.SWIG",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://sourceforge.net/projects/swig/rss?path=/swig",
+		"regex": "url=.*?/swig[._-]v?(\\d+(?:\\.\\d+)+)\\.t"
+	},
+	"urls": [
+		"https://sourceforge.net/projects/swig/files/swigwin/swigwin-{version}/swigwin-{version}.zip/download"
+	]
+}

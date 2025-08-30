@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "AppleWin.AppleWin",
+	"strategy": "github-release",
+	"github": { "owner": "AppleWin", "repo": "AppleWin" },
+	"urls": [
+		"https://github.com/AppleWin/AppleWin/releases/download/v{version}/AppleWin{version}.zip"
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Bruno.Bruno",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/usebruno/bruno/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/usebruno/bruno/releases/download/v{version}/bruno_{version}_x64_win.exe",
+		"https://github.com/usebruno/bruno/releases/download/v{version}/bruno_{version}_x64_win.zip"
+	]
+}

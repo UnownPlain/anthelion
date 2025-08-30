@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "CertifyTheWeb.CertifySSLManager",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://certifytheweb.com/",
+		"regex": "certifythewebsetup[._-]v?(\\d+(?:\\.\\d+)+)\\.exe"
+	},
+	"urls": [
+		"https://downloads.certifytheweb.com/CertifyTheWebSetup_V{version}.exe"
+	]
+}

@@ -6,19 +6,14 @@
 	"private": "true",
 	"main": "src/main.ts",
 	"type": "module",
-	"packageManager": "bun@1.2.19",
 	"scripts": {
 		"start": " bun src/main.ts",
-		"pkgtest": "bun src/test.ts",
-		"dev-deno": "deno run --quiet --allow-read --allow-net --allow-env --env-file=.env --allow-run=komac src/main.ts",
-		"test-deno": "deno run --quiet --allow-read --allow-net --allow-env --env-file=.env --allow-run=komac src/test.ts",
-		"dev-node": "node --experimental-strip-types --experimental-transform-types --env-file=.env src/main.ts",
-		"test-node": "node --experimental-strip-types --experimental-transform-types --env-file=.env src/main.ts",
 		"format": "prettier --write .",
 		"lint": "oxlint --type-aware --fix .",
 		"formatcheck": "prettier --check .",
 		"lintcheck": "oxlint --deny-warnings --type-aware .",
-		"typecheck": "tsc"
+		"typecheck": "tsc",
+		"gen-schema": "bun run src/schema/task/schema.ts && prettier --write --log-level silent ."
 	},
 	"dependencies": {
 		"@js-temporal/polyfill": "^0.5.1",
@@ -27,12 +22,14 @@
 		"@std/semver": "npm:@jsr/std__semver@^1.0.5",
 		"@std/yaml": "npm:@jsr/std__yaml@^1.0.9",
 		"ansis": "^4.1.0",
+		"dot-prop": "^9.0.0",
 		"es-toolkit": "^1.39.10",
 		"ky": "^1.9.1",
 		"octokit": "^5.0.3",
 		"zod": "^4.1.5"
 	},
 	"devDependencies": {
+		"@types/bun": "^1.2.21",
 		"@types/node": "^24.3.0",
 		"oxlint": "^1.14.0",
 		"oxlint-tsgolint": "^0.1.5",

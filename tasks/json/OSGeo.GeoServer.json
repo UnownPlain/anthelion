@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "OSGeo.GeoServer",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://geoserver.org/release/stable/",
+		"regex": "/GeoServer/v?(\\d+(?:\\.\\d+)+)/?"
+	},
+	"urls": [
+		"https://sourceforge.net/projects/geoserver/files/GeoServer/{version}/GeoServer-{version}-winsetup.exe/download"
+	]
+}

@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Byron.dua-cli",
+	"strategy": "github-release",
+	"github": { "owner": "Byron", "repo": "dua-cli" },
+	"urls": [
+		"https://github.com/Byron/dua-cli/releases/download/v{version}/dua-v{version}-x86_64-pc-windows-msvc.zip",
+		"https://github.com/Byron/dua-cli/releases/download/v{version}/dua-v{version}-i686-pc-windows-msvc.zip"
+	]
+}

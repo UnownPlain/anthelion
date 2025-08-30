@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Ccache.Ccache",
+	"strategy": "github-release",
+	"github": { "owner": "ccache", "repo": "ccache" },
+	"urls": [
+		"https://github.com/ccache/ccache/releases/download/v{version}/ccache-{version}-windows-i686.zip",
+		"https://github.com/ccache/ccache/releases/download/v{version}/ccache-{version}-windows-x86_64.zip"
+	]
+}

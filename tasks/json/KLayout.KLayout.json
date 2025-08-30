@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "KLayout.KLayout",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.klayout.de/build.html",
+		"regex": "href=\"https://www\\.klayout\\.org/downloads/Windows/klayout[._-](\\d+(?:\\.\\d+)+)[._-]win(?:32|64)[._-]install\\.exe\""
+	},
+	"urls": [
+		"https://www.klayout.org/downloads/Windows/klayout-{version}-win64-install.exe",
+		"https://www.klayout.org/downloads/Windows/klayout-{version}-win32-install.exe"
+	]
+}

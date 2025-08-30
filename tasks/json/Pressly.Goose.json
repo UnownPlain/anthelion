@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Pressly.Goose",
+	"strategy": "github-release",
+	"github": { "owner": "pressly", "repo": "goose" },
+	"urls": [
+		"https://github.com/pressly/goose/releases/download/v{version}/goose_windows_x86_64.exe",
+		"https://github.com/pressly/goose/releases/download/v{version}/goose_windows_arm64.exe"
+	]
+}

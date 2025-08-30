@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Aardappel.lobster",
+	"strategy": "github-release",
+	"github": { "owner": "aardappel", "repo": "lobster" },
+	"urls": [
+		"https://github.com/aardappel/lobster/releases/download/v{version}/lobster_windows_release.zip"
+	]
+}

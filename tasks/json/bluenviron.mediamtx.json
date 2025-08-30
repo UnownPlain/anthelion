@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "bluenviron.mediamtx",
+	"strategy": "github-release",
+	"github": { "owner": "bluenviron", "repo": "mediamtx" },
+	"urls": [
+		"https://github.com/bluenviron/mediamtx/releases/download/v{version}/mediamtx_v{version}_windows_amd64.zip"
+	]
+}

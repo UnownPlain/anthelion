@@ -1,0 +1,15 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "WiresharkFoundation.Stratoshark",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.wireshark.org/update/0/Stratoshark/0.0.0/Windows/x86-64/en-US/stable.xml",
+		"regex": "<title>Version\\s+(\\d+(?:\\.\\d+)+)</title>"
+	},
+	"urls": [
+		"https://1.na.dl.wireshark.org/win64/Stratoshark-{version}-x64.exe",
+		"https://1.na.dl.wireshark.org/win64/Stratoshark-{version}-arm64.exe"
+	],
+	"releaseNotes": "https://stratoshark.org/docs/relnotes/stratoshark-{version}",
+	"replace": false
+}

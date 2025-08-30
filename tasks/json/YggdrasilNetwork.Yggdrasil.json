@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "YggdrasilNetwork.Yggdrasil",
+	"strategy": "github-release",
+	"github": { "owner": "yggdrasil-network", "repo": "yggdrasil-go" },
+	"urls": [
+		"https://github.com/yggdrasil-network/yggdrasil-go/releases/download/v{version}/yggdrasil-{version}-x86.msi",
+		"https://github.com/yggdrasil-network/yggdrasil-go/releases/download/v{version}/yggdrasil-{version}-x64.msi",
+		"https://github.com/yggdrasil-network/yggdrasil-go/releases/download/v{version}/yggdrasil-{version}-arm.msi",
+		"https://github.com/yggdrasil-network/yggdrasil-go/releases/download/v{version}/yggdrasil-{version}-arm64.msi"
+	]
+}

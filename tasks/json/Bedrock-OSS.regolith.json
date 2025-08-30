@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Bedrock-OSS.regolith",
+	"strategy": "github-release",
+	"github": { "owner": "Bedrock-OSS", "repo": "regolith" },
+	"urls": [
+		"https://github.com/Bedrock-OSS/regolith/releases/download/{version}/regolith-{version}.msi"
+	]
+}
