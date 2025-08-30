@@ -1,0 +1,19 @@
+import { vs } from '@/helpers.ts';
+import ky from 'ky';
+
+export default async function () {
+	const releases = await ky(
+		'https://download.svc.ui.com/v1/software-downloads',
+	).json<{ downloads: { platform: string; version: string }[] }>();
+	const versions = releases.downloads.filter(
+		(version) => version.platform === 'windows',
+	);
+
+	const version = vs(versions[0]?.version);
+	const urls = [`https://dl.ui.com/unifi/${version}/UniFi-installer.exe`];
+
+	return {
+		version,
+		urls,
+	};
+}

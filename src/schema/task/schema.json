@@ -1,0 +1,144 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"type": "object",
+	"properties": {
+		"packageId": {
+			"description": "Task identifier in winget-pkgs.",
+			"type": "string"
+		},
+		"strategy": {
+			"description": "Version resolution strategy.",
+			"type": "string",
+			"enum": [
+				"github-release",
+				"page-match",
+				"redirect-match",
+				"electron-builder",
+				"json"
+			]
+		},
+		"github": {
+			"type": "object",
+			"properties": {
+				"owner": {
+					"type": "string"
+				},
+				"repo": {
+					"type": "string"
+				}
+			},
+			"required": ["owner", "repo"],
+			"additionalProperties": false
+		},
+		"pageMatch": {
+			"type": "object",
+			"properties": {
+				"url": {
+					"type": "string",
+					"format": "uri"
+				},
+				"regex": {
+					"type": "string"
+				}
+			},
+			"required": ["url", "regex"],
+			"additionalProperties": false
+		},
+		"redirectMatch": {
+			"type": "object",
+			"properties": {
+				"url": {
+					"type": "string",
+					"format": "uri"
+				},
+				"regex": {
+					"type": "string"
+				},
+				"method": {
+					"default": "head",
+					"type": "string",
+					"enum": ["head", "get"]
+				},
+				"useRedirectUrl": {
+					"default": true,
+					"type": "boolean"
+				}
+			},
+			"required": ["url", "regex"],
+			"additionalProperties": false
+		},
+		"electronBuilder": {
+			"type": "object",
+			"properties": {
+				"url": {
+					"description": "Direct YAML URL (latest.yml, beta.yml, etc.).",
+					"type": "string",
+					"format": "uri"
+				}
+			},
+			"required": ["url"],
+			"additionalProperties": false
+		},
+		"json": {
+			"type": "object",
+			"properties": {
+				"url": {
+					"description": "Endpoint returning JSON.",
+					"type": "string",
+					"format": "uri"
+				},
+				"path": {
+					"description": "Dot-separated path to string value (arrays use numeric indexes).",
+					"type": "string"
+				},
+				"regex": {
+					"description": "Optional capturing pattern to isolate version.",
+					"type": "string"
+				}
+			},
+			"required": ["url", "path"],
+			"additionalProperties": false
+		},
+		"versionRemove": {
+			"description": "Substring(s) to strip after auto-leading 'v' removal.",
+			"anyOf": [
+				{
+					"type": "string"
+				},
+				{
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					}
+				}
+			]
+		},
+		"urls": {
+			"description": "Template or literal URLs with {version} placeholder.",
+			"minItems": 1,
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"args": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"releaseNotes": {
+			"description": "Optional release notes text. Can contain {version} placeholder.",
+			"type": "string"
+		},
+		"replace": {
+			"description": "Replace latest version with new version.",
+			"default": false,
+			"type": "boolean"
+		}
+	},
+	"required": ["packageId", "strategy", "urls"],
+	"additionalProperties": false
+}

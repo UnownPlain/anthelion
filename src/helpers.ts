@@ -1,36 +1,40 @@
-import { parse as parseYaml } from '@std/yaml';
-import { matchAndValidate, validateString } from './validate.ts';
 import { compare, parse as parseSemver } from '@std/semver';
-import ky from 'ky';
+import { z } from 'zod';
 
-export async function electronBuilder(url: string) {
-	const response = await ky(url).text();
-	const data = parseYaml(response) as { version: unknown };
-	return validateString(data.version);
-}
+export class Logger {
+	private logs: string[] = [];
 
-export async function pageMatch(url: string, regex: RegExp) {
-	const versionInfo = await ky(url).text();
-	return matchAndValidate(versionInfo, regex)[1];
-}
-
-export async function redirectMatch(url: string, regex: RegExp) {
-	const response = await ky(url, {
-		redirect: 'manual',
-		throwHttpErrors: false,
-	});
-
-	const redirect = response.headers.get('location');
-	if (!redirect) {
-		throw new Error('No redirect location found');
+	log(line: string) {
+		this.logs.push(line);
 	}
 
-	return {
-		version: matchAndValidate(redirect, regex)[1],
-		url: redirect,
-	};
+	flush() {
+		for (const line of this.logs) {
+			console.log(line);
+		}
+		this.logs = [];
+	}
 }
 
 export function sortSemver(versions: string[]) {
 	return versions.sort((a, b) => compare(parseSemver(b), parseSemver(a)));
+}
+
+export function expect<T>(value: T | null | undefined, message?: string): T {
+	if (value === null || value === undefined) {
+		throw new Error(message || 'Expected value to be defined');
+	}
+	return value;
+}
+
+export function vs(str: unknown) {
+	return z.string().parse(str).trim();
+}
+
+export function matchAndValidate(str: string, regex: RegExp): string[] {
+	const match = str.match(regex);
+	if (!match) {
+		throw new Error('Regex match not found');
+	}
+	return Array.from(match);
 }
