@@ -30,7 +30,7 @@
 	},
 	"devDependencies": {
 		"@types/bun": "^1.2.21",
-		"@types/node": "^24.3.0",
+		"@types/node": "^24.3.1",
 		"oxlint": "^1.14.0",
 		"oxlint-tsgolint": "^0.1.5",
 		"prettier": "^3.6.2",
