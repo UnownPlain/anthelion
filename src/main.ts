@@ -107,7 +107,10 @@ async function executeTask(entry: DirEntry) {
 			if (task.versionRemove) version = version.replace(task.versionRemove, '');
 			if (task.replace) args.push('-r');
 			if (task.releaseNotes)
-				args.push('--release-notes-url', task.releaseNotes);
+				args.push(
+					'--release-notes-url',
+					task.releaseNotes.replaceAll('{version}', version),
+				);
 			if (urls.length === 0 && task.urls?.length) {
 				urls = task.urls.map((t) => t.replaceAll('{version}', version));
 			}
