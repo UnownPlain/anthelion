@@ -32,7 +32,7 @@
 		"@types/bun": "^1.2.21",
 		"@types/node": "^24.3.1",
 		"oxlint": "^1.14.0",
-		"oxlint-tsgolint": "^0.1.5",
+		"oxlint-tsgolint": "^0.1.6",
 		"prettier": "^3.6.2",
 		"typescript": "^5.9.2"
 	}
