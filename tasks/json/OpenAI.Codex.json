@@ -4,7 +4,8 @@
 	"strategy": "github-release",
 	"github": { "owner": "openai", "repo": "codex" },
 	"urls": [
-		"https://github.com/openai/codex/releases/download/rust-v{version}/codex-x86_64-pc-windows-msvc.exe.zip"
+		"https://github.com/openai/codex/releases/download/rust-v{version}/codex-x86_64-pc-windows-msvc.exe.zip",
+		"https://github.com/openai/codex/releases/download/rust-v{version}/codex-aarch64-pc-windows-msvc.exe.zip"
 	],
 	"versionRemove": "rust-v"
 }
