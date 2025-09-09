@@ -4,6 +4,6 @@
 	"strategy": "redirect-match",
 	"redirectMatch": {
 		"url": "https://cdn1.waterfox.net/waterfox/releases/latest/windows",
-		"regex": "Waterfox\\s+Setup\\s+(\\d+(?:\\.\\d+)+)\\.exe"
+		"regex": "Waterfox(?:%20|\\s)+Setup(?:%20|\\s)+(\\d+(?:\\.\\d+)+)\\.exe"
 	}
 }
