@@ -14,7 +14,7 @@
         "es-toolkit": "^1.39.10",
         "ky": "^1.10.0",
         "octokit": "^5.0.3",
-        "zod": "^4.1.6",
+        "zod": "^4.1.7",
       },
       "devDependencies": {
         "@types/bun": "^1.2.21",
@@ -167,7 +167,7 @@
 
     "universal-user-agent": ["universal-user-agent@7.0.3", "", {}, "sha512-TmnEAEAsBJVZM/AADELsK76llnwcf9vMKuPz8JflO1frO8Lchitr0fNaN9d+Ap0BjKtqWqd/J17qeDnXh8CL2A=="],
 
-    "zod": ["zod@4.1.6", "", {}, "sha512-ODK6zDMdQmu2MuklFFjN79FpiXECO+7uNBXPxHKNZu/dQQbuptvukshF7dmLOkMnR9inMTeLqqHuGKhs32SHdQ=="],
+    "zod": ["zod@4.1.7", "", {}, "sha512-6qi6UYyzAl7W9uV29KvcSFXqK4QCYNYUz2YASPNBWpJE1RY6R1nArmmFPgGY/CBYWzpeMw3EOER+DR9a05O4IA=="],
 
     "bun-types/@types/node": ["@types/node@24.3.0", "", { "dependencies": { "undici-types": "~7.10.0" } }, "sha512-aPTXCrfwnDLj4VvXrm+UUCQjNEvJgNA8s5F1cvwQU+3KNltTOkBm1j30uNLyqqPNe7gE3KFzImYoZEfLhp4Yow=="],
   }
