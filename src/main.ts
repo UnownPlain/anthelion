@@ -84,7 +84,6 @@ async function executeTask(entry: DirEntry) {
 					break;
 				case Strategy.Json:
 					const response = await ky(task.json.url).json();
-					// oxlint-disable-next-line
 					version = vs(getProperty(response, task.json.path));
 					break;
 				case Strategy.RedirectMatch:

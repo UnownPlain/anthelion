@@ -18,7 +18,7 @@ jobs:
         run: bun ci
       - name: Check Formatting
         run: bun formatcheck
-      # - name: Lint
-      #   run: bun lintcheck
+      - name: Lint
+        run: bun lintcheck
       - name: Typecheck
         run: bun typecheck
