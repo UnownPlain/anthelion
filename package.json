@@ -29,7 +29,7 @@
 		"zod": "^4.1.8"
 	},
 	"devDependencies": {
-		"@types/bun": "^1.2.21",
+		"@types/bun": "^1.2.22",
 		"@types/node": "^24.4.0",
 		"oxlint": "^1.15.0",
 		"oxlint-tsgolint": "^0.2.0",
