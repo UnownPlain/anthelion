@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Andromeda.Andromeda",
+	"strategy": "github-release",
+	"github": { "owner": "tryandromeda", "repo": "andromeda" },
+	"urls": [
+		"https://github.com/tryandromeda/andromeda/releases/download/{version}/andromeda-windows-amd64.exe",
+		"https://github.com/tryandromeda/andromeda/releases/download/{version}/andromeda-windows-arm64.exe"
+	]
+}
