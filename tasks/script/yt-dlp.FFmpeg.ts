@@ -1,28 +1,20 @@
-import { Temporal } from '@js-temporal/polyfill';
+import { Temporal } from 'temporal-polyfill';
 import { getAllReleases } from '@/github.ts';
 import { matchAndValidate, vs } from '@/helpers.ts';
 
 export default async function () {
 	const releases = await getAllReleases('yt-dlp', 'FFmpeg-Builds');
-	let date = Temporal.Now.plainDateISO('UTC')
+	const date = Temporal.Now.plainDateISO()
+		.add({ days: 1 })
 		.with({ day: 1 })
 		.subtract({ days: 1 });
-	let release;
 
-	for (let i = 0; i < 15; i++) {
-		release = releases.find((release) =>
-			release.tag_name.includes(date.toString()),
-		);
-
-		if (release) {
-			break;
-		}
-
-		date = date.subtract({ days: 1 });
-	}
+	const release = releases.find((release) =>
+		release.tag_name.includes(date.toString()),
+	);
 
 	if (!release) {
-		throw new Error('No release found in the last 15 days');
+		throw new Error('Failed to find release');
 	}
 
 	const urls = release.assets
