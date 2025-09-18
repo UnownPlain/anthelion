@@ -2,9 +2,12 @@ name: Update Packages
 
 on:
   schedule:
-    - cron: '8 * * * *'
-    - cron: '29 * * * *'
-    - cron: '53 * * * *'
+    - cron: '7 * * * *'
+    - cron: '17 * * * *'
+    - cron: '28 * * * *'
+    - cron: '37 * * * *'
+    - cron: '49 * * * *'
+    - cron: '58 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -20,7 +23,7 @@ jobs:
       - name: Install Komac (Nightly)
         run: |
           wget -nv -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/nightly/komac-nightly-aarch64-unknown-linux-gnu.tar.gz || \
-          wget -nv -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/v2.12.1/komac-2.12.1-aarch64-unknown-linux-gnu.tar.gz
+          wget -nv -P /usr/local/bin/ https://github.com/russellbanks/Komac/releases/download/v2.13.0/komac-2.13.0-aarch64-unknown-linux-gnu.tar.gz
           tar -xf /usr/local/bin/*.tar.gz -C /usr/local/bin/
       - name: Update Packages
         env:
