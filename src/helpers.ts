@@ -2,7 +2,6 @@ import { compare, parse as parseSemver } from '@std/semver';
 import { bgRed, blue, green, redBright } from 'ansis';
 import ky from 'ky';
 import { z } from 'zod';
-import { readDirSync } from '@std/fs/unstable-read-dir';
 
 const MANIFEST_URL =
 	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests/';
@@ -33,9 +32,14 @@ export class Logger {
 		this.log(green`✅ Successfully completed: ${task}`);
 	}
 
-	error(task: string, message: string) {
-		this.log(bgRed`❌ Error in ${task}:`);
-		this.log(redBright`${message}`);
+	static error(task: string, message: string) {
+		console.log(bgRed`❌ Error in ${task}:`);
+		console.log(redBright`${message}`);
+	}
+
+	details(version: string, urls: string[]) {
+		this.log(`Version: ${version}`);
+		this.log(`URLs: ${urls.join(' ')}\n`);
 	}
 }
 
@@ -65,12 +69,4 @@ export async function checkVersionInRepo(version: string, packageId: string) {
 	});
 
 	return versionCheck.ok;
-}
-
-export function readTasks(folder: string) {
-	return Array.from(readDirSync(folder)).filter(
-		(entry) =>
-			entry.isFile &&
-			(entry.name.endsWith('.json') || entry.name.endsWith('.ts')),
-	);
 }

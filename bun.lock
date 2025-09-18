@@ -5,9 +5,7 @@
       "name": "anthelion",
       "dependencies": {
         "@std/fs": "npm:@jsr/std__fs@^1.0.19",
-        "@std/path": "npm:@jsr/std__path@^1.1.2",
         "@std/semver": "npm:@jsr/std__semver@^1.0.5",
-        "@std/yaml": "npm:@jsr/std__yaml@^1.0.9",
         "ansis": "^4.1.0",
         "dot-prop": "^10.0.0",
         "es-toolkit": "^1.39.10",
@@ -29,7 +27,7 @@
   "packages": {
     "@jsr/std__internal": ["@jsr/std__internal@1.0.10", "https://npm.jsr.io/~/11/@jsr/std__internal/1.0.10.tgz", {}, "sha512-fmD6yKep/sMnB2yPQU/REZG7Z4N9SZwcUBNnceo4QkXk67l3JEfxHoROQ/YHeVSOmq6x55Ra6nuMjz2ib3nj3g=="],
 
-    "@jsr/std__path": ["@jsr/std__path@1.1.1", "https://npm.jsr.io/~/11/@jsr/std__path/1.1.1.tgz", { "dependencies": { "@jsr/std__internal": "^1.0.9" } }, "sha512-+x5LgcNUSpMzOZIRmFSjqrMTCxHlgXjWzK8ZFr7lwgHfWZxoVXeis3MFQlkR5mN5uQ61Y1P30Li1PU0yx9uluA=="],
+    "@jsr/std__path": ["@jsr/std__path@1.1.2", "https://npm.jsr.io/~/11/@jsr/std__path/1.1.2.tgz", { "dependencies": { "@jsr/std__internal": "^1.0.10" } }, "sha512-5hkOR1s5M7am02Bn9KS+SNMNwUSivz7t7/w2HBhFIfO7Eh8+mWilaZ+1tdanV9aaSHr4c99Zo4Da+cCSuzUOdA=="],
 
     "@octokit/app": ["@octokit/app@16.0.1", "", { "dependencies": { "@octokit/auth-app": "^8.0.1", "@octokit/auth-unauthenticated": "^7.0.1", "@octokit/core": "^7.0.2", "@octokit/oauth-app": "^8.0.1", "@octokit/plugin-paginate-rest": "^13.0.0", "@octokit/types": "^14.0.0", "@octokit/webhooks": "^14.0.0" } }, "sha512-kgTeTsWmpUX+s3Fs4EK4w1K+jWCDB6ClxLSWUWTyhlw7+L3jHtuXDR4QtABu2GsmCMdk67xRhruiXotS3ay3Yw=="],
 
@@ -111,11 +109,7 @@
 
     "@std/fs": ["@jsr/std__fs@1.0.19", "https://npm.jsr.io/~/11/@jsr/std__fs/1.0.19.tgz", { "dependencies": { "@jsr/std__internal": "^1.0.9", "@jsr/std__path": "^1.1.1" } }, "sha512-TEjyE8g+46jPlu7dJHLrwc8NMGl8zfG+JjWxyNQyDbxP0RtqZ4JmYZfR9vy4RWYWJQbLpw6Kbt2n+K/2zAO/JA=="],
 
-    "@std/path": ["@jsr/std__path@1.1.2", "https://npm.jsr.io/~/11/@jsr/std__path/1.1.2.tgz", { "dependencies": { "@jsr/std__internal": "^1.0.10" } }, "sha512-5hkOR1s5M7am02Bn9KS+SNMNwUSivz7t7/w2HBhFIfO7Eh8+mWilaZ+1tdanV9aaSHr4c99Zo4Da+cCSuzUOdA=="],
-
     "@std/semver": ["@jsr/std__semver@1.0.5", "https://npm.jsr.io/~/11/@jsr/std__semver/1.0.5.tgz", {}, "sha512-jPLb9UZN4H61JvQWZfUajE9BXCBHTnZ4G7zuNrSP07kSnsVNlIakZwvt2unEc6MkPSqGy91HinA1H0OKbFVGDw=="],
-
-    "@std/yaml": ["@jsr/std__yaml@1.0.9", "https://npm.jsr.io/~/11/@jsr/std__yaml/1.0.9.tgz", {}, "sha512-lusWadC21PLDZalIaNNbxze5lsMlKod+sZjk16ckgRLUnFx99WBfJDgd3alSgrYZ4KxTNxzPIQgdRVN2c//yNQ=="],
 
     "@types/aws-lambda": ["@types/aws-lambda@8.10.152", "", {}, "sha512-soT/c2gYBnT5ygwiHPmd9a1bftj462NWVk2tKCc1PYHSIacB2UwbTS2zYG4jzag1mRDuzg/OjtxQjQ2NKRB6Rw=="],
 

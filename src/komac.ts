@@ -1,39 +1,16 @@
-import { parse as parseYaml } from '@std/yaml';
-import { spawn } from 'node:child_process';
+import { spawn, YAML } from 'bun';
 import { makeTempFile } from '@std/fs/unstable-make-temp-file';
 import { writeFile } from '@std/fs/unstable-write-file';
-import { extname } from '@std/path';
+import { extname } from 'node:path';
 import ky from 'ky';
 
-export function komac(...args: string[]): Promise<string> {
-	return new Promise<string>((resolve, reject) => {
-		const cmd = spawn('komac', args, {
-			stdio: ['pipe', 'pipe', 'pipe'],
-		});
-
-		let stdout = '';
-		let stderr = '';
-
-		cmd.stdout?.on('data', (data) => {
-			stdout += data.toString();
-		});
-
-		cmd.stderr?.on('data', (data) => {
-			stderr += data.toString();
-		});
-
-		cmd.on('close', (code) => {
-			if (code !== 0) {
-				reject(new Error(stderr.trim()));
-			} else {
-				resolve(stdout);
-			}
-		});
-
-		cmd.on('error', (error) => {
-			reject(error);
-		});
-	});
+export async function komac(...args: string[]) {
+	const proc = spawn(['komac', ...args], { stdout: 'pipe', stderr: 'pipe' });
+	await proc.exited;
+	if (proc.exitCode !== 0) {
+		throw new Error((await proc.stderr.text()).trimEnd());
+	}
+	return await proc.stdout.text();
 }
 
 export async function updatePackage(
@@ -71,8 +48,8 @@ export async function getInstallerInfo(url: string) {
 	const output = await komac('analyse', installer);
 
 	try {
-		return parseYaml(output);
-	} catch (err) {
-		throw new Error(`Failed to parse YAML output: ${(err as Error).message}`);
+		return YAML.parse(output);
+	} catch (e) {
+		throw new Error(`Failed to parse YAML output: ${(e as Error).message}`);
 	}
 }

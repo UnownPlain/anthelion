@@ -1,10 +1,10 @@
 import ky from 'ky';
-import { parse as parseYaml } from '@std/yaml';
+import { YAML } from 'bun';
 import { matchAndValidate, vs } from '@/helpers.ts';
 
 export async function electronBuilder(url: string) {
 	const response = await ky(url).text();
-	const data = parseYaml(response) as { version: unknown };
+	const data = YAML.parse(response) as { version: unknown };
 	return vs(data.version);
 }
 

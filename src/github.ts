@@ -1,5 +1,5 @@
 import { Octokit } from 'octokit';
-import { extname } from '@std/path';
+import { extname } from 'node:path';
 import process from 'node:process';
 
 export const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
