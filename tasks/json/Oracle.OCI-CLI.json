@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Oracle.OCI-CLI",
+	"strategy": "github-release",
+	"github": { "owner": "oracle", "repo": "oci-cli" },
+	"urls": [
+		"https://github.com/oracle/oci-cli/releases/download/v{version}/oci-cli-{version}-Windows-Server-Installer.msi"
+	]
+}

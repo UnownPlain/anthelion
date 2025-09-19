@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "muesli.duf",
+	"strategy": "github-release",
+	"github": { "owner": "muesli", "repo": "duf" },
+	"urls": [
+		"https://github.com/muesli/duf/releases/download/v{version}/duf_{version}_windows_i386.zip",
+		"https://github.com/muesli/duf/releases/download/v{version}/duf_{version}_windows_x86_64.zip",
+		"https://github.com/muesli/duf/releases/download/v{version}/duf_{version}_windows_arm64.zip"
+	]
+}
