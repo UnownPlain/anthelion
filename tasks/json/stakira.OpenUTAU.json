@@ -1,0 +1,14 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "stakira.OpenUTAU",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://github.com/stakira/OpenUtau/releases/latest/download/appcast.win-x64-installer.xml",
+		"regex": "sparkle:version=\\"(?<version>\\d+(?:\\.\\d+)+)\\""
+	},
+	"urls": [
+		"https://github.com/stakira/OpenUtau/releases/download/{version}/OpenUtau-win-x64.exe",
+		"https://github.com/stakira/OpenUtau/releases/download/{version}/OpenUtau-win-x86.exe",
+		"https://github.com/stakira/OpenUtau/releases/download/{version}/OpenUtau-win-arm64.exe"
+	]
+}
