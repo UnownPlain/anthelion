@@ -4,7 +4,7 @@
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://github.com/stakira/OpenUtau/releases/latest/download/appcast.win-x64-installer.xml",
-		"regex": "sparkle:version=\\"(?<version>\\d+(?:\\.\\d+)+)\\""
+		"regex": "sparkle:version=\\\"(?<version>[^\\\"]+)\\\""
 	},
 	"urls": [
 		"https://github.com/stakira/OpenUtau/releases/download/{version}/OpenUtau-win-x64.exe",

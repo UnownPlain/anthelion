@@ -1,10 +1,10 @@
 {
 	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
 	"packageId": "hpjansson.Chafa",
-	"strategy": "page-match",
-	"pageMatch": {
-		"url": "https://hpjansson.org/chafa/download/",
-		"regex": "https://hpjansson\\.org/chafa/releases/static/chafa-(?<version>[0-9]+(?:\\.[0-9]+)*)-1-x86_64-windows\\.zip"
+	"strategy": "github-release",
+	"github": {
+		"owner": "hpjansson",
+		"repo": "chafa"
 	},
 	"urls": [
 		"https://hpjansson.org/chafa/releases/static/chafa-{version}-1-x86_64-windows.zip"

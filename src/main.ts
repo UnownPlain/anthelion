@@ -12,11 +12,11 @@ import { getProperty } from 'dot-prop';
 import { readdirSync, type Dirent } from 'node:fs';
 import ky from 'ky';
 
-const SCRIPTS_FOLDER = 'tasks/script';
-const JSON_FOLDER = 'tasks/json';
+export const SCRIPTS_FOLDER = 'tasks/script';
+export const JSON_FOLDER = 'tasks/json';
 const semaphore = new Semaphore(32);
 
-async function executeTask(file: Dirent) {
+export async function executeTask(file: Dirent) {
 	await semaphore.acquire();
 	const logger = new Logger();
 
@@ -144,11 +144,13 @@ async function runAllTasks() {
 			(x): x is { result: PromiseRejectedResult; file: Dirent } =>
 				x.result.status === 'rejected',
 		)
-		.map((r) => Logger.error(r.file.name, r.result.reason.message));
+		.map((r) => Logger.error(r.file.name, `${r.result.reason.message}\n`));
 
 	console.log(
 		`\nCompleted: ${tasks.length - failures.length}/${tasks.length} tasks successful`,
 	);
 }
 
-await runAllTasks();
+if (import.meta.main) {
+	await runAllTasks();
+}

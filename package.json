@@ -7,7 +7,8 @@
 	"main": "src/main.ts",
 	"type": "module",
 	"scripts": {
-		"start": " bun src/main.ts",
+		"start": "bun src/main.ts",
+		"pkgtest": "bun src/test.ts",
 		"format": "prettier --write .",
 		"lint": "oxlint --type-aware --fix .",
 		"formatcheck": "prettier --check .",

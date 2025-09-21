@@ -13,7 +13,7 @@ export default async function () {
 	const version = match[1];
 	const urls = [
 		`https://www.sqlite.org/${year}/sqlite-tools-win-x64-${encodedVersion}.zip`,
-		`https://www.sqlite.org/${year}/sqlite-tools-win-arm64-${encodedVersion}.zip`
+		`https://www.sqlite.org/${year}/sqlite-tools-win-arm64-${encodedVersion}.zip`,
 	];
 
 	return {
