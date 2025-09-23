@@ -4,9 +4,13 @@ import ky from 'ky';
 export default async function () {
 	const releases = await ky(
 		'https://download.svc.ui.com/v1/software-downloads',
-	).json<{ downloads: { platform: string; version: string }[] }>();
+	).json<{
+		downloads: { name: string; platform: string; version: string }[];
+	}>();
 	const versions = releases.downloads.filter(
-		(version) => version.platform === 'windows',
+		(version) =>
+			version.platform === 'windows' &&
+			version.name.includes('UniFi Network Application'),
 	);
 
 	const version = vs(versions[0]?.version);
