@@ -1,0 +1,14 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "JetBrains.dotPeek",
+	"strategy": "json",
+	"json": {
+		"url": "https://data.services.jetbrains.com/products/releases?code=DPK&latest=true&type=release",
+		"path": "DPK[0].version"
+	},
+	"urls": [
+		"https://download.jetbrains.com/resharper/dotUltimate.{version}/dotPeek64.{version}.exe|x64",
+		"https://download.jetbrains.com/resharper/dotUltimate.{version}/dotPeek32.{version}.exe|x86",
+		"https://download.jetbrains.com/resharper/dotUltimate.{version}/dotPeek64a.{version}.exe|arm64"
+	]
+}

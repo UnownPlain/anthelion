@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Safing.Portmaster",
+	"strategy": "json",
+	"json": {
+		"url": "https://updates.safing.io/stable.v3.json",
+		"path": "Version"
+	},
+	"urls": [
+		"https://updates.safing.io/latest/windows_amd64/packages/Portmaster_{version}_x64-setup.exe"
+	],
+	"releaseNotes": "https://github.com/safing/portmaster/releases/tag/v{version}"
+}
