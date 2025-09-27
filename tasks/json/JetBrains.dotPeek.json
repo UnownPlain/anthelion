@@ -7,8 +7,6 @@
 		"path": "DPK[0].version"
 	},
 	"urls": [
-		"https://download.jetbrains.com/resharper/dotUltimate.{version}/dotPeek64.{version}.exe|x64",
-		"https://download.jetbrains.com/resharper/dotUltimate.{version}/dotPeek32.{version}.exe|x86",
-		"https://download.jetbrains.com/resharper/dotUltimate.{version}/dotPeek64a.{version}.exe|arm64"
+		"https://download.jetbrains.com/resharper/dotUltimate.2025.2.2.1/JetBrains.dotPeek.2025.2.2.1.web.exe"
 	]
 }
