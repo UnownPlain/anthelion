@@ -19,7 +19,7 @@
 	"dependencies": {
 		"@std/fs": "npm:@jsr/std__fs@^1.0.19",
 		"@std/semver": "npm:@jsr/std__semver@^1.0.5",
-		"ansis": "^4.1.0",
+		"ansis": "^4.2.0",
 		"dot-prop": "^10.0.0",
 		"es-toolkit": "^1.39.10",
 		"ky": "^1.11.0",
