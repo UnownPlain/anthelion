@@ -4,6 +4,6 @@
 	"strategy": "github-release",
 	"github": { "owner": "massCodeIO", "repo": "massCode" },
 	"urls": [
-		"https://github.com/massCodeIO/massCode/releases/download/v{version}/massCode.Setup.{version}.exe|x64"
+		"https://github.com/massCodeIO/massCode/releases/download/v{version}/massCode-{version}-x64.exe"
 	]
 }
