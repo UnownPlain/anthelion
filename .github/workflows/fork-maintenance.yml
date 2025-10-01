@@ -9,10 +9,10 @@ jobs:
   fork-maintenance:
     runs-on: ubuntu-24.04-arm
     steps:
-      - name: Setup cargo-binstall
-        uses: cargo-bins/cargo-binstall@main
-      - name: Install Komac
-        run: cargo binstall komac -y
+      - name: Install komac
+        uses: UnownPlain/install-komac@main
+        with:
+          version: nightly
       - name: Sync Fork & Cleanup Branches
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
