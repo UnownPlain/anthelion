@@ -22,8 +22,6 @@ jobs:
         run: bun ci --production
       - name: Install komac
         uses: UnownPlain/install-komac@main
-        with:
-          version: nightly
       - name: Update Packages
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
