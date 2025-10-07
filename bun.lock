@@ -5,7 +5,7 @@
       "name": "anthelion",
       "dependencies": {
         "@std/fs": "npm:@jsr/std__fs@^1.0.19",
-        "@std/semver": "npm:@jsr/std__semver@^1.0.5",
+        "@std/semver": "npm:@jsr/std__semver@^1.0.6",
         "ansis": "^4.2.0",
         "dot-prop": "^10.1.0",
         "es-toolkit": "^1.39.10",
@@ -109,7 +109,7 @@
 
     "@std/fs": ["@jsr/std__fs@1.0.19", "https://npm.jsr.io/~/11/@jsr/std__fs/1.0.19.tgz", { "dependencies": { "@jsr/std__internal": "^1.0.9", "@jsr/std__path": "^1.1.1" } }, "sha512-TEjyE8g+46jPlu7dJHLrwc8NMGl8zfG+JjWxyNQyDbxP0RtqZ4JmYZfR9vy4RWYWJQbLpw6Kbt2n+K/2zAO/JA=="],
 
-    "@std/semver": ["@jsr/std__semver@1.0.5", "https://npm.jsr.io/~/11/@jsr/std__semver/1.0.5.tgz", {}, "sha512-jPLb9UZN4H61JvQWZfUajE9BXCBHTnZ4G7zuNrSP07kSnsVNlIakZwvt2unEc6MkPSqGy91HinA1H0OKbFVGDw=="],
+    "@std/semver": ["@jsr/std__semver@1.0.6", "https://npm.jsr.io/~/11/@jsr/std__semver/1.0.6.tgz", {}, "sha512-MXgSPv8WEB7ygO32CHPi4Yg6CoywGdi+aRlgBU9heWdyhASrpJwn+RMuKxOyWxCg5qYQz+oApbqm8CblnT+l5Q=="],
 
     "@types/aws-lambda": ["@types/aws-lambda@8.10.152", "", {}, "sha512-soT/c2gYBnT5ygwiHPmd9a1bftj462NWVk2tKCc1PYHSIacB2UwbTS2zYG4jzag1mRDuzg/OjtxQjQ2NKRB6Rw=="],
 
