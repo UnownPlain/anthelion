@@ -21,7 +21,7 @@
 		"@std/semver": "npm:@jsr/std__semver@^1.0.6",
 		"ansis": "^4.2.0",
 		"dot-prop": "^10.1.0",
-		"es-toolkit": "^1.39.10",
+		"es-toolkit": "^1.40.0",
 		"ky": "^1.11.0",
 		"octokit": "^5.0.3",
 		"temporal-polyfill": "^0.3.0",
