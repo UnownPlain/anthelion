@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "nPerf.nPerf",
+	"strategy": "redirect-match",
+	"redirectMatch": {
+		"url": "https://app.nperf.com/en/getWindowsApp",
+		"regex": "windows/nperf/nPerf[._-]v?(\\d+(?:\\.\\d+)+)\\.exe"
+	}
+}

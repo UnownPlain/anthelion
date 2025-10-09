@@ -2,7 +2,7 @@ name: Fork Maintenance
 
 on:
   schedule:
-    - cron: "23 * * * *"
+    - cron: '23 * * * *'
   workflow_dispatch:
 
 jobs:

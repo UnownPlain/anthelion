@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Ventoy.Ventoy",
+	"strategy": "github-release",
+	"github": { "owner": "ventoy", "repo": "Ventoy" },
+	"urls": [
+		"https://github.com/ventoy/Ventoy/releases/download/v{version}/ventoy-{version}-windows.zip"
+	]
+}

@@ -83,7 +83,9 @@ export async function executeTask(file: Dirent) {
 					new RegExp(task.redirectMatch.regex, 'i'),
 				);
 				version = r.version;
-				urls.push(r.url);
+				if (!task.urls) {
+					urls.push(r.url);
+				}
 				break;
 			}
 		}

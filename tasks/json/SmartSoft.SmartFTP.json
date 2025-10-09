@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "SmartSoft.SmartFTP",
+	"strategy": "redirect-match",
+	"redirectMatch": {
+		"url": "https://www.smartftp.com/get/Client?platform=x64&file=SmartFTP.msi",
+		"regex": "Products/Client/(\\d+(?:\\.\\d+)+)/[^/]+/SmartFTP\\.msi"
+	},
+	"urls": [
+		"https://static.smartftp.com/static/Products/Client/{version}/x64/SmartFTP.msi",
+		"https://static.smartftp.com/static/Products/Client/{version}/arm64/SmartFTP.msi"
+	]
+}

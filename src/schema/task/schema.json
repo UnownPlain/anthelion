@@ -175,10 +175,6 @@
 							"default": "head",
 							"type": "string",
 							"enum": ["head", "get"]
-						},
-						"useRedirectUrl": {
-							"default": true,
-							"type": "boolean"
 						}
 					},
 					"required": ["url", "regex"],

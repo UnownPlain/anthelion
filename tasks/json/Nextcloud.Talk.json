@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Nextcloud.Talk",
+	"strategy": "github-release",
+	"github": { "owner": "nextcloud-releases", "repo": "talk-desktop" },
+	"urls": [
+		"https://github.com/nextcloud-releases/talk-desktop/releases/download/v{version}/Nextcloud.Talk-windows-x64.msi",
+		"https://github.com/nextcloud-releases/talk-desktop/releases/download/v{version}/Nextcloud.Talk-windows-x64.exe"
+	]
+}

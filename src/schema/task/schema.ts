@@ -24,7 +24,6 @@ const redirectMatchSchema = z.object({
 	url: z.url(),
 	regex: z.string(),
 	method: z.enum(['head', 'get']).default('head').optional(),
-	useRedirectUrl: z.boolean().default(true).optional(),
 });
 
 const electronBuilderSchema = z.object({
