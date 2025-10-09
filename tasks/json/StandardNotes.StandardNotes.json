@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "StandardNotes.StandardNotes",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/standardnotes/app/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/standardnotes/app/releases/download/@standardnotes/desktop@{version}/standard-notes-{version}-win-ia32.exe",
+		"https://github.com/standardnotes/app/releases/download/@standardnotes/desktop@{version}/standard-notes-{version}-win-x64.exe"
+	]
+}

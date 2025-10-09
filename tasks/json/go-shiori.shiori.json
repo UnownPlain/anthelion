@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "go-shiori.shiori",
+	"strategy": "github-release",
+	"github": { "owner": "go-shiori", "repo": "shiori" },
+	"urls": [
+		"https://github.com/go-shiori/shiori/releases/download/v{version}/shiori_Windows_x86_64_{version}.zip"
+	]
+}

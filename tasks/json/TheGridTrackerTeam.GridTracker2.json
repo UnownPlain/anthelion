@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "TheGridTrackerTeam.GridTracker2",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://download2.gridtracker.org/latest.yml"
+	},
+	"urls": ["https://download2.gridtracker.org/GridTracker2-{version}-setup.exe"]
+}
