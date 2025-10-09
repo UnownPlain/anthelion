@@ -2,7 +2,7 @@ name: Fork Maintenance
 
 on:
   schedule:
-    - cron: '23 * * * *'
+    - cron: "23 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Install komac
         uses: UnownPlain/install-komac@main
-        with:
-          version: nightly
       - name: Sync Fork & Cleanup Branches
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
