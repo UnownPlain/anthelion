@@ -4,7 +4,7 @@ import {
 	Strategy,
 } from '@/schema/task/schema';
 import { updatePackage } from '@/komac.ts';
-import { checkVersionInRepo, Logger, vs } from '@/helpers.ts';
+import { Logger, vs } from '@/helpers.ts';
 import { getLatestPreReleaseVersion, getLatestVersion } from '@/github';
 import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
 import { Semaphore } from 'es-toolkit';
@@ -14,6 +14,8 @@ import ky from 'ky';
 
 export const SCRIPTS_FOLDER = 'tasks/script';
 export const JSON_FOLDER = 'tasks/json';
+const MANIFEST_URL =
+	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests/';
 const semaphore = new Semaphore(32);
 
 export async function executeTask(file: Dirent) {
@@ -21,6 +23,21 @@ export async function executeTask(file: Dirent) {
 	const logger = new Logger();
 
 	logger.run(file.name);
+
+	async function checkVersionInRepo(version: string, packageId: string) {
+		const manifestPath = `${MANIFEST_URL}/${packageId.charAt(0).toLowerCase()}/${packageId
+			.split('.')
+			.join('/')}/${version}/${packageId}.yaml`;
+
+		const versionCheck = await ky(manifestPath, {
+			throwHttpErrors: false,
+		});
+		const check = versionCheck.ok && import.meta.main;
+
+		if (check) logger.present(version);
+
+		return check;
+	}
 
 	async function handleScriptTask(fileName: string) {
 		const task = await import(`../${SCRIPTS_FOLDER}/${fileName}`);
@@ -35,10 +52,7 @@ export async function executeTask(file: Dirent) {
 
 		const { version, urls, args = [] } = parsed.data;
 
-		if (await checkVersionInRepo(version, packageId)) {
-			logger.present(version);
-			return;
-		}
+		if (await checkVersionInRepo(version, packageId)) return;
 
 		logger.details(version, urls);
 
@@ -51,7 +65,7 @@ export async function executeTask(file: Dirent) {
 		const file = Bun.file(`./${JSON_FOLDER}/${fileName}`);
 		const task = JsonTaskSchema.parse(await file.json());
 		let version: string;
-		let urls: string[] = [];
+		let urls: string[] = task.urls || [];
 		let args = task.args || [];
 
 		switch (task.strategy) {
@@ -75,6 +89,12 @@ export async function executeTask(file: Dirent) {
 			case Strategy.Json: {
 				const response = await ky(task.json.url).json();
 				version = vs(getProperty(response, task.json.path));
+				urls = urls.map((url) => {
+					if (!url.startsWith('https://')) {
+						return vs(getProperty(response, url));
+					}
+					return url;
+				});
 				break;
 			}
 			case Strategy.RedirectMatch: {
@@ -90,10 +110,7 @@ export async function executeTask(file: Dirent) {
 			}
 		}
 
-		if (await checkVersionInRepo(version, task.packageId)) {
-			logger.present(version);
-			return;
-		}
+		if (await checkVersionInRepo(version, task.packageId)) return;
 
 		version = version.startsWith('v') ? version.substring(1) : version;
 		if (task.versionRemove) version = version.replace(task.versionRemove, '');
@@ -103,9 +120,7 @@ export async function executeTask(file: Dirent) {
 				'--release-notes-url',
 				task.releaseNotes.replaceAll('{version}', version),
 			);
-		if (urls.length === 0 && task.urls?.length) {
-			urls = task.urls.map((t) => t.replaceAll('{version}', version));
-		}
+		urls = urls.map((t) => t.replaceAll('{version}', version));
 
 		logger.details(version, urls);
 

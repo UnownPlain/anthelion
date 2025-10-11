@@ -1,10 +1,6 @@
 import { compare, parse as parseSemver } from '@std/semver';
 import { bgRed, blue, green, redBright } from 'ansis';
-import ky from 'ky';
 import { z } from 'zod';
-
-const MANIFEST_URL =
-	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests/';
 
 export class Logger {
 	private logs: string[] = [];
@@ -57,16 +53,4 @@ export function matchAndValidate(str: string, regex: RegExp): string[] {
 		throw new Error('Regex match not found');
 	}
 	return Array.from(match);
-}
-
-export async function checkVersionInRepo(version: string, packageId: string) {
-	const manifestPath = `${MANIFEST_URL}/${packageId.charAt(0).toLowerCase()}/${packageId
-		.split('.')
-		.join('/')}/${version}/${packageId}.yaml`;
-
-	const versionCheck = await ky(manifestPath, {
-		throwHttpErrors: false,
-	});
-
-	return versionCheck.ok;
 }

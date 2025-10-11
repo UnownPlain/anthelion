@@ -8,7 +8,7 @@ export async function electronBuilder(url: string) {
 	return vs(data.version);
 }
 
-export async function pageMatch(url: string, regex: RegExp): Promise<string> {
+export async function pageMatch(url: string, regex: RegExp) {
 	const page = await ky(url).text();
 	const match = matchAndValidate(page, regex);
 	const version = match[1];

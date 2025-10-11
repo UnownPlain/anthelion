@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "streamerbot.streamerbot",
+	"strategy": "json",
+	"json": {
+		"url": "https://streamer.bot/api/releases/streamer.bot",
+		"path": "stable.version"
+	},
+	"urls": ["stable.url"]
+}

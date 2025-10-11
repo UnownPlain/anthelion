@@ -6,7 +6,7 @@ import { SCRIPTS_FOLDER, JSON_FOLDER, executeTask } from './main';
 const task = vs(process.argv[2]);
 const file = readdirSync(SCRIPTS_FOLDER, { withFileTypes: true })
 	.concat(readdirSync(JSON_FOLDER, { withFileTypes: true }))
-	.find((t) => basename(t.name) === basename(task));
+	.find((t) => basename(t.name).includes(basename(task)));
 
 if (!file) {
 	console.log(`Task ${task} not found`);
