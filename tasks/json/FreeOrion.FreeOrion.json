@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "FreeOrion.FreeOrion",
+	"strategy": "github-release",
+	"github": { "owner": "freeorion", "repo": "freeorion" },
+	"urls": [
+		"https://github.com/freeorion/freeorion/releases/download/v{version}/FreeOrion_v{version}_Win32_Setup.exe"
+	]
+}

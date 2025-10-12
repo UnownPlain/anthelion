@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Flywheel.Local",
+	"strategy": "redirect-match",
+	"redirectMatch": {
+		"url": "https://cdn.localwp.com/stable/latest/windows",
+		"regex": "local[._-]v?(\\d+(?:\\.\\d+)+)[._-]windows\\.exe"
+	},
+	"releaseNotes": "https://localwp.com/releases/{version}"
+}
