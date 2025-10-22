@@ -140,7 +140,6 @@ export async function executeTask(file: Dirent) {
 		await handleJsonTask(file.name);
 	}
 
-	logger.success(file.name);
 	logger.log('─'.repeat(55));
 	logger.flush();
 	semaphore.release();

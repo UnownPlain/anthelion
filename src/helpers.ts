@@ -17,19 +17,15 @@ export class Logger {
 	}
 
 	run(task: string) {
-		this.log(blue`Running task: ${task}\n`);
+		this.log(blue`Running: ${task}\n`);
 	}
 
 	present(version: string) {
-		this.log(`Version ${version} is already present in winget-pkgs.\n`);
-	}
-
-	success(task: string) {
-		this.log(green`✅ Successfully completed: ${task}`);
+		this.log(green`Package is up-to-date! (${version})`);
 	}
 
 	static error(task: string, message: string) {
-		console.log(bgRed`❌ Error in ${task}:`);
+		console.log(bgRed`❌ Error running ${task}`);
 		console.log(redBright`${message}`);
 	}
 

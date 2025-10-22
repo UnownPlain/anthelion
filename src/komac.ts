@@ -10,7 +10,7 @@ export async function komac(...args: string[]) {
 	if (proc.exitCode !== 0) {
 		throw new Error((await proc.stderr.text()).trimEnd());
 	}
-	return await proc.stdout.text();
+	return (await proc.stdout.text()).trim();
 }
 
 export async function updatePackage(
