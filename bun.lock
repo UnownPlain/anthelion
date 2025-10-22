@@ -9,7 +9,7 @@
         "ansis": "^4.2.0",
         "dot-prop": "^10.1.0",
         "es-toolkit": "^1.40.0",
-        "ky": "^1.12.0",
+        "ky": "^1.13.0",
         "octokit": "^5.0.4",
         "temporal-polyfill": "^0.3.0",
         "zod": "^4.1.12",
@@ -135,7 +135,7 @@
 
     "fast-content-type-parse": ["fast-content-type-parse@3.0.0", "", {}, "sha512-ZvLdcY8P+N8mGQJahJV5G4U88CSvT1rP8ApL6uETe88MBXrBHAkZlSEySdUlyztF7ccb+Znos3TFqaepHxdhBg=="],
 
-    "ky": ["ky@1.12.0", "", {}, "sha512-YRLmSUHCwOJRBMArtqMRLOmO7fewn3yOoui6aB8ERkRVXupa0UiaQaKbIXteMt4jUElhbdqTMsLFHs8APxxUoQ=="],
+    "ky": ["ky@1.13.0", "", {}, "sha512-JeNNGs44hVUp2XxO3FY9WV28ymG7LgO4wju4HL/dCq1A8eKDcFgVrdCn1ssn+3Q/5OQilv5aYsL0DMt5mmAV9w=="],
 
     "octokit": ["octokit@5.0.4", "", { "dependencies": { "@octokit/app": "^16.1.1", "@octokit/core": "^7.0.5", "@octokit/oauth-app": "^8.0.2", "@octokit/plugin-paginate-graphql": "^6.0.0", "@octokit/plugin-paginate-rest": "^13.2.0", "@octokit/plugin-rest-endpoint-methods": "^16.1.0", "@octokit/plugin-retry": "^8.0.2", "@octokit/plugin-throttling": "^11.0.2", "@octokit/request-error": "^7.0.1", "@octokit/types": "^15.0.0", "@octokit/webhooks": "^14.0.0" } }, "sha512-4n/mMoLQs2npBE+aTG5o4H+hZhFKu8aDqZFP/nmUNRUYrTpXpaqvX1ppK5eiCtQ+uP/8jI6vbdfCB2udlBgccA=="],
 
