@@ -6,11 +6,7 @@ export default async function () {
 	const regex =
 		/DLL for Windows x64, SQLite version ([\d.]+)\..*?(\d+)\/sqlite-tools-win-x64-(\d+)/ms;
 
-	const match = matchAndValidate(response, regex);
-	const year = match[2];
-	const encodedVersion = match[3];
-
-	const version = match[1];
+	const [, version, year, encodedVersion] = matchAndValidate(response, regex);
 	const urls = [
 		`https://www.sqlite.org/${year}/sqlite-tools-win-x64-${encodedVersion}.zip`,
 		`https://www.sqlite.org/${year}/sqlite-tools-win-arm64-${encodedVersion}.zip`,

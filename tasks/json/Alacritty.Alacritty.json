@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Alacritty.Alacritty",
+	"strategy": "github-release",
+	"github": { "owner": "alacritty", "repo": "alacritty" },
+	"urls": [
+		"https://github.com/alacritty/alacritty/releases/download/v{version}/Alacritty-v{version}-installer.msi"
+	]
+}

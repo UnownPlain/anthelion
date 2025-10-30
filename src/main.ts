@@ -95,6 +95,9 @@ export async function executeTask(file: Dirent) {
 					}
 					return url;
 				});
+				if (task.releaseNotes && !task.releaseNotes.startsWith('https://')) {
+					task.releaseNotes = vs(getProperty(response, task.releaseNotes));
+				}
 				break;
 			}
 			case Strategy.RedirectMatch: {

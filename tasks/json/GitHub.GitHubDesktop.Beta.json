@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "GitHub.GitHubDesktop.Beta",
+	"strategy": "github-release",
+	"github": { "owner": "desktop", "repo": "desktop", "preRelease": true },
+	"urls": [
+		"https://github.com/desktop/desktop/releases/download/release-{version}/GitHubDesktopSetup-x64.exe",
+		"https://github.com/desktop/desktop/releases/download/release-{version}/GitHubDesktopSetup-arm64.exe",
+		"https://github.com/desktop/desktop/releases/download/release-{version}/GitHubDesktopSetup-x64.msi",
+		"https://github.com/desktop/desktop/releases/download/release-{version}/GitHubDesktopSetup-arm64.msi"
+	],
+	"versionRemove": "release-"
+}

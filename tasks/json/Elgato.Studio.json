@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Elgato.Studio",
+	"strategy": "json",
+	"json": {
+		"url": "https://gc-updates.elgato.com/windows/estw-update/final/app-version-check.json.php",
+		"path": "Manual.Version"
+	},
+	"urls": ["Manual.fileURLs.x86_64", "Manual.fileURLs.arm64"],
+	"releaseNotes": "Manual.ReleaseNotes.en"
+}

@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "GitHub.GitLFS",
+	"strategy": "github-release",
+	"github": { "owner": "git-lfs", "repo": "git-lfs" },
+	"urls": [
+		"https://github.com/git-lfs/git-lfs/releases/download/v{version}/git-lfs-windows-v{version}.exe"
+	]
+}

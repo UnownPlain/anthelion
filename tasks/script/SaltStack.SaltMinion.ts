@@ -5,8 +5,7 @@ export default async function () {
 	const releases = await ky(
 		'https://packages.broadcom.com/artifactory/saltproject-generic/windows/',
 	).text();
-	const regex = /href=["']?(\d+(?:\.\d+)*)\/?["' >]/gi;
-	const matches = releases.matchAll(regex);
+	const matches = releases.matchAll(/href=["']?(\d+(?:\.\d+)*)\/?["' >]/gi);
 	const versions = Array.from(matches, (match) => match[1]).reverse();
 
 	const version = vs(versions[0]);

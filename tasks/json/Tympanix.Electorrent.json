@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Tympanix.Electorrent",
+	"strategy": "json",
+	"json": {
+		"url": "https://electorrent.vercel.app/update/exe/0.0.0",
+		"path": "name"
+	},
+	"urls": ["url"]
+}
