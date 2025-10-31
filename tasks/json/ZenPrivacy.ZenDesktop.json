@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "ZenPrivacy.ZenDesktop",
+	"strategy": "github-release",
+	"github": { "owner": "ZenPrivacy", "repo": "zen-desktop" },
+	"urls": [
+		"https://github.com/ZenPrivacy/zen-desktop/releases/download/v{version}/Zen-amd64-installer.exe",
+		"https://github.com/ZenPrivacy/zen-desktop/releases/download/v{version}/Zen-arm64-installer.exe"
+	]
+}
