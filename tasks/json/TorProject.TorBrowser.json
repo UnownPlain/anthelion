@@ -1,10 +1,10 @@
 {
 	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
 	"packageId": "TorProject.TorBrowser",
-	"strategy": "page-match",
-	"pageMatch": {
-		"url": "https://www.torproject.org/download/",
-		"regex": "href=.*?tor-browser-windows-x86_64-portable[._-]v?(\\d+(?:\\.\\d+)+)\\.exe"
+	"strategy": "json",
+	"json": {
+		"url": "https://aus1.torproject.org/torbrowser/update_3/release/download-windows-x86_64.json",
+		"path": "version"
 	},
 	"urls": [
 		"https://archive.torproject.org/tor-package-archive/torbrowser/{version}/tor-browser-windows-i686-portable-{version}.exe",
