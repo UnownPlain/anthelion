@@ -23,7 +23,7 @@
 		"dot-prop": "^10.1.0",
 		"es-toolkit": "^1.41.0",
 		"ky": "^1.13.0",
-		"octokit": "^5.0.4",
+		"octokit": "^5.0.5",
 		"temporal-polyfill": "^0.3.0",
 		"zod": "^4.1.12"
 	},
