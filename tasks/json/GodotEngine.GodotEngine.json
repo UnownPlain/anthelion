@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "GodotEngine.GodotEngine",
+	"strategy": "github-release",
+	"github": { "owner": "godotengine", "repo": "godot" },
+	"urls": [
+		"https://github.com/godotengine/godot/releases/download/{version}-stable/Godot_v{version}-stable_win32.exe.zip",
+		"https://github.com/godotengine/godot/releases/download/{version}-stable/Godot_v{version}-stable_win64.exe.zip",
+		"https://github.com/godotengine/godot/releases/download/{version}-stable/Godot_v{version}-stable_windows_arm64.exe.zip"
+	],
+	"versionRemove": "-stable"
+}

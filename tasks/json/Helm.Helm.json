@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Helm.Helm",
+	"strategy": "github-release",
+	"github": { "owner": "helm", "repo": "helm" },
+	"urls": [
+		"https://get.helm.sh/helm-v{version}-windows-amd64.zip",
+		"https://get.helm.sh/helm-v{version}-windows-arm64.zip"
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "GodotLauncher.Launcher",
+	"strategy": "github-release",
+	"github": { "owner": "godotlauncher", "repo": "launcher" },
+	"urls": [
+		"https://github.com/godotlauncher/launcher/releases/download/v{version}/Godot_Launcher-{version}-win_arm64.exe",
+		"https://github.com/godotlauncher/launcher/releases/download/v{version}/Godot_Launcher-{version}-win_x64.exe",
+		"https://github.com/godotlauncher/launcher/releases/download/v{version}/Godot_Launcher-{version}-win_ia32.exe",
+		"https://github.com/godotlauncher/launcher/releases/download/v{version}/Godot_Launcher-{version}-win.exe"
+	]
+}
