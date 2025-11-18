@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Microsoft.Azure.AZCopy.10",
+	"strategy": "github-release",
+	"github": { "owner": "Azure", "repo": "azure-storage-azcopy" },
+	"urls": [
+		"https://github.com/Azure/azure-storage-azcopy/releases/download/v{version}/azcopy_windows_386_{version}.zip",
+		"https://github.com/Azure/azure-storage-azcopy/releases/download/v{version}/azcopy_windows_amd64_{version}.zip",
+		"https://github.com/Azure/azure-storage-azcopy/releases/download/v{version}/azcopy_windows_arm64_{version}.zip"
+	]
+}
