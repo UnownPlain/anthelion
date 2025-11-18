@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "asciinema.agg",
+	"strategy": "github-release",
+	"github": { "owner": "asciinema", "repo": "agg" },
+	"urls": [
+		"https://github.com/asciinema/agg/releases/download/v{version}/agg-x86_64-pc-windows-msvc.exe"
+	]
+}
