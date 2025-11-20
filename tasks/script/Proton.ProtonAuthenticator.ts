@@ -1,4 +1,3 @@
-import { vs } from '@/helpers.ts';
 import ky from 'ky';
 
 export default async function () {
@@ -9,7 +8,7 @@ export default async function () {
 		(version) => version.CategoryName === 'Stable',
 	);
 
-	const version = vs(versions[0]?.Version);
+	const version = versions[0]?.Version;
 	const urls = [
 		`https://proton.me/download/authenticator/windows/ProtonAuthenticator_${version}_x64_en-US.msi`,
 	];

@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Streamlink.Streamlink",
+	"strategy": "github-release",
+	"github": {
+		"owner": "streamlink",
+		"repo": "windows-builds",
+		"fetchUrlsFromApi": true
+	}
+}

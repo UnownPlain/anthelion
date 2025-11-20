@@ -1,16 +1,16 @@
+import { getLatestVersion } from '@/github';
+import { Logger, vs } from '@/helpers.ts';
+import { updatePackage } from '@/komac.ts';
 import {
-	ScriptTaskResult,
 	JsonTaskSchema,
+	ScriptTaskResult,
 	Strategy,
 } from '@/schema/task/schema';
-import { updatePackage } from '@/komac.ts';
-import { Logger, vs } from '@/helpers.ts';
-import { getLatestPreReleaseVersion, getLatestVersion } from '@/github';
 import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
-import { Semaphore } from 'es-toolkit';
 import { getProperty } from 'dot-prop';
-import { readdirSync, type Dirent } from 'node:fs';
+import { Semaphore } from 'es-toolkit';
 import ky from 'ky';
+import { readdirSync, type Dirent } from 'node:fs';
 
 export const SCRIPTS_FOLDER = 'tasks/script';
 export const JSON_FOLDER = 'tasks/json';
@@ -70,12 +70,16 @@ export async function executeTask(file: Dirent) {
 
 		switch (task.strategy) {
 			case Strategy.GithubRelease:
-				version = task.github.preRelease
-					? await getLatestPreReleaseVersion(
-							task.github.owner,
-							task.github.repo,
-						)
-					: await getLatestVersion(task.github.owner, task.github.repo);
+				const latest = await getLatestVersion({
+					owner: task.github.owner,
+					repo: task.github.repo,
+					preRelease: task.github.preRelease,
+					tagFilter: task.github.tagFilter,
+				});
+				version = latest.version;
+				if (task.github.fetchUrlsFromApi) {
+					urls = urls.concat(latest.urls);
+				}
 				break;
 			case Strategy.ElectronBuilder:
 				version = await electronBuilder(task.electronBuilder.url);
@@ -134,7 +138,7 @@ export async function executeTask(file: Dirent) {
 			...args,
 		);
 
-		logger.log(updateResult);
+		logger.log(updateResult + '\n');
 	}
 
 	if (file.name.endsWith('ts')) {
@@ -143,7 +147,6 @@ export async function executeTask(file: Dirent) {
 		await handleJsonTask(file.name);
 	}
 
-	logger.log('─'.repeat(55));
 	logger.flush();
 	semaphore.release();
 }

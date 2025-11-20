@@ -1,4 +1,4 @@
-import { matchAndValidate, vs } from '@/helpers.ts';
+import { match } from '@/helpers.ts';
 import ky from 'ky';
 
 export default async function () {
@@ -6,14 +6,11 @@ export default async function () {
 		'https://downloads.zohocdn.com/arattai-desktop/artifacts.json',
 	).json<{ windows: { '32bit': string; '64bit': string } }>();
 
-	const urls = [vs(releases.windows['32bit']), vs(releases.windows['64bit'])];
-	const version = vs(
-		matchAndValidate(
-			urls[0] || '',
-			/Arattai[._-]v?(\d+(?:\.\d+)+)(?:[._-]x\d+)?\.exe/i,
-		)[1],
+	const urls = [releases.windows['32bit'], releases.windows['64bit']];
+	const [version] = match(
+		releases.windows['64bit'],
+		/Arattai[._-]v?(\d+(?:\.\d+)+)(?:[._-]x\d+)?\.exe/i,
 	);
-
 	return {
 		version,
 		urls,

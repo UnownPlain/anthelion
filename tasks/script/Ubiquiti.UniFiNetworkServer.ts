@@ -1,4 +1,3 @@
-import { vs } from '@/helpers.ts';
 import ky from 'ky';
 
 export default async function () {
@@ -13,7 +12,7 @@ export default async function () {
 			version.name.includes('UniFi Network Application'),
 	);
 
-	const version = vs(versions[0]?.version);
+	const version = versions[0]?.version;
 	const urls = [`https://dl.ui.com/unifi/${version}/UniFi-installer.exe`];
 
 	return {

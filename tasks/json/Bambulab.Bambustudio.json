@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Bambulab.Bambustudio",
+	"strategy": "github-release",
+	"github": {
+		"owner": "bambulab",
+		"repo": "BambuStudio",
+		"fetchUrlsFromApi": true
+	}
+}

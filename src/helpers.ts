@@ -17,11 +17,11 @@ export class Logger {
 	}
 
 	run(task: string) {
-		this.log(blue`Running: ${task}\n`);
+		this.log(`${blue('==>')} Running ${task}`);
 	}
 
 	present(version: string) {
-		this.log(green`Package is up-to-date! (${version})`);
+		this.log(green`Package is up-to-date! (${version})\n`);
 	}
 
 	static error(task: string, message: string) {
@@ -43,10 +43,10 @@ export function vs(str: unknown) {
 	return z.string().parse(str).trim();
 }
 
-export function matchAndValidate(str: string, regex: RegExp): string[] {
+export function match(str: string, regex: RegExp): string[] {
 	const match = str.match(regex);
-	if (!match) {
+	if (!match || match.some((m) => m === undefined)) {
 		throw new Error('Regex match not found');
 	}
-	return Array.from(match);
+	return Array.from(match).slice(1);
 }

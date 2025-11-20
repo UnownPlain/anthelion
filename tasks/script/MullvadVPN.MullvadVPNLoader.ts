@@ -1,13 +1,11 @@
-import { getAllReleases } from '@/github.ts';
-import { vs } from '@/helpers.ts';
+import { getLatestVersion } from '@/github.ts';
 
 export default async function () {
-	const releases = await getAllReleases('mullvad', 'mullvadvpn-app');
-	const release = releases.find((r) =>
-		r.tag_name.startsWith('desktop/installer-downloader'),
-	);
-
-	const version = vs(release?.tag_name.split('/')[2]);
+	const { version } = await getLatestVersion({
+		owner: 'mullvad',
+		repo: 'mullvadvpn-app',
+		tagFilter: 'desktop/installer-downloader/',
+	});
 	const urls = [
 		`https://github.com/mullvad/mullvadvpn-app/releases/download/desktop/installer-downloader/${version}/Install.Mullvad.VPN.exe`,
 	];

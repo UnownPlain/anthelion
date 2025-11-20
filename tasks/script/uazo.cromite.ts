@@ -1,4 +1,4 @@
-import { matchAndValidate } from '@/helpers.ts';
+import { match } from '@/helpers.ts';
 import ky from 'ky';
 
 export default async function () {
@@ -6,8 +6,10 @@ export default async function () {
 		'https://github.com/uazo/cromite/releases/latest/download/updateurl.txt',
 	).text();
 
-	const version = matchAndValidate(response, /version=(\d+(?:\.\d+)+)/i)[1];
-	const commit = matchAndValidate(response, /commit=([a-f0-9]{40})/i)[1];
+	const [version, commit] = match(
+		response,
+		/version=([\d.]+).*?commit=([a-f0-9]+)/,
+	);
 
 	const urls = [
 		`https://github.com/uazo/cromite/releases/download/v${version}-${commit}/chrome-win.zip|x64`,

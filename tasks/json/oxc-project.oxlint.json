@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "oxc-project.oxlint",
+	"strategy": "github-release",
+	"github": { "owner": "oxc-project", "repo": "oxc", "tagFilter": "apps_v" },
+	"versionRemove": "apps_v",
+	"urls": [
+		"https://github.com/oxc-project/oxc/releases/download/apps_v{version}/oxlint-win32-x64.zip",
+		"https://github.com/oxc-project/oxc/releases/download/apps_v{version}/oxlint-win32-arm64.zip"
+	]
+}

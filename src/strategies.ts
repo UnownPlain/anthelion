@@ -1,6 +1,6 @@
-import ky from 'ky';
+import { match, vs } from '@/helpers.ts';
 import { YAML } from 'bun';
-import { matchAndValidate, vs } from '@/helpers.ts';
+import ky from 'ky';
 
 export async function electronBuilder(url: string) {
 	const response = await ky(url).text();
@@ -10,8 +10,7 @@ export async function electronBuilder(url: string) {
 
 export async function pageMatch(url: string, regex: RegExp) {
 	const page = await ky(url).text();
-	const match = matchAndValidate(page, regex);
-	const version = match[1];
+	const version = match(page, regex)[0];
 	if (!version) {
 		throw new Error('Failed to extract version from page');
 	}
@@ -28,7 +27,7 @@ export async function redirectMatch(url: string, regex: RegExp) {
 	if (!redirect) {
 		throw new Error('No redirect location found');
 	}
-	const version = matchAndValidate(redirect, regex)[1];
+	const version = match(redirect, regex)[0];
 	if (!version) {
 		throw new Error('Failed to extract version from URL');
 	}

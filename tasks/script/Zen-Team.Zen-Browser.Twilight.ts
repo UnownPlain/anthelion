@@ -1,7 +1,7 @@
 import { delay } from 'es-toolkit';
 import { getReleaseByTag, getRepoHeadSha, octokit } from '@/github.ts';
 import { updatePackage } from '@/komac.ts';
-import { matchAndValidate, vs } from '@/helpers.ts';
+import { match, vs } from '@/helpers.ts';
 import { readTextFileSync } from '@std/fs/unstable-read-text-file';
 import process from 'node:process';
 
@@ -26,8 +26,8 @@ export default async function () {
 		return 'Current version matches latest version.\n';
 	}
 
-	const version = vs(matchAndValidate(latestVersion, VERSION_REGEX)[0]);
-	const repoVersion = matchAndValidate(vs(currentVersion), VERSION_REGEX)[0];
+	const version = vs(match(latestVersion, VERSION_REGEX)[0]);
+	const repoVersion = match(vs(currentVersion), VERSION_REGEX)[0];
 
 	const options = ['--skip-pr-check'];
 

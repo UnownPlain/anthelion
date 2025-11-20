@@ -1,0 +1,14 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "BiomeJS.Biome",
+	"strategy": "github-release",
+	"github": {
+		"owner": "biomejs",
+		"repo": "biome",
+		"tagFilter": "@biomejs/biome@"
+	},
+	"urls": [
+		"https://github.com/biomejs/biome/releases/download/@biomejs/biome@{version}/biome-win32-x64.exe",
+		"https://github.com/biomejs/biome/releases/download/@biomejs/biome@{version}/biome-win32-arm64.exe"
+	]
+}

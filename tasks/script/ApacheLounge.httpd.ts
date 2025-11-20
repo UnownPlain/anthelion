@@ -1,9 +1,9 @@
-import { matchAndValidate } from '@/helpers.ts';
+import { match } from '@/helpers.ts';
 import ky from 'ky';
 
 export default async function () {
 	const versionInfo = await ky('https://www.apachelounge.com/download/').text();
-	const [, version, date] = matchAndValidate(
+	const [version, date] = match(
 		versionInfo,
 		/httpd-([\d.]+)-(\d+)-(?:win32|win64)-vs\d+\.zip/i,
 	);

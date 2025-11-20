@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "AptosCore.aptos",
+	"strategy": "github-release",
+	"github": {
+		"owner": "aptos-labs",
+		"repo": "aptos-core",
+		"tagFilter": "aptos-cli-v"
+	},
+	"urls": [
+		"https://github.com/aptos-labs/aptos-core/releases/download/aptos-cli-v{version}/aptos-cli-{version}-Windows-x86_64.zip"
+	]
+}

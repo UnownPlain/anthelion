@@ -1,0 +1,14 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "ente-io.auth-desktop",
+	"strategy": "github-release",
+	"github": {
+		"owner": "ente-io",
+		"repo": "ente",
+		"tagFilter": "auth-v"
+	},
+	"urls": [
+		"https://github.com/ente-io/ente/releases/download/auth-v{version}/ente-auth-v{version}-installer.exe",
+		"https://github.com/ente-io/ente/releases/download/auth-v{version}/ente-auth-v{version}-windows.zip"
+	]
+}

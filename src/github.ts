@@ -1,65 +1,61 @@
-import { Octokit } from 'octokit';
 import { extname } from 'node:path';
 import process from 'node:process';
+import { Octokit } from 'octokit';
 
 export const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 await octokit.rest.users.getAuthenticated();
 
-export async function getLatestVersion(owner: string, repo: string) {
-	const release = await octokit.rest.repos.getLatestRelease({
+export async function getLatestVersion(options: {
+	owner: string;
+	repo: string;
+	preRelease?: boolean;
+	tagFilter?: string;
+}) {
+	const { owner, repo, preRelease = false, tagFilter = '' } = options;
+	const { data } = await octokit.rest.repos.listReleases({
 		owner,
 		repo,
 	});
 
-	return release.data.tag_name.startsWith('v')
-		? release.data.tag_name.substring(1)
-		: release.data.tag_name;
-}
+	const releases = data.filter(
+		(r) => r.prerelease === preRelease && r.tag_name.includes(tagFilter),
+	);
+	if (!releases[0]) {
+		throw new Error('No releases found');
+	}
 
-export async function getLatestUrls(owner: string, repo: string) {
-	const release = await octokit.rest.repos.getLatestRelease({
-		owner,
-		repo,
-	});
-
-	const urls: string[] = [];
-
-	for (const asset of release.data.assets) {
-		if (
+	const urls = releases[0].assets
+		.filter((asset) =>
 			['.exe', '.msi', '.msix', '.msixbundle', '.appx'].includes(
 				extname(asset.name),
-			)
-		) {
-			urls.push(asset.browser_download_url);
-		}
-	}
+			),
+		)
+		.map((asset) => asset.browser_download_url);
 
-	return urls;
+	return {
+		version: releases[0].tag_name
+			.replace(/^v/, '')
+			.replace(tagFilter ?? '', ''),
+		urls,
+	};
 }
 
-export async function getLatestPreReleaseVersion(owner: string, repo: string) {
-	const release = await octokit.rest.repos.listReleases({
+export async function getAllReleases(
+	owner: string,
+	repo: string,
+	preRelease?: boolean,
+) {
+	const { data: releases } = await octokit.rest.repos.listReleases({
 		owner,
 		repo,
+		per_page: 60,
 	});
 
-	const releases = release.data.filter((release) => release.prerelease)[0];
-	if (!releases) {
-		throw new Error('No pre-release versions found');
+	if (preRelease === undefined) {
+		return releases;
 	}
 
-	const version = releases.tag_name;
-
-	return version.startsWith('v') ? version.substring(1) : version;
-}
-
-export async function getAllReleases(owner: string, repo: string) {
-	const releases = await octokit.rest.repos.listReleases({
-		owner,
-		repo,
-	});
-
-	return releases.data.filter((release) => !release.prerelease);
+	return releases.filter((release) => release.prerelease === preRelease);
 }
 
 export async function getReleaseByTag(

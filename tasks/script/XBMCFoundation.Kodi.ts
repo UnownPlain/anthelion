@@ -1,7 +1,10 @@
 import { getLatestVersion } from '@/github.ts';
 
 export default async function () {
-	const tag = await getLatestVersion('xbmc', 'xbmc');
+	const { version: tag } = await getLatestVersion({
+		owner: 'xbmc',
+		repo: 'xbmc',
+	});
 
 	const version = tag.split('-')[0];
 	const urls = [

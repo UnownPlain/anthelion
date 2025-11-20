@@ -1,7 +1,10 @@
 import { getLatestVersion } from '@/github.ts';
 
 export default async function () {
-	const tag = await getLatestVersion('emoacht', 'Monitorian');
+	const { version: tag } = await getLatestVersion({
+		owner: 'emoacht',
+		repo: 'Monitorian',
+	});
 
 	const version = tag.replace('-Installer', '');
 	const urls = [

@@ -1,8 +1,8 @@
-import { spawn, YAML } from 'bun';
 import { makeTempFile } from '@std/fs/unstable-make-temp-file';
 import { writeFile } from '@std/fs/unstable-write-file';
-import { extname } from 'node:path';
+import { spawn, YAML } from 'bun';
 import ky from 'ky';
+import { extname } from 'node:path';
 
 export async function komac(...args: string[]) {
 	const proc = spawn(['komac', ...args], { stdout: 'pipe', stderr: 'pipe' });

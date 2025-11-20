@@ -48,6 +48,14 @@
 						"preRelease": {
 							"default": false,
 							"type": "boolean"
+						},
+						"fetchUrlsFromApi": {
+							"default": false,
+							"description": "Fetch asset download URLs via the GitHub Releases API instead of relying on templates.",
+							"type": "boolean"
+						},
+						"tagFilter": {
+							"type": "string"
 						}
 					},
 					"required": ["owner", "repo"],
@@ -62,7 +70,7 @@
 					}
 				}
 			},
-			"required": ["packageId", "strategy", "github", "urls"],
+			"required": ["packageId", "strategy", "github"],
 			"additionalProperties": false
 		},
 		{

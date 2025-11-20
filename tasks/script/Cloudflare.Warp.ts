@@ -6,13 +6,13 @@ export default async function () {
 		'https://downloads.cloudflareclient.com/v1/update/json/windows/ga',
 	).json<{ items: Array<{ version: string; releaseDate: string }> }>();
 
-	const version = vs(response.items[0]?.version);
+	const version = response.items[0]?.version;
 	const urls = [
 		`https://downloads.cloudflareclient.com/v1/download/windows/version/${version}`,
 	];
 
 	return {
-		version: version.substring(2),
+		version: version?.substring(2),
 		urls,
 		args: [
 			'--release-notes-url',

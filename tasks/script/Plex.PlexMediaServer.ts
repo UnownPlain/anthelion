@@ -1,4 +1,3 @@
-import { vs } from '@/helpers.ts';
 import ky from 'ky';
 
 export default async function () {
@@ -11,10 +10,10 @@ export default async function () {
 		};
 	}>();
 
-	const version = vs(releases.computer.Windows.version.split('-')[0]);
+	const version = releases.computer.Windows.version.split('-')[0];
 	const urls = [
-		vs(releases.computer.Windows.releases[0]?.url),
-		vs(releases.computer.Windows.releases[1]?.url),
+		releases.computer.Windows.releases[0]?.url,
+		releases.computer.Windows.releases[1]?.url,
 	];
 
 	return {

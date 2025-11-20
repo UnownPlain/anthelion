@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "AGSProjectTeam.AdventureGameStudio",
+	"strategy": "github-release",
+	"github": {
+		"owner": "adventuregamestudio",
+		"repo": "ags",
+		"fetchUrlsFromApi": true
+	}
+}

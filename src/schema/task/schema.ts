@@ -13,6 +13,14 @@ const githubSchema = z.object({
 	owner: z.string(),
 	repo: z.string(),
 	preRelease: z.boolean().default(false).optional(),
+	fetchUrlsFromApi: z
+		.boolean()
+		.describe(
+			'Fetch asset download URLs via the GitHub Releases API instead of relying on templates.',
+		)
+		.default(false)
+		.optional(),
+	tagFilter: z.string().optional(),
 });
 
 const pageMatchSchema = z.object({
@@ -60,15 +68,35 @@ const baseTaskFields = {
 	versionRemove: versionRemoveSchema,
 };
 
-const githubReleaseVariant = z.object({
-	...baseTaskFields,
-	strategy: z.literal(Strategy.GithubRelease),
-	github: githubSchema,
-	urls: z
-		.array(z.string())
-		.min(1)
-		.describe('Template or literal URLs with {version} placeholder.'),
-});
+const githubReleaseVariant = z
+	.object({
+		...baseTaskFields,
+		strategy: z.literal(Strategy.GithubRelease),
+		github: githubSchema,
+		urls: z
+			.array(z.string())
+			.min(1)
+			.describe('Template or literal URLs with {version} placeholder.')
+			.optional(),
+	})
+	.superRefine((task, ctx) => {
+		const fetchUrlsFromApi = task.github.fetchUrlsFromApi;
+		if (fetchUrlsFromApi && task.urls && task.urls.length > 0) {
+			ctx.addIssue({
+				code: 'custom',
+				message:
+					'Cannot provide URL templates when fetching from the GitHub Releases API.',
+				path: ['urls'],
+			});
+		} else if (!fetchUrlsFromApi && (!task.urls || task.urls.length === 0)) {
+			ctx.addIssue({
+				code: 'custom',
+				message:
+					'At least one URL template is required unless fetchUrlsFromApi is enabled.',
+				path: ['urls'],
+			});
+		}
+	});
 
 const pageMatchVariant = z.object({
 	...baseTaskFields,
