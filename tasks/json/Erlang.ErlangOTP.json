@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Erlang.ErlangOTP",
+	"strategy": "github-release",
+	"github": { "owner": "erlang", "repo": "otp" },
+	"urls": [
+		"https://github.com/erlang/otp/releases/download/OTP-{version}/otp_win32_{version}.exe",
+		"https://github.com/erlang/otp/releases/download/OTP-{version}/otp_win64_{version}.exe"
+	]
+}

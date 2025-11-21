@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "SaladTechnologies.Salad",
+	"strategy": "github-release",
+	"github": { "owner": "SaladTechnologies", "repo": "salad-applications" },
+	"urls": [
+		"https://github.com/SaladTechnologies/salad-applications/releases/download/{version}/Salad-{version}.exe"
+	]
+}

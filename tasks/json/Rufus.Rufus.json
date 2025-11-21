@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Rufus.Rufus",
+	"strategy": "github-release",
+	"github": { "owner": "pbatard", "repo": "rufus" },
+	"urls": [
+		"https://github.com/pbatard/rufus/releases/download/v{version}/rufus-{version}.exe",
+		"https://github.com/pbatard/rufus/releases/download/v{version}/rufus-{version}_x86.exe",
+		"https://github.com/pbatard/rufus/releases/download/v{version}/rufus-{version}_arm64.exe"
+	]
+}

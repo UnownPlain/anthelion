@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "FluxCD.Flux",
+	"strategy": "github-release",
+	"github": { "owner": "fluxcd", "repo": "flux2" },
+	"urls": [
+		"https://github.com/fluxcd/flux2/releases/download/v{version}/flux_{version}_windows_amd64.zip",
+		"https://github.com/fluxcd/flux2/releases/download/v{version}/flux_{version}_windows_arm64.zip"
+	]
+}
