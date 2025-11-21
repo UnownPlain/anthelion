@@ -6,5 +6,6 @@
 	"urls": [
 		"https://github.com/erlang/otp/releases/download/OTP-{version}/otp_win32_{version}.exe",
 		"https://github.com/erlang/otp/releases/download/OTP-{version}/otp_win64_{version}.exe"
-	]
+	],
+	"versionRemove": "OTP-"
 }
