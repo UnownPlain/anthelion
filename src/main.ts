@@ -78,6 +78,9 @@ export async function executeTask(file: Dirent) {
 				});
 				version = latest.version;
 				if (task.github.fetchUrlsFromApi) {
+					if (latest.urls.length === 0) {
+						throw new Error('No URLs found in GitHub release');
+					}
 					urls = urls.concat(latest.urls);
 				}
 				break;
