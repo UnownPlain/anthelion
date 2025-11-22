@@ -4,6 +4,6 @@
 	"strategy": "github-release",
 	"github": { "owner": "SaladTechnologies", "repo": "salad-applications" },
 	"urls": [
-		"https://github.com/SaladTechnologies/salad-applications/releases/download/{version}/Salad-{version}.exe"
+		"https://github.com/SaladTechnologies/salad-applications/releases/download/{version}/Salad-{version}.exe|x64"
 	]
 }
