@@ -5,7 +5,7 @@ import { match, vs } from '@/helpers.ts';
 import { readTextFileSync } from '@std/fs/unstable-read-text-file';
 import process from 'node:process';
 
-const VERSION_REGEX = /(?<=Twilight build - )\S+/;
+const VERSION_REGEX = /Twilight build - (\S+)/;
 const VERSION_STATE_PATH = 'version_state/Zen-Team.Zen-Browser.Twilight';
 const PACKAGE_ID = 'Zen-Team.Zen-Browser.Twilight';
 const DOWNLOAD_URLS = [
@@ -26,8 +26,8 @@ export default async function () {
 		return 'Current version matches latest version.\n';
 	}
 
-	const version = vs(match(latestVersion, VERSION_REGEX)[0]);
-	const repoVersion = match(vs(currentVersion), VERSION_REGEX)[0];
+	const version = match(latestVersion, VERSION_REGEX)[0];
+	const repoVersion = match(currentVersion, VERSION_REGEX)[0];
 
 	const options = ['--skip-pr-check'];
 

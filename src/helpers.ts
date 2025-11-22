@@ -43,10 +43,13 @@ export function vs(str: unknown) {
 	return z.string().parse(str).trim();
 }
 
-export function match(str: string, regex: RegExp): string[] {
+export function match(str: string, regex: RegExp): [string, ...string[]] {
 	const match = str.match(regex);
-	if (!match || match.some((m) => m === undefined)) {
+	const groups = match?.slice(1);
+
+	if (!groups || groups.length === 0 || groups.some((g) => g === undefined)) {
 		throw new Error('Regex match not found');
 	}
-	return Array.from(match).slice(1);
+
+	return groups as [string, ...string[]];
 }
