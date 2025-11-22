@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Jellyfin.JellyfinMediaPlayer",
+	"strategy": "github-release",
+	"github": { "owner": "jellyfin", "repo": "jellyfin-media-player" },
+	"urls": [
+		"https://github.com/jellyfin/jellyfin-media-player/releases/download/v{version}/JellyfinMediaPlayer-{version}-windows-x64.exe"
+	]
+}

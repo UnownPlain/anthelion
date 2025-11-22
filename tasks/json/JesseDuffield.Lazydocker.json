@@ -1,0 +1,12 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "JesseDuffield.Lazydocker",
+	"strategy": "github-release",
+	"github": { "owner": "jesseduffield", "repo": "lazydocker" },
+	"urls": [
+		"https://github.com/jesseduffield/lazydocker/releases/download/v{version}/lazydocker_{version}_Windows_x86.zip",
+		"https://github.com/jesseduffield/lazydocker/releases/download/v{version}/lazydocker_{version}_Windows_x86_64.zip",
+		"https://github.com/jesseduffield/lazydocker/releases/download/v{version}/lazydocker_{version}_Windows_armv7.zip",
+		"https://github.com/jesseduffield/lazydocker/releases/download/v{version}/lazydocker_{version}_Windows_arm64.zip"
+	]
+}

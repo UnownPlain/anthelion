@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "jqlang.jq",
+	"strategy": "github-release",
+	"github": { "owner": "jqlang", "repo": "jq" },
+	"urls": [
+		"https://github.com/jqlang/jq/releases/download/jq-{version}/jq-windows-amd64.exe",
+		"https://github.com/jqlang/jq/releases/download/jq-{version}/jq-windows-i386.exe"
+	],
+	"versionRemove": "jq-"
+}
