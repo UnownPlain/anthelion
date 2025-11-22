@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Streamlabs.Streamlabs",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://slobs-cdn.streamlabs.com/latest.yml"
+	},
+	"urls": [
+		"https://slobs-cdn.streamlabs.com/Streamlabs+Desktop+Setup+{version}.exe"
+	]
+}
