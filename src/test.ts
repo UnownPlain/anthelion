@@ -9,8 +9,8 @@ const files = readdirSync(SCRIPTS_FOLDER, { withFileTypes: true }).concat(
 );
 
 const file =
-	files.find((t) => t.name === `${task}.ts` || t.name === `${task}.json`) ||
-	files.find((t) => basename(t.name).includes(basename(task)));
+	files.find((t) => basename(t.name) === basename(task)) ||
+	files.find((t) => t.name === `${task}.ts` || t.name === `${task}.json`);
 
 if (!file) {
 	console.log(`Task ${task} not found`);
