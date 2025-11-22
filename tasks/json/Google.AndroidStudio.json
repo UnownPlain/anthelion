@@ -7,7 +7,7 @@
 		"regex": "android[._-]studio[._-]v?(\\d+(?:\\.\\d+)+)[._-]windows\\.exe"
 	},
 	"urls": [
-		"https://redirector.gvt1.com/edgedl/android/studio/install/{version}/android-studio-{version}-windows.exe"
+		"https://redirector.gvt1.com/edgedl/android/studio/install/{version}/android-studio-{version}-windows.exe|x64"
 	],
 	"releaseNotes": "https://androidstudio.googleblog.com/"
 }
