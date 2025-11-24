@@ -26,25 +26,17 @@ export async function getLatestVersion(options: {
 
 	const urls = releases[0].assets
 		.filter((asset) =>
-			['.exe', '.msi', '.msix', '.msixbundle', '.appx'].includes(
-				extname(asset.name),
-			),
+			['.exe', '.msi', '.msix', '.msixbundle', '.appx'].includes(extname(asset.name)),
 		)
 		.map((asset) => asset.browser_download_url);
 
 	return {
-		version: releases[0].tag_name
-			.replace(/^v/, '')
-			.replace(tagFilter ?? '', ''),
+		version: releases[0].tag_name.replace(/^v/, '').replace(tagFilter ?? '', ''),
 		urls,
 	};
 }
 
-export async function getAllReleases(
-	owner: string,
-	repo: string,
-	preRelease?: boolean,
-) {
+export async function getAllReleases(owner: string, repo: string, preRelease?: boolean) {
 	const { data: releases } = await octokit.rest.repos.listReleases({
 		owner,
 		repo,
@@ -58,11 +50,7 @@ export async function getAllReleases(
 	return releases.filter((release) => release.prerelease === preRelease);
 }
 
-export async function getReleaseByTag(
-	owner: string,
-	repo: string,
-	tag: string,
-) {
+export async function getReleaseByTag(owner: string, repo: string, tag: string) {
 	const release = await octokit.rest.repos.getReleaseByTag({
 		owner,
 		repo,
@@ -77,9 +65,7 @@ export async function getRepoHeadSha() {
 	const REPO = process.env.GITHUB_REPOSITORY;
 
 	if (!REPO_OWNER || !REPO) {
-		throw new Error(
-			'Missing GITHUB_REPOSITORY_OWNER or GITHUB_REPOSITORY environment variable',
-		);
+		throw new Error('Missing GITHUB_REPOSITORY_OWNER or GITHUB_REPOSITORY environment variable');
 	}
 
 	const parts = REPO.split('/');

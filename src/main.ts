@@ -1,11 +1,7 @@
 import { getLatestVersion } from '@/github';
 import { Logger, vs } from '@/helpers';
 import { updatePackage } from '@/komac';
-import {
-	JsonTaskSchema,
-	ScriptTaskResult,
-	Strategy,
-} from '@/schema/task/schema';
+import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
 import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
 import { getProperty } from 'dot-prop';
 import { Semaphore } from 'es-toolkit';
@@ -18,11 +14,7 @@ const MANIFEST_URL =
 	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests/';
 const semaphore = new Semaphore(32);
 
-async function checkVersionInRepo(
-	version: string,
-	packageId: string,
-	logger: Logger,
-) {
+async function checkVersionInRepo(version: string, packageId: string, logger: Logger) {
 	const manifestPath = `${MANIFEST_URL}/${packageId.charAt(0).toLowerCase()}/${packageId
 		.split('.')
 		.join('/')}/${version}/${packageId}.yaml`;
@@ -87,10 +79,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 			version = await electronBuilder(task.electronBuilder.url);
 			break;
 		case Strategy.PageMatch:
-			version = await pageMatch(
-				task.pageMatch.url,
-				new RegExp(task.pageMatch.regex, 'i'),
-			);
+			version = await pageMatch(task.pageMatch.url, new RegExp(task.pageMatch.regex, 'i'));
 			break;
 		case Strategy.Json: {
 			const response = await ky(task.json.url).json();
@@ -125,20 +114,12 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	if (task.versionRemove) version = version.replace(task.versionRemove, '');
 	if (task.replace) args.push('-r');
 	if (task.releaseNotes)
-		args.push(
-			'--release-notes-url',
-			task.releaseNotes.replaceAll('{version}', version),
-		);
+		args.push('--release-notes-url', task.releaseNotes.replaceAll('{version}', version));
 	urls = urls.map((t) => t.replaceAll('{version}', version));
 
 	logger.details(version, urls);
 
-	const updateResult = await updatePackage(
-		task.packageId,
-		version,
-		urls,
-		...args,
-	);
+	const updateResult = await updatePackage(task.packageId, version, urls, ...args);
 
 	logger.log(updateResult + '\n');
 }
@@ -173,14 +154,11 @@ async function runAllTasks() {
 	const failures = results
 		.map((result, i) => ({ result, file: tasks[i] }))
 		.filter(
-			(x): x is { result: PromiseRejectedResult; file: Dirent } =>
-				x.result.status === 'rejected',
+			(x): x is { result: PromiseRejectedResult; file: Dirent } => x.result.status === 'rejected',
 		)
 		.map((r) => Logger.error(r.file.name, `${r.result.reason.message}\n`));
 
-	console.log(
-		`\nCompleted: ${tasks.length - failures.length}/${tasks.length} tasks successful`,
-	);
+	console.log(`\nCompleted: ${tasks.length - failures.length}/${tasks.length} tasks successful`);
 }
 
 if (import.meta.main) {

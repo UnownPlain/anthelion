@@ -30,11 +30,7 @@ export default z
 			.union([
 				z
 					.string()
-					.regex(
-						new RegExp(
-							'^([a-zA-Z]{2,3}|[iI]-[a-zA-Z]+|[xX]-[a-zA-Z]{1,8})(-[a-zA-Z]{1,8})*$',
-						),
-					)
+					.regex(new RegExp('^([a-zA-Z]{2,3}|[iI]-[a-zA-Z]+|[xX]-[a-zA-Z]{1,8})(-[a-zA-Z]{1,8})*$'))
 					.max(20)
 					.describe('The installer meta-data locale'),
 				z.null().describe('The installer meta-data locale'),
@@ -84,20 +80,8 @@ export default z
 			)
 			.optional(),
 		NestedInstallerType: z
-			.enum([
-				'msix',
-				'msi',
-				'appx',
-				'exe',
-				'inno',
-				'nullsoft',
-				'wix',
-				'burn',
-				'portable',
-			])
-			.describe(
-				'Enumeration of supported nested installer types contained inside an archive file',
-			)
+			.enum(['msix', 'msi', 'appx', 'exe', 'inno', 'nullsoft', 'wix', 'burn', 'portable'])
+			.describe('Enumeration of supported nested installer types contained inside an archive file')
 			.optional(),
 		NestedInstallerFiles: z
 			.union([
@@ -133,14 +117,8 @@ export default z
 							.describe('A nested installer file contained inside an archive'),
 					)
 					.max(1024)
-					.describe(
-						'List of nested installer files contained inside an archive',
-					),
-				z
-					.null()
-					.describe(
-						'List of nested installer files contained inside an archive',
-					),
+					.describe('List of nested installer files contained inside an archive'),
+				z.null().describe('List of nested installer files contained inside an archive'),
 			])
 			.describe('List of nested installer files contained inside an archive')
 			.optional(),
@@ -280,18 +258,10 @@ export default z
 							.string()
 							.min(1)
 							.max(2048)
-							.describe(
-								'Custom switches will be passed directly to the installer by winget',
-							),
-						z
-							.null()
-							.describe(
-								'Custom switches will be passed directly to the installer by winget',
-							),
+							.describe('Custom switches will be passed directly to the installer by winget'),
+						z.null().describe('Custom switches will be passed directly to the installer by winget'),
 					])
-					.describe(
-						'Custom switches will be passed directly to the installer by winget',
-					)
+					.describe('Custom switches will be passed directly to the installer by winget')
 					.optional(),
 				Repair: z
 					.union([
@@ -324,9 +294,7 @@ export default z
 								(value) => !z.literal(0).safeParse(value).success,
 								'Invalid input: Should NOT be valid against schema',
 							)
-							.describe(
-								'An exit code that can be returned by the installer after execution',
-							),
+							.describe('An exit code that can be returned by the installer after execution'),
 					)
 					.max(16)
 					.describe(
@@ -353,9 +321,7 @@ export default z
 									(value) => !z.literal(0).safeParse(value).success,
 									'Invalid input: Should NOT be valid against schema',
 								)
-								.describe(
-									'An exit code that can be returned by the installer after execution',
-								),
+								.describe('An exit code that can be returned by the installer after execution'),
 							ReturnResponse: z.enum([
 								'packageInUse',
 								'packageInUseByApplication',
@@ -416,21 +382,14 @@ export default z
 					.array(z.string().max(2048))
 					.max(64)
 					.describe('List of protocols the package provides a handler for'),
-				z
-					.null()
-					.describe('List of protocols the package provides a handler for'),
+				z.null().describe('List of protocols the package provides a handler for'),
 			])
 			.describe('List of protocols the package provides a handler for')
 			.optional(),
 		FileExtensions: z
 			.union([
 				z
-					.array(
-						z
-							.string()
-							.regex(new RegExp('^[^\\\\/:\\*\\?"<>\\|\\x01-\\x1f]+$'))
-							.max(64),
-					)
+					.array(z.string().regex(new RegExp('^[^\\\\/:\\*\\?"<>\\|\\x01-\\x1f]+$')).max(64))
 					.max(512)
 					.describe('List of file extensions the package could support'),
 				z.null().describe('List of file extensions the package could support'),
@@ -484,9 +443,7 @@ export default z
 								)
 								.max(16)
 								.describe('List of package dependencies from current source'),
-							z
-								.null()
-								.describe('List of package dependencies from current source'),
+							z.null().describe('List of package dependencies from current source'),
 						])
 						.describe('List of package dependencies from current source')
 						.optional(),
@@ -529,18 +486,10 @@ export default z
 					.string()
 					.min(1)
 					.max(255)
-					.describe(
-						'ProductCode could be used for correlation of packages across sources',
-					),
-				z
-					.null()
-					.describe(
-						'ProductCode could be used for correlation of packages across sources',
-					),
+					.describe('ProductCode could be used for correlation of packages across sources'),
+				z.null().describe('ProductCode could be used for correlation of packages across sources'),
 			])
-			.describe(
-				'ProductCode could be used for correlation of packages across sources',
-			)
+			.describe('ProductCode could be used for correlation of packages across sources')
 			.optional(),
 		Capabilities: z
 			.union([
@@ -558,9 +507,7 @@ export default z
 					.array(z.string().min(1).max(40))
 					.max(1000)
 					.describe('List of appx or msix installer restricted capabilities'),
-				z
-					.null()
-					.describe('List of appx or msix installer restricted capabilities'),
+				z.null().describe('List of appx or msix installer restricted capabilities'),
 			])
 			.describe('List of appx or msix installer restricted capabilities')
 			.optional(),
@@ -569,18 +516,10 @@ export default z
 			.union([
 				z
 					.boolean()
-					.describe(
-						'Indicates whether the installer will abort terminal. Default is false',
-					),
-				z
-					.null()
-					.describe(
-						'Indicates whether the installer will abort terminal. Default is false',
-					),
+					.describe('Indicates whether the installer will abort terminal. Default is false'),
+				z.null().describe('Indicates whether the installer will abort terminal. Default is false'),
 			])
-			.describe(
-				'Indicates whether the installer will abort terminal. Default is false',
-			)
+			.describe('Indicates whether the installer will abort terminal. Default is false')
 			.optional(),
 		ReleaseDate: z
 			.union([
@@ -593,35 +532,21 @@ export default z
 			.union([
 				z
 					.boolean()
-					.describe(
-						'Indicates whether the installer requires an install location provided',
-					),
-				z
-					.null()
-					.describe(
-						'Indicates whether the installer requires an install location provided',
-					),
+					.describe('Indicates whether the installer requires an install location provided'),
+				z.null().describe('Indicates whether the installer requires an install location provided'),
 			])
-			.describe(
-				'Indicates whether the installer requires an install location provided',
-			)
+			.describe('Indicates whether the installer requires an install location provided')
 			.optional(),
 		RequireExplicitUpgrade: z
 			.union([
 				z
 					.boolean()
-					.describe(
-						'Indicates whether the installer should be pinned by default from upgrade',
-					),
+					.describe('Indicates whether the installer should be pinned by default from upgrade'),
 				z
 					.null()
-					.describe(
-						'Indicates whether the installer should be pinned by default from upgrade',
-					),
+					.describe('Indicates whether the installer should be pinned by default from upgrade'),
 			])
-			.describe(
-				'Indicates whether the installer should be pinned by default from upgrade',
-			)
+			.describe('Indicates whether the installer should be pinned by default from upgrade')
 			.optional(),
 		DisplayInstallWarnings: z
 			.union([
@@ -645,9 +570,7 @@ export default z
 				z
 					.array(z.enum(['x86', 'x64', 'arm', 'arm64']))
 					.describe('List of OS architectures the installer does not support'),
-				z
-					.null()
-					.describe('List of OS architectures the installer does not support'),
+				z.null().describe('List of OS architectures the installer does not support'),
 			])
 			.describe('List of OS architectures the installer does not support')
 			.optional(),
@@ -656,9 +579,7 @@ export default z
 				z
 					.array(z.enum(['log', 'location']))
 					.describe('List of winget arguments the installer does not support'),
-				z
-					.null()
-					.describe('List of winget arguments the installer does not support'),
+				z.null().describe('List of winget arguments the installer does not support'),
 			])
 			.describe('List of winget arguments the installer does not support')
 			.optional(),
@@ -670,33 +591,21 @@ export default z
 							.object({
 								DisplayName: z
 									.union([
-										z
-											.string()
-											.min(1)
-											.max(256)
-											.describe('The DisplayName registry value'),
+										z.string().min(1).max(256).describe('The DisplayName registry value'),
 										z.null().describe('The DisplayName registry value'),
 									])
 									.describe('The DisplayName registry value')
 									.optional(),
 								Publisher: z
 									.union([
-										z
-											.string()
-											.min(1)
-											.max(256)
-											.describe('The Publisher registry value'),
+										z.string().min(1).max(256).describe('The Publisher registry value'),
 										z.null().describe('The Publisher registry value'),
 									])
 									.describe('The Publisher registry value')
 									.optional(),
 								DisplayVersion: z
 									.union([
-										z
-											.string()
-											.min(1)
-											.max(128)
-											.describe('The DisplayVersion registry value'),
+										z.string().min(1).max(128).describe('The DisplayVersion registry value'),
 										z.null().describe('The DisplayVersion registry value'),
 									])
 									.describe('The DisplayVersion registry value')
@@ -716,9 +625,7 @@ export default z
 												'ProductCode could be used for correlation of packages across sources',
 											),
 									])
-									.describe(
-										'ProductCode could be used for correlation of packages across sources',
-									)
+									.describe('ProductCode could be used for correlation of packages across sources')
 									.optional(),
 								UpgradeCode: z
 									.union([
@@ -735,9 +642,7 @@ export default z
 												'ProductCode could be used for correlation of packages across sources',
 											),
 									])
-									.describe(
-										'ProductCode could be used for correlation of packages across sources',
-									)
+									.describe('ProductCode could be used for correlation of packages across sources')
 									.optional(),
 								InstallerType: z
 									.enum([
@@ -808,9 +713,7 @@ export default z
 													.string()
 													.regex(new RegExp('^[A-Fa-f0-9]{64}$'))
 													.describe('Optional Sha256 of the installed file.'),
-												z
-													.null()
-													.describe('Optional Sha256 of the installed file.'),
+												z.null().describe('Optional Sha256 of the installed file.'),
 											])
 											.describe('Optional Sha256 of the installed file.')
 											.optional(),
@@ -827,9 +730,7 @@ export default z
 													.min(1)
 													.max(2048)
 													.describe('Optional parameter for invocable files.'),
-												z
-													.null()
-													.describe('Optional parameter for invocable files.'),
+												z.null().describe('Optional parameter for invocable files.'),
 											])
 											.describe('Optional parameter for invocable files.')
 											.optional(),
@@ -839,14 +740,8 @@ export default z
 													.string()
 													.min(1)
 													.max(256)
-													.describe(
-														'Optional display name for invocable files.',
-													),
-												z
-													.null()
-													.describe(
-														'Optional display name for invocable files.',
-													),
+													.describe('Optional display name for invocable files.'),
+												z.null().describe('Optional display name for invocable files.'),
 											])
 											.describe('Optional display name for invocable files.')
 											.optional(),
@@ -860,9 +755,7 @@ export default z
 					.describe('List of installed files.')
 					.optional(),
 			})
-			.describe(
-				'Details about the installation. Used for deeper installation detection.',
-			)
+			.describe('Details about the installation. Used for deeper installation detection.')
 			.optional(),
 		DownloadCommandProhibited: z
 			.union([
@@ -907,11 +800,7 @@ export default z
 				z
 					.object({
 						AuthenticationType: z
-							.enum([
-								'none',
-								'microsoftEntraId',
-								'microsoftEntraIdForAzureBlobStorage',
-							])
+							.enum(['none', 'microsoftEntraId', 'microsoftEntraIdForAzureBlobStorage'])
 							.describe('The authentication type'),
 						MicrosoftEntraIdAuthenticationInfo: z
 							.union([
@@ -923,18 +812,12 @@ export default z
 													.string()
 													.min(1)
 													.max(512)
-													.describe(
-														'The resource value for Microsoft Entra Id authentication.',
-													),
+													.describe('The resource value for Microsoft Entra Id authentication.'),
 												z
 													.null()
-													.describe(
-														'The resource value for Microsoft Entra Id authentication.',
-													),
+													.describe('The resource value for Microsoft Entra Id authentication.'),
 											])
-											.describe(
-												'The resource value for Microsoft Entra Id authentication.',
-											)
+											.describe('The resource value for Microsoft Entra Id authentication.')
 											.optional(),
 										Scope: z
 											.union([
@@ -942,18 +825,10 @@ export default z
 													.string()
 													.min(1)
 													.max(512)
-													.describe(
-														'The scope value for Microsoft Entra Id authentication.',
-													),
-												z
-													.null()
-													.describe(
-														'The scope value for Microsoft Entra Id authentication.',
-													),
+													.describe('The scope value for Microsoft Entra Id authentication.'),
+												z.null().describe('The scope value for Microsoft Entra Id authentication.'),
 											])
-											.describe(
-												'The scope value for Microsoft Entra Id authentication.',
-											)
+											.describe('The scope value for Microsoft Entra Id authentication.')
 											.optional(),
 									})
 									.describe('The Microsoft Entra Id authentication info'),
@@ -962,14 +837,8 @@ export default z
 							.describe('The Microsoft Entra Id authentication info')
 							.optional(),
 					})
-					.describe(
-						'The authentication requirement for downloading the installer.',
-					),
-				z
-					.null()
-					.describe(
-						'The authentication requirement for downloading the installer.',
-					),
+					.describe('The authentication requirement for downloading the installer.'),
+				z.null().describe('The authentication requirement for downloading the installer.'),
 			])
 			.describe('The authentication requirement for downloading the installer.')
 			.optional(),
@@ -1011,9 +880,7 @@ export default z
 									),
 								)
 								.describe('The installer minimum operating system version'),
-							z
-								.null()
-								.describe('The installer minimum operating system version'),
+							z.null().describe('The installer minimum operating system version'),
 						])
 						.describe('The installer minimum operating system version')
 						.optional(),
@@ -1039,17 +906,7 @@ export default z
 						)
 						.optional(),
 					NestedInstallerType: z
-						.enum([
-							'msix',
-							'msi',
-							'appx',
-							'exe',
-							'inno',
-							'nullsoft',
-							'wix',
-							'burn',
-							'portable',
-						])
+						.enum(['msix', 'msi', 'appx', 'exe', 'inno', 'nullsoft', 'wix', 'burn', 'portable'])
 						.describe(
 							'Enumeration of supported nested installer types contained inside an archive file',
 						)
@@ -1064,9 +921,7 @@ export default z
 												.string()
 												.min(1)
 												.max(512)
-												.describe(
-													'The relative path to the nested installer file',
-												),
+												.describe('The relative path to the nested installer file'),
 											PortableCommandAlias: z
 												.union([
 													z
@@ -1087,29 +942,17 @@ export default z
 												)
 												.optional(),
 										})
-										.describe(
-											'A nested installer file contained inside an archive',
-										),
+										.describe('A nested installer file contained inside an archive'),
 								)
 								.max(1024)
-								.describe(
-									'List of nested installer files contained inside an archive',
-								),
-							z
-								.null()
-								.describe(
-									'List of nested installer files contained inside an archive',
-								),
+								.describe('List of nested installer files contained inside an archive'),
+							z.null().describe('List of nested installer files contained inside an archive'),
 						])
-						.describe(
-							'List of nested installer files contained inside an archive',
-						)
+						.describe('List of nested installer files contained inside an archive')
 						.optional(),
 					Scope: z
 						.enum(['user', 'machine'])
-						.describe(
-							'Scope indicates if the installer is per user or per machine',
-						)
+						.describe('Scope indicates if the installer is per user or per machine')
 						.optional(),
 					InstallerUrl: z
 						.string()
@@ -1270,18 +1113,12 @@ export default z
 										.string()
 										.min(1)
 										.max(2048)
-										.describe(
-											'Custom switches will be passed directly to the installer by winget',
-										),
+										.describe('Custom switches will be passed directly to the installer by winget'),
 									z
 										.null()
-										.describe(
-											'Custom switches will be passed directly to the installer by winget',
-										),
+										.describe('Custom switches will be passed directly to the installer by winget'),
 								])
-								.describe(
-									'Custom switches will be passed directly to the installer by winget',
-								)
+								.describe('Custom switches will be passed directly to the installer by winget')
 								.optional(),
 							Repair: z
 								.union([
@@ -1314,9 +1151,7 @@ export default z
 											(value) => !z.literal(0).safeParse(value).success,
 											'Invalid input: Should NOT be valid against schema',
 										)
-										.describe(
-											'An exit code that can be returned by the installer after execution',
-										),
+										.describe('An exit code that can be returned by the installer after execution'),
 								)
 								.max(16)
 								.describe(
@@ -1396,9 +1231,7 @@ export default z
 								.array(z.string().min(1).max(40))
 								.max(16)
 								.describe('List of commands or aliases to run the package'),
-							z
-								.null()
-								.describe('List of commands or aliases to run the package'),
+							z.null().describe('List of commands or aliases to run the package'),
 						])
 						.describe('List of commands or aliases to run the package')
 						.optional(),
@@ -1407,31 +1240,18 @@ export default z
 							z
 								.array(z.string().max(2048))
 								.max(64)
-								.describe(
-									'List of protocols the package provides a handler for',
-								),
-							z
-								.null()
-								.describe(
-									'List of protocols the package provides a handler for',
-								),
+								.describe('List of protocols the package provides a handler for'),
+							z.null().describe('List of protocols the package provides a handler for'),
 						])
 						.describe('List of protocols the package provides a handler for')
 						.optional(),
 					FileExtensions: z
 						.union([
 							z
-								.array(
-									z
-										.string()
-										.regex(new RegExp('^[^\\\\/:\\*\\?"<>\\|\\x01-\\x1f]+$'))
-										.max(64),
-								)
+								.array(z.string().regex(new RegExp('^[^\\\\/:\\*\\?"<>\\|\\x01-\\x1f]+$')).max(64))
 								.max(512)
 								.describe('List of file extensions the package could support'),
-							z
-								.null()
-								.describe('List of file extensions the package could support'),
+							z.null().describe('List of file extensions the package could support'),
 						])
 						.describe('List of file extensions the package could support')
 						.optional(),
@@ -1474,23 +1294,15 @@ export default z
 														.describe('The package unique identifier'),
 													MinimumVersion: z
 														.string()
-														.regex(
-															new RegExp('^[^\\\\/:\\*\\?"<>\\|\\x01-\\x1f]+$'),
-														)
+														.regex(new RegExp('^[^\\\\/:\\*\\?"<>\\|\\x01-\\x1f]+$'))
 														.max(128)
 														.describe('The package version')
 														.optional(),
 												}),
 											)
 											.max(16)
-											.describe(
-												'List of package dependencies from current source',
-											),
-										z
-											.null()
-											.describe(
-												'List of package dependencies from current source',
-											),
+											.describe('List of package dependencies from current source'),
+										z.null().describe('List of package dependencies from current source'),
 									])
 									.describe('List of package dependencies from current source')
 									.optional(),
@@ -1512,9 +1324,7 @@ export default z
 						.union([
 							z
 								.string()
-								.regex(
-									new RegExp('^[A-Za-z0-9][-\\.A-Za-z0-9]+_[A-Za-z0-9]{13}$'),
-								)
+								.regex(new RegExp('^[A-Za-z0-9][-\\.A-Za-z0-9]+_[A-Za-z0-9]{13}$'))
 								.max(255)
 								.describe(
 									'PackageFamilyName for appx or msix installer. Could be used for correlation of packages across sources',
@@ -1535,18 +1345,12 @@ export default z
 								.string()
 								.min(1)
 								.max(255)
-								.describe(
-									'ProductCode could be used for correlation of packages across sources',
-								),
+								.describe('ProductCode could be used for correlation of packages across sources'),
 							z
 								.null()
-								.describe(
-									'ProductCode could be used for correlation of packages across sources',
-								),
+								.describe('ProductCode could be used for correlation of packages across sources'),
 						])
-						.describe(
-							'ProductCode could be used for correlation of packages across sources',
-						)
+						.describe('ProductCode could be used for correlation of packages across sources')
 						.optional(),
 					Capabilities: z
 						.union([
@@ -1563,14 +1367,8 @@ export default z
 							z
 								.array(z.string().min(1).max(40))
 								.max(1000)
-								.describe(
-									'List of appx or msix installer restricted capabilities',
-								),
-							z
-								.null()
-								.describe(
-									'List of appx or msix installer restricted capabilities',
-								),
+								.describe('List of appx or msix installer restricted capabilities'),
+							z.null().describe('List of appx or msix installer restricted capabilities'),
 						])
 						.describe('List of appx or msix installer restricted capabilities')
 						.optional(),
@@ -1579,18 +1377,12 @@ export default z
 						.union([
 							z
 								.boolean()
-								.describe(
-									'Indicates whether the installer will abort terminal. Default is false',
-								),
+								.describe('Indicates whether the installer will abort terminal. Default is false'),
 							z
 								.null()
-								.describe(
-									'Indicates whether the installer will abort terminal. Default is false',
-								),
+								.describe('Indicates whether the installer will abort terminal. Default is false'),
 						])
-						.describe(
-							'Indicates whether the installer will abort terminal. Default is false',
-						)
+						.describe('Indicates whether the installer will abort terminal. Default is false')
 						.optional(),
 					ReleaseDate: z
 						.union([
@@ -1603,18 +1395,12 @@ export default z
 						.union([
 							z
 								.boolean()
-								.describe(
-									'Indicates whether the installer requires an install location provided',
-								),
+								.describe('Indicates whether the installer requires an install location provided'),
 							z
 								.null()
-								.describe(
-									'Indicates whether the installer requires an install location provided',
-								),
+								.describe('Indicates whether the installer requires an install location provided'),
 						])
-						.describe(
-							'Indicates whether the installer requires an install location provided',
-						)
+						.describe('Indicates whether the installer requires an install location provided')
 						.optional(),
 					RequireExplicitUpgrade: z
 						.union([
@@ -1629,9 +1415,7 @@ export default z
 									'Indicates whether the installer should be pinned by default from upgrade',
 								),
 						])
-						.describe(
-							'Indicates whether the installer should be pinned by default from upgrade',
-						)
+						.describe('Indicates whether the installer should be pinned by default from upgrade')
 						.optional(),
 					DisplayInstallWarnings: z
 						.union([
@@ -1654,14 +1438,8 @@ export default z
 						.union([
 							z
 								.array(z.enum(['x86', 'x64', 'arm', 'arm64']))
-								.describe(
-									'List of OS architectures the installer does not support',
-								),
-							z
-								.null()
-								.describe(
-									'List of OS architectures the installer does not support',
-								),
+								.describe('List of OS architectures the installer does not support'),
+							z.null().describe('List of OS architectures the installer does not support'),
 						])
 						.describe('List of OS architectures the installer does not support')
 						.optional(),
@@ -1669,14 +1447,8 @@ export default z
 						.union([
 							z
 								.array(z.enum(['log', 'location']))
-								.describe(
-									'List of winget arguments the installer does not support',
-								),
-							z
-								.null()
-								.describe(
-									'List of winget arguments the installer does not support',
-								),
+								.describe('List of winget arguments the installer does not support'),
+							z.null().describe('List of winget arguments the installer does not support'),
 						])
 						.describe('List of winget arguments the installer does not support')
 						.optional(),
@@ -1688,36 +1460,22 @@ export default z
 										.object({
 											DisplayName: z
 												.union([
-													z
-														.string()
-														.min(1)
-														.max(256)
-														.describe('The DisplayName registry value'),
+													z.string().min(1).max(256).describe('The DisplayName registry value'),
 													z.null().describe('The DisplayName registry value'),
 												])
 												.describe('The DisplayName registry value')
 												.optional(),
 											Publisher: z
 												.union([
-													z
-														.string()
-														.min(1)
-														.max(256)
-														.describe('The Publisher registry value'),
+													z.string().min(1).max(256).describe('The Publisher registry value'),
 													z.null().describe('The Publisher registry value'),
 												])
 												.describe('The Publisher registry value')
 												.optional(),
 											DisplayVersion: z
 												.union([
-													z
-														.string()
-														.min(1)
-														.max(128)
-														.describe('The DisplayVersion registry value'),
-													z
-														.null()
-														.describe('The DisplayVersion registry value'),
+													z.string().min(1).max(128).describe('The DisplayVersion registry value'),
+													z.null().describe('The DisplayVersion registry value'),
 												])
 												.describe('The DisplayVersion registry value')
 												.optional(),
@@ -1821,22 +1579,14 @@ export default z
 														.string()
 														.min(1)
 														.max(2048)
-														.describe(
-															'The relative path to the installed file.',
-														),
+														.describe('The relative path to the installed file.'),
 													FileSha256: z
 														.union([
 															z
 																.string()
 																.regex(new RegExp('^[A-Fa-f0-9]{64}$'))
-																.describe(
-																	'Optional Sha256 of the installed file.',
-																),
-															z
-																.null()
-																.describe(
-																	'Optional Sha256 of the installed file.',
-																),
+																.describe('Optional Sha256 of the installed file.'),
+															z.null().describe('Optional Sha256 of the installed file.'),
 														])
 														.describe('Optional Sha256 of the installed file.')
 														.optional(),
@@ -1852,14 +1602,8 @@ export default z
 																.string()
 																.min(1)
 																.max(2048)
-																.describe(
-																	'Optional parameter for invocable files.',
-																),
-															z
-																.null()
-																.describe(
-																	'Optional parameter for invocable files.',
-																),
+																.describe('Optional parameter for invocable files.'),
+															z.null().describe('Optional parameter for invocable files.'),
 														])
 														.describe('Optional parameter for invocable files.')
 														.optional(),
@@ -1869,18 +1613,10 @@ export default z
 																.string()
 																.min(1)
 																.max(256)
-																.describe(
-																	'Optional display name for invocable files.',
-																),
-															z
-																.null()
-																.describe(
-																	'Optional display name for invocable files.',
-																),
+																.describe('Optional display name for invocable files.'),
+															z.null().describe('Optional display name for invocable files.'),
 														])
-														.describe(
-															'Optional display name for invocable files.',
-														)
+														.describe('Optional display name for invocable files.')
 														.optional(),
 												})
 												.describe('Represents an installed file.'),
@@ -1892,9 +1628,7 @@ export default z
 								.describe('List of installed files.')
 								.optional(),
 						})
-						.describe(
-							'Details about the installation. Used for deeper installation detection.',
-						)
+						.describe('Details about the installation. Used for deeper installation detection.')
 						.optional(),
 					DownloadCommandProhibited: z
 						.union([
@@ -1939,11 +1673,7 @@ export default z
 							z
 								.object({
 									AuthenticationType: z
-										.enum([
-											'none',
-											'microsoftEntraId',
-											'microsoftEntraIdForAzureBlobStorage',
-										])
+										.enum(['none', 'microsoftEntraId', 'microsoftEntraIdForAzureBlobStorage'])
 										.describe('The authentication type'),
 									MicrosoftEntraIdAuthenticationInfo: z
 										.union([
@@ -1964,9 +1694,7 @@ export default z
 																	'The resource value for Microsoft Entra Id authentication.',
 																),
 														])
-														.describe(
-															'The resource value for Microsoft Entra Id authentication.',
-														)
+														.describe('The resource value for Microsoft Entra Id authentication.')
 														.optional(),
 													Scope: z
 														.union([
@@ -1974,40 +1702,24 @@ export default z
 																.string()
 																.min(1)
 																.max(512)
-																.describe(
-																	'The scope value for Microsoft Entra Id authentication.',
-																),
+																.describe('The scope value for Microsoft Entra Id authentication.'),
 															z
 																.null()
-																.describe(
-																	'The scope value for Microsoft Entra Id authentication.',
-																),
+																.describe('The scope value for Microsoft Entra Id authentication.'),
 														])
-														.describe(
-															'The scope value for Microsoft Entra Id authentication.',
-														)
+														.describe('The scope value for Microsoft Entra Id authentication.')
 														.optional(),
 												})
 												.describe('The Microsoft Entra Id authentication info'),
-											z
-												.null()
-												.describe('The Microsoft Entra Id authentication info'),
+											z.null().describe('The Microsoft Entra Id authentication info'),
 										])
 										.describe('The Microsoft Entra Id authentication info')
 										.optional(),
 								})
-								.describe(
-									'The authentication requirement for downloading the installer.',
-								),
-							z
-								.null()
-								.describe(
-									'The authentication requirement for downloading the installer.',
-								),
+								.describe('The authentication requirement for downloading the installer.'),
+							z.null().describe('The authentication requirement for downloading the installer.'),
 						])
-						.describe(
-							'The authentication requirement for downloading the installer.',
-						)
+						.describe('The authentication requirement for downloading the installer.')
 						.optional(),
 				}),
 			)

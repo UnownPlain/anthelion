@@ -35,12 +35,7 @@ export default async function () {
 		options.push('-r');
 	}
 
-	const output = await updatePackage(
-		PACKAGE_ID,
-		version,
-		DOWNLOAD_URLS,
-		...options,
-	);
+	const output = await updatePackage(PACKAGE_ID, version, DOWNLOAD_URLS, ...options);
 
 	const mutation = `
 		mutation UpdateFile($input: CreateCommitOnBranchInput!) {

@@ -40,11 +40,7 @@ const electronBuilderSchema = z.object({
 
 const jsonStrategySchema = z.object({
 	url: z.url().describe('Endpoint returning JSON.'),
-	path: z
-		.string()
-		.describe(
-			'Dot-separated path to string value (arrays use numeric indexes).',
-		),
+	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
 });
 
 const versionRemoveSchema = z
@@ -84,15 +80,13 @@ const githubReleaseVariant = z
 		if (fetchUrlsFromApi && task.urls && task.urls.length > 0) {
 			ctx.addIssue({
 				code: 'custom',
-				message:
-					'Cannot provide URL templates when fetching from the GitHub Releases API.',
+				message: 'Cannot provide URL templates when fetching from the GitHub Releases API.',
 				path: ['urls'],
 			});
 		} else if (!fetchUrlsFromApi && (!task.urls || task.urls.length === 0)) {
 			ctx.addIssue({
 				code: 'custom',
-				message:
-					'At least one URL template is required unless fetchUrlsFromApi is enabled.',
+				message: 'At least one URL template is required unless fetchUrlsFromApi is enabled.',
 				path: ['urls'],
 			});
 		}
@@ -102,10 +96,7 @@ const pageMatchVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.PageMatch),
 	pageMatch: pageMatchSchema,
-	urls: z
-		.array(z.string())
-		.min(1)
-		.describe('Template or literal URLs with {version} placeholder.'),
+	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
 });
 
 const redirectMatchVariant = z.object({
@@ -123,20 +114,14 @@ const electronBuilderVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.ElectronBuilder),
 	electronBuilder: electronBuilderSchema,
-	urls: z
-		.array(z.string())
-		.min(1)
-		.describe('Template or literal URLs with {version} placeholder.'),
+	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
 });
 
 const jsonVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.Json),
 	json: jsonStrategySchema,
-	urls: z
-		.array(z.string())
-		.min(1)
-		.describe('Template or literal URLs with {version} placeholder.'),
+	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
 });
 
 export const JsonTaskSchema = z.discriminatedUnion('strategy', [
@@ -161,9 +146,7 @@ export async function generateJsonTaskSchema() {
 		'./src/schema/task/schema.json',
 		encoder.encode(JSON.stringify(z.toJSONSchema(JsonTaskSchema), null, 2)),
 	);
-	console.log(
-		'Successfully generated JSON schema: src/schema/task/schema.json',
-	);
+	console.log('Successfully generated JSON schema: src/schema/task/schema.json');
 }
 
 if (import.meta.main) {
