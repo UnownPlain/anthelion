@@ -3,8 +3,7 @@ import ky from 'ky';
 
 export default async function () {
 	const response = await ky('https://www.virtualbox.org/wiki/Downloads').text();
-	const regex =
-		/href=.*?VirtualBox[._-]v?(\d+(?:\.\d+)+)[._-](\d+)[._-]Win\.exe/i;
+	const regex = /href=.*?VirtualBox[._-]v?(\d+(?:\.\d+)+)[._-](\d+)[._-]Win\.exe/i;
 
 	const [version, version2] = match(response, regex);
 	const urls = [

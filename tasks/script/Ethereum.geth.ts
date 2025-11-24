@@ -5,9 +5,7 @@ export default async function () {
 		'https://geth.ethereum.org/downloads',
 		/ href=.[^"' >]*geth-windows-amd64-(\d+\.\d+\.\d+-[0-9a-f]{8})\.exe/i,
 	);
-	const urls = [
-		`https://gethstore.blob.core.windows.net/builds/geth-windows-amd64-${version}.exe`,
-	];
+	const urls = [`https://gethstore.blob.core.windows.net/builds/geth-windows-amd64-${version}.exe`];
 
 	return {
 		version: version.slice(0, -9),

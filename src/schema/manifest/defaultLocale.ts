@@ -19,11 +19,7 @@ export default z
 			.describe('The package version'),
 		PackageLocale: z
 			.string()
-			.regex(
-				new RegExp(
-					'^([a-zA-Z]{2,3}|[iI]-[a-zA-Z]+|[xX]-[a-zA-Z]{1,8})(-[a-zA-Z]{1,8})*$',
-				),
-			)
+			.regex(new RegExp('^([a-zA-Z]{2,3}|[iI]-[a-zA-Z]+|[xX]-[a-zA-Z]{1,8})(-[a-zA-Z]{1,8})*$'))
 			.max(20)
 			.describe('The package meta-data locale')
 			.default('en-US'),
@@ -110,11 +106,7 @@ export default z
 			])
 			.describe('Optional Url type')
 			.optional(),
-		ShortDescription: z
-			.string()
-			.min(3)
-			.max(256)
-			.describe('The short package description'),
+		ShortDescription: z.string().min(3).max(256).describe('The short package description'),
 		Description: z
 			.union([
 				z.string().min(3).max(10000).describe('The full package description'),
@@ -172,11 +164,7 @@ export default z
 								.optional(),
 							Agreement: z
 								.union([
-									z
-										.string()
-										.min(1)
-										.max(10000)
-										.describe('The agreement text content.'),
+									z.string().min(1).max(10000).describe('The agreement text content.'),
 									z.null().describe('The agreement text content.'),
 								])
 								.describe('The agreement text content.')
@@ -233,18 +221,12 @@ export default z
 					.string()
 					.min(1)
 					.max(10000)
-					.describe(
-						'The notes displayed to the user upon completion of a package installation.',
-					),
+					.describe('The notes displayed to the user upon completion of a package installation.'),
 				z
 					.null()
-					.describe(
-						'The notes displayed to the user upon completion of a package installation.',
-					),
+					.describe('The notes displayed to the user upon completion of a package installation.'),
 			])
-			.describe(
-				'The notes displayed to the user upon completion of a package installation.',
-			)
+			.describe('The notes displayed to the user upon completion of a package installation.')
 			.optional(),
 		Documentations: z
 			.union([
@@ -297,9 +279,7 @@ export default z
 								.regex(new RegExp('^([Hh][Tt][Tt][Pp][Ss]?)://.+$'))
 								.max(2048)
 								.describe('The url of the hosted icon file'),
-							IconFileType: z
-								.enum(['png', 'jpeg', 'ico'])
-								.describe('The icon file type'),
+							IconFileType: z.enum(['png', 'jpeg', 'ico']).describe('The icon file type'),
 							IconResolution: z
 								.enum([
 									'custom',
@@ -340,10 +320,7 @@ export default z
 				z.null(),
 			])
 			.optional(),
-		ManifestType: z
-			.literal('defaultLocale')
-			.describe('The manifest type')
-			.default('defaultLocale'),
+		ManifestType: z.literal('defaultLocale').describe('The manifest type').default('defaultLocale'),
 		ManifestVersion: z
 			.string()
 			.regex(

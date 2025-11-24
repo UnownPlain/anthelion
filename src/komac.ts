@@ -19,16 +19,7 @@ export async function updatePackage(
 	urls: string[],
 	...args: string[]
 ) {
-	return await komac(
-		'update',
-		packageId,
-		`-v`,
-		version,
-		`-u`,
-		...urls,
-		'-s',
-		...args,
-	);
+	return await komac('update', packageId, `-v`, version, `-u`, ...urls, '-s', ...args);
 }
 
 export async function getInstallerInfo(url: string) {

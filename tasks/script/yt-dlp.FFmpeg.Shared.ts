@@ -4,14 +4,9 @@ import { match, vs } from '@/helpers.ts';
 
 export default async function () {
 	const releases = await getAllReleases('yt-dlp', 'FFmpeg-Builds');
-	const date = Temporal.Now.plainDateISO()
-		.add({ days: 1 })
-		.with({ day: 1 })
-		.subtract({ days: 1 });
+	const date = Temporal.Now.plainDateISO().add({ days: 1 }).with({ day: 1 }).subtract({ days: 1 });
 
-	const release = releases.find((release) =>
-		release.tag_name.includes(date.toString()),
-	);
+	const release = releases.find((release) => release.tag_name.includes(date.toString()));
 
 	if (!release) {
 		throw new Error('Failed to find release');
@@ -28,10 +23,7 @@ export default async function () {
 			const url = asset.browser_download_url;
 			return url.includes('arm64') ? `${url}|arm64` : url;
 		});
-	const [version] = match(
-		vs(urls[0]),
-		/ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i,
-	);
+	const [version] = match(vs(urls[0]), /ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i);
 
 	return {
 		version: `N-${version}-${date.toString().replaceAll('-', '')}`,

@@ -7,9 +7,7 @@ export default async function () {
 	).json<{ items: Array<{ version: string; releaseDate: string }> }>();
 
 	const version = response.items[0]?.version;
-	const urls = [
-		`https://downloads.cloudflareclient.com/v1/download/windows/version/${version}`,
-	];
+	const urls = [`https://downloads.cloudflareclient.com/v1/download/windows/version/${version}`];
 
 	return {
 		version: version?.substring(2),

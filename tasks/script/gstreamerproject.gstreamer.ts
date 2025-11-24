@@ -8,9 +8,7 @@ export default async function () {
 	).text();
 	const regex = /href="(\d+\.\d*[02468](?:\.\d+)*)\/"/gi;
 	const matches = versionInfo.matchAll(regex);
-	const versions = sortSemver(
-		Array.from(matches, (match) => vs(match[1])).slice(0, 5),
-	);
+	const versions = sortSemver(Array.from(matches, (match) => vs(match[1])).slice(0, 5));
 
 	const version = vs(versions[0]);
 	const urls = [
