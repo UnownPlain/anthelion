@@ -32,7 +32,7 @@
 		"@types/node": "^24.10.1",
 		"oxfmt": "^0.15.0",
 		"oxlint": "^1.30.0",
-		"oxlint-tsgolint": "^0.8.2",
+		"oxlint-tsgolint": "^0.8.3",
 		"typescript": "^5.9.3"
 	}
 }
