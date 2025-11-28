@@ -1,6 +1,10 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended", ":disableDependencyDashboard"],
+	"extends": [
+		"config:recommended",
+		":disableDependencyDashboard",
+		"security:minimumReleaseAgeNpm"
+	],
 	"rangeStrategy": "bump",
 	"packageRules": [
 		{
@@ -10,7 +14,6 @@
 		},
 		{
 			"matchUpdateTypes": ["minor", "patch"],
-			"matchCurrentVersion": "!/^0/",
 			"automerge": true
 		}
 	]
