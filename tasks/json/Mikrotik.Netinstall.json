@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Mikrotik.Netinstall",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://mikrotik.com/download/tools",
+		"regex": "href=[\"'][^\"']*?netinstall(?:64)?[._-]v?(\\d+(?:\\.\\d+)+)\\.zip"
+	},
+	"urls": [
+		"https://download.mikrotik.com/routeros/{version}/netinstall-{version}.zip",
+		"https://download.mikrotik.com/routeros/{version}/netinstall64-{version}.zip"
+	]
+}

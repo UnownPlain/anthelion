@@ -5,7 +5,11 @@ import ky from 'ky';
 import { extname } from 'node:path';
 
 export async function komac(...args: string[]) {
-	const proc = spawn(['komac', ...args], { stdout: 'pipe', stderr: 'pipe' });
+	const proc = spawn(['komac', ...args], {
+		stdout: 'pipe',
+		stderr: 'pipe',
+		env: { GITHUB_TOKEN: process.env.GITHUB_TOKEN },
+	});
 	await proc.exited;
 	if (proc.exitCode !== 0) {
 		throw new Error((await proc.stderr.text()).trimEnd());

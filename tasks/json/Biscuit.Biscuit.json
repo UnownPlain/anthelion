@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Biscuit.Biscuit",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/agata/dl.biscuit/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/agata/dl.biscuit/releases/download/{version}/Biscuit-{version}-setup.exe"
+	]
+}

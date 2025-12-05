@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "OCaml.opam",
+	"strategy": "github-release",
+	"github": { "owner": "ocaml", "repo": "opam" },
+	"urls": [
+		"https://github.com/ocaml/opam/releases/download/{version}/opam-{version}-x86_64-windows.exe"
+	]
+}
