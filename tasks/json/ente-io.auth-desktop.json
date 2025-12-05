@@ -8,7 +8,6 @@
 		"tagFilter": "auth-v"
 	},
 	"urls": [
-		"https://github.com/ente-io/ente/releases/download/auth-v{version}/ente-auth-v{version}-installer.exe",
-		"https://github.com/ente-io/ente/releases/download/auth-v{version}/ente-auth-v{version}-windows.zip"
+		"https://github.com/ente-io/ente/releases/download/auth-v{version}/ente-auth-v{version}-installer.exe"
 	]
 }

@@ -3,8 +3,8 @@
 	"packageId": "Google.CloudSDK",
 	"strategy": "page-match",
 	"pageMatch": {
-		"url": "https://cloud.google.com/sdk/docs/install-sdk",
-		"regex": "latest\\s*gcloud\\s*CLI\\s*version\\s*\\(v?(\\d+(?:\\.\\d+)+)\\)"
+		"url": "https://docs.cloud.google.com/sdk/docs/install-sdk",
+		"regex": "Install\\s+gcloud\\s+CLI\\s+version\\s+(\\d+(?:\\.\\d+)+)"
 	},
 	"urls": [
 		"https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe"

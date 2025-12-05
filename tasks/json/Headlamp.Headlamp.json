@@ -2,7 +2,11 @@
 	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
 	"packageId": "Headlamp.Headlamp",
 	"strategy": "github-release",
-	"github": { "owner": "kubernetes-sigs", "repo": "headlamp" },
+	"github": {
+		"owner": "kubernetes-sigs",
+		"repo": "headlamp",
+		"tagFilter": "v"
+	},
 	"urls": [
 		"https://github.com/kubernetes-sigs/headlamp/releases/download/v{version}/Headlamp-{version}-win-x64.exe"
 	]

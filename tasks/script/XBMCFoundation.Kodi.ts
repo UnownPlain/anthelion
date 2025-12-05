@@ -10,11 +10,10 @@ export default async function () {
 	const urls = [
 		`https://mirrors.kodi.tv/releases/windows/win64/kodi-${tag}-x64.exe`,
 		`https://mirrors.kodi.tv/releases/windows/win32/kodi-${tag}-x86.exe`,
-		`https://mirrors.kodi.tv/releases/windows/winarm64/kodi-${tag}-arm64.exe`,
 	];
 
 	return {
-		version,
+		version: `${version}.0.0`,
 		urls,
 	};
 }

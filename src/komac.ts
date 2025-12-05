@@ -8,7 +8,6 @@ export async function komac(...args: string[]) {
 	const proc = spawn(['komac', ...args], {
 		stdout: 'pipe',
 		stderr: 'pipe',
-		env: { GITHUB_TOKEN: process.env.GITHUB_TOKEN },
 	});
 	await proc.exited;
 	if (proc.exitCode !== 0) {
