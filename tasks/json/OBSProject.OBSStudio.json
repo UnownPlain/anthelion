@@ -4,6 +4,6 @@
 	"strategy": "github-release",
 	"github": { "owner": "obsproject", "repo": "obs-studio" },
 	"urls": [
-		"https://github.com/obsproject/obs-studio/releases/download/{version}/OBS-Studio-{version}-Windows-Installer.exe"
+		"https://github.com/obsproject/obs-studio/releases/download/{version}/OBS-Studio-{version}-Windows-x64-Installer.exe"
 	]
 }
