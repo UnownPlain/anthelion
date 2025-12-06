@@ -13,7 +13,6 @@
 		"lint": "oxlint --type-aware --fix",
 		"formatcheck": "oxfmt --check",
 		"lintcheck": "oxlint --deny-warnings --type-aware",
-		"typecheck": "tsc",
 		"gen-schema": "bun run src/schema/task/schema.ts && oxfmt"
 	},
 	"dependencies": {
@@ -32,7 +31,6 @@
 		"@types/node": "24.10.1",
 		"oxfmt": "0.16.0",
 		"oxlint": "1.31.0",
-		"oxlint-tsgolint": "0.8.3",
-		"typescript": "5.9.3"
+		"oxlint-tsgolint": "0.8.3"
 	}
 }

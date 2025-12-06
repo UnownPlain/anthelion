@@ -2,8 +2,11 @@ name: Lint Project
 
 on:
   push:
+    branches:
+      - main
     paths-ignore:
       - version_state/**
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -18,7 +21,5 @@ jobs:
         run: bun ci
       - name: Check Formatting
         run: bun formatcheck
-      - name: Lint
+      - name: Lint & Type check
         run: bun lintcheck
-      - name: Typecheck
-        run: bun typecheck
