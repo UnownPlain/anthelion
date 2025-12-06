@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "AltSnap.AltSnap",
+	"strategy": "github-release",
+	"github": { "owner": "RamonUnch", "repo": "AltSnap" },
+	"urls": [
+		"https://github.com/RamonUnch/AltSnap/releases/download/{version}/AltSnap{version}-inst.exe",
+		"https://github.com/RamonUnch/AltSnap/releases/download/{version}/AltSnap{version}-x64-inst.exe"
+	]
+}

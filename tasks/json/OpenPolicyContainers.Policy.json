@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "OpenPolicyContainers.Policy",
+	"strategy": "github-release",
+	"github": { "owner": "opcr-io", "repo": "policy" },
+	"urls": [
+		"https://github.com/opcr-io/policy/releases/download/v{version}/policy{version}_windows_x86_64.zip"
+	]
+}

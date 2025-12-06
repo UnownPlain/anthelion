@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Racket.Racket",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://download.racket-lang.org/all-versions.html",
+		"regex": "href=[\"']?[^\"']*?racket[._-]v?(\\d+(?:\\.\\d+)+)\\.html"
+	},
+	"urls": [
+		"https://download.racket-lang.org/releases/{version}/installers/racket-{version}-x86_64-win32-cs.exe|x64",
+		"https://download.racket-lang.org/releases/{version}/installers/racket-{version}-arm64-win32-cs.exe|arm64"
+	]
+}

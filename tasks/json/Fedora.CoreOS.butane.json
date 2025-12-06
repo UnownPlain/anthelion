@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Fedora.CoreOS.butane",
+	"strategy": "github-release",
+	"github": { "owner": "coreos", "repo": "butane" },
+	"urls": [
+		"https://github.com/coreos/butane/releases/download/v{version}/butane-x86_64-pc-windows-gnu.exe"
+	]
+}

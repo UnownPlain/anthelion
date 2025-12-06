@@ -1,0 +1,11 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Google.Brotli",
+	"strategy": "github-release",
+	"github": { "owner": "google", "repo": "brotli" },
+	"urls": [
+		"https://github.com/google/brotli/releases/download/v{version}/brotli-x86-windows-static.zip",
+		"https://github.com/google/brotli/releases/download/v{version}/brotli-x64-windows-static.zip",
+		"https://github.com/google/brotli/releases/download/v{version}/brotli-arm64-windows-static.zip"
+	]
+}

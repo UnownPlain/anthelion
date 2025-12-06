@@ -1,0 +1,9 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "K8stooling.Kubazulo",
+	"strategy": "github-release",
+	"github": { "owner": "k8stooling", "repo": "kubazulo" },
+	"urls": [
+		"https://github.com/k8stooling/kubazulo/releases/download/v{version}/kubazulo.exe"
+	]
+}
