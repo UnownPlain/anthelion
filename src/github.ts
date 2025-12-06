@@ -10,28 +10,41 @@ export async function getLatestVersion(options: {
 	repo: string;
 	preRelease?: boolean;
 	tagFilter?: string;
+	latest?: boolean;
 }) {
-	const { owner, repo, preRelease = false, tagFilter = '' } = options;
-	const { data } = await octokit.rest.repos.listReleases({
-		owner,
-		repo,
-	});
+	const { owner, repo, preRelease = false, tagFilter = '', latest = false } = options;
 
-	const releases = data.filter(
-		(r) => r.prerelease === preRelease && r.tag_name.includes(tagFilter),
-	);
-	if (!releases[0]) {
-		throw new Error('No releases found');
+	let release;
+
+	if (latest) {
+		const { data } = await octokit.rest.repos.getLatestRelease({
+			owner,
+			repo,
+		});
+		release = data;
+	} else {
+		const { data } = await octokit.rest.repos.listReleases({
+			owner,
+			repo,
+		});
+
+		const releases = data.filter(
+			(r) => r.prerelease === preRelease && r.tag_name.includes(tagFilter),
+		);
+		if (!releases[0]) {
+			throw new Error('No releases found');
+		}
+		release = releases[0];
 	}
 
-	const urls = releases[0].assets
+	const urls = release.assets
 		.filter((asset) =>
 			['.exe', '.msi', '.msix', '.msixbundle', '.appx'].includes(extname(asset.name)),
 		)
 		.map((asset) => asset.browser_download_url);
 
 	return {
-		version: releases[0].tag_name.replace(/^v/, '').replace(tagFilter ?? '', ''),
+		version: release.tag_name.replace(/^v/, '').replace(tagFilter ?? '', ''),
 		urls,
 	};
 }

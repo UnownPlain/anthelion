@@ -1,326 +1,370 @@
 {
-	"$schema": "https://json-schema.org/draft/2020-12/schema",
-	"anyOf": [
-		{
-			"type": "object",
-			"properties": {
-				"$schema": {
-					"description": "Optional JSON Schema reference URL.",
-					"type": "string",
-					"format": "uri"
-				},
-				"packageId": {
-					"description": "Task identifier in winget-pkgs.",
-					"type": "string"
-				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"releaseNotes": {
-					"description": "Optional release notes text. Can contain {version} placeholder.",
-					"type": "string"
-				},
-				"replace": {
-					"description": "Replace latest version with new version.",
-					"default": false,
-					"type": "boolean"
-				},
-				"versionRemove": {
-					"description": "Substring(s) to strip after auto-leading 'v' removal.",
-					"type": "string"
-				},
-				"strategy": {
-					"type": "string",
-					"const": "github-release"
-				},
-				"github": {
-					"type": "object",
-					"properties": {
-						"owner": {
-							"type": "string"
-						},
-						"repo": {
-							"type": "string"
-						},
-						"preRelease": {
-							"default": false,
-							"type": "boolean"
-						},
-						"fetchUrlsFromApi": {
-							"default": false,
-							"description": "Fetch asset download URLs via the GitHub Releases API instead of relying on templates.",
-							"type": "boolean"
-						},
-						"tagFilter": {
-							"type": "string"
-						}
-					},
-					"required": ["owner", "repo"],
-					"additionalProperties": false
-				},
-				"urls": {
-					"description": "Template or literal URLs with {version} placeholder.",
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				}
-			},
-			"required": ["packageId", "strategy", "github"],
-			"additionalProperties": false
-		},
-		{
-			"type": "object",
-			"properties": {
-				"$schema": {
-					"description": "Optional JSON Schema reference URL.",
-					"type": "string",
-					"format": "uri"
-				},
-				"packageId": {
-					"description": "Task identifier in winget-pkgs.",
-					"type": "string"
-				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"releaseNotes": {
-					"description": "Optional release notes text. Can contain {version} placeholder.",
-					"type": "string"
-				},
-				"replace": {
-					"description": "Replace latest version with new version.",
-					"default": false,
-					"type": "boolean"
-				},
-				"versionRemove": {
-					"description": "Substring(s) to strip after auto-leading 'v' removal.",
-					"type": "string"
-				},
-				"strategy": {
-					"type": "string",
-					"const": "page-match"
-				},
-				"pageMatch": {
-					"type": "object",
-					"properties": {
-						"url": {
-							"type": "string",
-							"format": "uri"
-						},
-						"regex": {
-							"type": "string"
-						}
-					},
-					"required": ["url", "regex"],
-					"additionalProperties": false
-				},
-				"urls": {
-					"description": "Template or literal URLs with {version} placeholder.",
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				}
-			},
-			"required": ["packageId", "strategy", "pageMatch", "urls"],
-			"additionalProperties": false
-		},
-		{
-			"type": "object",
-			"properties": {
-				"$schema": {
-					"description": "Optional JSON Schema reference URL.",
-					"type": "string",
-					"format": "uri"
-				},
-				"packageId": {
-					"description": "Task identifier in winget-pkgs.",
-					"type": "string"
-				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"releaseNotes": {
-					"description": "Optional release notes text. Can contain {version} placeholder.",
-					"type": "string"
-				},
-				"replace": {
-					"description": "Replace latest version with new version.",
-					"default": false,
-					"type": "boolean"
-				},
-				"versionRemove": {
-					"description": "Substring(s) to strip after auto-leading 'v' removal.",
-					"type": "string"
-				},
-				"strategy": {
-					"type": "string",
-					"const": "redirect-match"
-				},
-				"redirectMatch": {
-					"type": "object",
-					"properties": {
-						"url": {
-							"type": "string",
-							"format": "uri"
-						},
-						"regex": {
-							"type": "string"
-						},
-						"method": {
-							"default": "head",
-							"type": "string",
-							"enum": ["head", "get"]
-						}
-					},
-					"required": ["url", "regex"],
-					"additionalProperties": false
-				},
-				"urls": {
-					"description": "Template or literal URLs with {version} placeholder.",
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				}
-			},
-			"required": ["packageId", "strategy", "redirectMatch"],
-			"additionalProperties": false
-		},
-		{
-			"type": "object",
-			"properties": {
-				"$schema": {
-					"description": "Optional JSON Schema reference URL.",
-					"type": "string",
-					"format": "uri"
-				},
-				"packageId": {
-					"description": "Task identifier in winget-pkgs.",
-					"type": "string"
-				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"releaseNotes": {
-					"description": "Optional release notes text. Can contain {version} placeholder.",
-					"type": "string"
-				},
-				"replace": {
-					"description": "Replace latest version with new version.",
-					"default": false,
-					"type": "boolean"
-				},
-				"versionRemove": {
-					"description": "Substring(s) to strip after auto-leading 'v' removal.",
-					"type": "string"
-				},
-				"strategy": {
-					"type": "string",
-					"const": "electron-builder"
-				},
-				"electronBuilder": {
-					"type": "object",
-					"properties": {
-						"url": {
-							"description": "Direct YAML URL (latest.yml, beta.yml, etc.).",
-							"type": "string",
-							"format": "uri"
-						}
-					},
-					"required": ["url"],
-					"additionalProperties": false
-				},
-				"urls": {
-					"description": "Template or literal URLs with {version} placeholder.",
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				}
-			},
-			"required": ["packageId", "strategy", "electronBuilder", "urls"],
-			"additionalProperties": false
-		},
-		{
-			"type": "object",
-			"properties": {
-				"$schema": {
-					"description": "Optional JSON Schema reference URL.",
-					"type": "string",
-					"format": "uri"
-				},
-				"packageId": {
-					"description": "Task identifier in winget-pkgs.",
-					"type": "string"
-				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
-				"releaseNotes": {
-					"description": "Optional release notes text. Can contain {version} placeholder.",
-					"type": "string"
-				},
-				"replace": {
-					"description": "Replace latest version with new version.",
-					"default": false,
-					"type": "boolean"
-				},
-				"versionRemove": {
-					"description": "Substring(s) to strip after auto-leading 'v' removal.",
-					"type": "string"
-				},
-				"strategy": {
-					"type": "string",
-					"const": "json"
-				},
-				"json": {
-					"type": "object",
-					"properties": {
-						"url": {
-							"description": "Endpoint returning JSON.",
-							"type": "string",
-							"format": "uri"
-						},
-						"path": {
-							"description": "Dot-separated path to string value (arrays use numeric indexes).",
-							"type": "string"
-						}
-					},
-					"required": ["url", "path"],
-					"additionalProperties": false
-				},
-				"urls": {
-					"description": "Template or literal URLs with {version} placeholder.",
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				}
-			},
-			"required": ["packageId", "strategy", "json", "urls"],
-			"additionalProperties": false
-		}
-	]
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "description": "Optional JSON Schema reference URL.",
+          "type": "string",
+          "format": "uri"
+        },
+        "packageId": {
+          "description": "Task identifier in winget-pkgs.",
+          "type": "string"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "releaseNotes": {
+          "description": "Optional release notes text. Can contain {version} placeholder.",
+          "type": "string"
+        },
+        "replace": {
+          "description": "Replace latest version with new version.",
+          "default": false,
+          "type": "boolean"
+        },
+        "versionRemove": {
+          "description": "Substring(s) to strip after auto-leading 'v' removal.",
+          "type": "string"
+        },
+        "strategy": {
+          "type": "string",
+          "const": "github-release"
+        },
+        "github": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string"
+            },
+            "repo": {
+              "type": "string"
+            },
+            "preRelease": {
+              "default": false,
+              "type": "boolean"
+            },
+            "fetchUrlsFromApi": {
+              "default": false,
+              "description": "Fetch asset download URLs via the GitHub Releases API instead of relying on templates.",
+              "type": "boolean"
+            },
+            "tagFilter": {
+              "type": "string"
+            },
+            "fetchLatest": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "owner",
+            "repo"
+          ],
+          "additionalProperties": false
+        },
+        "urls": {
+          "description": "Template or literal URLs with {version} placeholder.",
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "packageId",
+        "strategy",
+        "github"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "description": "Optional JSON Schema reference URL.",
+          "type": "string",
+          "format": "uri"
+        },
+        "packageId": {
+          "description": "Task identifier in winget-pkgs.",
+          "type": "string"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "releaseNotes": {
+          "description": "Optional release notes text. Can contain {version} placeholder.",
+          "type": "string"
+        },
+        "replace": {
+          "description": "Replace latest version with new version.",
+          "default": false,
+          "type": "boolean"
+        },
+        "versionRemove": {
+          "description": "Substring(s) to strip after auto-leading 'v' removal.",
+          "type": "string"
+        },
+        "strategy": {
+          "type": "string",
+          "const": "page-match"
+        },
+        "pageMatch": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "regex": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "url",
+            "regex"
+          ],
+          "additionalProperties": false
+        },
+        "urls": {
+          "description": "Template or literal URLs with {version} placeholder.",
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "packageId",
+        "strategy",
+        "pageMatch",
+        "urls"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "description": "Optional JSON Schema reference URL.",
+          "type": "string",
+          "format": "uri"
+        },
+        "packageId": {
+          "description": "Task identifier in winget-pkgs.",
+          "type": "string"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "releaseNotes": {
+          "description": "Optional release notes text. Can contain {version} placeholder.",
+          "type": "string"
+        },
+        "replace": {
+          "description": "Replace latest version with new version.",
+          "default": false,
+          "type": "boolean"
+        },
+        "versionRemove": {
+          "description": "Substring(s) to strip after auto-leading 'v' removal.",
+          "type": "string"
+        },
+        "strategy": {
+          "type": "string",
+          "const": "redirect-match"
+        },
+        "redirectMatch": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "regex": {
+              "type": "string"
+            },
+            "method": {
+              "default": "head",
+              "type": "string",
+              "enum": [
+                "head",
+                "get"
+              ]
+            }
+          },
+          "required": [
+            "url",
+            "regex"
+          ],
+          "additionalProperties": false
+        },
+        "urls": {
+          "description": "Template or literal URLs with {version} placeholder.",
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "packageId",
+        "strategy",
+        "redirectMatch"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "description": "Optional JSON Schema reference URL.",
+          "type": "string",
+          "format": "uri"
+        },
+        "packageId": {
+          "description": "Task identifier in winget-pkgs.",
+          "type": "string"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "releaseNotes": {
+          "description": "Optional release notes text. Can contain {version} placeholder.",
+          "type": "string"
+        },
+        "replace": {
+          "description": "Replace latest version with new version.",
+          "default": false,
+          "type": "boolean"
+        },
+        "versionRemove": {
+          "description": "Substring(s) to strip after auto-leading 'v' removal.",
+          "type": "string"
+        },
+        "strategy": {
+          "type": "string",
+          "const": "electron-builder"
+        },
+        "electronBuilder": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "description": "Direct YAML URL (latest.yml, beta.yml, etc.).",
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "required": [
+            "url"
+          ],
+          "additionalProperties": false
+        },
+        "urls": {
+          "description": "Template or literal URLs with {version} placeholder.",
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "packageId",
+        "strategy",
+        "electronBuilder",
+        "urls"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "description": "Optional JSON Schema reference URL.",
+          "type": "string",
+          "format": "uri"
+        },
+        "packageId": {
+          "description": "Task identifier in winget-pkgs.",
+          "type": "string"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "releaseNotes": {
+          "description": "Optional release notes text. Can contain {version} placeholder.",
+          "type": "string"
+        },
+        "replace": {
+          "description": "Replace latest version with new version.",
+          "default": false,
+          "type": "boolean"
+        },
+        "versionRemove": {
+          "description": "Substring(s) to strip after auto-leading 'v' removal.",
+          "type": "string"
+        },
+        "strategy": {
+          "type": "string",
+          "const": "json"
+        },
+        "json": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "description": "Endpoint returning JSON.",
+              "type": "string",
+              "format": "uri"
+            },
+            "path": {
+              "description": "Dot-separated path to string value (arrays use numeric indexes).",
+              "type": "string"
+            }
+          },
+          "required": [
+            "url",
+            "path"
+          ],
+          "additionalProperties": false
+        },
+        "urls": {
+          "description": "Template or literal URLs with {version} placeholder.",
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "packageId",
+        "strategy",
+        "json",
+        "urls"
+      ],
+      "additionalProperties": false
+    }
+  ]
 }

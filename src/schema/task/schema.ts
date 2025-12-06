@@ -21,6 +21,7 @@ const githubSchema = z.object({
 		.default(false)
 		.optional(),
 	tagFilter: z.string().optional(),
+	fetchLatest: z.boolean().default(false).optional(),
 });
 
 const pageMatchSchema = z.object({

@@ -65,6 +65,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 				repo: task.github.repo,
 				preRelease: task.github.preRelease,
 				tagFilter: task.github.tagFilter,
+				latest: task.github.fetchLatest,
 			});
 			version = latest.version;
 			if (task.github.fetchUrlsFromApi) {
