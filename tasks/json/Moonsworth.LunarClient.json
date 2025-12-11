@@ -5,7 +5,5 @@
 	"electronBuilder": {
 		"url": "http://launcherupdates.lunarclientcdn.com/latest.yml"
 	},
-	"urls": [
-		"https://launcherupdates.lunarclientcdn.com/Lunar%20Client%20v{version}.exe|neutral"
-	]
+	"urls": ["https://launcherupdates.lunarclientcdn.com/Lunar%20Client%20v{version}.exe|neutral"]
 }

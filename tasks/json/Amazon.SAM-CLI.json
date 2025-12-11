@@ -3,7 +3,5 @@
 	"packageId": "Amazon.SAM-CLI",
 	"strategy": "github-release",
 	"github": { "owner": "aws", "repo": "aws-sam-cli" },
-	"urls": [
-		"https://github.com/aws/aws-sam-cli/releases/download/v{version}/AWS_SAM_CLI_64_PY3.msi"
-	]
+	"urls": ["https://github.com/aws/aws-sam-cli/releases/download/v{version}/AWS_SAM_CLI_64_PY3.msi"]
 }

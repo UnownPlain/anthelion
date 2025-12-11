@@ -6,7 +6,5 @@
 		"url": "https://assets.dataflare.app/release/windows/x86_64/latest.json",
 		"path": "version"
 	},
-	"urls": [
-		"https://assets.dataflare.app/release/windows/x86_64/Dataflare-Setup-{version}.exe"
-	]
+	"urls": ["https://assets.dataflare.app/release/windows/x86_64/Dataflare-Setup-{version}.exe"]
 }

@@ -3,7 +3,5 @@
 	"packageId": "OpenWhisperSystems.Signal.Beta",
 	"strategy": "electron-builder",
 	"electronBuilder": { "url": "https://updates.signal.org/desktop/beta.yml" },
-	"urls": [
-		"https://updates.signal.org/desktop/signal-desktop-beta-win-{version}.exe"
-	]
+	"urls": ["https://updates.signal.org/desktop/signal-desktop-beta-win-{version}.exe"]
 }

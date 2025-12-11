@@ -3,7 +3,5 @@
 	"packageId": "Crossplane.CrossplaneCli",
 	"strategy": "github-release",
 	"github": { "owner": "crossplane", "repo": "crossplane" },
-	"urls": [
-		"https://releases.crossplane.io/stable/v{version}/bin/windows_amd64/crossplane.exe"
-	]
+	"urls": ["https://releases.crossplane.io/stable/v{version}/bin/windows_amd64/crossplane.exe"]
 }

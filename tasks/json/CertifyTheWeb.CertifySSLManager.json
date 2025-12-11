@@ -6,7 +6,5 @@
 		"url": "https://certifytheweb.com/",
 		"regex": "certifythewebsetup[._-]v?(\\d+(?:\\.\\d+)+)\\.exe"
 	},
-	"urls": [
-		"https://downloads.certifytheweb.com/CertifyTheWebSetup_V{version}.exe"
-	]
+	"urls": ["https://downloads.certifytheweb.com/CertifyTheWebSetup_V{version}.exe"]
 }

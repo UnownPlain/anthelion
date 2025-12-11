@@ -6,7 +6,5 @@
 		"url": "https://electrum.org/#download",
 		"regex": "href=.*?electrum[._-](\\d+(?:\\.\\d+)+)[._-]setup\\.exe"
 	},
-	"urls": [
-		"https://download.electrum.org/{version}/electrum-{version}-setup.exe"
-	]
+	"urls": ["https://download.electrum.org/{version}/electrum-{version}-setup.exe"]
 }
