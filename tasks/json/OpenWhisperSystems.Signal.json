@@ -3,7 +3,5 @@
 	"packageId": "OpenWhisperSystems.Signal",
 	"strategy": "electron-builder",
 	"electronBuilder": { "url": "https://updates.signal.org/desktop/latest.yml" },
-	"urls": [
-		"https://updates.signal.org/desktop/signal-desktop-win-{version}.exe"
-	]
+	"urls": ["https://updates.signal.org/desktop/signal-desktop-win-{version}.exe"]
 }

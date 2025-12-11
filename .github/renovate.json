@@ -1,10 +1,6 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": [
-		"config:recommended",
-		":disableDependencyDashboard",
-		"security:minimumReleaseAgeNpm"
-	],
+	"extends": ["config:recommended", ":disableDependencyDashboard", "security:minimumReleaseAgeNpm"],
 	"rangeStrategy": "bump",
 	"packageRules": [
 		{

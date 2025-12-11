@@ -5,7 +5,5 @@
 	"electronBuilder": {
 		"url": "https://download.live.ledger.com/latest.yml"
 	},
-	"urls": [
-		"https://download.live.ledger.com/ledger-live-desktop-{version}-win-x64.exe"
-	]
+	"urls": ["https://download.live.ledger.com/ledger-live-desktop-{version}-win-x64.exe"]
 }

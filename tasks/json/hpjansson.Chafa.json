@@ -6,7 +6,5 @@
 		"owner": "hpjansson",
 		"repo": "chafa"
 	},
-	"urls": [
-		"https://hpjansson.org/chafa/releases/static/chafa-{version}-1-x86_64-windows.zip"
-	]
+	"urls": ["https://hpjansson.org/chafa/releases/static/chafa-{version}-1-x86_64-windows.zip"]
 }

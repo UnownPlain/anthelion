@@ -6,7 +6,5 @@
 		"url": "https://syncroom.yamaha.com/global/v2/play/dl/",
 		"regex": "href=\"?\\/v2\\/play\\/dl\\/app\\/SYNCROOM-EN-win-x64-(\\d+(?:\\.\\d+)+)\\.zip"
 	},
-	"urls": [
-		"https://syncroom.yamaha.com/v2/play/dl/app/SYNCROOM-EN-win-x64-{version}.zip"
-	]
+	"urls": ["https://syncroom.yamaha.com/v2/play/dl/app/SYNCROOM-EN-win-x64-{version}.zip"]
 }

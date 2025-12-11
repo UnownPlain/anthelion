@@ -6,7 +6,5 @@
 		"url": "https://bitcoincore.org/en/download/",
 		"regex": "href=.*?bitcoin[._-]core[._-](\\d+(?:\\.\\d+)+)/bitcoin[._-](\\d+(?:\\.\\d+)+)[._-]win64[._-]setup\\.exe"
 	},
-	"urls": [
-		"https://bitcoincore.org/bin/bitcoin-core-{version}/bitcoin-{version}-win64-setup.exe"
-	]
+	"urls": ["https://bitcoincore.org/bin/bitcoin-core-{version}/bitcoin-{version}-win64-setup.exe"]
 }

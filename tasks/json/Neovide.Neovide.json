@@ -3,7 +3,5 @@
 	"packageId": "Neovide.Neovide",
 	"strategy": "github-release",
 	"github": { "owner": "neovide", "repo": "neovide", "fetchLatest": true },
-	"urls": [
-		"https://github.com/neovide/neovide/releases/download/{version}/neovide.msi"
-	]
+	"urls": ["https://github.com/neovide/neovide/releases/download/{version}/neovide.msi"]
 }
