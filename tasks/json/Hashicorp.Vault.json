@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Hashicorp.Vault",
+	"strategy": "github-release",
+	"github": { "owner": "hashicorp", "repo": "vault" },
+	"urls": [
+		"https://releases.hashicorp.com/vault/{version}/vault_{version}_windows_386.zip",
+		"https://releases.hashicorp.com/vault/{version}/vault_{version}_windows_amd64.zip"
+	]
+}
