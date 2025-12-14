@@ -1,0 +1,13 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "gstreamerproject.gstreamer",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://gstreamer.freedesktop.org/download/#windows",
+		"regex": "href=\"/data/pkg/windows/([\\d.]+)/msvc/gstreamer-1\\.0-msvc-x86_64-([\\d.]+)\\.msi\""
+	},
+	"urls": [
+		"https://gstreamer.freedesktop.org/data/pkg/windows/{version}/msvc/gstreamer-1.0-msvc-x86-{version}.msi",
+		"https://gstreamer.freedesktop.org/data/pkg/windows/{version}/msvc/gstreamer-1.0-msvc-x86_64-{version}.msi"
+	]
+}
