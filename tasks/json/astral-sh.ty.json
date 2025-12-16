@@ -2,7 +2,7 @@
 	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
 	"packageId": "astral-sh.ty",
 	"strategy": "github-release",
-	"github": { "owner": "astral-sh", "repo": "ty", "preRelease": true },
+	"github": { "owner": "astral-sh", "repo": "ty" },
 	"urls": [
 		"https://github.com/astral-sh/ty/releases/download/{version}/ty-i686-pc-windows-msvc.zip",
 		"https://github.com/astral-sh/ty/releases/download/{version}/ty-x86_64-pc-windows-msvc.zip",
