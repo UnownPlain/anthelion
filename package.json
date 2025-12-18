@@ -1,11 +1,11 @@
 {
 	"name": "anthelion",
+	"private": "true",
+	"description": "Scripts and tools used to automatically update some packages in the Windows Package Manager Community Repository",
 	"author": "UnownPlain",
 	"license": "MIT",
-	"description": "Scripts and tools used to automatically update some packages in the Windows Package Manager Community Repository",
-	"private": "true",
-	"main": "src/main.ts",
 	"type": "module",
+	"main": "src/main.ts",
 	"scripts": {
 		"start": "bun src/main.ts",
 		"pkgtest": "bun src/test.ts",
