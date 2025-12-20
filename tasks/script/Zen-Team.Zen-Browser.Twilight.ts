@@ -5,37 +5,31 @@ import { match, vs } from '@/helpers.ts';
 import { readTextFileSync } from '@std/fs/unstable-read-text-file';
 import process from 'node:process';
 
-const VERSION_REGEX = /Twilight build - (\S+)/;
-const VERSION_STATE_PATH = 'version_state/Zen-Team.Zen-Browser.Twilight';
-const PACKAGE_ID = 'Zen-Team.Zen-Browser.Twilight';
-const DOWNLOAD_URLS = [
-	'https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer.exe|x64',
-	'https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer-arm64.exe',
-];
-const PR_SEARCH_QUERY =
-	'Zen-Team.Zen-Browser.Twilight+is:pr+author:UnownBot+is:open+repo:microsoft/winget-pkgs+sort:created-desc';
-const API_DELAY_MS = 5000;
-
 export default async function () {
+	const VERSION_REGEX = /Twilight build - (\S+)/;
+	const VERSION_STATE_PATH = 'version_state/Zen-Team.Zen-Browser.Twilight';
+
 	const release = await getReleaseByTag('zen-browser', 'desktop', 'twilight');
-
 	const latestVersion = vs(release.name);
-	const currentVersion = readTextFileSync(VERSION_STATE_PATH).trim();
+	const wingetVersion = readTextFileSync(VERSION_STATE_PATH).trim();
 
-	if (latestVersion === currentVersion) {
+	if (latestVersion === wingetVersion) {
 		return 'Current version matches latest version.\n';
 	}
 
 	const version = match(latestVersion, VERSION_REGEX)[0];
-	const repoVersion = match(currentVersion, VERSION_REGEX)[0];
+	const repoVersion = match(wingetVersion, VERSION_REGEX)[0];
 
-	const options = ['--skip-pr-check'];
-
-	if (version !== repoVersion) {
-		options.push('-r');
-	}
-
-	const output = await updatePackage(PACKAGE_ID, version, DOWNLOAD_URLS, ...options);
+	const options = ['--skip-pr-check', ...(version !== repoVersion ? ['-r'] : [])];
+	const output = await updatePackage(
+		'Zen-Team.Zen-Browser.Twilight',
+		version,
+		[
+			'https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer.exe|x64',
+			'https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer-arm64.exe',
+		],
+		...options,
+	);
 
 	const mutation = `
 		mutation UpdateFile($input: CreateCommitOnBranchInput!) {
@@ -68,18 +62,15 @@ export default async function () {
 		},
 	});
 
-	// Wait GitHub API to update
-	await delay(API_DELAY_MS);
+	// Wait 5s GitHub API to update
+	await delay(5000);
 
 	const prSearch = await octokit.rest.search.issuesAndPullRequests({
-		q: PR_SEARCH_QUERY,
-		advanced_search: 'true',
+		q: 'Zen-Team.Zen-Browser.Twilight+is:pr+author:UnownBot+is:open+repo:microsoft/winget-pkgs+sort:created-desc',
 	});
 
 	// Close all but the first (most recent) PR
-	for (let i = 1; i < prSearch.data.total_count; i++) {
-		const pr = prSearch.data.items[i];
-		if (!pr || pr.number == null) continue;
+	for (const pr of prSearch.data.items.slice(1)) {
 		await octokit.rest.pulls.update({
 			owner: 'microsoft',
 			repo: 'winget-pkgs',
