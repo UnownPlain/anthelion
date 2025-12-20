@@ -3,7 +3,7 @@
 	"packageId": "Waterfox.Waterfox",
 	"strategy": "redirect-match",
 	"redirectMatch": {
-		"url": "https://cdn1.waterfox.net/waterfox/releases/latest/windows",
+		"url": "https://cdn.waterfox.com/waterfox/releases/latest/windows",
 		"regex": "Waterfox(?:%20|\\s)+Setup(?:%20|\\s)+(\\d+(?:\\.\\d+)+)\\.exe"
 	}
 }
