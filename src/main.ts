@@ -11,7 +11,7 @@ import { readdirSync, type Dirent } from 'node:fs';
 export const SCRIPTS_FOLDER = 'tasks/script';
 export const JSON_FOLDER = 'tasks/json';
 const MANIFEST_URL =
-	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests/';
+	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests';
 const semaphore = new Semaphore(32);
 
 async function checkVersionInRepo(version: string, packageId: string, logger: Logger) {
