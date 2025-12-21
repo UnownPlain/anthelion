@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "FreeDV.FreeDV",
+	"strategy": "github-release",
+	"github": { "owner": "drowe67", "repo": "freedv-gui" },
+	"urls": [
+		"https://github.com/drowe67/freedv-gui/releases/download/v{version}/FreeDV-{version}-windows-x86_64.exe"
+	]
+}
