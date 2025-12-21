@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "VladimirYakovlev.ElectronMail",
+	"strategy": "github-release",
+	"github": { "owner": "vladimiry", "repo": "ElectronMail" },
+	"urls": [
+		"https://github.com/vladimiry/ElectronMail/releases/download/v{version}/electron-mail-{version}-windows-x64-nsis-installer.exe",
+		"https://github.com/vladimiry/ElectronMail/releases/download/v{version}/electron-mail-{version}-windows-arm64-nsis-installer.exe"
+	]
+}

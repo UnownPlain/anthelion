@@ -1,0 +1,6 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "Microsoft.WindowsAdvancedSettings",
+	"strategy": "github-release",
+	"github": { "owner": "microsoft", "repo": "WindowsAdvancedSettings", "fetchUrlsFromApi": true }
+}

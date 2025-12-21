@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "Arnau478.hevi",
+	"strategy": "json",
+	"json": {
+		"url": "https://codeberg.org/api/v1/repos/arnauc/hevi/releases",
+		"path": "[0].tag_name"
+	},
+	"urls": [
+		"https://codeberg.org/arnauc/hevi/releases/download/v{version}/hevi-x86-windows.exe",
+		"https://codeberg.org/arnauc/hevi/releases/download/v{version}/hevi-x86_64-windows.exe",
+		"https://codeberg.org/arnauc/hevi/releases/download/v{version}/hevi-aarch64-windows.exe"
+	]
+}
