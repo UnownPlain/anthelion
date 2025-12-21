@@ -1,5 +1,5 @@
 {
-	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "JohannesKaufmann.html2markdown",
 	"strategy": "github-release",
 	"github": { "owner": "JohannesKaufmann", "repo": "html-to-markdown" },

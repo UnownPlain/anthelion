@@ -1,5 +1,5 @@
 {
-	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "XIU2.CloudflareSpeedTest",
 	"strategy": "github-release",
 	"github": { "owner": "XIU2", "repo": "CloudflareSpeedTest" },

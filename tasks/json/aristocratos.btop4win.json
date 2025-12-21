@@ -1,5 +1,5 @@
 {
-	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "aristocratos.btop4win",
 	"strategy": "github-release",
 	"github": { "owner": "aristocratos", "repo": "btop4win" },

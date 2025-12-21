@@ -1,5 +1,5 @@
 {
-	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "K8stooling.Kubazulo",
 	"strategy": "github-release",
 	"github": { "owner": "k8stooling", "repo": "kubazulo" },

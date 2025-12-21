@@ -1,5 +1,5 @@
 {
-	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "AltSnap.AltSnap",
 	"strategy": "github-release",
 	"github": { "owner": "RamonUnch", "repo": "AltSnap" },

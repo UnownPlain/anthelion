@@ -1,5 +1,5 @@
 {
-	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "Bazel.Bazelisk",
 	"strategy": "github-release",
 	"github": { "owner": "bazelbuild", "repo": "bazelisk" },

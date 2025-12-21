@@ -1,5 +1,5 @@
 {
-	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "Meta.Zstandard",
 	"strategy": "github-release",
 	"github": { "owner": "facebook", "repo": "zstd" },
