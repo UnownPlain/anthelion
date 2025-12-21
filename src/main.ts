@@ -109,9 +109,10 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 		}
 	}
 
+	version = version.startsWith('v') ? version.substring(1) : version;
+
 	if (await checkVersionInRepo(version, task.packageId, logger)) return;
 
-	version = version.startsWith('v') ? version.substring(1) : version;
 	if (task.versionRemove) version = version.replace(task.versionRemove, '');
 	if (task.replace) args.push('-r');
 	if (task.releaseNotes)
