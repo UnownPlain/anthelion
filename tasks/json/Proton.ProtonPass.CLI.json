@@ -1,0 +1,10 @@
+{
+	"$schema": "https://github.com/UnownPlain/anthelion/raw/main/src/schema/task/schema.json",
+	"packageId": "Proton.ProtonPass.CLI",
+	"strategy": "json",
+	"json": {
+		"url": "https://proton.me/download/pass-cli/versions.json",
+		"path": "passCliVersions.version"
+	},
+	"urls": ["passCliVersions.urls.windows.x86_64.url"]
+}
