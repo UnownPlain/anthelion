@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "OleguerLlopart.OpenComic",
+	"strategy": "github-release",
+	"github": { "owner": "ollm", "repo": "OpenComic" },
+	"urls": [
+		"https://github.com/ollm/OpenComic/releases/download/v{version}/OpenComic.Setup.{version}.exe|x64"
+	]
+}

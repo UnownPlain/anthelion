@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "zizmor.zizmor",
+	"strategy": "github-release",
+	"github": { "owner": "zizmorcore", "repo": "zizmor" },
+	"urls": [
+		"https://github.com/zizmorcore/zizmor/releases/download/v{version}/zizmor-x86_64-pc-windows-msvc.zip"
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "Dashlane.CLI",
+	"strategy": "github-release",
+	"github": { "owner": "Dashlane", "repo": "dashlane-cli" },
+	"urls": [
+		"https://github.com/Dashlane/dashlane-cli/releases/download/v{version}/dcli-win-x64-signed.exe"
+	]
+}
