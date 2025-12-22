@@ -10,7 +10,7 @@
 		"start": "bun src/main.ts",
 		"pkgtest": "bun src/test.ts",
 		"format": "oxfmt",
-		"lint": "oxlint --type-aware",
+		"lint": "oxlint --type-check --type-aware",
 		"gen-schema": "bun run src/schema/task/schema.ts && oxfmt"
 	},
 	"dependencies": {
