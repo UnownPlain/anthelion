@@ -1,7 +1,0 @@
-{
-	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "ZeroTier.ZeroTierOne",
-	"strategy": "github-release",
-	"github": { "owner": "zerotier", "repo": "ZeroTierOne" },
-	"urls": ["https://download.zerotier.com/RELEASES/{version}/dist/ZeroTier%20One.msi"]
-}
