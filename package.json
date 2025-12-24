@@ -2,8 +2,8 @@
 	"name": "anthelion",
 	"private": "true",
 	"description": "Scripts and tools used to automatically update some packages in the Windows Package Manager Community Repository",
-	"author": "UnownPlain",
 	"license": "MIT",
+	"author": "UnownPlain",
 	"type": "module",
 	"main": "src/main.ts",
 	"scripts": {
