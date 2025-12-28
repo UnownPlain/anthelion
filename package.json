@@ -14,7 +14,7 @@
 		"gen-schema": "bun run src/schema/task/schema.ts && oxfmt"
 	},
 	"dependencies": {
-		"@std/fs": "npm:@jsr/std__fs@1.0.20",
+		"@std/fs": "npm:@jsr/std__fs@1.0.21",
 		"@std/semver": "npm:@jsr/std__semver@1.0.7",
 		"ansis": "4.2.0",
 		"dot-prop": "10.1.0",

@@ -5,7 +5,7 @@
     "": {
       "name": "anthelion",
       "dependencies": {
-        "@std/fs": "npm:@jsr/std__fs@1.0.20",
+        "@std/fs": "npm:@jsr/std__fs@1.0.21",
         "@std/semver": "npm:@jsr/std__semver@1.0.7",
         "ansis": "4.2.0",
         "dot-prop": "10.1.0",
@@ -27,7 +27,7 @@
   "packages": {
     "@jsr/std__internal": ["@jsr/std__internal@1.0.12", "https://npm.jsr.io/~/11/@jsr/std__internal/1.0.12.tgz", {}, "sha512-6xReMW9p+paJgqoFRpOE2nogJFvzPfaLHLIlyADYjKMUcwDyjKZxryIbgcU+gxiTygn8yCjld1HoI0ET4/iZeA=="],
 
-    "@jsr/std__path": ["@jsr/std__path@1.1.3", "https://npm.jsr.io/~/11/@jsr/std__path/1.1.3.tgz", { "dependencies": { "@jsr/std__internal": "^1.0.12" } }, "sha512-7HAc3nOGizbIunNCUQ4mrF7XY/SpAEIlq5pBR0sOzkcLB7520baEqnOmXTFiIUTp/umKE5ArEegMM1F39N51Rg=="],
+    "@jsr/std__path": ["@jsr/std__path@1.1.4", "https://npm.jsr.io/~/11/@jsr/std__path/1.1.4.tgz", { "dependencies": { "@jsr/std__internal": "^1.0.12" } }, "sha512-SK4u9H6NVTfolhPdlvdYXfNFefy1W04AEHWJydryYbk+xqzNiVmr5o7TLJLJFqwHXuwMRhwrn+mcYeUfS0YFaA=="],
 
     "@octokit/app": ["@octokit/app@16.1.2", "", { "dependencies": { "@octokit/auth-app": "^8.1.2", "@octokit/auth-unauthenticated": "^7.0.3", "@octokit/core": "^7.0.6", "@octokit/oauth-app": "^8.0.3", "@octokit/plugin-paginate-rest": "^14.0.0", "@octokit/types": "^16.0.0", "@octokit/webhooks": "^14.0.0" } }, "sha512-8j7sEpUYVj18dxvh0KWj6W/l6uAiVRBl1JBDVRqH1VHKAO/G5eRVl4yEoYACjakWers1DjUkcCHyJNQK47JqyQ=="],
 
@@ -123,7 +123,7 @@
 
     "@oxlint/win32-x64": ["@oxlint/win32-x64@1.35.0", "", { "os": "win32", "cpu": "x64" }, "sha512-yPFcj6umrhusnG/kMS5wh96vblsqZ0kArQJS+7kEOSJDrH+DsFWaDCsSRF8U6gmSmZJ26KVMU3C3TMpqDN4M1g=="],
 
-    "@std/fs": ["@jsr/std__fs@1.0.20", "https://npm.jsr.io/~/11/@jsr/std__fs/1.0.20.tgz", { "dependencies": { "@jsr/std__internal": "^1.0.12", "@jsr/std__path": "^1.1.3" } }, "sha512-wBw/Y+EfWVgZq6qlqD8M84q0kSuPwLmjnXy97KGfdrkorvzTZCs5AbHElsed/Yi90PuH39tvNhLCHeRGObUwPA=="],
+    "@std/fs": ["@jsr/std__fs@1.0.21", "https://npm.jsr.io/~/11/@jsr/std__fs/1.0.21.tgz", { "dependencies": { "@jsr/std__internal": "^1.0.12", "@jsr/std__path": "^1.1.4" } }, "sha512-k/agrcKGm6KD89ci3AEyRmu3wRWf9JZNliOF4ZUxagTHiySmxjiKU3Lk+d2ksRtwEi7oWlLGS0AVM9Lciwc/xg=="],
 
     "@std/semver": ["@jsr/std__semver@1.0.7", "https://npm.jsr.io/~/11/@jsr/std__semver/1.0.7.tgz", {}, "sha512-/WpDSNegE6lI50L1+VnItLkuuQlZK8e8QbxrjV1sH+3YqiH+sQ/Tx3yYvewkKVVSwcidQUlqSIHSPrhay1zLCg=="],
 
