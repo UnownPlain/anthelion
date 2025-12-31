@@ -53,7 +53,7 @@ export async function getAllReleases(owner: string, repo: string, preRelease?: b
 	const { data: releases } = await octokit.rest.repos.listReleases({
 		owner,
 		repo,
-		per_page: 60,
+		per_page: 20,
 	});
 
 	if (preRelease === undefined) {
