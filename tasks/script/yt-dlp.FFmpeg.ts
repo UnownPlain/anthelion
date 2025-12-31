@@ -9,7 +9,7 @@ export default async function () {
 	const release = releases.find((release) => release.tag_name.includes(date.toString()));
 
 	if (!release) {
-		throw new Error('Failed to find release');
+		throw new Error('Failed to find release. Upstream might not have published this version yet.');
 	}
 
 	const urls = release.assets
