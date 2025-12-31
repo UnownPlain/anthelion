@@ -2,7 +2,6 @@ import { readdirSync } from 'node:fs';
 import { basename } from 'node:path';
 import { vs } from '@/helpers';
 import { JSON_FOLDER, SCRIPTS_FOLDER, executeTask } from '@/main';
-import { bgRed, redBright } from 'ansis';
 
 const task = vs(process.argv[2]);
 const files = readdirSync(SCRIPTS_FOLDER, { withFileTypes: true }).concat(
@@ -18,9 +17,4 @@ if (!file) {
 	process.exit(1);
 }
 
-try {
-	await executeTask(file);
-} catch (reason) {
-	console.log(bgRed`❌ Error running ${file.name}`);
-	console.log(redBright`${(reason as Error).message}\n`);
-}
+await executeTask(file);
