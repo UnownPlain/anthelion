@@ -3,6 +3,7 @@ import { Logger, vs } from '@/helpers';
 import { updatePackage } from '@/komac';
 import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
 import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
+import ansis from 'ansis';
 import { getProperty } from 'dot-prop';
 import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
@@ -161,7 +162,7 @@ async function runAllTasks() {
 			(x): x is { result: PromiseRejectedResult; file: Dirent } => x.result.status === 'rejected',
 		)
 		.map((r) => {
-			errorSummary += `### ❌ Error in ${r.file.name}\n\`\`\`\n${r.result.reason.message}\n\`\`\`\n`;
+			errorSummary += `### ❌ Error in ${r.file.name}\n\`\`\`\n${ansis.strip(r.result.reason.message)}\n\`\`\`\n`;
 		});
 
 	const completed = `✅ Run completed: ${tasks.length - failures.length}/${tasks.length} tasks successful`;
