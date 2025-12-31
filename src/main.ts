@@ -4,15 +4,15 @@ import { updatePackage } from '@/komac';
 import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
 import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
 import { getProperty } from 'dot-prop';
-import { Semaphore } from 'es-toolkit';
+import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 import { readdirSync, type Dirent } from 'node:fs';
 
+const MAX_CONCURRENCY = 32;
 export const SCRIPTS_FOLDER = 'tasks/script';
 export const JSON_FOLDER = 'tasks/json';
 const MANIFEST_URL =
 	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests';
-const semaphore = new Semaphore(32);
 
 async function checkVersionInRepo(version: string, packageId: string, logger: Logger) {
 	const manifestPath = `${MANIFEST_URL}/${packageId.charAt(0).toLowerCase()}/${packageId
@@ -127,7 +127,6 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 }
 
 export async function executeTask(file: Dirent) {
-	await semaphore.acquire();
 	const logger = new Logger();
 
 	logger.run(file.name);
@@ -138,9 +137,11 @@ export async function executeTask(file: Dirent) {
 		} else {
 			await handleJsonTask(file.name, logger);
 		}
+	} catch (e) {
+		logger.error(file.name, (e as Error).message);
+		throw e;
 	} finally {
 		logger.flush();
-		semaphore.release();
 	}
 }
 
@@ -151,16 +152,29 @@ async function runAllTasks() {
 
 	console.log(`Found ${tasks.length} tasks to run\n`);
 
-	const results = await Promise.allSettled(tasks.map(executeTask));
+	const results = await Promise.allSettled(tasks.map(limitAsync(executeTask, MAX_CONCURRENCY)));
+	let errorSummary = '';
 
 	const failures = results
 		.map((result, i) => ({ result, file: tasks[i] }))
 		.filter(
 			(x): x is { result: PromiseRejectedResult; file: Dirent } => x.result.status === 'rejected',
 		)
-		.map((r) => Logger.error(r.file.name, `${r.result.reason.message}\n`));
+		.map((r) => {
+			errorSummary += `### ❌ Error in ${r.file.name}\n\`\`\`\n${r.result.reason.message}\n\`\`\`\n`;
+		});
 
-	console.log(`\nCompleted: ${tasks.length - failures.length}/${tasks.length} tasks successful`);
+	const completed = `✅ Run completed: ${tasks.length - failures.length}/${tasks.length} tasks successful`;
+
+	if (process.env.GITHUB_STEP_SUMMARY) {
+		let summary = `# Summary\n\n${completed}`;
+		if (errorSummary) {
+			summary += `\n\n## Run Errors\n\n${errorSummary}`;
+		}
+		await Bun.write(process.env.GITHUB_STEP_SUMMARY, summary);
+	}
+
+	console.log(`\n${completed}`);
 }
 
 if (import.meta.main) {

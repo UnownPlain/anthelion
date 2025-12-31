@@ -24,9 +24,9 @@ export class Logger {
 		this.log(green`Package is up-to-date! (${version})\n`);
 	}
 
-	static error(task: string, message: string) {
-		console.log(bgRed`❌ Error running ${task}`);
-		console.log(redBright`${message}`);
+	error(task: string, message: string) {
+		this.log(bgRed`❌ Error running ${task}`);
+		this.log(redBright`${message}\n`);
 	}
 
 	details(version: string, urls: string[]) {
