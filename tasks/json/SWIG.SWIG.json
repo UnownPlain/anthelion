@@ -6,7 +6,5 @@
 		"url": "https://sourceforge.net/projects/swig/rss?path=/swig",
 		"regex": "url=.*?/swig[._-]v?(\\d+(?:\\.\\d+)+)\\.t"
 	},
-	"urls": [
-		"https://sourceforge.net/projects/swig/files/swigwin/swigwin-{version}/swigwin-{version}.zip/download"
-	]
+	"urls": ["https://prdownloads.sourceforge.net/swig/swigwin-{version}.zip|x64"]
 }
