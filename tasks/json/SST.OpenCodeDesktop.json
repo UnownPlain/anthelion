@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "SST.OpenCodeDesktop",
+	"strategy": "json",
+	"json": {
+		"url": "https://github.com/sst/opencode/releases/latest/download/latest.json",
+		"path": "version"
+	},
+	"urls": ["platforms.windows-x86_64.url"]
+}
