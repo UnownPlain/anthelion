@@ -10,20 +10,33 @@ on:
     - cron: '58 * * * *'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
 jobs:
   update-packages:
+    name: Update Packages
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@b7a1c7ccf290d58743029c4f6903da283811b979 # v2
+
       - name: Install Dependencies
         run: bun ci --production
+
       - name: Install komac
         uses: UnownPlain/install-komac@main
         with:
           repo: UnownPlain/Komac
+
       - name: Update Packages
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
