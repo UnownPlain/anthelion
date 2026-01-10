@@ -1,4 +1,4 @@
-import { match, vs } from '@/helpers.ts';
+import { compareVersions, match, vs } from '@/helpers.ts';
 import { YAML } from 'bun';
 import ky from 'ky';
 
@@ -36,4 +36,11 @@ export async function redirectMatch(url: string, regex: RegExp) {
 		version,
 		url: redirect,
 	};
+}
+
+export function sortVersions(str: string, regex: RegExp) {
+	const matches = str.matchAll(regex);
+	const versions = Array.from(matches, (match) => vs(match[1]));
+	versions.sort((a, b) => compareVersions(b, a));
+	return versions[0];
 }

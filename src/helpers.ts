@@ -1,4 +1,3 @@
-import { compare, parse as parseSemver } from '@std/semver';
 import { bgRed, blue, green, redBright } from 'ansis';
 import { z } from 'zod';
 
@@ -35,8 +34,18 @@ export class Logger {
 	}
 }
 
-export function sortSemver(versions: string[]) {
-	return versions.sort((a, b) => compare(parseSemver(b), parseSemver(a)));
+export function compareVersions(a: string, b: string): number {
+	const partsA = a.split('.').map(Number);
+	const partsB = b.split('.').map(Number);
+	const maxLength = Math.max(partsA.length, partsB.length);
+
+	for (let i = 0; i < maxLength; i++) {
+		const numA = partsA[i] ?? 0;
+		const numB = partsB[i] ?? 0;
+		if (numA !== numB) return numA - numB;
+	}
+
+	return 0;
 }
 
 export function vs(str: unknown) {

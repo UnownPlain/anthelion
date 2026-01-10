@@ -1,13 +1,12 @@
+import { sortVersions } from '@/strategies.ts';
 import ky from 'ky';
 
 export default async function () {
 	const releases = await ky(
 		'https://packages.broadcom.com/artifactory/saltproject-generic/windows/',
 	).text();
-	const matches = releases.matchAll(/href=["']?(\d+(?:\.\d+)*)\/?["' >]/gi);
-	const versions = Array.from(matches, (match) => match[1]).reverse();
 
-	const version = versions[0];
+	const version = sortVersions(releases, /href=["']?(\d+(?:\.\d+)*)\/?["' >]/gi);
 	const urls = [
 		`https://packages.broadcom.com/artifactory/saltproject-generic/windows/${version}/Salt-Minion-${version}-Py3-AMD64-Setup.exe`,
 		`https://packages.broadcom.com/artifactory/saltproject-generic/windows/${version}/Salt-Minion-${version}-Py3-AMD64.msi`,
