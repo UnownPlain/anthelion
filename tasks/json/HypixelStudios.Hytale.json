@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "HypixelStudios.Hytale",
+	"strategy": "json",
+	"json": {
+		"url": "https://launcher.hytale.com/version/release/launcher.json",
+		"path": "version"
+	},
+	"urls": [
+		"https://launcher.hytale.com/builds/release/windows/amd64/hytale-launcher-installer-{version}.exe"
+	]
+}
