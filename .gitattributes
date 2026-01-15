@@ -1,1 +1,2 @@
-*.disabled linguist-language=TypeScript
+tasks/script/*.disabled linguist-language=TypeScript
+tasks/json/*.disabled linguist-language=JSON
