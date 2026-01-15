@@ -10,6 +10,5 @@
 		"https://1.na.dl.wireshark.org/win64/Stratoshark-{version}-x64.exe",
 		"https://1.na.dl.wireshark.org/win64/Stratoshark-{version}-arm64.exe"
 	],
-	"releaseNotes": "https://stratoshark.org/docs/relnotes/stratoshark-{version}",
-	"replace": false
+	"releaseNotes": "https://stratoshark.org/docs/relnotes/stratoshark-{version}"
 }
