@@ -2,9 +2,13 @@ name: zizmor
 
 on:
   push:
-    branches: ['main']
+    branches:
+      - main
+    paths:
+      - .github/workflows/**
   pull_request:
-    branches: ['**']
+    branches:
+      - '**'
   workflow_dispatch:
 
 concurrency:
@@ -16,7 +20,7 @@ permissions: {}
 jobs:
   zizmor:
     name: zizmor
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 5
     permissions:
       security-events: write # Required for upload-sarif (used by zizmor-action) to upload SARIF files.
