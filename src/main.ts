@@ -8,6 +8,7 @@ import { getProperty } from 'dot-prop';
 import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 import { readdirSync, type Dirent } from 'node:fs';
+import { parse } from 'yaml';
 
 const MAX_CONCURRENCY = 32;
 export const SCRIPTS_FOLDER = 'tasks/script';
@@ -110,7 +111,9 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 		}
 		case Strategy.Yaml: {
 			const response = await ky(task.yaml.url).text();
-			version = vs(getProperty(Bun.YAML.parse(response), task.yaml.path));
+			// This is set to failsafe so incorrectly quoted values aren't parsed as numbers
+			const yaml = parse(response, { schema: 'failsafe' });
+			version = vs(getProperty(yaml, task.yaml.path));
 			urls = urls.map((url) => {
 				if (!url.startsWith('https://')) {
 					return vs(getProperty(response, url));
