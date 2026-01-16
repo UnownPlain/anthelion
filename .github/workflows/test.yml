@@ -1,0 +1,91 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'tasks/**'
+  pull_request:
+    paths:
+      - 'tasks/**'
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: 'Package IDs to test (one per line)'
+        required: true
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  detect-changes:
+    name: Detect Changed Tasks
+    if: ${{ inputs.packages }}
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 5
+    outputs:
+      any_changed: ${{ steps.changed-files.outputs.any_changed }}
+      changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
+
+      - name: Get Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47
+        with:
+          files: tasks/**
+          json: true
+
+  test:
+    name: Test Changed Tasks
+    needs: detect-changes
+    if: always() && (needs.detect-changes.outputs.any_changed == 'true' || inputs.packages)
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@db6bcf6eb8d88a8aa03265b887ec7bd84d64cd68 # v2
+
+      - name: Install Dependencies
+        run: bun ci --production
+
+      - name: Install komac
+        uses: UnownPlain/install-komac@main
+        with:
+          repo: UnownPlain/Komac
+
+      - name: Test Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGED_FILES: ${{ needs.detect-changes.outputs.changed_files }}
+          PACKAGES: ${{ inputs.packages }}
+        run: |
+          if [ -n "$PACKAGES" ]; then
+            while IFS= read -r package_id; do
+              [ -z "$package_id" ] && continue
+              bun pkgtest "$package_id" --dry-run
+            done <<< "$PACKAGES"
+          else
+            for file in $(echo "$CHANGED_FILES" | jq -r '.[]'); do
+              package_id=$(basename "$file" | sed 's/\.\(json\|ts\)$//')
+              bun pkgtest "$package_id" --dry-run
+            done
+          fi
+
+          echo "✅ Completed tests"
