@@ -8,6 +8,7 @@ export async function komac(...args: string[]) {
 	const proc = spawn(['komac', ...args], {
 		stdout: 'pipe',
 		stderr: 'pipe',
+		env: process.env,
 	});
 	await proc.exited;
 	if (proc.exitCode !== 0) {

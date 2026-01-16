@@ -3,7 +3,6 @@ import process from 'node:process';
 import { Octokit } from 'octokit';
 
 export const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-await octokit.rest.users.getAuthenticated();
 
 export async function getLatestVersion(options: {
 	owner: string;

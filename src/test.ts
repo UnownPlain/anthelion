@@ -17,4 +17,8 @@ if (!file) {
 	process.exit(1);
 }
 
+if (process.argv[3] === '--dry-run') {
+	process.env.DRY_RUN = 'true';
+}
+
 await executeTask(file);
