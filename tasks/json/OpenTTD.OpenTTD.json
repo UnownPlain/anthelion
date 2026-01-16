@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "OpenTTD.OpenTTD",
+	"strategy": "yaml",
+	"yaml": {
+		"url": "https://cdn.openttd.org/openttd-releases/latest.yaml",
+		"path": "latest[0].version"
+	},
+	"urls": [
+		"https://cdn.openttd.org/openttd-releases/{version}/openttd-{version}-windows-win32.exe",
+		"https://cdn.openttd.org/openttd-releases/{version}/openttd-{version}-windows-win64.exe",
+		"https://cdn.openttd.org/openttd-releases/{version}/openttd-{version}-windows-arm64.exe"
+	]
+}
