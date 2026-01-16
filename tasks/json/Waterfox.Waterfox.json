@@ -1,9 +1,12 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "Waterfox.Waterfox",
-	"strategy": "redirect-match",
-	"redirectMatch": {
-		"url": "https://cdn.waterfox.com/waterfox/releases/latest/windows",
-		"regex": "Waterfox(?:%20|\\s)+Setup(?:%20|\\s)+(\\d+(?:\\.\\d+)+)\\.exe"
-	}
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.waterfox.com/download",
+		"regex": "href=\"[^\"]*?waterfox[%20\\s._-]+setup[%20\\s._-]+v?(\\d+(?:\\.\\d+)+)\\.exe\""
+	},
+	"urls": [
+		"https://cdn.waterfox.com/waterfox/releases/{version}/WINNT_x86_64/Waterfox%20Setup%20{version}.exe"
+	]
 }
