@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "NimLang.ChooseNim",
+	"strategy": "github-release",
+	"github": { "owner": "nim-lang", "repo": "choosenim" },
+	"urls": [
+		"https://github.com/nim-lang/choosenim/releases/download/v{version}/choosenim-{version}_windows_amd64.zip"
+	]
+}
