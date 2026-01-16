@@ -1,10 +1,11 @@
 import { compareVersions, match, vs } from '@/helpers.ts';
-import { YAML } from 'bun';
+import { parse } from 'yaml';
 import ky from 'ky';
 
 export async function electronBuilder(url: string) {
 	const response = await ky(url).text();
-	const data = YAML.parse(response) as { version: unknown };
+	// This is set to failsafe so incorrectly quoted values aren't parsed as numbers
+	const data = parse(response, { schema: 'failsafe' });
 	return vs(data.version);
 }
 
