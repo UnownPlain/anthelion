@@ -6,6 +6,7 @@ export enum Strategy {
 	PageMatch = 'page-match',
 	RedirectMatch = 'redirect-match',
 	ElectronBuilder = 'electron-builder',
+	Yaml = 'yaml',
 	Json = 'json',
 }
 
@@ -41,6 +42,11 @@ const electronBuilderSchema = z.object({
 
 const jsonStrategySchema = z.object({
 	url: z.url().describe('Endpoint returning JSON.'),
+	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
+});
+
+const yamlStrategySchema = z.object({
+	url: z.url().describe('Endpoint returning YAML.'),
 	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
 });
 
@@ -125,12 +131,20 @@ const jsonVariant = z.object({
 	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
 });
 
+const yamlVariant = z.object({
+	...baseTaskFields,
+	strategy: z.literal(Strategy.Yaml),
+	yaml: yamlStrategySchema,
+	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
+});
+
 export const JsonTaskSchema = z.discriminatedUnion('strategy', [
 	githubReleaseVariant,
 	pageMatchVariant,
 	redirectMatchVariant,
 	electronBuilderVariant,
 	jsonVariant,
+	yamlVariant,
 ]);
 
 export type JsonTask = z.infer<typeof JsonTaskSchema>;
