@@ -108,6 +108,20 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 			}
 			break;
 		}
+		case Strategy.Yaml: {
+			const response = await ky(task.yaml.url).text();
+			version = vs(getProperty(Bun.YAML.parse(response), task.yaml.path));
+			urls = urls.map((url) => {
+				if (!url.startsWith('https://')) {
+					return vs(getProperty(response, url));
+				}
+				return url;
+			});
+			if (task.releaseNotes && !task.releaseNotes.startsWith('https://')) {
+				task.releaseNotes = vs(getProperty(response, task.releaseNotes));
+			}
+			break;
+		}
 	}
 
 	version = version.startsWith('v') ? version.substring(1) : version;
