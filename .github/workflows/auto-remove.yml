@@ -1,0 +1,35 @@
+name: Auto Remove Dead Versions
+
+on:
+  schedule:
+    - cron: '43 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  update-packages:
+    name: Remove Dead Versions
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with:
+          persist-credentials: false
+
+      - name: Install komac
+        uses: UnownPlain/install-komac@main
+
+      - name: Remove Dead Versions
+        env:
+          KOMAC_FORK_OWNER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+        run: |
+          jq -r '.[]' tasks/auto-remove.json | while read -r pkg_id; do
+            komac remove-dead-versions "$pkg_id" --auto
+          done
