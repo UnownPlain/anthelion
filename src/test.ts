@@ -1,16 +1,14 @@
-import { readdirSync } from 'node:fs';
-import { basename } from 'node:path';
 import { vs } from '@/helpers';
 import { JSON_FOLDER, SCRIPTS_FOLDER, executeTask } from '@/main';
+import fs from '@rcompat/fs';
 
 const task = vs(process.argv[2]);
-const files = readdirSync(SCRIPTS_FOLDER, { withFileTypes: true }).concat(
-	readdirSync(JSON_FOLDER, { withFileTypes: true }),
-);
 
-const file =
-	files.find((t) => basename(t.name) === basename(task)) ||
-	files.find((t) => t.name === `${task}.ts` || t.name === `${task}.json`);
+const scripts = await new fs.FileRef(SCRIPTS_FOLDER).list();
+const json = await new fs.FileRef(JSON_FOLDER).list();
+const files = scripts.concat(json);
+
+const file = files.find((t) => t.name === task || t.base === task);
 
 if (!file) {
 	console.log(`Task ${task} not found`);

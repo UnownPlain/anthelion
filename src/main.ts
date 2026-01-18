@@ -3,11 +3,11 @@ import { Logger, vs } from '@/helpers';
 import { updatePackage } from '@/komac';
 import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
 import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
+import fs, { type FileRef } from '@rcompat/fs';
 import ansis from 'ansis';
 import { getProperty } from 'dot-prop';
 import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
-import { readdirSync, type Dirent } from 'node:fs';
 import { parse } from 'yaml';
 
 const MAX_CONCURRENCY = 32;
@@ -54,8 +54,8 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 }
 
 async function handleJsonTask(fileName: string, logger: Logger) {
-	const file = Bun.file(`./${JSON_FOLDER}/${fileName}`);
-	const task = JsonTaskSchema.parse(await file.json());
+	const file = await new fs.FileRef(`./${JSON_FOLDER}/${fileName}`).json();
+	const task = JsonTaskSchema.parse(file);
 	let version: string;
 	let urls: string[] = task.urls || [];
 	let args = task.args || [];
@@ -144,7 +144,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	logger.log(updateResult + '\n');
 }
 
-export async function executeTask(file: Dirent) {
+export async function executeTask(file: FileRef) {
 	const logger = new Logger();
 
 	logger.run(file.name);
@@ -164,9 +164,9 @@ export async function executeTask(file: Dirent) {
 }
 
 async function runAllTasks() {
-	const tasks = readdirSync(SCRIPTS_FOLDER, { withFileTypes: true }).concat(
-		readdirSync(JSON_FOLDER, { withFileTypes: true }),
-	);
+	const scripts = await new fs.FileRef(SCRIPTS_FOLDER).list();
+	const json = await new fs.FileRef(JSON_FOLDER).list();
+	const tasks = scripts.concat(json);
 
 	console.log(`Found ${tasks.length} tasks to run\n`);
 
@@ -176,7 +176,7 @@ async function runAllTasks() {
 	const failures = results
 		.map((result, i) => ({ result, file: tasks[i] }))
 		.filter(
-			(x): x is { result: PromiseRejectedResult; file: Dirent } => x.result.status === 'rejected',
+			(x): x is { result: PromiseRejectedResult; file: FileRef } => x.result.status === 'rejected',
 		)
 		.map((r) => {
 			errorSummary += `### ❌ Error in ${r.file.name}\n\`\`\`\n${ansis.strip(r.result.reason.message)}\n\`\`\`\n`;
@@ -189,7 +189,7 @@ async function runAllTasks() {
 		if (errorSummary) {
 			summary += `\n\n## Run Errors\n\n${errorSummary}`;
 		}
-		await Bun.write(process.env.GITHUB_STEP_SUMMARY, summary);
+		await new fs.FileRef(process.env.GITHUB_STEP_SUMMARY).write(summary);
 	}
 
 	console.log(`\n${completed}`);

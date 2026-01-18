@@ -1,6 +1,6 @@
 import { compareVersions, match, vs } from '@/helpers.ts';
-import { parse } from 'yaml';
 import ky from 'ky';
+import { parse } from 'yaml';
 
 export async function electronBuilder(url: string) {
 	const response = await ky(url).text();

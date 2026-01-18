@@ -1,4 +1,4 @@
-import { writeFileSync } from '@std/fs/unstable-write-file';
+import fs from '@rcompat/fs';
 import { z } from 'zod';
 
 export enum Strategy {
@@ -156,11 +156,8 @@ export const ScriptTaskResult = z.object({
 });
 
 export async function generateJsonTaskSchema() {
-	const encoder = new TextEncoder();
-	writeFileSync(
-		'./src/schema/task/schema.json',
-		encoder.encode(JSON.stringify(z.toJSONSchema(JsonTaskSchema), null, 2)),
-	);
+	const schemaFile = new fs.FileRef('./src/schema/task/schema.json');
+	await schemaFile.write(JSON.stringify(z.toJSONSchema(JsonTaskSchema), null, 2));
 	console.log('Successfully generated JSON schema: src/schema/task/schema.json');
 }
 

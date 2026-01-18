@@ -1,8 +1,9 @@
-import { makeTempFile } from '@std/fs/unstable-make-temp-file';
-import { writeFile } from '@std/fs/unstable-write-file';
-import { spawn, YAML } from 'bun';
+import fs from '@rcompat/fs';
+import { spawn } from 'bun';
 import ky from 'ky';
+import { tmpdir } from 'node:os';
 import { extname } from 'node:path';
+import { parse } from 'yaml';
 
 export async function komac(...args: string[]) {
 	const proc = spawn(['komac', ...args], {
@@ -37,13 +38,14 @@ export async function getInstallerInfo(url: string) {
 
 	if (!filename) throw new Error('Failed to parse file name');
 
-	const installer = await makeTempFile({ suffix: extname(filename) });
-	await writeFile(installer, new Uint8Array(await installerFile.arrayBuffer()));
+	const tempPath = `${tmpdir()}/${extname(filename)}`;
+	const installer = new fs.FileRef(tempPath);
+	await installer.write(await installerFile.arrayBuffer());
 
-	const output = await komac('analyse', installer);
+	const output = await komac('analyse', installer.path);
 
 	try {
-		return YAML.parse(output);
+		return parse(output);
 	} catch (e) {
 		throw new Error(`Failed to parse YAML output: ${(e as Error).message}`);
 	}

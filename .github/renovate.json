@@ -4,12 +4,7 @@
 	"rangeStrategy": "bump",
 	"packageRules": [
 		{
-			"matchDatasources": ["npm"],
-			"matchPackagePatterns": ["^@jsr/std__"],
-			"registryUrls": ["https://npm.jsr.io"]
-		},
-		{
-			"matchUpdateTypes": ["minor", "patch"],
+			"matchUpdateTypes": ["minor", "patch", "digest"],
 			"automerge": true
 		}
 	]

@@ -1,8 +1,8 @@
-import { delay } from 'es-toolkit';
 import { getReleaseByTag, getRepoHeadSha, octokit } from '@/github.ts';
-import { updatePackage } from '@/komac.ts';
 import { match, vs } from '@/helpers.ts';
-import { readTextFileSync } from '@std/fs/unstable-read-text-file';
+import { updatePackage } from '@/komac.ts';
+import fs from '@rcompat/fs';
+import { delay } from 'es-toolkit';
 import process from 'node:process';
 
 export default async function () {
@@ -11,7 +11,7 @@ export default async function () {
 
 	const release = await getReleaseByTag('zen-browser', 'desktop', 'twilight');
 	const latestVersion = vs(release.name);
-	const wingetVersion = readTextFileSync(VERSION_STATE_PATH).trim();
+	const wingetVersion = (await new fs.FileRef(VERSION_STATE_PATH).text()).trim();
 
 	if (latestVersion === wingetVersion) {
 		return 'Current version matches latest version.\n';

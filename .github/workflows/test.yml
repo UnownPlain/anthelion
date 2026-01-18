@@ -84,7 +84,7 @@ jobs:
             done
           else
             for file in $CHANGED_FILES; do
-              package_id=$(basename "$file" | sed 's/\.\(json\|ts\)$//')
+              package_id=$(basename "$file")
               bun pkgtest "$package_id" --dry-run
             done
           fi

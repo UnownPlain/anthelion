@@ -14,14 +14,14 @@
 		"gen-schema": "bun run src/schema/task/schema.ts && oxfmt"
 	},
 	"dependencies": {
-		"@std/fs": "npm:@jsr/std__fs@1.0.21",
+		"@rcompat/fs": "0.25.2",
 		"ansis": "4.2.0",
 		"dot-prop": "10.1.0",
 		"es-toolkit": "1.43.0",
 		"ky": "1.14.2",
 		"octokit": "5.0.5",
 		"temporal-polyfill": "0.3.0",
-		"yaml": "^2.8.2",
+		"yaml": "2.8.2",
 		"zod": "4.3.5"
 	},
 	"devDependencies": {
