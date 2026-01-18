@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "BurntSushi.ripgrep.MSVC",
+	"strategy": "github-release",
+	"github": { "owner": "BurntSushi", "repo": "ripgrep" },
+	"urls": [
+		"https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-i686-pc-windows-msvc.zip",
+		"https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-x86_64-pc-windows-msvc.zip",
+		"https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-aarch64-pc-windows-msvc.zip"
+	]
+}
