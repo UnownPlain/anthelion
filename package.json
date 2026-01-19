@@ -17,7 +17,7 @@
 		"@rcompat/fs": "0.25.2",
 		"ansis": "4.2.0",
 		"dot-prop": "10.1.0",
-		"es-toolkit": "1.43.0",
+		"es-toolkit": "1.44.0",
 		"ky": "1.14.2",
 		"octokit": "5.0.5",
 		"temporal-polyfill": "0.3.0",
