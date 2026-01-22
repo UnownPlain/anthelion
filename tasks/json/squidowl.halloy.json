@@ -1,0 +1,7 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "squidowl.halloy",
+	"strategy": "github-release",
+	"github": { "owner": "squidowl", "repo": "halloy" },
+	"urls": ["https://github.com/squidowl/halloy/releases/download/{version}/halloy-installer.msi"]
+}
