@@ -1,6 +1,7 @@
+import fs from '@rcompat/fs';
+
 import { vs } from '@/helpers';
 import { JSON_FOLDER, SCRIPTS_FOLDER, executeTask } from '@/main';
-import fs from '@rcompat/fs';
 
 const task = vs(process.argv[2]);
 

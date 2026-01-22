@@ -1,5 +1,6 @@
-import { vs } from '@/helpers.ts';
 import ky from 'ky';
+
+import { vs } from '@/helpers.ts';
 
 export default async function () {
 	const response = await ky(

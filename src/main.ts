@@ -1,14 +1,15 @@
-import { getLatestVersion } from '@/github';
-import { Logger, vs } from '@/helpers';
-import { updatePackage } from '@/komac';
-import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
-import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
 import fs, { type FileRef } from '@rcompat/fs';
 import ansis from 'ansis';
 import { getProperty } from 'dot-prop';
 import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 import { parse } from 'yaml';
+
+import { getLatestVersion } from '@/github';
+import { Logger, vs } from '@/helpers';
+import { updatePackage } from '@/komac';
+import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
+import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
 
 const MAX_CONCURRENCY = 32;
 export const SCRIPTS_FOLDER = 'tasks/script';
@@ -156,7 +157,7 @@ export async function executeTask(file: FileRef) {
 			await handleJsonTask(file.name, logger);
 		}
 	} catch (e) {
-		logger.error(file.name, (e as Error).message);
+		logger.error(file.name, e as Error);
 		throw e;
 	} finally {
 		logger.flush();

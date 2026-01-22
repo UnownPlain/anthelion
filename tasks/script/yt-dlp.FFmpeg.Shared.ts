@@ -1,6 +1,7 @@
 import { Temporal } from 'temporal-polyfill';
+
 import { getAllReleases } from '@/github.ts';
-import { match, vs } from '@/helpers.ts';
+import { match } from '@/helpers.ts';
 
 export default async function () {
 	const releases = await getAllReleases('yt-dlp', 'FFmpeg-Builds');
@@ -23,7 +24,7 @@ export default async function () {
 			const url = asset.browser_download_url;
 			return url.includes('arm64') ? `${url}|arm64` : url;
 		});
-	const [version] = match(vs(urls[0]), /ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i);
+	const [version] = match(urls[0], /ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i);
 
 	return {
 		version: `N-${version}-${date.toString().replaceAll('-', '')}`,

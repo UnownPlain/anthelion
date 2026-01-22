@@ -1,5 +1,6 @@
-import { match } from '@/helpers.ts';
 import ky from 'ky';
+
+import { match } from '@/helpers.ts';
 
 export default async function () {
 	const versionInfo = await ky('https://www.apachelounge.com/download/').text();

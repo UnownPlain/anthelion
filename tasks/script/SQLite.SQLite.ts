@@ -1,5 +1,6 @@
-import { match } from '@/helpers.ts';
 import ky from 'ky';
+
+import { match } from '@/helpers.ts';
 
 export default async function () {
 	const response = await ky('https://www.sqlite.org/download.html').text();

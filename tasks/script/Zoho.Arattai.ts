@@ -1,5 +1,6 @@
-import { match } from '@/helpers.ts';
 import ky from 'ky';
+
+import { match } from '@/helpers.ts';
 
 export default async function () {
 	const releases = await ky('https://downloads.zohocdn.com/arattai-desktop/artifacts.json').json<{

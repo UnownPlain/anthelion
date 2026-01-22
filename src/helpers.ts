@@ -1,5 +1,12 @@
+import type { Octokit } from 'octokit';
+
+import fs from '@rcompat/fs';
 import { bgRed, blue, green, redBright } from 'ansis';
-import { z } from 'zod';
+import { delay } from 'es-toolkit';
+import process from 'node:process';
+import { z, ZodError } from 'zod';
+
+import { getRepoHeadSha } from '@/github.ts';
 
 export class Logger {
 	private logs: string[] = [];
@@ -23,9 +30,9 @@ export class Logger {
 		this.log(green`Package is up-to-date! (${version})\n`);
 	}
 
-	error(task: string, message: string) {
+	error(task: string, error: Error) {
 		this.log(bgRed`❌ Error running ${task}`);
-		this.log(redBright`${message}\n`);
+		this.log(redBright`${error instanceof ZodError ? z.prettifyError(error) : error}\n`);
 	}
 
 	details(version: string, urls: string[]) {
@@ -52,13 +59,82 @@ export function vs(str: unknown) {
 	return z.string().parse(str).trim();
 }
 
-export function match(str: string, regex: RegExp): [string, ...string[]] {
-	const match = str.match(regex);
+export function match(str: string | undefined, regex: RegExp) {
+	const match = vs(str).match(regex);
 	const groups = match?.slice(1);
 
-	if (!groups || groups.length === 0 || groups.some((g) => g === undefined)) {
+	if (!groups) {
 		throw new Error('Regex match not found');
 	}
 
-	return groups as [string, ...string[]];
+	const validated = z.array(z.string()).parse(groups);
+
+	if (validated.length === 0) {
+		throw new Error('Regex match not found');
+	}
+
+	return validated;
+}
+
+export async function stateCompare(packageIdentifier: string, newState: string) {
+	const versionStatePath = `version_state/${packageIdentifier}`;
+	const storedVersion = (await new fs.FileRef(versionStatePath).text()).trim();
+
+	return newState === storedVersion;
+}
+
+export async function closeAllButMostRecentPR(octokit: Octokit, packageIdentifier: string) {
+	// Wait 5s for GitHub API to update
+	await delay(5000);
+
+	const prSearch = await octokit.rest.search.issuesAndPullRequests({
+		q: `${packageIdentifier}+is:pr+author:UnownBot+is:open+repo:microsoft/winget-pkgs+sort:created-desc`,
+	});
+
+	for (const pr of prSearch.data.items.slice(1)) {
+		await octokit.rest.pulls.update({
+			owner: 'microsoft',
+			repo: 'winget-pkgs',
+			pull_number: pr.number,
+			state: 'closed',
+		});
+	}
+}
+
+export async function updateVersionState(
+	octokit: Octokit,
+	packageIdentifier: string,
+	latestVersion: string,
+) {
+	const versionStatePath = `version_state/${packageIdentifier}`;
+	const mutation = `
+		mutation UpdateFile($input: CreateCommitOnBranchInput!) {
+			createCommitOnBranch(input: $input) {
+				commit {
+					url
+				}
+			}
+		}
+	`;
+
+	await octokit.graphql(mutation, {
+		input: {
+			branch: {
+				repositoryNameWithOwner: process.env.GITHUB_REPOSITORY,
+				branchName: process.env.GITHUB_REF_NAME,
+			},
+			message: {
+				headline: `Update ${packageIdentifier} version state`,
+			},
+			fileChanges: {
+				additions: [
+					{
+						path: versionStatePath,
+						contents: btoa(latestVersion),
+					},
+				],
+			},
+			expectedHeadOid: await getRepoHeadSha(),
+		},
+	});
 }

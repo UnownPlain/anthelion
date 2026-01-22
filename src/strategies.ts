@@ -1,6 +1,17 @@
-import { compareVersions, match, vs } from '@/helpers.ts';
 import ky from 'ky';
 import { parse } from 'yaml';
+import z from 'zod';
+
+import { octokit } from '@/github.ts';
+import {
+	closeAllButMostRecentPR,
+	compareVersions,
+	match,
+	stateCompare,
+	updateVersionState,
+	vs,
+} from '@/helpers.ts';
+import { updatePackage } from '@/komac.ts';
 
 export async function electronBuilder(url: string) {
 	const response = await ky(url).text();
@@ -44,4 +55,33 @@ export function sortVersions(str: string, regex: RegExp) {
 	const versions = Array.from(matches, (match) => vs(match[1]));
 	versions.sort((a, b) => compareVersions(b, a));
 	return versions[0];
+}
+
+const versionStateStrategySchema = z.object({
+	packageIdentifier: z.string(),
+	newState: z.string().nullish().pipe(z.string()),
+	version: z.string().nullish().pipe(z.string()),
+	urls: z.array(z.string()),
+	options: z.array(z.string()).optional(),
+});
+
+export async function versionStateStrategy(options: z.input<typeof versionStateStrategySchema>) {
+	const {
+		packageIdentifier,
+		newState,
+		version,
+		urls,
+		options: opts = [],
+	} = versionStateStrategySchema.parse(options);
+
+	if (await stateCompare(packageIdentifier, newState)) {
+		return `Stored state matches latest state. (${version})`;
+	}
+
+	const output = await updatePackage(packageIdentifier, version, urls, ...opts);
+
+	await updateVersionState(octokit, packageIdentifier, newState);
+	await closeAllButMostRecentPR(octokit, packageIdentifier);
+
+	return output;
 }

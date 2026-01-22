@@ -1,5 +1,6 @@
-import { sortVersions } from '@/strategies.ts';
 import ky from 'ky';
+
+import { sortVersions } from '@/strategies.ts';
 
 export default async function () {
 	const versionInfo = await ky('https://download.bzflag.org/bzflag/windows/').text();
