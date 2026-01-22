@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "Starship.Starship",
+	"strategy": "github-release",
+	"github": { "owner": "starship", "repo": "starship" },
+	"urls": [
+		"https://github.com/starship/starship/releases/download/v{version}/starship-x86_64-pc-windows-msvc.msi",
+		"https://github.com/starship/starship/releases/download/v{version}/starship-x86_64-pc-windows-msvc.zip",
+		"https://github.com/starship/starship/releases/download/v{version}/starship-i686-pc-windows-msvc.msi",
+		"https://github.com/starship/starship/releases/download/v{version}/starship-i686-pc-windows-msvc.zip",
+		"https://github.com/starship/starship/releases/download/v{version}/starship-aarch64-pc-windows-msvc.msi",
+		"https://github.com/starship/starship/releases/download/v{version}/starship-aarch64-pc-windows-msvc.zip"
+	]
+}
