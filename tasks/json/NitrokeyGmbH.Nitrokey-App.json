@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "NitrokeyGmbH.Nitrokey-App",
+	"strategy": "github-release",
+	"github": { "owner": "Nitrokey", "repo": "nitrokey-app2" },
+	"urls": [
+		"https://github.com/Nitrokey/nitrokey-app2/releases/download/v{version}/nitrokey-app-v{version}-x64-windows-installer.msi"
+	]
+}
