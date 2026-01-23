@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "Nvidia.FrameView",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.nvidia.com/en-us/geforce/technologies/frameview/",
+		"regex": "href='[^\"]*FrameView[._-]v?(\\d+(?:\\.\\d+)+)[^\"]*\\.exe'"
+	},
+	"urls": [
+		"https://images.nvidia.com/content/geforce/technologies/frameview/FrameView_{version}/FrameViewSetup.exe"
+	],
+	"releaseNotes": "https://www.nvidia.com/en-us/geforce/technologies/frameview/release-notes/"
+}
