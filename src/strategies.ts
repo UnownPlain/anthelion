@@ -2,7 +2,6 @@ import ky from 'ky';
 import { parse } from 'yaml';
 import z from 'zod';
 
-import { octokit } from '@/github.ts';
 import {
 	closeAllButMostRecentPR,
 	compareVersions,
@@ -80,8 +79,8 @@ export async function versionStateStrategy(options: z.input<typeof versionStateS
 
 	const output = await updatePackage(packageIdentifier, version, urls, ...opts);
 
-	await updateVersionState(octokit, packageIdentifier, newState);
-	await closeAllButMostRecentPR(octokit, packageIdentifier);
+	await updateVersionState(packageIdentifier, newState);
+	await closeAllButMostRecentPR(packageIdentifier);
 
 	return output;
 }

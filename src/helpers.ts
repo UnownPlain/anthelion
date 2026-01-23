@@ -1,12 +1,10 @@
-import type { Octokit } from 'octokit';
-
 import fs from '@rcompat/fs';
 import { bgRed, blue, green, redBright } from 'ansis';
 import { delay } from 'es-toolkit';
 import process from 'node:process';
 import { z, ZodError } from 'zod';
 
-import { getRepoHeadSha } from '@/github.ts';
+import { octokit, getRepoHeadSha } from '@/github.ts';
 
 export class Logger {
 	private logs: string[] = [];
@@ -83,7 +81,7 @@ export async function stateCompare(packageIdentifier: string, newState: string) 
 	return newState === storedVersion;
 }
 
-export async function closeAllButMostRecentPR(octokit: Octokit, packageIdentifier: string) {
+export async function closeAllButMostRecentPR(packageIdentifier: string) {
 	// Wait 5s for GitHub API to update
 	await delay(5000);
 
@@ -101,11 +99,7 @@ export async function closeAllButMostRecentPR(octokit: Octokit, packageIdentifie
 	}
 }
 
-export async function updateVersionState(
-	octokit: Octokit,
-	packageIdentifier: string,
-	latestVersion: string,
-) {
+export async function updateVersionState(packageIdentifier: string, latestVersion: string) {
 	const versionStatePath = `version_state/${packageIdentifier}`;
 	const mutation = `
 		mutation UpdateFile($input: CreateCommitOnBranchInput!) {

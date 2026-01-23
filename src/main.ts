@@ -6,7 +6,7 @@ import ky from 'ky';
 import { parse } from 'yaml';
 
 import { getLatestVersion } from '@/github';
-import { Logger, vs } from '@/helpers';
+import { closeAllButMostRecentPR, Logger, vs } from '@/helpers';
 import { updatePackage } from '@/komac';
 import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
 import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
@@ -133,7 +133,10 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 
 	if (await checkVersionInRepo(version, task.packageId, logger)) return;
 
-	if (task.replace) args.push('-r');
+	if (task.replace) {
+		args.push('-r');
+		await closeAllButMostRecentPR(task.packageId);
+	}
 	if (task.releaseNotes)
 		args.push('--release-notes-url', task.releaseNotes.replaceAll('{version}', version));
 	urls = urls.map((t) => t.replaceAll('{version}', version));
