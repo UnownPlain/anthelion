@@ -3,8 +3,8 @@
 	"packageId": "Mikrotik.Netinstall",
 	"strategy": "page-match",
 	"pageMatch": {
-		"url": "https://mikrotik.com/download/tools",
-		"regex": "href=[\"'][^\"']*?netinstall(?:64)?[._-]v?(\\d+(?:\\.\\d+)+)\\.zip"
+		"url": "https://cdn.mikrotik.com/routeros/latest-stable.rss",
+		"regex": "<title>RouterOS\\s+v?(\\d+(?:\\.\\d+)+)"
 	},
 	"urls": [
 		"https://download.mikrotik.com/routeros/{version}/netinstall-{version}.zip",
