@@ -23,6 +23,7 @@ async function checkVersionInRepo(version: string, packageId: string, logger: Lo
 		.join('/')}/${version}/${packageId}.yaml`;
 
 	const versionCheck = await ky(manifestPath, {
+		method: 'head',
 		throwHttpErrors: false,
 	});
 	const check = versionCheck.ok && import.meta.main;
