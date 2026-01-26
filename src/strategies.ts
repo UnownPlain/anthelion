@@ -77,7 +77,11 @@ export async function versionStateStrategy(options: z.input<typeof versionStateS
 		return `Stored state matches latest state. (${version})`;
 	}
 
-	const output = await updatePackage(packageIdentifier, version, urls, ...opts);
+	const output = await updatePackage(packageIdentifier, version, urls, ...opts).catch(async () => {
+		// Remove this once its fixed in komac
+		const opts2 = opts.slice(1);
+		await updatePackage(packageIdentifier, version, urls, ...opts2);
+	});
 
 	await updateVersionState(packageIdentifier, newState);
 	await closeAllButMostRecentPR(packageIdentifier);
