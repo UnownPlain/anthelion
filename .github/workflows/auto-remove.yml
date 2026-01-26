@@ -11,6 +11,10 @@ concurrency:
 
 permissions: {}
 
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
 jobs:
   update-packages:
     name: Remove Dead Versions

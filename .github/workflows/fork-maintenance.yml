@@ -11,10 +11,6 @@ concurrency:
 
 permissions: {}
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
   fork-maintenance:
     name: Fork Maintenance
