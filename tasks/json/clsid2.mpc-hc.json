@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "clsid2.mpc-hc",
+	"strategy": "github-release",
+	"github": { "owner": "clsid2", "repo": "mpc-hc" },
+	"urls": [
+		"https://github.com/clsid2/mpc-hc/releases/download/{version}/MPC-HC.{version}.x86.exe",
+		"https://github.com/clsid2/mpc-hc/releases/download/{version}/MPC-HC.{version}.x64.exe"
+	]
+}
