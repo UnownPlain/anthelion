@@ -4,8 +4,8 @@
 	"strategy": "github-release",
 	"github": { "owner": "uutils", "repo": "coreutils" },
 	"urls": [
-		"https://github.com/uutils/coreutils/releases/download/{version}/coreutils-{version}-i686-pc-windows-msvc.zip",
-		"https://github.com/uutils/coreutils/releases/download/{version}/coreutils-{version}-x86_64-pc-windows-msvc.zip",
-		"https://github.com/uutils/coreutils/releases/download/{version}/coreutils-{version}-aarch64-pc-windows-msvc.zip"
+		"https://github.com/uutils/coreutils/releases/download/{version}/coreutils-i686-pc-windows-msvc.zip",
+		"https://github.com/uutils/coreutils/releases/download/{version}/coreutils-x86_64-pc-windows-msvc.zip",
+		"https://github.com/uutils/coreutils/releases/download/{version}/coreutils-aarch64-pc-windows-msvc.zip"
 	]
 }
