@@ -7,5 +7,15 @@
 			"matchUpdateTypes": ["minor", "patch", "digest"],
 			"automerge": true
 		}
+	],
+	"customManagers": [
+		{
+			"customType": "regex",
+			"managerFilePatterns": ["/(^|/)package.json$/"],
+			"depNameTemplate": "bun",
+			"datasourceTemplate": "npm",
+			"versioningTemplate": "npm",
+			"matchStrings": ["\"packageManager\":\\s+\"bun@(?<currentValue>\\d+\\.\\d+\\.\\d+)\""]
+		}
 	]
 }
