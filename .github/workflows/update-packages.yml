@@ -38,7 +38,9 @@ jobs:
       - name: Install komac
         uses: UnownPlain/install-komac@main
         with:
-          repo: UnownPlain/Komac
+          repo: unpn-org/Komac
+          linux_libc: musl
+          compression: zst
 
       - name: Update Packages
         env:
