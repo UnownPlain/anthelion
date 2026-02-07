@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "Terramate.CLI",
+	"strategy": "github-release",
+	"github": { "owner": "terramate-io", "repo": "terramate" },
+	"urls": [
+		"https://github.com/terramate-io/terramate/releases/download/v{version}/terramate_{version}_windows_i386.zip",
+		"https://github.com/terramate-io/terramate/releases/download/v{version}/terramate_{version}_windows_x86_64.zip",
+		"https://github.com/terramate-io/terramate/releases/download/v{version}/terramate_{version}_windows_arm64.zip"
+	]
+}

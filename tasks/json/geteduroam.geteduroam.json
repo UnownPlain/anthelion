@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "geteduroam.geteduroam",
+	"strategy": "github-release",
+	"github": { "owner": "geteduroam", "repo": "windows-app" },
+	"urls": [
+		"https://github.com/geteduroam/windows-app/releases/download/v{version}/geteduroam.exe",
+		"https://github.com/geteduroam/windows-app/releases/download/v{version}/geteduroam_arm.exe"
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "NextTrace.NextTrace.Core",
+	"strategy": "github-release",
+	"github": { "owner": "nxtrace", "repo": "NTrace-core" },
+	"urls": [
+		"https://github.com/nxtrace/NTrace-core/releases/download/v{version}/nexttrace_windows_386.exe",
+		"https://github.com/nxtrace/NTrace-core/releases/download/v{version}/nexttrace_windows_amd64.exe",
+		"https://github.com/nxtrace/NTrace-core/releases/download/v{version}/nexttrace_windows_armv7.exe",
+		"https://github.com/nxtrace/NTrace-core/releases/download/v{version}/nexttrace_windows_arm64.exe"
+	]
+}

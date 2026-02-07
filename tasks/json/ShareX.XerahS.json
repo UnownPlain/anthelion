@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "ShareX.XerahS",
+	"strategy": "github-release",
+	"github": { "owner": "ShareX", "repo": "XerahS", "preRelease": true },
+	"urls": [
+		"https://github.com/ShareX/XerahS/releases/download/v{version}/XerahS-{version}-win-x64.exe",
+		"https://github.com/ShareX/XerahS/releases/download/v{version}/XerahS-{version}-win-arm64.exe"
+	]
+}
