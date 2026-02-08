@@ -6,5 +6,5 @@
 		"url": "https://cdn.localwp.com/stable/latest/windows",
 		"regex": "local[._-]v?(\\d+(?:\\.\\d+)+)[._-]windows\\.exe"
 	},
-	"releaseNotes": "https://localwp.com/releases/{version}"
+	"releaseNotesUrl": "https://localwp.com/releases/{version}"
 }

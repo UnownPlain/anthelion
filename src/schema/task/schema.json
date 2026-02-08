@@ -19,9 +19,9 @@
 						"type": "string"
 					}
 				},
-				"releaseNotes": {
+				"releaseNotesUrl": {
 					"type": "string",
-					"description": "Optional release notes text. Can contain {version} placeholder."
+					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
 				},
 				"replace": {
 					"default": false,
@@ -95,9 +95,9 @@
 						"type": "string"
 					}
 				},
-				"releaseNotes": {
+				"releaseNotesUrl": {
 					"type": "string",
-					"description": "Optional release notes text. Can contain {version} placeholder."
+					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
 				},
 				"replace": {
 					"default": false,
@@ -156,9 +156,9 @@
 						"type": "string"
 					}
 				},
-				"releaseNotes": {
+				"releaseNotesUrl": {
 					"type": "string",
-					"description": "Optional release notes text. Can contain {version} placeholder."
+					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
 				},
 				"replace": {
 					"default": false,
@@ -222,9 +222,9 @@
 						"type": "string"
 					}
 				},
-				"releaseNotes": {
+				"releaseNotesUrl": {
 					"type": "string",
-					"description": "Optional release notes text. Can contain {version} placeholder."
+					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
 				},
 				"replace": {
 					"default": false,
@@ -281,9 +281,9 @@
 						"type": "string"
 					}
 				},
-				"releaseNotes": {
+				"releaseNotesUrl": {
 					"type": "string",
-					"description": "Optional release notes text. Can contain {version} placeholder."
+					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
 				},
 				"replace": {
 					"default": false,
@@ -344,9 +344,9 @@
 						"type": "string"
 					}
 				},
-				"releaseNotes": {
+				"releaseNotesUrl": {
 					"type": "string",
-					"description": "Optional release notes text. Can contain {version} placeholder."
+					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
 				},
 				"replace": {
 					"default": false,

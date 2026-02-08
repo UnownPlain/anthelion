@@ -9,5 +9,5 @@
 	"urls": [
 		"https://launcher-files.modrinth.com/versions/{version}/windows/Modrinth%20App_{version}_x64-setup.exe"
 	],
-	"releaseNotes": "https://modrinth.com/news/changelog?filter=app"
+	"releaseNotesUrl": "https://modrinth.com/news/changelog?filter=app"
 }

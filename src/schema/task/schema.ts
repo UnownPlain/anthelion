@@ -59,9 +59,9 @@ const baseTaskFields = {
 	$schema: z.url().describe('Optional JSON Schema reference URL.').optional(),
 	packageId: z.string().describe('Task identifier in winget-pkgs.'),
 	args: z.array(z.string()).optional(),
-	releaseNotes: z
+	releaseNotesUrl: z
 		.string()
-		.describe('Optional release notes text. Can contain {version} placeholder.')
+		.describe('Optional release notes URL. Can contain {version} placeholder or JSON path.')
 		.optional(),
 	replace: z
 		.boolean()

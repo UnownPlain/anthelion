@@ -9,5 +9,5 @@
 	"urls": [
 		"https://redirector.gvt1.com/edgedl/android/studio/install/{version}/android-studio-{version}-windows.exe|x64"
 	],
-	"releaseNotes": "https://androidstudio.googleblog.com/"
+	"releaseNotesUrl": "https://androidstudio.googleblog.com/"
 }

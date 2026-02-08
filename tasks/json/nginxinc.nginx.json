@@ -7,5 +7,5 @@
 		"regex": "nginx[._-]v?(\\d+(?:\\.\\d+)+)<\\/a>[\\s\\S]*?mainline version"
 	},
 	"urls": ["https://nginx.org/download/nginx-{version}.zip|x64"],
-	"releaseNotes": "https://nginx.org/en/CHANGES"
+	"releaseNotesUrl": "https://nginx.org/en/CHANGES"
 }

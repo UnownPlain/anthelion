@@ -22,15 +22,17 @@ async function checkVersionInRepo(version: string, packageId: string, logger: Lo
 		.split('.')
 		.join('/')}/${version}/${packageId}.yaml`;
 
-	const versionCheck = await ky(manifestPath, {
+	const response = await ky(manifestPath, {
 		method: 'head',
 		throwHttpErrors: false,
 	});
-	const check = versionCheck.ok && import.meta.main;
 
-	if (check) logger.present(version);
+	if (response.ok && import.meta.main) {
+		logger.present(version);
+		return true;
+	}
 
-	return check;
+	return false;
 }
 
 async function handleScriptTask(fileName: string, logger: Logger) {
@@ -95,19 +97,19 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 				}
 				return url;
 			});
-			if (task.releaseNotes && !task.releaseNotes.startsWith('https://')) {
-				task.releaseNotes = vs(getProperty(response, task.releaseNotes));
+			if (task.releaseNotesUrl && !task.releaseNotesUrl.startsWith('https://')) {
+				task.releaseNotesUrl = vs(getProperty(response, task.releaseNotesUrl));
 			}
 			break;
 		}
 		case Strategy.RedirectMatch: {
-			const r = await redirectMatch(
+			const result = await redirectMatch(
 				task.redirectMatch.url,
 				new RegExp(task.redirectMatch.regex, 'i'),
 			);
-			version = r.version;
+			version = result.version;
 			if (!task.urls) {
-				urls.push(r.url);
+				urls.push(result.url);
 			}
 			break;
 		}
@@ -122,8 +124,8 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 				}
 				return url;
 			});
-			if (task.releaseNotes && !task.releaseNotes.startsWith('https://')) {
-				task.releaseNotes = vs(getProperty(response, task.releaseNotes));
+			if (task.releaseNotesUrl && !task.releaseNotesUrl.startsWith('https://')) {
+				task.releaseNotesUrl = vs(getProperty(response, task.releaseNotesUrl));
 			}
 			break;
 		}
@@ -138,8 +140,8 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 		args.push('-r');
 		await closeAllButMostRecentPR(task.packageId);
 	}
-	if (task.releaseNotes)
-		args.push('--release-notes-url', task.releaseNotes.replaceAll('{version}', version));
+	if (task.releaseNotesUrl)
+		args.push('--release-notes-url', task.releaseNotesUrl.replaceAll('{version}', version));
 	urls = urls.map((t) => t.replaceAll('{version}', version));
 
 	logger.details(version, urls);
@@ -176,16 +178,19 @@ async function runAllTasks() {
 	console.log(`Found ${tasks.length} tasks to run\n`);
 
 	const results = await Promise.allSettled(tasks.map(limitAsync(executeTask, MAX_CONCURRENCY)));
-	let errorSummary = '';
 
 	const failures = results
 		.map((result, i) => ({ result, file: tasks[i] }))
 		.filter(
 			(x): x is { result: PromiseRejectedResult; file: FileRef } => x.result.status === 'rejected',
+		);
+
+	const errorSummary = failures
+		.map(
+			(r) =>
+				`### ❌ Error in ${r.file.name}\n\`\`\`\n${ansis.strip(r.result.reason.message)}\n\`\`\`\n`,
 		)
-		.map((r) => {
-			errorSummary += `### ❌ Error in ${r.file.name}\n\`\`\`\n${ansis.strip(r.result.reason.message)}\n\`\`\`\n`;
-		});
+		.join('');
 
 	const completed = `✅ Run completed: ${tasks.length - failures.length}/${tasks.length} tasks successful`;
 

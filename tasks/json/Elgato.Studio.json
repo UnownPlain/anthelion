@@ -7,5 +7,5 @@
 		"path": "Manual.Version"
 	},
 	"urls": ["Manual.fileURLs.x86_64", "Manual.fileURLs.arm64"],
-	"releaseNotes": "Manual.ReleaseNotes.en"
+	"releaseNotesUrl": "Manual.ReleaseNotes.en"
 }
