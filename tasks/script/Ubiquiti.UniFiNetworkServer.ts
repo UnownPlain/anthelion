@@ -10,7 +10,7 @@ export default async function () {
 	);
 
 	const version = versions[0]?.version;
-	const urls = [`https://dl.ui.com/unifi/${version}/UniFi-installer.exe`];
+	const urls = [`https://dl.ui.com/unifi/${version}/UniFi-installer.exe|x64`];
 
 	return {
 		version,
