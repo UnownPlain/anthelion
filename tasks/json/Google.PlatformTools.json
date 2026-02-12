@@ -3,11 +3,9 @@
 	"packageId": "Google.PlatformTools",
 	"strategy": "page-match",
 	"pageMatch": {
-		"url": "https://developer.android.com/tools/releases/platform-tools",
-		"regex": "data-text=[\"']?[^\"'> ]*?v?(\\d+(?:\\.\\d+)+)[\"' >]"
+		"url": "https://dl.google.com/android/repository/repository2-1.xml",
+		"regex": "path=\"platform-tools\"[\\s\\S]*?<url>platform-tools_r(\\d+(?:\\.\\d+)+)-win\\.zip<\\/url>"
 	},
-	"urls": [
-		"https://redirector.gvt1.com/edgedl/android/studio/install/{version}/android-studio-{version}-windows.exe"
-	],
-	"releaseNotesUrl": "https://androidstudio.googleblog.com/"
+	"urls": ["https://dl.google.com/android/repository/platform-tools_r{version}-win.zip"],
+	"releaseNotesUrl": "https://developer.android.com/tools/releases/platform-tools"
 }
