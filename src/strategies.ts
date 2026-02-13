@@ -74,7 +74,7 @@ export async function versionStateStrategy(options: z.input<typeof versionStateS
 	} = versionStateStrategySchema.parse(options);
 
 	if (await stateCompare(packageIdentifier, newState)) {
-		return `Stored state matches latest state. (${version})`;
+		return `Stored state matches latest state. (${version})\n`;
 	}
 
 	const output = await updatePackage(packageIdentifier, version, urls, ...opts);
