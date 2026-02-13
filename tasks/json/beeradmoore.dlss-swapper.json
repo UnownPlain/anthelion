@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "beeradmoore.dlss-swapper",
+	"strategy": "github-release",
+	"github": { "owner": "beeradmoore", "repo": "dlss-swapper" },
+	"urls": [
+		"https://github.com/beeradmoore/dlss-swapper/releases/download/v{version}/DLSS.Swapper-{version}-installer.exe"
+	]
+}
