@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "GitHub.cli",
+	"strategy": "github-release",
+	"github": { "owner": "cli", "repo": "cli" },
+	"urls": [
+		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_386.msi",
+		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_amd64.msi",
+		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_arm64.msi"
+	]
+}
