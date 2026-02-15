@@ -69,11 +69,6 @@ jobs:
       - name: Install Dependencies
         run: bun ci --production
 
-      - name: Install komac
-        uses: UnownPlain/install-komac@main
-        with:
-          repo: UnownPlain/Komac
-
       - name: Test Packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

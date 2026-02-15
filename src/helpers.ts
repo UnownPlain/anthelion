@@ -1,6 +1,12 @@
 import fs from '@rcompat/fs';
-import { bgRed, blue, green, redBright } from 'ansis';
+import {
+	getExistingPullRequest,
+	type ExistingPullRequestResult,
+	type UpdateVersionResult,
+} from '@unownplain/anthelion-komac';
+import { bgRed, blue, green, redBright, yellow } from 'ansis';
 import { delay } from 'es-toolkit';
+import ky from 'ky';
 import process from 'node:process';
 import { z, ZodError } from 'zod';
 
@@ -11,6 +17,15 @@ export class Logger {
 
 	log(line: string) {
 		this.logs.push(line);
+	}
+
+	logUpdateResult(result: UpdateVersionResult) {
+		for (const file of result.changes) {
+			this.logs.push(file.content);
+		}
+		this.logs.push(
+			`Pull request URL: ${result.pullRequestUrl ? result.pullRequestUrl : 'Dry Run'}\n`,
+		);
 	}
 
 	flush() {
@@ -26,6 +41,13 @@ export class Logger {
 
 	present(version: string) {
 		this.log(green`Package is up-to-date! (${version})\n`);
+	}
+
+	prExists(pr: ExistingPullRequestResult) {
+		this.log(
+			yellow`There is already a PR with state ${pr.state.toLowerCase()} created at ${pr.createdAt}.`,
+		);
+		this.log(pr.pullRequestUrl + '\n');
 	}
 
 	error(task: string, error: Error) {
@@ -79,6 +101,39 @@ export async function stateCompare(packageIdentifier: string, newState: string) 
 	const storedVersion = (await new fs.FileRef(versionStatePath).text()).trim();
 
 	return newState === storedVersion;
+}
+
+export async function checkVersionInRepo(
+	version: string,
+	packageIdentifier: string,
+	logger = new Logger(),
+) {
+	const MANIFEST_URL =
+		'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests';
+	const manifestPath = `${MANIFEST_URL}/${packageIdentifier.charAt(0).toLowerCase()}/${packageIdentifier
+		.split('.')
+		.join('/')}/${version}/${packageIdentifier}.yaml`;
+
+	const response = await ky(manifestPath, {
+		method: 'head',
+		throwHttpErrors: false,
+	});
+
+	if (response.ok && !process.env.DRY_RUN) {
+		logger.present(version);
+		return true;
+	}
+
+	const existingPR = await getExistingPullRequest({
+		packageIdentifier,
+		version,
+		token: process.env.GITHUB_TOKEN!,
+	});
+
+	if (existingPR) {
+		logger.prExists(existingPR);
+		return true;
+	}
 }
 
 export async function closeAllButMostRecentPR(packageIdentifier: string) {

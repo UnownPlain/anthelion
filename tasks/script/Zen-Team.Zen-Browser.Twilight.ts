@@ -15,6 +15,6 @@ export default async function () {
 			'https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer.exe|x64',
 			'https://github.com/zen-browser/desktop/releases/download/twilight/zen.installer-arm64.exe',
 		],
-		options: ['-r', '--skip-pr-check'],
+		replace: true,
 	});
 }

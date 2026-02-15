@@ -1,8 +1,11 @@
+import { updateVersion } from '@unownplain/anthelion-komac';
+import { green } from 'ansis';
 import ky from 'ky';
 import { parse } from 'yaml';
 import z from 'zod';
 
 import {
+	checkVersionInRepo,
 	closeAllButMostRecentPR,
 	compareVersions,
 	match,
@@ -10,7 +13,6 @@ import {
 	updateVersionState,
 	vs,
 } from '@/helpers.ts';
-import { updatePackage } from '@/komac.ts';
 
 export async function electronBuilder(url: string) {
 	const response = await ky(url).text();
@@ -61,23 +63,29 @@ const versionStateStrategySchema = z.object({
 	newState: z.string().nullish().pipe(z.string()),
 	version: z.string().nullish().pipe(z.string()),
 	urls: z.array(z.string()),
-	options: z.array(z.string()).optional(),
+	skipPrCheck: z.boolean().default(false),
+	replace: z.boolean().default(false),
+	releaseNotesUrl: z.string().optional(),
 });
 
 export async function versionStateStrategy(options: z.input<typeof versionStateStrategySchema>) {
-	const {
-		packageIdentifier,
-		newState,
-		version,
-		urls,
-		options: opts = [],
-	} = versionStateStrategySchema.parse(options);
+	const { packageIdentifier, newState, version, urls, skipPrCheck, replace, releaseNotesUrl } =
+		versionStateStrategySchema.parse(options);
 
 	if (await stateCompare(packageIdentifier, newState)) {
-		return `Stored state matches latest state. (${version})\n`;
+		return green`Stored state matches latest state. (${version})\n`;
 	}
 
-	const output = await updatePackage(packageIdentifier, version, urls, ...opts);
+	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier))) return;
+
+	const output = await updateVersion({
+		packageIdentifier,
+		version,
+		urls,
+		releaseNotesUrl,
+		replace: replace ? 'latest' : undefined,
+		token: process.env.GITHUB_TOKEN!,
+	});
 
 	await updateVersionState(packageIdentifier, newState);
 	await closeAllButMostRecentPR(packageIdentifier);
