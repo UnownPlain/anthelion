@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "Mikrotik.Winbox",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://mikrotik.com/download/winbox",
+		"regex": "download\\.mikrotik\\.com/routeros/winbox/(\\d+(?:\\.\\d+)+)/WinBox_Windows\\.zip"
+	},
+	"urls": ["https://download.mikrotik.com/routeros/winbox/{version}/WinBox_Windows.zip"]
+}
