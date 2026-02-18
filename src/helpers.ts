@@ -108,6 +108,8 @@ export async function checkVersionInRepo(
 	packageIdentifier: string,
 	logger = new Logger(),
 ) {
+	if (process.env.DRY_RUN) return false;
+
 	const MANIFEST_URL =
 		'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests';
 	const manifestPath = `${MANIFEST_URL}/${packageIdentifier.charAt(0).toLowerCase()}/${packageIdentifier
