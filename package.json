@@ -15,6 +15,7 @@
 	},
 	"dependencies": {
 		"@rcompat/fs": "0.25.2",
+		"@unownplain/anthelion-komac": "0.0.7",
 		"ansis": "4.2.0",
 		"dot-prop": "10.1.0",
 		"es-toolkit": "1.44.0",

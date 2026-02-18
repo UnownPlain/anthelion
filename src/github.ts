@@ -43,21 +43,17 @@ export async function getLatestVersion(options: {
 		.map((asset) => asset.browser_download_url);
 
 	return {
-		version: release.tag_name.replace(/^v/, '').replace(tagFilter ?? '', ''),
+		version: release.tag_name.replace(tagFilter, '').replace(/^v/, ''),
 		urls,
 	};
 }
 
-export async function getAllReleases(owner: string, repo: string, preRelease?: boolean) {
+export async function getAllReleases(owner: string, repo: string, preRelease = false) {
 	const { data: releases } = await octokit.rest.repos.listReleases({
 		owner,
 		repo,
 		per_page: 20,
 	});
-
-	if (preRelease === undefined) {
-		return releases;
-	}
 
 	return releases.filter((release) => release.prerelease === preRelease);
 }

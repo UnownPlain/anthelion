@@ -13,12 +13,6 @@
 					"type": "string",
 					"description": "Task identifier in winget-pkgs."
 				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
 				"releaseNotesUrl": {
 					"type": "string",
 					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
@@ -89,12 +83,6 @@
 					"type": "string",
 					"description": "Task identifier in winget-pkgs."
 				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
 				"releaseNotesUrl": {
 					"type": "string",
 					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
@@ -149,12 +137,6 @@
 				"packageId": {
 					"type": "string",
 					"description": "Task identifier in winget-pkgs."
-				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
 				},
 				"releaseNotesUrl": {
 					"type": "string",
@@ -216,12 +198,6 @@
 					"type": "string",
 					"description": "Task identifier in winget-pkgs."
 				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
-				},
 				"releaseNotesUrl": {
 					"type": "string",
 					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
@@ -274,12 +250,6 @@
 				"packageId": {
 					"type": "string",
 					"description": "Task identifier in winget-pkgs."
-				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
 				},
 				"releaseNotesUrl": {
 					"type": "string",
@@ -337,12 +307,6 @@
 				"packageId": {
 					"type": "string",
 					"description": "Task identifier in winget-pkgs."
-				},
-				"args": {
-					"type": "array",
-					"items": {
-						"type": "string"
-					}
 				},
 				"releaseNotesUrl": {
 					"type": "string",

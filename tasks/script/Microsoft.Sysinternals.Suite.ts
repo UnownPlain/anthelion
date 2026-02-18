@@ -39,6 +39,6 @@ export default async function () {
 			'https://download.sysinternals.com/files/SysinternalsSuite.zip',
 			'https://download.sysinternals.com/files/SysinternalsSuite-ARM64.zip',
 		],
-		options: ['-r'],
+		replace: true,
 	});
 }

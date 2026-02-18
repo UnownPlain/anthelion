@@ -58,7 +58,6 @@ const versionRemoveSchema = z
 const baseTaskFields = {
 	$schema: z.url().describe('Optional JSON Schema reference URL.').optional(),
 	packageId: z.string().describe('Task identifier in winget-pkgs.'),
-	args: z.array(z.string()).optional(),
 	releaseNotesUrl: z
 		.string()
 		.describe('Optional release notes URL. Can contain {version} placeholder or JSON path.')
@@ -152,7 +151,8 @@ export type JsonTask = z.infer<typeof JsonTaskSchema>;
 export const ScriptTaskResult = z.object({
 	version: z.string(),
 	urls: z.array(z.string()),
-	args: z.array(z.string()).optional(),
+	releaseNotesUrl: z.string().optional(),
+	replace: z.boolean().optional(),
 });
 
 export async function generateJsonTaskSchema() {

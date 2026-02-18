@@ -13,9 +13,6 @@ export default async function () {
 	return {
 		version: version?.substring(2),
 		urls,
-		args: [
-			'--release-notes-url',
-			`https://developers.cloudflare.com/cloudflare-one/changelog/warp/#${vs(response.items[0]?.releaseDate.split('T')[0])}`,
-		],
+		releaseNotesUrl: `https://developers.cloudflare.com/cloudflare-one/changelog/warp/#${vs(response.items[0]?.releaseDate.split('T')[0])}`,
 	};
 }

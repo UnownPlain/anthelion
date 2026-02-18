@@ -28,6 +28,11 @@ jobs:
 
       - name: Install komac
         uses: UnownPlain/install-komac@main
+        with:
+          version: nightly
+          repo: unpn-org/Komac
+          linux_libc: musl
+          compression: zst
 
       - name: Remove Dead Versions
         env:

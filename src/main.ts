@@ -1,4 +1,5 @@
 import fs, { type FileRef } from '@rcompat/fs';
+import { updateVersion } from '@unownplain/anthelion-komac';
 import ansis from 'ansis';
 import { getProperty } from 'dot-prop';
 import { limitAsync } from 'es-toolkit';
@@ -6,55 +7,43 @@ import ky from 'ky';
 import { parse } from 'yaml';
 
 import { getLatestVersion } from '@/github';
-import { closeAllButMostRecentPR, Logger, vs } from '@/helpers';
-import { updatePackage } from '@/komac';
+import { closeAllButMostRecentPR, Logger, vs, checkVersionInRepo } from '@/helpers';
 import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
 import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
 
 const MAX_CONCURRENCY = 32;
 export const SCRIPTS_FOLDER = 'tasks/script';
 export const JSON_FOLDER = 'tasks/json';
-const MANIFEST_URL =
-	'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests';
-
-async function checkVersionInRepo(version: string, packageId: string, logger: Logger) {
-	const manifestPath = `${MANIFEST_URL}/${packageId.charAt(0).toLowerCase()}/${packageId
-		.split('.')
-		.join('/')}/${version}/${packageId}.yaml`;
-
-	const response = await ky(manifestPath, {
-		method: 'head',
-		throwHttpErrors: false,
-	});
-
-	if (response.ok && import.meta.main) {
-		logger.present(version);
-		return true;
-	}
-
-	return false;
-}
 
 async function handleScriptTask(fileName: string, logger: Logger) {
 	const task = await import(`../${SCRIPTS_FOLDER}/${fileName}`);
 	const result = await task.default();
 	const parsed = ScriptTaskResult.safeParse(result);
-	const packageId = fileName.replace('.ts', '');
+	const packageIdentifier = fileName.replace('.ts', '');
 
+	// Script calls updateVersion itself and returns its own log output if it succeeds
 	if (!parsed.success) {
 		logger.log(result);
 		return;
 	}
 
-	const { version, urls, args = [] } = parsed.data;
+	const { version, urls, releaseNotesUrl, replace } = parsed.data;
 
-	if (await checkVersionInRepo(version, packageId, logger)) return;
+	if (await checkVersionInRepo(version, packageIdentifier, logger)) return;
 
 	logger.details(version, urls);
 
-	const updateResult = await updatePackage(packageId, version, urls, ...args);
+	const updateResult = await updateVersion({
+		packageIdentifier,
+		version,
+		urls,
+		releaseNotesUrl,
+		replace: replace ? 'latest' : undefined,
+		dryRun: process.env.DRY_RUN ? true : false,
+		token: process.env.GITHUB_TOKEN!,
+	});
 
-	logger.log(updateResult);
+	logger.logUpdateResult(updateResult);
 }
 
 async function handleJsonTask(fileName: string, logger: Logger) {
@@ -62,7 +51,6 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	const task = JsonTaskSchema.parse(file);
 	let version: string;
 	let urls: string[] = task.urls || [];
-	let args = task.args || [];
 
 	switch (task.strategy) {
 		case Strategy.GithubRelease: {
@@ -132,23 +120,29 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	}
 
 	version = version.startsWith('v') ? version.substring(1) : version;
-	if (task.versionRemove) version = version.replace(task.versionRemove, '');
+	if (task.versionRemove) version = version.replaceAll(task.versionRemove, '');
 
 	if (await checkVersionInRepo(version, task.packageId, logger)) return;
 
 	if (task.replace) {
-		args.push('-r');
 		await closeAllButMostRecentPR(task.packageId);
 	}
-	if (task.releaseNotesUrl)
-		args.push('--release-notes-url', task.releaseNotesUrl.replaceAll('{version}', version));
-	urls = urls.map((t) => t.replaceAll('{version}', version));
+	task.releaseNotesUrl = task.releaseNotesUrl?.replaceAll('{version}', version);
+	urls = urls.map((url) => url.replaceAll('{version}', version));
 
 	logger.details(version, urls);
 
-	const updateResult = await updatePackage(task.packageId, version, urls, ...args);
+	const updateResult = await updateVersion({
+		packageIdentifier: task.packageId,
+		version,
+		urls,
+		replace: task.replace ? 'latest' : undefined,
+		releaseNotesUrl: task.releaseNotesUrl,
+		dryRun: process.env.DRY_RUN ? true : false,
+		token: process.env.GITHUB_TOKEN!,
+	});
 
-	logger.log(updateResult + '\n');
+	logger.logUpdateResult(updateResult);
 }
 
 export async function executeTask(file: FileRef) {
@@ -202,7 +196,7 @@ async function runAllTasks() {
 		await new fs.FileRef(process.env.GITHUB_STEP_SUMMARY).write(summary);
 	}
 
-	console.log(`\n${completed}`);
+	console.log(completed);
 }
 
 if (import.meta.main) {

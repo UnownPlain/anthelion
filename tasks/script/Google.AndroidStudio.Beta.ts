@@ -12,6 +12,6 @@ export default async function () {
 	return {
 		version,
 		urls: [`${url}|x64`],
-		args: ['--release-notes-url', 'https://androidstudio.googleblog.com/'],
+		releaseNotesUrl: 'https://androidstudio.googleblog.com/',
 	};
 }
