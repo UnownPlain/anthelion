@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "Gitea.tea",
+	"strategy": "json",
+	"json": {
+		"url": "https://gitea.com/api/v1/repos/gitea/tea/releases/latest",
+		"path": "tag_name"
+	},
+	"urls": [
+		"https://dl.gitea.com/tea/{version}/tea-{version}-windows-amd64.exe",
+		"https://dl.gitea.com/tea/{version}/tea-{version}-windows-arm64.exe"
+	]
+}
