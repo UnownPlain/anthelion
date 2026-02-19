@@ -1,3 +1,5 @@
+import process from 'node:process';
+
 import fs from '@rcompat/fs';
 import {
 	getExistingPullRequest,
@@ -7,7 +9,6 @@ import {
 import { bgRed, blue, green, redBright, yellow } from 'ansis';
 import { delay } from 'es-toolkit';
 import ky from 'ky';
-import process from 'node:process';
 import { z, ZodError } from 'zod';
 
 import { octokit, getRepoHeadSha } from '@/github.ts';
