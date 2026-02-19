@@ -153,6 +153,8 @@ export const ScriptTaskResult = z.object({
 	urls: z.array(z.string()),
 	releaseNotesUrl: z.string().optional(),
 	replace: z.boolean().optional(),
+	skipPrCheck: z.boolean().default(false),
+	state: z.string().optional(),
 });
 
 export async function generateJsonTaskSchema() {

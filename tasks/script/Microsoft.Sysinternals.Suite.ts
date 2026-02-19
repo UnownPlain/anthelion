@@ -1,17 +1,13 @@
 import ky from 'ky';
 
 import { match } from '@/helpers.ts';
-import { versionStateStrategy } from '@/strategies.ts';
 
 export default async function () {
 	const response = await ky('https://download.sysinternals.com/files/SysinternalsSuite.zip', {
 		method: 'head',
 	});
-	const newState = response.headers.get('last-modified') || '';
-	const [day, monthStr, year] = match(
-		newState,
-		/^[A-Za-z]{3},\s+(\d{2})\s+([A-Za-z]{3})\s+(\d{4})/,
-	);
+	const state = response.headers.get('last-modified') || '';
+	const [day, monthStr, year] = match(state, /^[A-Za-z]{3},\s+(\d{2})\s+([A-Za-z]{3})\s+(\d{4})/);
 
 	const months: Record<string, string> = {
 		Jan: '01',
@@ -31,14 +27,13 @@ export default async function () {
 	const month = months[monthStr!];
 	const version = `${year}-${month}-${day}`;
 
-	return versionStateStrategy({
-		packageIdentifier: 'Microsoft.Sysinternals.Suite',
-		newState,
+	return {
 		version,
 		urls: [
 			'https://download.sysinternals.com/files/SysinternalsSuite.zip',
 			'https://download.sysinternals.com/files/SysinternalsSuite-ARM64.zip',
 		],
 		replace: true,
-	});
+		state,
+	};
 }

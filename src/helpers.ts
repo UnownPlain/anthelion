@@ -29,6 +29,10 @@ export class Logger {
 		);
 	}
 
+	stateMatches(version: string) {
+		this.logs.push(green`Stored state matches latest state. (${version})\n`);
+	}
+
 	flush() {
 		for (const line of this.logs) {
 			console.log(line);
@@ -97,7 +101,8 @@ export function match(str: string | undefined, regex: RegExp) {
 	return validated;
 }
 
-export async function stateCompare(packageIdentifier: string, newState: string) {
+export async function isStateMatching(packageIdentifier: string, newState: string) {
+	if (process.env.DRY_RUN) return;
 	const versionStatePath = `version_state/${packageIdentifier}`;
 	const storedVersion = (await new fs.FileRef(versionStatePath).text()).trim();
 
@@ -140,6 +145,8 @@ export async function checkVersionInRepo(
 }
 
 export async function closeAllButMostRecentPR(packageIdentifier: string) {
+	if (process.env.DRY_RUN) return;
+
 	// Wait 5s for GitHub API to update
 	await delay(5000);
 
@@ -158,6 +165,8 @@ export async function closeAllButMostRecentPR(packageIdentifier: string) {
 }
 
 export async function updateVersionState(packageIdentifier: string, latestVersion: string) {
+	if (process.env.DRY_RUN) return;
+
 	const versionStatePath = `version_state/${packageIdentifier}`;
 	const mutation = `
 		mutation UpdateFile($input: CreateCommitOnBranchInput!) {

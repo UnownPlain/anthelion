@@ -7,7 +7,14 @@ import ky from 'ky';
 import { parse } from 'yaml';
 
 import { getLatestVersion } from '@/github';
-import { closeAllButMostRecentPR, Logger, vs, checkVersionInRepo } from '@/helpers';
+import {
+	closeAllButMostRecentPR,
+	Logger,
+	vs,
+	checkVersionInRepo,
+	isStateMatching,
+	updateVersionState,
+} from '@/helpers';
 import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
 import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
 
@@ -17,19 +24,17 @@ export const JSON_FOLDER = 'tasks/json';
 
 async function handleScriptTask(fileName: string, logger: Logger) {
 	const task = await import(`../${SCRIPTS_FOLDER}/${fileName}`);
-	const result = await task.default();
-	const parsed = ScriptTaskResult.safeParse(result);
+	const { version, urls, releaseNotesUrl, replace, skipPrCheck, state } = ScriptTaskResult.parse(
+		await task.default(),
+	);
 	const packageIdentifier = fileName.replace('.ts', '');
 
-	// Script calls updateVersion itself and returns its own log output if it succeeds
-	if (!parsed.success) {
-		logger.log(result);
+	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier, logger))) return;
+
+	if (state && (await isStateMatching(packageIdentifier, state))) {
+		logger.stateMatches(version);
 		return;
 	}
-
-	const { version, urls, releaseNotesUrl, replace } = parsed.data;
-
-	if (await checkVersionInRepo(version, packageIdentifier, logger)) return;
 
 	logger.details(version, urls);
 
@@ -42,6 +47,13 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 		dryRun: process.env.DRY_RUN ? true : false,
 		token: process.env.GITHUB_TOKEN!,
 	});
+
+	if (state) {
+		await updateVersionState(packageIdentifier, state);
+	}
+	if (replace) {
+		await closeAllButMostRecentPR(packageIdentifier);
+	}
 
 	logger.logUpdateResult(updateResult);
 }
