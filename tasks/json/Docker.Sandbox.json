@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "Docker.Sandbox",
+	"strategy": "github-release",
+	"github": { "owner": "docker", "repo": "sandboxes-releases" },
+	"urls": [
+		"https://github.com/docker/sandboxes-releases/releases/download/v{version}/docker-sandbox-windows-amd64.msi"
+	]
+}
