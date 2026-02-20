@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"packageId": "CorsixTH.CorsixTH",
+	"strategy": "github-release",
+	"github": { "owner": "CorsixTH", "repo": "CorsixTH" },
+	"urls": [
+		"https://github.com/CorsixTH/CorsixTH/releases/download/v{version}/CorsixTHInstaller.exe"
+	]
+}
