@@ -49,9 +49,7 @@ export class Logger {
 	}
 
 	prExists(pr: ExistingPullRequestResult) {
-		this.log(
-			yellow`There is already a PR with state ${pr.state.toLowerCase()} created at ${pr.createdAt}.`,
-		);
+		this.log(yellow`There is already a PR with state ${pr.state} created at ${pr.createdAt}.`);
 		this.log(pr.pullRequestUrl + '\n');
 	}
 
