@@ -34,6 +34,5 @@ export default async function () {
 			'https://download.sysinternals.com/files/SysinternalsSuite-ARM64.zip',
 		],
 		replace: true,
-		state,
 	};
 }
