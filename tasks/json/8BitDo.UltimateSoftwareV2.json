@@ -4,7 +4,7 @@
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://app.8bitdo.com/",
-		"regex": "href=\"https://download\\.8bitdo\\.com/Ultimate[._-]Software/8BitDo[._-]Ultimate_Software[._-]V2[._-]Windows[._-]V(\\d+(?:\\.\\d+)+)\\.zip\""
+		"regex": "href=\"https://download\\.8bitdo\\.com/Ultimate[._-]Software/8BitDo[._-]Ultimate_Software[._-]V2[._-]Windows[._-]V(\\d+(?:\\.\\d+)+)\\.zip\\?0\""
 	},
 	"urls": [
 		"https://download.8bitdo.com/Ultimate-Software/8BitDo_Ultimate_Software_V2_Windows_V{version}.zip|x64"
