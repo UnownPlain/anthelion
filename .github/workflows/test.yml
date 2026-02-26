@@ -75,15 +75,28 @@ jobs:
           CHANGED_FILES: ${{ needs.detect-changes.outputs.changed_files }}
           PACKAGES: ${{ inputs.packages }}
         run: |
+          FAILED=0
+
           if [ -n "$PACKAGES" ]; then
             for package_id in $PACKAGES; do
-              bun pkgtest "$package_id" --dry-run
+              if ! bun pkgtest "$package_id" --dry-run; then
+                echo "❌ Test failed for $package_id"
+                FAILED=1
+              fi
             done
           else
             for file in $CHANGED_FILES; do
               package_id=$(basename "$file")
-              bun pkgtest "$package_id" --dry-run
+              if ! bun pkgtest "$package_id" --dry-run; then
+                echo "❌ Test failed for $package_id"
+                FAILED=1
+              fi
             done
           fi
 
-          echo "✅ Completed tests"
+          if [ "$FAILED" -ne 0 ]; then
+            echo "❌ One or more package tests failed"
+            exit 1
+          fi
+
+          echo "✅ Completed all package tests"
