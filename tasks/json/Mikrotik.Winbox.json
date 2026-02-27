@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Mikrotik.Winbox",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://mikrotik.com/download/winbox",

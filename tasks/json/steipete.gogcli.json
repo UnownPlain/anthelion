@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "steipete.gogcli",
 	"strategy": "github-release",
 	"github": { "owner": "steipete", "repo": "gogcli" },
 	"urls": [

@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "SteelSeries.GG",
 	"strategy": "redirect-match",
 	"redirectMatch": {
 		"url": "https://steelseries.com/gg/downloads/gg/latest/windows",

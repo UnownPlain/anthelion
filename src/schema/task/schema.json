@@ -9,10 +9,6 @@
 					"format": "uri",
 					"description": "Optional JSON Schema reference URL."
 				},
-				"packageId": {
-					"type": "string",
-					"description": "Task identifier in winget-pkgs."
-				},
 				"releaseNotesUrl": {
 					"type": "string",
 					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
@@ -68,7 +64,7 @@
 					"description": "Template or literal URLs with {version} placeholder."
 				}
 			},
-			"required": ["packageId", "strategy", "github"],
+			"required": ["strategy", "github"],
 			"additionalProperties": false
 		},
 		{
@@ -78,10 +74,6 @@
 					"type": "string",
 					"format": "uri",
 					"description": "Optional JSON Schema reference URL."
-				},
-				"packageId": {
-					"type": "string",
-					"description": "Task identifier in winget-pkgs."
 				},
 				"releaseNotesUrl": {
 					"type": "string",
@@ -123,7 +115,7 @@
 					"description": "Template or literal URLs with {version} placeholder."
 				}
 			},
-			"required": ["packageId", "strategy", "pageMatch", "urls"],
+			"required": ["strategy", "pageMatch", "urls"],
 			"additionalProperties": false
 		},
 		{
@@ -133,10 +125,6 @@
 					"type": "string",
 					"format": "uri",
 					"description": "Optional JSON Schema reference URL."
-				},
-				"packageId": {
-					"type": "string",
-					"description": "Task identifier in winget-pkgs."
 				},
 				"releaseNotesUrl": {
 					"type": "string",
@@ -183,7 +171,7 @@
 					"description": "Template or literal URLs with {version} placeholder."
 				}
 			},
-			"required": ["packageId", "strategy", "redirectMatch"],
+			"required": ["strategy", "redirectMatch"],
 			"additionalProperties": false
 		},
 		{
@@ -193,10 +181,6 @@
 					"type": "string",
 					"format": "uri",
 					"description": "Optional JSON Schema reference URL."
-				},
-				"packageId": {
-					"type": "string",
-					"description": "Task identifier in winget-pkgs."
 				},
 				"releaseNotesUrl": {
 					"type": "string",
@@ -239,7 +223,7 @@
 					"description": "Template or literal URLs with {version} placeholder."
 				}
 			},
-			"required": ["packageId", "strategy", "sourceforge", "urls"],
+			"required": ["strategy", "sourceforge", "urls"],
 			"additionalProperties": false
 		},
 		{
@@ -249,10 +233,6 @@
 					"type": "string",
 					"format": "uri",
 					"description": "Optional JSON Schema reference URL."
-				},
-				"packageId": {
-					"type": "string",
-					"description": "Task identifier in winget-pkgs."
 				},
 				"releaseNotesUrl": {
 					"type": "string",
@@ -292,7 +272,7 @@
 					"description": "Template or literal URLs with {version} placeholder."
 				}
 			},
-			"required": ["packageId", "strategy", "electronBuilder", "urls"],
+			"required": ["strategy", "electronBuilder", "urls"],
 			"additionalProperties": false
 		},
 		{
@@ -302,10 +282,6 @@
 					"type": "string",
 					"format": "uri",
 					"description": "Optional JSON Schema reference URL."
-				},
-				"packageId": {
-					"type": "string",
-					"description": "Task identifier in winget-pkgs."
 				},
 				"releaseNotesUrl": {
 					"type": "string",
@@ -349,7 +325,7 @@
 					"description": "Template or literal URLs with {version} placeholder."
 				}
 			},
-			"required": ["packageId", "strategy", "json", "urls"],
+			"required": ["strategy", "json", "urls"],
 			"additionalProperties": false
 		},
 		{
@@ -359,10 +335,6 @@
 					"type": "string",
 					"format": "uri",
 					"description": "Optional JSON Schema reference URL."
-				},
-				"packageId": {
-					"type": "string",
-					"description": "Task identifier in winget-pkgs."
 				},
 				"releaseNotesUrl": {
 					"type": "string",
@@ -406,7 +378,7 @@
 					"description": "Template or literal URLs with {version} placeholder."
 				}
 			},
-			"required": ["packageId", "strategy", "yaml", "urls"],
+			"required": ["strategy", "yaml", "urls"],
 			"additionalProperties": false
 		}
 	]

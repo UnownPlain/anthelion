@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "NextTrace.NextTrace.Core",
 	"strategy": "github-release",
 	"github": { "owner": "nxtrace", "repo": "NTrace-core" },
 	"urls": [

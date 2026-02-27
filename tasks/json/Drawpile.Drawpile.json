@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Drawpile.Drawpile",
 	"strategy": "github-release",
 	"github": { "owner": "drawpile", "repo": "Drawpile" },
 	"urls": [

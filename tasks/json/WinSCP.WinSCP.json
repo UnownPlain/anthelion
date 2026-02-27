@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "WinSCP.WinSCP",
 	"strategy": "sourceforge",
 	"sourceforge": {
 		"project": "winscp",

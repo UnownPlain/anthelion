@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Zen-Team.Zen-Browser",
 	"strategy": "github-release",
 	"github": { "owner": "zen-browser", "repo": "desktop" },
 	"urls": [

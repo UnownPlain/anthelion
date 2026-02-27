@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Epilogue.EpilogueOperator",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://www.epilogue.co/downloads",

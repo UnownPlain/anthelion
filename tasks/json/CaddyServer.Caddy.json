@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "CaddyServer.Caddy",
 	"strategy": "github-release",
 	"github": { "owner": "caddyserver", "repo": "caddy" },
 	"urls": [

@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "MicaForEveryone.MicaForEveryone",
 	"strategy": "github-release",
 	"github": { "owner": "MicaForEveryone", "repo": "MicaForEveryone" },
 	"urls": [

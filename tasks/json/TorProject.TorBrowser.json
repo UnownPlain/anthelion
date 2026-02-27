@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "TorProject.TorBrowser",
 	"strategy": "json",
 	"json": {
 		"url": "https://aus1.torproject.org/torbrowser/update_3/release/download-windows-x86_64.json",

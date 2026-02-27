@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "SaladTechnologies.Salad",
 	"strategy": "github-release",
 	"github": { "owner": "SaladTechnologies", "repo": "salad-applications" },
 	"urls": [

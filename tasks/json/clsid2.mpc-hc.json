@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "clsid2.mpc-hc",
 	"strategy": "github-release",
 	"github": { "owner": "clsid2", "repo": "mpc-hc" },
 	"urls": [

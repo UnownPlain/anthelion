@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "CertifyTheWeb.CertifySSLManager",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://certifytheweb.com/",

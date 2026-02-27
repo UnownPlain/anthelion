@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Bazel.Bazel",
 	"strategy": "github-release",
 	"github": { "owner": "bazelbuild", "repo": "bazel" },
 	"urls": [

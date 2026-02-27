@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "nginxinc.nginx",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://nginx.org/",

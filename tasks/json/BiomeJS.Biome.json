@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "BiomeJS.Biome",
 	"strategy": "github-release",
 	"github": {
 		"owner": "biomejs",

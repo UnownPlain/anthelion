@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "OpenTTD.OpenTTD",
 	"strategy": "yaml",
 	"yaml": {
 		"url": "https://cdn.openttd.org/openttd-releases/latest.yaml",

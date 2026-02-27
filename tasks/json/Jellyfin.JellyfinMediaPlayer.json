@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Jellyfin.JellyfinMediaPlayer",
 	"strategy": "github-release",
 	"github": { "owner": "jellyfin", "repo": "jellyfin-media-player" },
 	"urls": [

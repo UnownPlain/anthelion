@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "mpv.net",
 	"strategy": "github-release",
 	"github": { "owner": "mpvnet-player", "repo": "mpv.net" },
 	"urls": [

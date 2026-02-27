@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "geteduroam.geteduroam",
 	"strategy": "github-release",
 	"github": { "owner": "geteduroam", "repo": "windows-app" },
 	"urls": [

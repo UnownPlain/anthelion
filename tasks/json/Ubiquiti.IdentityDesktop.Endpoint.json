@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Ubiquiti.IdentityDesktop.Endpoint",
 	"strategy": "redirect-match",
 	"redirectMatch": {
 		"url": "https://api-gw.uid.alpha.ui.com/location/api/v1/public/fw/download/latest/?app=DESKTOP-IDENTITY-STANDARD-WINDOWS-MSI",

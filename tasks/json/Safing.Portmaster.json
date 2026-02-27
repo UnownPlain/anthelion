@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Safing.Portmaster",
 	"strategy": "json",
 	"json": {
 		"url": "https://updates.safing.io/stable.v3.json",

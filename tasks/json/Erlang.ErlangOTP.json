@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Erlang.ErlangOTP",
 	"strategy": "github-release",
 	"github": { "owner": "erlang", "repo": "otp" },
 	"urls": [

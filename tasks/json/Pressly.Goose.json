@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Pressly.Goose",
 	"strategy": "github-release",
 	"github": { "owner": "pressly", "repo": "goose" },
 	"urls": [

@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "GLab.GLab",
 	"strategy": "json",
 	"json": {
 		"url": "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/releases",

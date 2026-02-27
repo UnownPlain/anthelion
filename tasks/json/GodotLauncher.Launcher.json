@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "GodotLauncher.Launcher",
 	"strategy": "github-release",
 	"github": { "owner": "godotlauncher", "repo": "launcher" },
 	"urls": [

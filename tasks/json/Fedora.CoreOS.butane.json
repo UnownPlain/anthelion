@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Fedora.CoreOS.butane",
 	"strategy": "github-release",
 	"github": { "owner": "coreos", "repo": "butane" },
 	"urls": [

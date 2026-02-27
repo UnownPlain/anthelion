@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "KN4CRD.JS8Call",
 	"strategy": "github-release",
 	"github": { "owner": "js8call", "repo": "js8call" },
 	"urls": [

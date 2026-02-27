@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "f3d-app.f3d",
 	"strategy": "github-release",
 	"github": { "owner": "f3d-app", "repo": "f3d" },
 	"urls": [

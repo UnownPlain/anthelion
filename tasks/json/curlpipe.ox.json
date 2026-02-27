@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "curlpipe.ox",
 	"strategy": "github-release",
 	"github": { "owner": "curlpipe", "repo": "ox" },
 	"urls": ["https://github.com/curlpipe/ox/releases/download/{version}/ox.exe"]

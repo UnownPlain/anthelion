@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Helix.Helix",
 	"strategy": "github-release",
 	"github": { "owner": "helix-editor", "repo": "helix" },
 	"urls": [

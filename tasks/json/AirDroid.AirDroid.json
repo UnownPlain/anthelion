@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "AirDroid.AirDroid",
 	"strategy": "redirect-match",
 	"redirectMatch": {
 		"url": "https://srv3.airdroid.com/p20/web/getbinaryredirect?type=exe&channel=&version=",

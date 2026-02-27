@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "zizmor.zizmor",
 	"strategy": "github-release",
 	"github": { "owner": "zizmorcore", "repo": "zizmor" },
 	"urls": [

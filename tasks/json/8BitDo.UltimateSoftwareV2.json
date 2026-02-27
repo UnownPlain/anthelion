@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "8BitDo.UltimateSoftwareV2",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://app.8bitdo.com/",

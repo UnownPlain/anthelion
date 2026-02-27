@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "GottCode.FocusWriter",
 	"strategy": "github-release",
 	"github": { "owner": "gottcode", "repo": "focuswriter" },
 	"urls": ["https://gottcode.org/focuswriter/FocusWriter_{version}.exe"]

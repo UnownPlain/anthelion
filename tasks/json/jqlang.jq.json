@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "jqlang.jq",
 	"strategy": "github-release",
 	"github": { "owner": "jqlang", "repo": "jq" },
 	"urls": [

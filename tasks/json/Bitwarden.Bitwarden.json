@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Bitwarden.Bitwarden",
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://artifacts.bitwarden.com/desktop/latest.yml"

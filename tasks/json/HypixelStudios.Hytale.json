@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "HypixelStudios.Hytale",
 	"strategy": "json",
 	"json": {
 		"url": "https://launcher.hytale.com/version/release/launcher.json",

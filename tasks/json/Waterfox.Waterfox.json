@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Waterfox.Waterfox",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://www.waterfox.com/download",

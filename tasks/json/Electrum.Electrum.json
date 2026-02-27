@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Electrum.Electrum",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://electrum.org/#download",

@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "antonreshetov.massCode",
 	"strategy": "github-release",
 	"github": { "owner": "massCodeIO", "repo": "massCode" },
 	"urls": [

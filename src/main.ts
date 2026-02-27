@@ -61,6 +61,7 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 async function handleJsonTask(fileName: string, logger: Logger) {
 	const file = await new fs.FileRef(`./${JSON_FOLDER}/${fileName}`).json();
 	const task = JsonTaskSchema.parse(file);
+	const packageIdentifier = fileName.replace('.json', '');
 	let version: string;
 	let urls: string[] = task.urls || [];
 
@@ -137,10 +138,10 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	version = version.startsWith('v') ? version.substring(1) : version;
 	if (task.versionRemove) version = version.replaceAll(task.versionRemove, '');
 
-	if (await checkVersionInRepo(version, task.packageId, logger)) return;
+	if (await checkVersionInRepo(version, packageIdentifier, logger)) return;
 
 	if (task.replace) {
-		await closeAllButMostRecentPR(task.packageId);
+		await closeAllButMostRecentPR(packageIdentifier);
 	}
 	task.releaseNotesUrl = task.releaseNotesUrl?.replaceAll('{version}', version);
 	urls = urls.map((url) => url.replaceAll('{version}', version));
@@ -148,7 +149,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	logger.details(version, urls);
 
 	const updateResult = await updateVersion({
-		packageIdentifier: task.packageId,
+		packageIdentifier,
 		version,
 		urls,
 		replace: task.replace ? 'latest' : undefined,

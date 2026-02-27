@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Nvidia.FrameView",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://www.nvidia.com/en-us/geforce/technologies/frameview/",

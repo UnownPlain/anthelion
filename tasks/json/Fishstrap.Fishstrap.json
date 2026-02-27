@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Fishstrap.Fishstrap",
 	"strategy": "github-release",
 	"github": { "owner": "fishstrap", "repo": "fishstrap" },
 	"urls": ["https://github.com/fishstrap/fishstrap/releases/download/v{version}/Fishstrap.exe"]

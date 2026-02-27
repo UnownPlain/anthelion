@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "miurahr.aqtinstall",
 	"strategy": "github-release",
 	"github": { "owner": "miurahr", "repo": "aqtinstall" },
 	"urls": [

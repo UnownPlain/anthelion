@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Headlamp.Headlamp",
 	"strategy": "github-release",
 	"github": {
 		"owner": "kubernetes-sigs",

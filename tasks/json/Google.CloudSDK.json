@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Google.CloudSDK",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://docs.cloud.google.com/sdk/docs/install-sdk",

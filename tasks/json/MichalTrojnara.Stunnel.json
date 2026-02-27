@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "MichalTrojnara.Stunnel",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://www.stunnel.org/downloads.html",

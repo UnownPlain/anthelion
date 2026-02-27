@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Anchore.Syft",
 	"strategy": "github-release",
 	"github": { "owner": "anchore", "repo": "syft" },
 	"urls": [

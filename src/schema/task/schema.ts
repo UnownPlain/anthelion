@@ -63,7 +63,6 @@ const versionRemoveSchema = z
 
 const baseTaskFields = {
 	$schema: z.url().describe('Optional JSON Schema reference URL.').optional(),
-	packageId: z.string().describe('Task identifier in winget-pkgs.'),
 	releaseNotesUrl: z
 		.string()
 		.describe('Optional release notes URL. Can contain {version} placeholder or JSON path.')

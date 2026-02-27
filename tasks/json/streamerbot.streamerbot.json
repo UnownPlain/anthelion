@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "streamerbot.streamerbot",
 	"strategy": "json",
 	"json": {
 		"url": "https://streamer.bot/api/releases/streamer.bot",

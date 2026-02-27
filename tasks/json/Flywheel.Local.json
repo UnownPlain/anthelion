@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Flywheel.Local",
 	"strategy": "redirect-match",
 	"redirectMatch": {
 		"url": "https://cdn.localwp.com/stable/latest/windows",

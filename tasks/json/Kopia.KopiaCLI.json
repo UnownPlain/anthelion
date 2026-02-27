@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Kopia.KopiaCLI",
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://github.com/kopia/kopia/releases/latest/download/latest.yml"

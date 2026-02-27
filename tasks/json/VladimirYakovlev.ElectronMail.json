@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "VladimirYakovlev.ElectronMail",
 	"strategy": "github-release",
 	"github": { "owner": "vladimiry", "repo": "ElectronMail" },
 	"urls": [

@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Microsoft.Azure.AZCopy.10",
 	"strategy": "github-release",
 	"github": { "owner": "Azure", "repo": "azure-storage-azcopy" },
 	"urls": [

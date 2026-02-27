@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "WiresharkFoundation.Stratoshark",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://www.wireshark.org/update/0/Stratoshark/0.0.0/Windows/x86-64/en-US/stable.xml",

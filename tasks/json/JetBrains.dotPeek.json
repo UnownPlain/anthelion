@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "JetBrains.dotPeek",
 	"strategy": "json",
 	"json": {
 		"url": "https://data.services.jetbrains.com/products/releases?code=DPK&latest=true&type=release",

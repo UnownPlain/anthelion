@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Yamaha.SYNCROOM",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://syncroom.yamaha.com/global/v2/play/dl/",

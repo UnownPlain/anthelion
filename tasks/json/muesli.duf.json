@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "muesli.duf",
 	"strategy": "github-release",
 	"github": { "owner": "muesli", "repo": "duf" },
 	"urls": [

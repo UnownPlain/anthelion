@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Elgato.Studio",
 	"strategy": "json",
 	"json": {
 		"url": "https://gc-updates.elgato.com/windows/estw-update/final/app-version-check.json.php",

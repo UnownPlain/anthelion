@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Aardappel.lobster",
 	"strategy": "github-release",
 	"github": { "owner": "aardappel", "repo": "lobster" },
 	"urls": [

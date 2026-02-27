@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Racket.Racket",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://download.racket-lang.org/all-versions.html",

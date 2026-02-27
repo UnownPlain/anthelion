@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "VideoLAN.VLC",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://www.videolan.org/vlc/download-windows.html",

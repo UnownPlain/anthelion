@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "EclipseFoundation.SUMO",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://sumo.dlr.de/docs/Downloads.php#windows",

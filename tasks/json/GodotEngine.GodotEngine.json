@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "GodotEngine.GodotEngine",
 	"strategy": "github-release",
 	"github": { "owner": "godotengine", "repo": "godot", "fetchLatest": true },
 	"urls": [

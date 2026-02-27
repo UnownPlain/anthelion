@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Moonsworth.LunarClient",
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "http://launcherupdates.lunarclientcdn.com/latest.yml"

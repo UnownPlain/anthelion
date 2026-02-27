@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "GitHub.GitLFS",
 	"strategy": "github-release",
 	"github": { "owner": "git-lfs", "repo": "git-lfs" },
 	"urls": [

@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "BurntSushi.ripgrep.MSVC",
 	"strategy": "github-release",
 	"github": { "owner": "BurntSushi", "repo": "ripgrep" },
 	"urls": [

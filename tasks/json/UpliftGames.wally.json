@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "UpliftGames.wally",
 	"strategy": "github-release",
 	"github": { "owner": "UpliftGames", "repo": "wally" },
 	"urls": [

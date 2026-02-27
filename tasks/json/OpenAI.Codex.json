@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "OpenAI.Codex",
 	"strategy": "github-release",
 	"github": { "owner": "openai", "repo": "codex" },
 	"urls": [

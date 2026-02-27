@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Ccache.Ccache",
 	"strategy": "github-release",
 	"github": { "owner": "ccache", "repo": "ccache" },
 	"urls": [

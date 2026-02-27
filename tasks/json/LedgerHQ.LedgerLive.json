@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "LedgerHQ.LedgerLive",
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://download.live.ledger.com/latest.yml"

@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "M2Team.NanaZip",
 	"strategy": "github-release",
 	"github": { "owner": "M2Team", "repo": "NanaZip" },
 	"urls": [

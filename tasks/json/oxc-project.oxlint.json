@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "oxc-project.oxlint",
 	"strategy": "github-release",
 	"github": { "owner": "oxc-project", "repo": "oxc", "tagFilter": "apps_v" },
 	"versionRemove": "apps_v",

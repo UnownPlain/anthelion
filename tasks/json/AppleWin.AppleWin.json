@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "AppleWin.AppleWin",
 	"strategy": "github-release",
 	"github": { "owner": "AppleWin", "repo": "AppleWin" },
 	"urls": [

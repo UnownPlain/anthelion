@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "KLayout.KLayout",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://www.klayout.de/build.html",

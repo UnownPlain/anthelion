@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "LibreSpeed.librespeed-cli",
 	"strategy": "github-release",
 	"github": { "owner": "librespeed", "repo": "speedtest-cli" },
 	"urls": [

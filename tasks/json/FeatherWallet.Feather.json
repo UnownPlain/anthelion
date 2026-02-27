@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "FeatherWallet.Feather",
 	"strategy": "github-release",
 	"github": { "owner": "feather-wallet", "repo": "feather" },
 	"urls": [

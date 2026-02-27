@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Oracle.MySQLWorkbench",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://dev.mysql.com/downloads/workbench/",

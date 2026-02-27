@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "GoACME.lego",
 	"strategy": "github-release",
 	"github": { "owner": "go-acme", "repo": "lego" },
 	"urls": [

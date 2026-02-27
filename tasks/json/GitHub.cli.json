@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "GitHub.cli",
 	"strategy": "github-release",
 	"github": { "owner": "cli", "repo": "cli" },
 	"urls": [

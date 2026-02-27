@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "beeradmoore.dlss-swapper",
 	"strategy": "github-release",
 	"github": { "owner": "beeradmoore", "repo": "dlss-swapper" },
 	"urls": [

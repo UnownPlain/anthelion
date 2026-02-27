@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Navidrome.Navidrome",
 	"strategy": "github-release",
 	"github": { "owner": "navidrome", "repo": "navidrome" },
 	"urls": [

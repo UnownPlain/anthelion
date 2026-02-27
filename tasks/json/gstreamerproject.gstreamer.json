@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "gstreamerproject.gstreamer",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://gstreamer.freedesktop.org/download/#windows",

@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "RPTools.MapTool",
 	"strategy": "github-release",
 	"github": { "owner": "RPTools", "repo": "maptool" },
 	"urls": ["https://github.com/RPTools/maptool/releases/download/{version}/MapTool-{version}.msi"]

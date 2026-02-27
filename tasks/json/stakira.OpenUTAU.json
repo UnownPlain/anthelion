@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "stakira.OpenUTAU",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://github.com/stakira/OpenUtau/releases/latest/download/appcast.win-x64-installer.xml",

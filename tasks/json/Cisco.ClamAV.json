@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Cisco.ClamAV",
 	"strategy": "github-release",
 	"github": { "owner": "Cisco-Talos", "repo": "clamav" },
 	"urls": ["https://www.clamav.net/downloads/production/clamav-{version}.win.x64.msi"],

@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "OSGeo.GeoServer",
 	"strategy": "sourceforge",
 	"sourceforge": {
 		"project": "geoserver",

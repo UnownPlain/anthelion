@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "simonmichael.hledger",
 	"strategy": "github-release",
 	"github": { "owner": "simonmichael", "repo": "hledger" },
 	"urls": [

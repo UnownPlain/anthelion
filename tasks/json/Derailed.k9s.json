@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Derailed.k9s",
 	"strategy": "github-release",
 	"github": { "owner": "derailed", "repo": "k9s" },
 	"urls": [

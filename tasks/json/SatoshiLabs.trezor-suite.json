@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "SatoshiLabs.trezor-suite",
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://github.com/trezor/trezor-suite/releases/latest/download/latest.yml"

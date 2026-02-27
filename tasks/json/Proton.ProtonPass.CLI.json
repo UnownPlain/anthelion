@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Proton.ProtonPass.CLI",
 	"strategy": "json",
 	"json": {
 		"url": "https://proton.me/download/pass-cli/versions.json",

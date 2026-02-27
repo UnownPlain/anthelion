@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Valve.SteamLink",
 	"strategy": "redirect-match",
 	"redirectMatch": {
 		"url": "https://community.chocolatey.org/api/v2/package/steamlink/",

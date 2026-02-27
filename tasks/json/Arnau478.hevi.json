@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Arnau478.hevi",
 	"strategy": "json",
 	"json": {
 		"url": "https://codeberg.org/api/v1/repos/arnauc/hevi/releases",

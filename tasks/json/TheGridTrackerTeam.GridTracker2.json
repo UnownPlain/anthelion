@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "TheGridTrackerTeam.GridTracker2",
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://download2.gridtracker.org/latest.yml"

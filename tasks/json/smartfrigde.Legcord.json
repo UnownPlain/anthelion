@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "smartfrigde.Legcord",
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://github.com/Legcord/Legcord/releases/latest/download/latest.yml"

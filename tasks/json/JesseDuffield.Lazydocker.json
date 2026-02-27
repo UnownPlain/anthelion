@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "JesseDuffield.Lazydocker",
 	"strategy": "github-release",
 	"github": { "owner": "jesseduffield", "repo": "lazydocker" },
 	"urls": [

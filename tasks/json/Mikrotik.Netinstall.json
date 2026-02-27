@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Mikrotik.Netinstall",
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://cdn.mikrotik.com/routeros/latest-stable.rss",

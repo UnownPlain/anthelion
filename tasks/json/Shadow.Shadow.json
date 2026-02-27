@@ -1,6 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"packageId": "Shadow.Shadow",
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://update.shadow.tech/launcher/prod/win/x64/latest.yml"
