@@ -1,13 +1,6 @@
 name: Update Packages
 
 on:
-  schedule:
-    - cron: '7 * * * *'
-    - cron: '17 * * * *'
-    - cron: '28 * * * *'
-    - cron: '37 * * * *'
-    - cron: '49 * * * *'
-    - cron: '58 * * * *'
   workflow_dispatch:
 
 concurrency:
