@@ -5,6 +5,7 @@ export enum Strategy {
 	GithubRelease = 'github-release',
 	PageMatch = 'page-match',
 	RedirectMatch = 'redirect-match',
+	SourceForge = 'sourceforge',
 	ElectronBuilder = 'electron-builder',
 	Yaml = 'yaml',
 	Json = 'json',
@@ -34,6 +35,11 @@ const redirectMatchSchema = z.object({
 	url: z.url(),
 	regex: z.string(),
 	method: z.enum(['head', 'get']).default('head').optional(),
+});
+
+const sourceforgeSchema = z.object({
+	project: z.string().describe('SourceForge project slug (e.g. winscp).'),
+	file: z.string().describe('File name pattern with {version} placeholder.').optional(),
 });
 
 const electronBuilderSchema = z.object({
@@ -116,6 +122,13 @@ const redirectMatchVariant = z.object({
 		.optional(),
 });
 
+const sourceforgeVariant = z.object({
+	...baseTaskFields,
+	strategy: z.literal(Strategy.SourceForge),
+	sourceforge: sourceforgeSchema,
+	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
+});
+
 const electronBuilderVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.ElectronBuilder),
@@ -141,6 +154,7 @@ export const JsonTaskSchema = z.discriminatedUnion('strategy', [
 	githubReleaseVariant,
 	pageMatchVariant,
 	redirectMatchVariant,
+	sourceforgeVariant,
 	electronBuilderVariant,
 	jsonVariant,
 	yamlVariant,

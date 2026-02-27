@@ -41,8 +41,27 @@ export async function redirectMatch(url: string, regex: RegExp) {
 }
 
 export function sortVersions(str: string, regex: RegExp) {
-	const matches = str.matchAll(regex);
+	const globalRegex = regex.global ? regex : new RegExp(regex.source, `${regex.flags}g`);
+	const matches = str.matchAll(globalRegex);
 	const versions = Array.from(matches, (match) => vs(match[1]));
 	versions.sort((a, b) => compareVersions(b, a));
 	return versions[0];
+}
+
+export async function sourceforge(projectName: string, fileName?: string) {
+	const feedUrl = `https://sourceforge.net/projects/${projectName}/rss`;
+	const escapedProjectName = RegExp.escape(projectName);
+	const defaultRegex = fileName
+		? new RegExp(
+				`url=.*?/${escapedProjectName}/files/.*?/${RegExp.escape(fileName).replace('\\{version\\}', '(\\d+(?:[-.]\\d+)+)')}`,
+				'i',
+			)
+		: new RegExp(`url=.*?/${escapedProjectName}/files/.*?[-_/](\\d+(?:[-.]\\d+)+)[-_/%.]`, 'i');
+
+	const page = await ky(feedUrl).text();
+	const version = sortVersions(page, defaultRegex);
+	if (!version) {
+		throw new Error('Failed to extract version from SourceForge feed');
+	}
+	return version;
 }

@@ -16,7 +16,7 @@ import {
 	updateVersionState,
 } from '@/helpers';
 import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
-import { electronBuilder, pageMatch, redirectMatch } from '@/strategies';
+import { electronBuilder, pageMatch, redirectMatch, sourceforge } from '@/strategies';
 
 const MAX_CONCURRENCY = 32;
 export const SCRIPTS_FOLDER = 'tasks/script';
@@ -113,6 +113,9 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 			}
 			break;
 		}
+		case Strategy.SourceForge:
+			version = await sourceforge(task.sourceforge.project, task.sourceforge.file);
+			break;
 		case Strategy.Yaml: {
 			const response = await ky(task.yaml.url).text();
 			// This is set to failsafe so incorrectly quoted values aren't parsed as numbers

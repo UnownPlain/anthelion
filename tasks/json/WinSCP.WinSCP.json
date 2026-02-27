@@ -1,10 +1,10 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "WinSCP.WinSCP",
-	"strategy": "page-match",
-	"pageMatch": {
-		"url": "https://winscp.net/eng/downloads.php",
-		"regex": "href=.*?WinSCP[._-](\\d+(?:\\.\\d+)+)[._-]Setup\\.exe"
+	"strategy": "sourceforge",
+	"sourceforge": {
+		"project": "winscp",
+		"file": "WinSCP-{version}-Setup.exe"
 	},
 	"urls": [
 		"https://sourceforge.net/projects/winscp/files/WinSCP/{version}/WinSCP-{version}-Setup.exe/download",

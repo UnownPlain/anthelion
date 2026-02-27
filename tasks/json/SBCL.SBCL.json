@@ -1,10 +1,10 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"packageId": "SBCL.SBCL",
-	"strategy": "page-match",
-	"pageMatch": {
-		"url": "https://sourceforge.net/projects/sbcl/rss?path=/sbcl",
-		"regex": "url=.*?/sbcl[._-]v?(\\d+(?:\\.\\d+)+)[._-]"
+	"strategy": "sourceforge",
+	"sourceforge": {
+		"project": "sbcl",
+		"file": "sbcl-{version}-x86-64-windows-binary.msi"
 	},
 	"urls": [
 		"https://sourceforge.net/projects/sbcl/files/sbcl/{version}/sbcl-{version}-x86-64-windows-binary.msi/download"
