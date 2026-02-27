@@ -1,5 +1,6 @@
-import fs from '@rcompat/fs';
 import { z } from 'zod';
+
+import { releaseNotesSchema, ReleaseNotesSource } from '@/schema/release-notes';
 
 export enum Strategy {
 	GithubRelease = 'github-release',
@@ -62,23 +63,18 @@ const yamlStrategySchema = z.object({
 	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
 });
 
-const versionRemoveSchema = z
-	.string()
-	.describe("Substring(s) to strip after auto-leading 'v' removal.")
-	.optional();
-
 const baseTaskFields = {
 	$schema: z.url().describe('Optional JSON Schema reference URL.').optional(),
-	releaseNotesUrl: z
-		.string()
-		.describe('Optional release notes URL. Can contain {version} placeholder or JSON path.')
-		.optional(),
+	releaseNotes: releaseNotesSchema,
 	replace: z
 		.boolean()
 		.default(false)
 		.describe('Replace latest version with new version.')
 		.optional(),
-	versionRemove: versionRemoveSchema,
+	versionRemove: z
+		.string()
+		.describe("Substring(s) to strip after auto-leading 'v' removal.")
+		.optional(),
 };
 
 const githubReleaseVariant = z
@@ -162,34 +158,33 @@ const yamlVariant = z.object({
 	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
 });
 
-export const JsonTaskSchema = z.discriminatedUnion('strategy', [
-	githubReleaseVariant,
-	pageMatchVariant,
-	sortVersionsVariant,
-	redirectMatchVariant,
-	sourceforgeVariant,
-	electronBuilderVariant,
-	jsonVariant,
-	yamlVariant,
-]);
+export const JsonTaskSchema = z
+	.discriminatedUnion('strategy', [
+		githubReleaseVariant,
+		pageMatchVariant,
+		sortVersionsVariant,
+		redirectMatchVariant,
+		sourceforgeVariant,
+		electronBuilderVariant,
+		jsonVariant,
+		yamlVariant,
+	])
+	.superRefine((task, ctx) => {
+		if (!task.releaseNotes || !('source' in task.releaseNotes)) {
+			return;
+		}
+
+		if (task.releaseNotes.source !== ReleaseNotesSource.Github) {
+			return;
+		}
+
+		if (task.strategy !== Strategy.GithubRelease && !task.releaseNotes.tag) {
+			ctx.addIssue({
+				code: 'custom',
+				message: 'releaseNotes.tag is required unless strategy is github-release.',
+				path: ['releaseNotes', 'tag'],
+			});
+		}
+	});
 
 export type JsonTask = z.infer<typeof JsonTaskSchema>;
-
-export const ScriptTaskResult = z.object({
-	version: z.string(),
-	urls: z.array(z.string()),
-	releaseNotesUrl: z.string().optional(),
-	replace: z.boolean().optional(),
-	skipPrCheck: z.boolean().default(false),
-	state: z.string().optional(),
-});
-
-export async function generateJsonTaskSchema() {
-	const schemaFile = new fs.FileRef('./src/schema/task/schema.json');
-	await schemaFile.write(JSON.stringify(z.toJSONSchema(JsonTaskSchema), null, 2));
-	console.log('Successfully generated JSON schema: src/schema/task/schema.json');
-}
-
-if (import.meta.main) {
-	await generateJsonTaskSchema();
-}

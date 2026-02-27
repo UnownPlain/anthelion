@@ -6,5 +6,8 @@
 		"regex": "path=\"platform-tools\"[\\s\\S]*?<url>platform-tools_r(\\d+(?:\\.\\d+)+)-win\\.zip<\\/url>"
 	},
 	"urls": ["https://dl.google.com/android/repository/platform-tools_r{version}-win.zip"],
-	"releaseNotesUrl": "https://developer.android.com/tools/releases/platform-tools"
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://developer.android.com/tools/releases/platform-tools"
+	}
 }

@@ -1,0 +1,1756 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"oneOf": [
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotes": {
+					"anyOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "html"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "browser-rendering"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"waitUntil": {
+											"type": "string",
+											"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+											"description": "Optional browser wait condition for navigation."
+										},
+										"waitForSelector": {
+											"type": "string",
+											"description": "Optional selector to wait for before capturing HTML."
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "github"
+										},
+										"owner": {
+											"type": "string",
+											"description": "GitHub repository owner. Optional when strategy is github-release (defaults to github.owner)."
+										},
+										"repo": {
+											"type": "string",
+											"description": "GitHub repository name. Optional when strategy is github-release (defaults to github.repo)."
+										},
+										"tag": {
+											"type": "string",
+											"description": "Tag template for the release notes lookup. Supports {version}. Optional when strategy is github-release (uses resolved release tag)."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for GitHub sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "json"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning JSON release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "yaml"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning YAML release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								}
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"url": {
+									"type": "string",
+									"description": "URL to a release notes page. Supports {version} placeholders in URL."
+								}
+							},
+							"required": ["url"],
+							"additionalProperties": false
+						}
+					]
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"strategy": {
+					"type": "string",
+					"const": "github-release"
+				},
+				"github": {
+					"type": "object",
+					"properties": {
+						"owner": {
+							"type": "string"
+						},
+						"repo": {
+							"type": "string"
+						},
+						"preRelease": {
+							"default": false,
+							"type": "boolean"
+						},
+						"fetchUrlsFromApi": {
+							"default": false,
+							"type": "boolean",
+							"description": "Fetch asset download URLs via the GitHub Releases API instead of relying on templates."
+						},
+						"tagFilter": {
+							"type": "string"
+						},
+						"fetchLatest": {
+							"default": false,
+							"type": "boolean"
+						}
+					},
+					"required": ["owner", "repo"],
+					"additionalProperties": false
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "github"],
+			"additionalProperties": false
+		},
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotes": {
+					"anyOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "html"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "browser-rendering"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"waitUntil": {
+											"type": "string",
+											"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+											"description": "Optional browser wait condition for navigation."
+										},
+										"waitForSelector": {
+											"type": "string",
+											"description": "Optional selector to wait for before capturing HTML."
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "github"
+										},
+										"owner": {
+											"type": "string",
+											"description": "GitHub repository owner. Optional when strategy is github-release (defaults to github.owner)."
+										},
+										"repo": {
+											"type": "string",
+											"description": "GitHub repository name. Optional when strategy is github-release (defaults to github.repo)."
+										},
+										"tag": {
+											"type": "string",
+											"description": "Tag template for the release notes lookup. Supports {version}. Optional when strategy is github-release (uses resolved release tag)."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for GitHub sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "json"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning JSON release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "yaml"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning YAML release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								}
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"url": {
+									"type": "string",
+									"description": "URL to a release notes page. Supports {version} placeholders in URL."
+								}
+							},
+							"required": ["url"],
+							"additionalProperties": false
+						}
+					]
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"strategy": {
+					"type": "string",
+					"const": "page-match"
+				},
+				"pageMatch": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"format": "uri"
+						},
+						"regex": {
+							"type": "string"
+						}
+					},
+					"required": ["url", "regex"],
+					"additionalProperties": false
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "pageMatch", "urls"],
+			"additionalProperties": false
+		},
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotes": {
+					"anyOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "html"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "browser-rendering"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"waitUntil": {
+											"type": "string",
+											"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+											"description": "Optional browser wait condition for navigation."
+										},
+										"waitForSelector": {
+											"type": "string",
+											"description": "Optional selector to wait for before capturing HTML."
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "github"
+										},
+										"owner": {
+											"type": "string",
+											"description": "GitHub repository owner. Optional when strategy is github-release (defaults to github.owner)."
+										},
+										"repo": {
+											"type": "string",
+											"description": "GitHub repository name. Optional when strategy is github-release (defaults to github.repo)."
+										},
+										"tag": {
+											"type": "string",
+											"description": "Tag template for the release notes lookup. Supports {version}. Optional when strategy is github-release (uses resolved release tag)."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for GitHub sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "json"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning JSON release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "yaml"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning YAML release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								}
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"url": {
+									"type": "string",
+									"description": "URL to a release notes page. Supports {version} placeholders in URL."
+								}
+							},
+							"required": ["url"],
+							"additionalProperties": false
+						}
+					]
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"strategy": {
+					"type": "string",
+					"const": "sort-versions"
+				},
+				"sortVersions": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"format": "uri"
+						},
+						"regex": {
+							"type": "string"
+						}
+					},
+					"required": ["url", "regex"],
+					"additionalProperties": false
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "sortVersions", "urls"],
+			"additionalProperties": false
+		},
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotes": {
+					"anyOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "html"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "browser-rendering"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"waitUntil": {
+											"type": "string",
+											"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+											"description": "Optional browser wait condition for navigation."
+										},
+										"waitForSelector": {
+											"type": "string",
+											"description": "Optional selector to wait for before capturing HTML."
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "github"
+										},
+										"owner": {
+											"type": "string",
+											"description": "GitHub repository owner. Optional when strategy is github-release (defaults to github.owner)."
+										},
+										"repo": {
+											"type": "string",
+											"description": "GitHub repository name. Optional when strategy is github-release (defaults to github.repo)."
+										},
+										"tag": {
+											"type": "string",
+											"description": "Tag template for the release notes lookup. Supports {version}. Optional when strategy is github-release (uses resolved release tag)."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for GitHub sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "json"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning JSON release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "yaml"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning YAML release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								}
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"url": {
+									"type": "string",
+									"description": "URL to a release notes page. Supports {version} placeholders in URL."
+								}
+							},
+							"required": ["url"],
+							"additionalProperties": false
+						}
+					]
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"strategy": {
+					"type": "string",
+					"const": "redirect-match"
+				},
+				"redirectMatch": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"format": "uri"
+						},
+						"regex": {
+							"type": "string"
+						},
+						"method": {
+							"default": "head",
+							"type": "string",
+							"enum": ["head", "get"]
+						}
+					},
+					"required": ["url", "regex"],
+					"additionalProperties": false
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "redirectMatch"],
+			"additionalProperties": false
+		},
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotes": {
+					"anyOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "html"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "browser-rendering"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"waitUntil": {
+											"type": "string",
+											"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+											"description": "Optional browser wait condition for navigation."
+										},
+										"waitForSelector": {
+											"type": "string",
+											"description": "Optional selector to wait for before capturing HTML."
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "github"
+										},
+										"owner": {
+											"type": "string",
+											"description": "GitHub repository owner. Optional when strategy is github-release (defaults to github.owner)."
+										},
+										"repo": {
+											"type": "string",
+											"description": "GitHub repository name. Optional when strategy is github-release (defaults to github.repo)."
+										},
+										"tag": {
+											"type": "string",
+											"description": "Tag template for the release notes lookup. Supports {version}. Optional when strategy is github-release (uses resolved release tag)."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for GitHub sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "json"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning JSON release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "yaml"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning YAML release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								}
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"url": {
+									"type": "string",
+									"description": "URL to a release notes page. Supports {version} placeholders in URL."
+								}
+							},
+							"required": ["url"],
+							"additionalProperties": false
+						}
+					]
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"strategy": {
+					"type": "string",
+					"const": "sourceforge"
+				},
+				"sourceforge": {
+					"type": "object",
+					"properties": {
+						"project": {
+							"type": "string",
+							"description": "SourceForge project slug (e.g. winscp)."
+						},
+						"file": {
+							"type": "string",
+							"description": "File name pattern with {version} placeholder."
+						}
+					},
+					"required": ["project"],
+					"additionalProperties": false
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "sourceforge", "urls"],
+			"additionalProperties": false
+		},
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotes": {
+					"anyOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "html"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "browser-rendering"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"waitUntil": {
+											"type": "string",
+											"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+											"description": "Optional browser wait condition for navigation."
+										},
+										"waitForSelector": {
+											"type": "string",
+											"description": "Optional selector to wait for before capturing HTML."
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "github"
+										},
+										"owner": {
+											"type": "string",
+											"description": "GitHub repository owner. Optional when strategy is github-release (defaults to github.owner)."
+										},
+										"repo": {
+											"type": "string",
+											"description": "GitHub repository name. Optional when strategy is github-release (defaults to github.repo)."
+										},
+										"tag": {
+											"type": "string",
+											"description": "Tag template for the release notes lookup. Supports {version}. Optional when strategy is github-release (uses resolved release tag)."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for GitHub sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "json"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning JSON release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "yaml"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning YAML release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								}
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"url": {
+									"type": "string",
+									"description": "URL to a release notes page. Supports {version} placeholders in URL."
+								}
+							},
+							"required": ["url"],
+							"additionalProperties": false
+						}
+					]
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"strategy": {
+					"type": "string",
+					"const": "electron-builder"
+				},
+				"electronBuilder": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"format": "uri",
+							"description": "Direct YAML URL (latest.yml, beta.yml, etc.)."
+						}
+					},
+					"required": ["url"],
+					"additionalProperties": false
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "electronBuilder", "urls"],
+			"additionalProperties": false
+		},
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotes": {
+					"anyOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "html"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "browser-rendering"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"waitUntil": {
+											"type": "string",
+											"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+											"description": "Optional browser wait condition for navigation."
+										},
+										"waitForSelector": {
+											"type": "string",
+											"description": "Optional selector to wait for before capturing HTML."
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "github"
+										},
+										"owner": {
+											"type": "string",
+											"description": "GitHub repository owner. Optional when strategy is github-release (defaults to github.owner)."
+										},
+										"repo": {
+											"type": "string",
+											"description": "GitHub repository name. Optional when strategy is github-release (defaults to github.repo)."
+										},
+										"tag": {
+											"type": "string",
+											"description": "Tag template for the release notes lookup. Supports {version}. Optional when strategy is github-release (uses resolved release tag)."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for GitHub sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "json"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning JSON release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "yaml"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning YAML release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								}
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"url": {
+									"type": "string",
+									"description": "URL to a release notes page. Supports {version} placeholders in URL."
+								}
+							},
+							"required": ["url"],
+							"additionalProperties": false
+						}
+					]
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"strategy": {
+					"type": "string",
+					"const": "json"
+				},
+				"json": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"format": "uri",
+							"description": "Endpoint returning JSON."
+						},
+						"path": {
+							"type": "string",
+							"description": "Dot-separated path to string value (arrays use numeric indexes)."
+						}
+					},
+					"required": ["url", "path"],
+					"additionalProperties": false
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "json", "urls"],
+			"additionalProperties": false
+		},
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotes": {
+					"anyOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "html"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "browser-rendering"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"waitUntil": {
+											"type": "string",
+											"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+											"description": "Optional browser wait condition for navigation."
+										},
+										"waitForSelector": {
+											"type": "string",
+											"description": "Optional selector to wait for before capturing HTML."
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "github"
+										},
+										"owner": {
+											"type": "string",
+											"description": "GitHub repository owner. Optional when strategy is github-release (defaults to github.owner)."
+										},
+										"repo": {
+											"type": "string",
+											"description": "GitHub repository name. Optional when strategy is github-release (defaults to github.repo)."
+										},
+										"tag": {
+											"type": "string",
+											"description": "Tag template for the release notes lookup. Supports {version}. Optional when strategy is github-release (uses resolved release tag)."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for GitHub sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "json"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning JSON release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "yaml"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning YAML release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl", "path"],
+									"additionalProperties": false
+								}
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"url": {
+									"type": "string",
+									"description": "URL to a release notes page. Supports {version} placeholders in URL."
+								}
+							},
+							"required": ["url"],
+							"additionalProperties": false
+						}
+					]
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"strategy": {
+					"type": "string",
+					"const": "yaml"
+				},
+				"yaml": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"format": "uri",
+							"description": "Endpoint returning YAML."
+						},
+						"path": {
+							"type": "string",
+							"description": "Dot-separated path to string value (arrays use numeric indexes)."
+						}
+					},
+					"required": ["url", "path"],
+					"additionalProperties": false
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "yaml", "urls"],
+			"additionalProperties": false
+		}
+	]
+}

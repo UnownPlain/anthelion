@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "emoacht", "repo": "Monitorian" },
+	"urls": [
+		"https://github.com/emoacht/Monitorian/releases/download/{version}-Installer/MonitorianInstaller{version|.|}.zip"
+	],
+	"versionRemove": "-Installer"
+}

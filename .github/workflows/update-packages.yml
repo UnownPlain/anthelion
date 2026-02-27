@@ -32,4 +32,7 @@ jobs:
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: bun start

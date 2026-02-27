@@ -1,5 +1,3 @@
-import process from 'node:process';
-
 import fs from '@rcompat/fs';
 import {
 	getExistingPullRequest,
@@ -64,7 +62,7 @@ export class Logger {
 	}
 }
 
-export function compareVersions(a: string, b: string): number {
+export function compareVersions(a: string, b: string) {
 	const partsA = a.split('.').map(Number);
 	const partsB = b.split('.').map(Number);
 	const maxLength = Math.max(partsA.length, partsB.length);
@@ -82,6 +80,18 @@ export function vs(str: unknown) {
 	return z.string().parse(str).trim();
 }
 
+export function resolveVersionPlaceholders(template: string, version: string) {
+	const VERSION_PLACEHOLDER_REGEX = /\{version(?:\|([^|{}]*)\|([^{}]*))?\}/g;
+
+	return template.replaceAll(VERSION_PLACEHOLDER_REGEX, (_match, from, to) => {
+		if (from === undefined || from.length === 0) {
+			return version;
+		}
+
+		return version.split(from).join(to ?? '');
+	});
+}
+
 export function match(str: string | undefined, regex: RegExp) {
 	const globalRegex = regex.global ? regex : new RegExp(regex.source, `${regex.flags}g`);
 	const matches = Array.from(vs(str).matchAll(globalRegex));
@@ -97,7 +107,7 @@ export function match(str: string | undefined, regex: RegExp) {
 
 export async function isStateMatching(packageIdentifier: string, newState: string) {
 	if (process.env.DRY_RUN) return;
-	const versionStatePath = `version_state/${packageIdentifier}`;
+	const versionStatePath = `version-state/${packageIdentifier}`;
 	const storedVersion = (await new fs.FileRef(versionStatePath).text()).trim();
 
 	return newState === storedVersion;
@@ -161,7 +171,7 @@ export async function closeAllButMostRecentPR(packageIdentifier: string) {
 export async function updateVersionState(packageIdentifier: string, latestVersion: string) {
 	if (process.env.DRY_RUN) return;
 
-	const versionStatePath = `version_state/${packageIdentifier}`;
+	const versionStatePath = `version-state/${packageIdentifier}`;
 	const mutation = `
 		mutation UpdateFile($input: CreateCommitOnBranchInput!) {
 			createCommitOnBranch(input: $input) {
