@@ -7,7 +7,14 @@
 		"regex": "vlc\\/([\\d.]+)\\/win(?:32|64)\\/vlc-[\\d.]+-win(?:32|64)\\.exe"
 	},
 	"urls": [
-		"https://download.videolan.org/videolan/vlc/{version}/win64/vlc-{version}-win64.exe",
-		"https://download.videolan.org/videolan/vlc/{version}/win32/vlc-{version}-win32.exe"
+		"https://download.videolan.org/pub/videolan/vlc/{version}/win32/vlc-{version}-win32.exe",
+		"https://download.videolan.org/pub/videolan/vlc/{version}/win32/vlc-{version}-win32.msi",
+		"https://download.videolan.org/pub/videolan/vlc/{version}/win32/vlc-{version}-win32.zip",
+		"https://download.videolan.org/pub/videolan/vlc/{version}/win64/vlc-{version}-win64.exe",
+		"https://download.videolan.org/pub/videolan/vlc/{version}/win64/vlc-{version}-win64.msi",
+		"https://download.videolan.org/pub/videolan/vlc/{version}/win64/vlc-{version}-win64.zip",
+		"https://download.videolan.org/pub/videolan/vlc/{version}/winarm64/vlc-{version}-winarm64.exe",
+		"https://download.videolan.org/pub/videolan/vlc/{version}/winarm64/vlc-{version}-winarm64.msi",
+		"https://download.videolan.org/pub/videolan/vlc/{version}/winarm64/vlc-{version}-winarm64.zip"
 	]
 }
