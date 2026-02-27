@@ -6,5 +6,10 @@
 		"https://github.com/astral-sh/ty/releases/download/{version}/ty-i686-pc-windows-msvc.zip",
 		"https://github.com/astral-sh/ty/releases/download/{version}/ty-x86_64-pc-windows-msvc.zip",
 		"https://github.com/astral-sh/ty/releases/download/{version}/ty-aarch64-pc-windows-msvc.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"tag": "{version}",
+		"cleanup": true
+	}
 }

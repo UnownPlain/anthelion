@@ -14,8 +14,10 @@
 		"gen-schema": "bun run src/schema/task/schema.ts && oxfmt"
 	},
 	"dependencies": {
+		"@ai-sdk/cerebras": "2.0.35",
 		"@rcompat/fs": "0.25.2",
 		"@unownplain/anthelion-komac": "0.0.9",
+		"ai": "6.0.105",
 		"ansis": "4.2.0",
 		"dot-prop": "10.1.0",
 		"es-toolkit": "1.44.0",

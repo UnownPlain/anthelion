@@ -5,5 +5,10 @@
 		"url": "https://cdn.localwp.com/stable/latest/windows",
 		"regex": "local[._-]v?(\\d+(?:\\.\\d+)+)[._-]windows\\.exe"
 	},
-	"releaseNotesUrl": "https://localwp.com/releases/{version}"
+	"releaseNotes": {
+		"source": "json",
+		"sourceUrl": "https://getflywheel.github.io/local-releases/index.json",
+		"path": "[0].body",
+		"releaseNotesUrl": "https://localwp.com/releases/{version}"
+	}
 }

@@ -70,10 +70,10 @@ Taken from https://docs.brew.sh/Brew-Livecheck
 5. **Regexes should be made case insensitive**
    Whenever possible, by adding i at the end (e.g. /.../i). This improves reliability, as the regex will handle changes in letter case without needing modifications.
 
-   > IMPORTANT:
+   > [!IMPORTANT]
    >
    > This is only applicable to script (.ts) files. Regex in JSON files are insensitive by default.
 
 ## Tips
 
-- Use `rg` over `grep` whenever possible.
+- Always use `rg` over `grep` whenever possible.

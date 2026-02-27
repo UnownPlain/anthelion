@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "oven-sh", "repo": "bun" },
+	"urls": [
+		"https://github.com/oven-sh/bun/releases/download/bun-v{version}/bun-windows-x64.zip",
+		"https://github.com/oven-sh/bun/releases/download/bun-v{version}/bun-windows-aarch64.zip"
+	],
+	"versionRemove": "bun-v",
+	"releaseNotes": {
+		"source": "browser-rendering",
+		"sourceUrl": "https://bun.com/blog/bun-v1.3.10"
+	}
+}

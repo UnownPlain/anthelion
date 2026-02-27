@@ -8,5 +8,10 @@
 	"urls": [
 		"https://launcher-files.modrinth.com/versions/{version}/windows/Modrinth%20App_{version}_x64-setup.exe"
 	],
-	"releaseNotesUrl": "https://modrinth.com/news/changelog?filter=app"
+	"releaseNotes": {
+		"source": "github",
+		"owner": "modrinth",
+		"repo": "code",
+		"tag": "v{version}"
+	}
 }

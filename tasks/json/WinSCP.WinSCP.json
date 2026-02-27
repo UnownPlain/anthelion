@@ -8,5 +8,9 @@
 	"urls": [
 		"https://sourceforge.net/projects/winscp/files/WinSCP/{version}/WinSCP-{version}-Setup.exe/download",
 		"https://sourceforge.net/projects/winscp/files/WinSCP/{version}/WinSCP-{version}.msi/download"
-	]
+	],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://winscp.net/docs/history"
+	}
 }

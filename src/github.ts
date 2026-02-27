@@ -1,5 +1,4 @@
 import { extname } from 'node:path';
-import process from 'node:process';
 
 import { Octokit } from 'octokit';
 
