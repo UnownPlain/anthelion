@@ -6,6 +6,7 @@
 		"file": "sbcl-{version}-x86-64-windows-binary.msi"
 	},
 	"urls": [
-		"https://sourceforge.net/projects/sbcl/files/sbcl/{version}/sbcl-{version}-x86-64-windows-binary.msi/download"
+		"https://sourceforge.net/projects/sbcl/files/sbcl/{version}/sbcl-{version}-x86-64-windows-binary.msi/download",
+		"https://sourceforge.net/projects/sbcl/files/sbcl/{version}/sbcl-2.6.2-arm64-windows-binary.msi/download"
 	]
 }
