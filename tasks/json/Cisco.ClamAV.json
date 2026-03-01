@@ -2,6 +2,10 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
 	"github": { "owner": "Cisco-Talos", "repo": "clamav" },
-	"urls": ["https://www.clamav.net/downloads/production/clamav-{version}.win.x64.msi"],
+	"urls": [
+		"https://github.com/Cisco-Talos/clamav/releases/download/clamav-{version}/clamav-{version}.win.win32.msi",
+		"https://github.com/Cisco-Talos/clamav/releases/download/clamav-{version}/clamav-{version}.win.x64.msi",
+		"https://github.com/Cisco-Talos/clamav/releases/download/clamav-{version}/clamav-{version}.win.arm64.msi"
+	],
 	"versionRemove": "clamav-"
 }
