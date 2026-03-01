@@ -6,7 +6,7 @@ export default async function () {
 		/yamaha[._-]steinberg[._-]usb[._-]driver[/\\]win[/\\](\d+(?:\.\d+)+)[/\\]/i,
 	);
 	const urls = [
-		`https://download.steinberg.net/downloads_hardware/Yamaha_Steinberg_USB_Driver/Win/${version}/YSUSB_V${version.replace('.', '')}_Win.zip`,
+		`https://download.steinberg.net/downloads_hardware/Yamaha_Steinberg_USB_Driver/Win/${version}/YSUSB_V${version.replaceAll('.', '')}_Win.zip`,
 	];
 
 	return {
