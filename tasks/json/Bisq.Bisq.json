@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "bisq-network", "repo": "bisq" },
+	"urls": [
+		"https://github.com/bisq-network/bisq/releases/download/v{version}/Bisq-64bit-{version}.exe"
+	]
+}
