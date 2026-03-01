@@ -83,13 +83,9 @@ export function vs(str: unknown) {
 }
 
 export function match(str: string | undefined, regex: RegExp) {
-	const match = vs(str).match(regex);
-	const groups = match?.slice(1);
-
-	if (!groups) {
-		throw new Error('Regex match not found');
-	}
-
+	const globalRegex = regex.global ? regex : new RegExp(regex.source, `${regex.flags}g`);
+	const matches = Array.from(vs(str).matchAll(globalRegex));
+	const groups = matches.flatMap((match) => match.slice(1));
 	const validated = z.array(z.string()).parse(groups);
 
 	if (validated.length === 0) {
