@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "conan-io", "repo": "conan" },
+	"urls": [
+		"https://github.com/conan-io/conan/releases/download/{version}/conan-{version}-windows-i686-installer.exe",
+		"https://github.com/conan-io/conan/releases/download/{version}/conan-{version}-windows-x86_64-installer.exe"
+	]
+}
