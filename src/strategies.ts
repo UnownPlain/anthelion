@@ -40,6 +40,15 @@ export async function redirectMatch(url: string, regex: RegExp) {
 	};
 }
 
+export async function sortVersionsMatch(url: string, regex: RegExp) {
+	const page = await ky(url).text();
+	const version = sortVersions(page, regex);
+	if (!version) {
+		throw new Error('Failed to extract version from page');
+	}
+	return version;
+}
+
 export function sortVersions(str: string, regex: RegExp) {
 	const globalRegex = regex.global ? regex : new RegExp(regex.source, `${regex.flags}g`);
 	const matches = str.matchAll(globalRegex);

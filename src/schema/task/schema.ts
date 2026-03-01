@@ -4,6 +4,7 @@ import { z } from 'zod';
 export enum Strategy {
 	GithubRelease = 'github-release',
 	PageMatch = 'page-match',
+	SortVersions = 'sort-versions',
 	RedirectMatch = 'redirect-match',
 	SourceForge = 'sourceforge',
 	ElectronBuilder = 'electron-builder',
@@ -27,6 +28,11 @@ const githubSchema = z.object({
 });
 
 const pageMatchSchema = z.object({
+	url: z.url(),
+	regex: z.string(),
+});
+
+const sortVersionsSchema = z.object({
 	url: z.url(),
 	regex: z.string(),
 });
@@ -110,6 +116,13 @@ const pageMatchVariant = z.object({
 	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
 });
 
+const sortVersionsVariant = z.object({
+	...baseTaskFields,
+	strategy: z.literal(Strategy.SortVersions),
+	sortVersions: sortVersionsSchema,
+	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
+});
+
 const redirectMatchVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.RedirectMatch),
@@ -152,6 +165,7 @@ const yamlVariant = z.object({
 export const JsonTaskSchema = z.discriminatedUnion('strategy', [
 	githubReleaseVariant,
 	pageMatchVariant,
+	sortVersionsVariant,
 	redirectMatchVariant,
 	sourceforgeVariant,
 	electronBuilderVariant,

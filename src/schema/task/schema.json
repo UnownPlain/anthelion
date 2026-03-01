@@ -141,6 +141,57 @@
 				},
 				"strategy": {
 					"type": "string",
+					"const": "sort-versions"
+				},
+				"sortVersions": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"format": "uri"
+						},
+						"regex": {
+							"type": "string"
+						}
+					},
+					"required": ["url", "regex"],
+					"additionalProperties": false
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "sortVersions", "urls"],
+			"additionalProperties": false
+		},
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotesUrl": {
+					"type": "string",
+					"description": "Optional release notes URL. Can contain {version} placeholder or JSON path."
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"strategy": {
+					"type": "string",
 					"const": "redirect-match"
 				},
 				"redirectMatch": {

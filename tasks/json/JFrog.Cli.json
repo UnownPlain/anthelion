@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "sort-versions",
+	"sortVersions": {
+		"url": "https://releases.jfrog.io/artifactory/jfrog-cli/v2-jf/",
+		"regex": "href=\\\"(\\d+(?:\\.\\d+)+)\\/\\\""
+	},
+	"urls": [
+		"https://releases.jfrog.io/artifactory/jfrog-cli/v2-jf/{version}/jfrog-cli-windows-amd64/jf.exe"
+	]
+}

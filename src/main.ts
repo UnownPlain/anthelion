@@ -16,7 +16,13 @@ import {
 	updateVersionState,
 } from '@/helpers';
 import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
-import { electronBuilder, pageMatch, redirectMatch, sourceforge } from '@/strategies';
+import {
+	electronBuilder,
+	pageMatch,
+	redirectMatch,
+	sortVersionsMatch,
+	sourceforge,
+} from '@/strategies';
 
 const MAX_CONCURRENCY = 32;
 export const SCRIPTS_FOLDER = 'tasks/script';
@@ -88,6 +94,12 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 			break;
 		case Strategy.PageMatch:
 			version = await pageMatch(task.pageMatch.url, new RegExp(task.pageMatch.regex, 'i'));
+			break;
+		case Strategy.SortVersions:
+			version = await sortVersionsMatch(
+				task.sortVersions.url,
+				new RegExp(task.sortVersions.regex, 'i'),
+			);
 			break;
 		case Strategy.Json: {
 			const response = await ky(task.json.url).json();
