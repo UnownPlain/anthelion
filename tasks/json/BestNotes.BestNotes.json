@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://updates.bestnotes.com/latest.yml"
+	},
+	"urls": ["https://updates.bestnotes.com/3.5.1/BestNotes-3.5.1-Installer.exe"]
+}
