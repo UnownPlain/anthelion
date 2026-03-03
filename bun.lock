@@ -18,7 +18,7 @@
       },
       "devDependencies": {
         "@types/bun": "1.3.10",
-        "@types/node": "25.3.2",
+        "@types/node": "25.3.3",
         "oxfmt": "0.35.0",
         "oxlint": "1.50.0",
         "oxlint-tsgolint": "0.15.0",
@@ -180,7 +180,7 @@
 
     "@types/bun": ["@types/bun@1.3.10", "", { "dependencies": { "bun-types": "1.3.10" } }, "sha512-0+rlrUrOrTSskibryHbvQkDOWRJwJZqZlxrUs1u4oOoTln8+WIXBPmAuCF35SWB2z4Zl3E84Nl/D0P7803nigQ=="],
 
-    "@types/node": ["@types/node@25.3.2", "", { "dependencies": { "undici-types": "~7.18.0" } }, "sha512-RpV6r/ij22zRRdyBPcxDeKAzH43phWVKEjL2iksqo1Vz3CuBUrgmPpPhALKiRfU7OMCmeeO9vECBMsV0hMTG8Q=="],
+    "@types/node": ["@types/node@25.3.3", "", { "dependencies": { "undici-types": "~7.18.0" } }, "sha512-DpzbrH7wIcBaJibpKo9nnSQL0MTRdnWttGyE5haGwK86xgMOkFLp7vEyfQPGLOJh5wNYiJ3V9PmUMDhV9u8kkQ=="],
 
     "@unownplain/anthelion-komac": ["@unownplain/anthelion-komac@0.0.13", "", { "optionalDependencies": { "@unownplain/anthelion-komac-darwin-arm64": "0.0.13", "@unownplain/anthelion-komac-darwin-x64": "0.0.13", "@unownplain/anthelion-komac-linux-arm64-gnu": "0.0.13", "@unownplain/anthelion-komac-linux-arm64-musl": "0.0.13", "@unownplain/anthelion-komac-linux-x64-gnu": "0.0.13", "@unownplain/anthelion-komac-linux-x64-musl": "0.0.13", "@unownplain/anthelion-komac-win32-arm64-msvc": "0.0.13", "@unownplain/anthelion-komac-win32-x64-msvc": "0.0.13" } }, "sha512-pSB84vbI5bkyIQOlhZD1n6q4DmGi97A53asLZZkZ8qMgKNMRTWAjp8n24TWunlunzx64r5Dc57enlJb3iM5K5g=="],
 
@@ -245,5 +245,7 @@
     "yaml": ["yaml@2.8.2", "", { "bin": { "yaml": "bin.mjs" } }, "sha512-mplynKqc1C2hTVYxd0PU2xQAc22TI1vShAYGksCCfxbn/dFwnHTNi1bvYsBTkhdUNtGIf5xNOg938rrSSYvS9A=="],
 
     "zod": ["zod@4.3.6", "", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
+
+    "bun-types/@types/node": ["@types/node@25.3.2", "", { "dependencies": { "undici-types": "~7.18.0" } }, "sha512-RpV6r/ij22zRRdyBPcxDeKAzH43phWVKEjL2iksqo1Vz3CuBUrgmPpPhALKiRfU7OMCmeeO9vECBMsV0hMTG8Q=="],
   }
 }
