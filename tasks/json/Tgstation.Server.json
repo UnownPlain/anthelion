@@ -1,9 +1,0 @@
-{
-	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "github-release",
-	"github": { "owner": "tgstation", "repo": "tgstation-server" },
-	"urls": [
-		"https://github.com/tgstation/tgstation-server/releases/download/tgstation-server-v{version}/tgstation-server-installer.exe"
-	],
-	"versionRemove": "tgstation-server-v"
-}
