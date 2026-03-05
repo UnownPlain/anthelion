@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "rust-lang", "repo": "rust" },
+	"urls": [
+		"https://static.rust-lang.org/dist/rust-{version}-x86_64-pc-windows-gnullvm.msi",
+		"https://static.rust-lang.org/dist/rust-{version}-aarch64-pc-windows-gnullvm.msi"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"tag": "{version}"
+	}
+}
