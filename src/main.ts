@@ -10,12 +10,15 @@ import { getLatestVersion } from '@/github';
 import {
 	closeAllButMostRecentPR,
 	Logger,
+	resolveVersionPlaceholders,
 	vs,
 	checkVersionInRepo,
 	isStateMatching,
 	updateVersionState,
 } from '@/helpers';
-import { JsonTaskSchema, ScriptTaskResult, Strategy } from '@/schema/task/schema';
+import { resolveReleaseNotes } from '@/release-notes';
+import { JsonTaskSchema, Strategy } from '@/schema/json-task';
+import { ScriptTaskResult } from '@/schema/script-task';
 import {
 	electronBuilder,
 	pageMatch,
@@ -70,6 +73,9 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	const packageIdentifier = fileName.replace('.json', '');
 	let version: string;
 	let urls: string[] = task.urls || [];
+	let githubTag: string | undefined;
+	let resolvedReleaseNotesUrl: string | undefined;
+	let resolvedReleaseNotes: string | undefined;
 
 	switch (task.strategy) {
 		case Strategy.GithubRelease: {
@@ -80,6 +86,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 				tagFilter: task.github.tagFilter,
 				latest: task.github.fetchLatest,
 			});
+			githubTag = latest.tag;
 			version = latest.version;
 			if (task.github.fetchUrlsFromApi) {
 				if (latest.urls.length === 0) {
@@ -110,9 +117,6 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 				}
 				return url;
 			});
-			if (task.releaseNotesUrl && !task.releaseNotesUrl.startsWith('https://')) {
-				task.releaseNotesUrl = vs(getProperty(response, task.releaseNotesUrl));
-			}
 			break;
 		}
 		case Strategy.RedirectMatch: {
@@ -136,13 +140,10 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 			version = vs(getProperty(yaml, task.yaml.path));
 			urls = urls.map((url) => {
 				if (!url.startsWith('https://')) {
-					return vs(getProperty(response, url));
+					return vs(getProperty(yaml, url));
 				}
 				return url;
 			});
-			if (task.releaseNotesUrl && !task.releaseNotesUrl.startsWith('https://')) {
-				task.releaseNotesUrl = vs(getProperty(response, task.releaseNotesUrl));
-			}
 			break;
 		}
 	}
@@ -152,11 +153,16 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 
 	if (await checkVersionInRepo(version, packageIdentifier, logger)) return;
 
+	({ releaseNotesUrl: resolvedReleaseNotesUrl, releaseNotes: resolvedReleaseNotes } =
+		await resolveReleaseNotes(task, version, { githubTag }));
+
 	if (task.replace) {
 		await closeAllButMostRecentPR(packageIdentifier);
 	}
-	task.releaseNotesUrl = task.releaseNotesUrl?.replaceAll('{version}', version);
-	urls = urls.map((url) => url.replaceAll('{version}', version));
+	urls = urls.map((url) => resolveVersionPlaceholders(url, version));
+	resolvedReleaseNotesUrl = resolvedReleaseNotesUrl
+		? resolveVersionPlaceholders(resolvedReleaseNotesUrl, version)
+		: undefined;
 
 	logger.details(version, urls);
 
@@ -165,7 +171,8 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 		version,
 		urls,
 		replace: task.replace ? 'latest' : undefined,
-		releaseNotesUrl: task.releaseNotesUrl,
+		releaseNotesUrl: resolvedReleaseNotesUrl,
+		releaseNotes: resolvedReleaseNotes,
 		dryRun: process.env.DRY_RUN ? true : false,
 		token: process.env.GITHUB_TOKEN!,
 	});

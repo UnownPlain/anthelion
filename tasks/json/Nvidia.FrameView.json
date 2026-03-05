@@ -8,5 +8,8 @@
 	"urls": [
 		"https://images.nvidia.com/content/geforce/technologies/frameview/FrameView_{version}/FrameViewSetup.exe"
 	],
-	"releaseNotesUrl": "https://www.nvidia.com/en-us/geforce/technologies/frameview/release-notes/"
+	"releaseNotes": {
+		"source": "browser-rendering",
+		"sourceUrl": "https://www.nvidia.com/en-us/geforce/technologies/frameview/release-notes/"
+	}
 }

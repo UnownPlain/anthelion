@@ -1,5 +1,4 @@
 import { extname } from 'node:path';
-import process from 'node:process';
 
 import { Octokit } from 'octokit';
 
@@ -44,6 +43,7 @@ export async function getLatestVersion(options: {
 		.map((asset) => asset.browser_download_url);
 
 	return {
+		tag: release.tag_name,
 		version: release.tag_name.replace(tagFilter, '').replace(/^v/, ''),
 		urls,
 	};

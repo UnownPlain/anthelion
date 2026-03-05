@@ -8,5 +8,10 @@
 	"urls": [
 		"https://updates.safing.io/latest/windows_amd64/packages/Portmaster_{version}_x64-setup.exe"
 	],
-	"releaseNotesUrl": "https://github.com/safing/portmaster/releases/tag/v{version}"
+	"releaseNotes": {
+		"source": "github",
+		"owner": "safing",
+		"repo": "portmaster",
+		"tag": "v{version}"
+	}
 }

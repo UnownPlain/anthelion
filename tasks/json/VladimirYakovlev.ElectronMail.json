@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/vladimiry/ElectronMail/releases/download/v{version}/electron-mail-{version}-windows-x64-nsis-installer.exe",
 		"https://github.com/vladimiry/ElectronMail/releases/download/v{version}/electron-mail-{version}-windows-arm64-nsis-installer.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

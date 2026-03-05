@@ -6,5 +6,9 @@
 		"path": "Manual.Version"
 	},
 	"urls": ["Manual.fileURLs.x86_64", "Manual.fileURLs.arm64"],
-	"releaseNotesUrl": "Manual.ReleaseNotes.en"
+	"releaseNotes": {
+		"source": "json",
+		"sourceUrl": "https://gc-updates.elgato.com/windows/estw-update/final/app-version-check.json.php",
+		"path": "Manual.ReleaseNotes.en"
+	}
 }

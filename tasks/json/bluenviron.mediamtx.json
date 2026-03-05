@@ -4,5 +4,9 @@
 	"github": { "owner": "bluenviron", "repo": "mediamtx" },
 	"urls": [
 		"https://github.com/bluenviron/mediamtx/releases/download/v{version}/mediamtx_v{version}_windows_amd64.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

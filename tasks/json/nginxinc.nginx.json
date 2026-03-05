@@ -3,8 +3,12 @@
 	"strategy": "page-match",
 	"pageMatch": {
 		"url": "https://nginx.org/",
-		"regex": "nginx[._-]v?(\\d+(?:\\.\\d+)+)<\\/a>[\\s\\S]*?mainline version"
+		"regex": "nginx[._-]v?(\\d+(?:\\.\\d+)+)</a>\nmainline version"
 	},
 	"urls": ["https://nginx.org/download/nginx-{version}.zip|x64"],
-	"releaseNotesUrl": "https://nginx.org/en/CHANGES"
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://nginx.org/en/CHANGES",
+		"characterLimit": 5000
+	}
 }

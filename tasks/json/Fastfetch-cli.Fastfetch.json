@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "fastfetch-cli", "repo": "fastfetch" },
+	"urls": [
+		"https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-windows-amd64.zip",
+		"https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-windows-aarch64.zip"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
+}

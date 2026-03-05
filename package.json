@@ -11,11 +11,13 @@
 		"pkgtest": "bun src/test.ts",
 		"format": "oxfmt",
 		"lint": "oxlint --type-check --type-aware",
-		"gen-schema": "bun run src/schema/task/schema.ts && oxfmt"
+		"gen-schema": "bun run src/schema/generate.ts && oxfmt"
 	},
 	"dependencies": {
+		"@ai-sdk/cerebras": "2.0.35",
 		"@rcompat/fs": "0.25.2",
 		"@unownplain/anthelion-komac": "0.0.13",
+		"ai": "6.0.105",
 		"ansis": "4.2.0",
 		"dot-prop": "10.1.0",
 		"es-toolkit": "1.45.0",

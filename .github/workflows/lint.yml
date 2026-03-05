@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - version_state/**
+      - version-state/**
   pull_request:
   workflow_dispatch:
 
