@@ -14,7 +14,7 @@
 		"gen-schema": "bun run src/schema/generate.ts && oxfmt"
 	},
 	"dependencies": {
-		"@ai-sdk/cerebras": "2.0.36",
+		"@ai-sdk/cerebras": "2.0.37",
 		"@rcompat/fs": "0.25.2",
 		"@unownplain/anthelion-komac": "0.0.13",
 		"ai": "6.0.106",
