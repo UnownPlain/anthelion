@@ -6,6 +6,11 @@
 		{
 			"matchUpdateTypes": ["minor", "patch", "digest"],
 			"automerge": true
+		},
+		{
+			"description": "Only update AI-SDK packages on every 5th day of the month",
+			"matchPackageNames": ["ai", "@ai-sdk/*"],
+			"schedule": ["* 0 */5 * *"]
 		}
 	],
 	"customManagers": [
