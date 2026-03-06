@@ -17,7 +17,7 @@
 		"@ai-sdk/cerebras": "2.0.36",
 		"@rcompat/fs": "0.25.2",
 		"@unownplain/anthelion-komac": "0.0.13",
-		"ai": "6.0.106",
+		"ai": "6.0.107",
 		"ansis": "4.2.0",
 		"dot-prop": "10.1.0",
 		"es-toolkit": "1.45.0",
