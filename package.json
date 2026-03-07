@@ -20,7 +20,7 @@
 		"ai": "6.0.109",
 		"ansis": "4.2.0",
 		"dot-prop": "10.1.0",
-		"es-toolkit": "1.45.0",
+		"es-toolkit": "1.45.1",
 		"ky": "1.14.3",
 		"octokit": "5.0.5",
 		"temporal-polyfill": "0.3.0",
