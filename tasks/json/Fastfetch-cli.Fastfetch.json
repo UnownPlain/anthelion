@@ -7,7 +7,9 @@
 		"https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-windows-aarch64.zip"
 	],
 	"releaseNotes": {
-		"source": "github",
-		"cleanup": true
+		"source": "html",
+		"sourceUrl": "https://raw.githubusercontent.com/fastfetch-cli/fastfetch/refs/heads/dev/CHANGELOG.md",
+		"releaseNotesUrl": "https://github.com/fastfetch-cli/fastfetch/releases/tag/{version}",
+		"characterLimit": 5000
 	}
 }
