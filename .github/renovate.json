@@ -8,9 +8,18 @@
 			"automerge": true
 		},
 		{
+			"matchManagers": "github-actions",
+			"minimumReleaseAge": "7 days"
+		},
+		{
 			"description": "Only update AI-SDK packages on every 5th day of the month",
 			"matchPackageNames": ["ai", "@ai-sdk/*"],
 			"schedule": ["* 0 */5 * *"]
+		},
+		{
+			"description": "Disable minimum release age checks for internal dependencies",
+			"matchPackageNames": ["@unownplain/*", "UnownPlain/*"],
+			"minimumReleaseAge": null
 		}
 	],
 	"customManagers": [
