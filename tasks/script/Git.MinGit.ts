@@ -13,9 +13,9 @@ export default async function () {
 	const finalVersion = buildNumber === '1' ? baseVersion : `${baseVersion}.${buildNumber}`;
 
 	const urls = [
-		`https://github.com/git-for-windows/git/releases/download/v${tag}/MinGit-${baseVersion}-32-bit.zip`,
-		`https://github.com/git-for-windows/git/releases/download/v${tag}/MinGit-${baseVersion}-64-bit.zip`,
-		`https://github.com/git-for-windows/git/releases/download/v${tag}/MinGit-${baseVersion}-arm64.zip`,
+		`https://github.com/git-for-windows/git/releases/download/v${tag}/MinGit-${finalVersion}-32-bit.zip`,
+		`https://github.com/git-for-windows/git/releases/download/v${tag}/MinGit-${finalVersion}-64-bit.zip`,
+		`https://github.com/git-for-windows/git/releases/download/v${tag}/MinGit-${finalVersion}-arm64.zip`,
 	];
 
 	return {
