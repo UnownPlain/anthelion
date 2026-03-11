@@ -42,6 +42,7 @@ async function cleanupReleaseNotes(releaseNotes: string, version: string) {
 		output: Output.object({ schema: CleanupResultSchema }),
 		system: CLEANUP_SYSTEM_PROMPT.replaceAll('{version}', version),
 		prompt: releaseNotes,
+		temperature: 0,
 	});
 
 	return output.error ? undefined : output.releaseNotes;
