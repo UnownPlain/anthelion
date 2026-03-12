@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "chatty", "repo": "chatty" },
+	"urls": [
+		" https://github.com/chatty/chatty/releases/download/v{version}/Chatty_{version}_win_standalone_setup.exe"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
+}
