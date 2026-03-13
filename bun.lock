@@ -14,7 +14,7 @@
         "es-toolkit": "1.45.1",
         "ky": "1.14.3",
         "octokit": "5.0.5",
-        "temporal-polyfill": "0.3.0",
+        "temporal-polyfill": "0.3.1",
         "yaml": "2.8.2",
         "zod": "4.3.6",
       },
@@ -252,9 +252,9 @@
 
     "tagged-tag": ["tagged-tag@1.0.0", "", {}, "sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng=="],
 
-    "temporal-polyfill": ["temporal-polyfill@0.3.0", "", { "dependencies": { "temporal-spec": "0.3.0" } }, "sha512-qNsTkX9K8hi+FHDfHmf22e/OGuXmfBm9RqNismxBrnSmZVJKegQ+HYYXT+R7Ha8F/YSm2Y34vmzD4cxMu2u95g=="],
+    "temporal-polyfill": ["temporal-polyfill@0.3.1", "", { "dependencies": { "temporal-spec": "0.3.1" } }, "sha512-3Ceqnjxa7nQ1VGRjehALmP9LdiJqalmoYh6o22s8skP+ZN6df1cTN/7h+p0k4v357pFsQN94gtJoxV6fqvlijA=="],
 
-    "temporal-spec": ["temporal-spec@0.3.0", "", {}, "sha512-n+noVpIqz4hYgFSMOSiINNOUOMFtV5cZQNCmmszA6GiVFVRt3G7AqVyhXjhCSmowvQn+NsGn+jMDMKJYHd3bSQ=="],
+    "temporal-spec": ["temporal-spec@0.3.1", "", {}, "sha512-B4TUhezh9knfSIMwt7RVggApDRJZo73uZdj8AacL2mZ8RP5KtLianh2MXxL06GN9ESYiIsiuoLQhgVfwe55Yhw=="],
 
     "tinypool": ["tinypool@2.1.0", "", {}, "sha512-Pugqs6M0m7Lv1I7FtxN4aoyToKg1C4tu+/381vH35y8oENM/Ai7f7C4StcoK4/+BSw9ebcS8jRiVrORFKCALLw=="],
 
