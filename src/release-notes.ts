@@ -6,9 +6,9 @@ import ky from 'ky';
 import { parse } from 'yaml';
 import { z } from 'zod';
 
-import { resolveVersionPlaceholders, vs } from '@/helpers.ts';
-import { Strategy, type JsonTask } from '@/schema/json-task';
-import { ReleaseNotesSource } from '@/schema/release-notes';
+import { isHttpUrl, vs } from '@/helpers.ts';
+import { type JsonTask } from '@/schema/json-task';
+import { normalizedReleaseNotesSchema, ReleaseNotesSource } from '@/schema/release-notes';
 
 const CleanupResultSchema = z.object({
 	releaseNotes: z.string(),
@@ -19,6 +19,7 @@ const CLEANUP_SYSTEM_PROMPT = `
 		Your goal is to format release notes from HTML, markdown, XML, or unclean text into plain text (NOT MARKDOWN) suitable for viewing in terminals.
 
 		Unless the context exceeds 10000 characters, do not summarize the content and format the text verbatim.
+		Place newlines between headers but not between bullet points.
 
 		Remove any unnecessary info such as:
 		- Headers such as "Release Notes", "{app_name} Release Notes", "{app_name} Release", "X.X.X Release", "{app_name} version", etc.
@@ -26,7 +27,6 @@ const CLEANUP_SYSTEM_PROMPT = `
 		- Download methods/commands/how to download
 		- Released on dates
 		- Time to read (X min read)
-		- Images / videos and alt text
 
 		Current package version is {version}. Only include the release notes for this version. If there are no release notes for this version, return an error.
 	`;
@@ -36,7 +36,7 @@ async function cleanupReleaseNotes(releaseNotes: string, version: string) {
 		return undefined;
 	}
 
-	const model = cerebras('gpt-oss-120b');
+	const model = cerebras('qwen-3-235b-a22b-instruct-2507');
 	const { output } = await generateText({
 		model,
 		output: Output.object({ schema: CleanupResultSchema }),
@@ -56,14 +56,7 @@ function applyCharacterLimit(releaseNotes: string, characterLimit: number | unde
 	return releaseNotes.slice(0, characterLimit).trim();
 }
 
-function isHttpUrl(value: string) {
-	return z.url().safeParse(value).success;
-}
-
 type BrowserRenderingOptions = {
-	accountId: string;
-	apiToken: string;
-	aiToken: string;
 	cacheTtl?: number;
 	url: string;
 	waitUntil?: 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
@@ -77,10 +70,16 @@ type BrowserRenderingJsonEnvelope = {
 };
 
 async function fetchBrowserRenderedReleaseNotes(options: BrowserRenderingOptions, version: string) {
-	const endpoint = `https://api.cloudflare.com/client/v4/accounts/${options.accountId}/browser-rendering/json`;
+	const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, CEREBRAS_API_KEY } = process.env;
+
+	if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_API_TOKEN || !CEREBRAS_API_KEY) {
+		return undefined;
+	}
+
+	const endpoint = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/browser-rendering/json`;
 	const response = await ky.post(endpoint, {
 		headers: {
-			authorization: `Bearer ${options.apiToken}`,
+			authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
 		},
 		json: {
 			url: options.url,
@@ -96,7 +95,7 @@ async function fetchBrowserRenderedReleaseNotes(options: BrowserRenderingOptions
 			custom_ai: [
 				{
 					model: 'cerebras/gpt-oss-120b',
-					authorization: `Bearer ${options.aiToken}`,
+					authorization: `Bearer ${CEREBRAS_API_KEY}`,
 				},
 			],
 		},
@@ -114,163 +113,113 @@ async function fetchBrowserRenderedReleaseNotes(options: BrowserRenderingOptions
 	return parsed.error ? undefined : parsed.releaseNotes;
 }
 
-async function resolveNotesContentAndUrl(rawValue: string, releaseNotesUrl: string | undefined) {
-	let sourceContent = rawValue;
-	let resolvedReleaseNotesUrl = releaseNotesUrl;
-
-	if (isHttpUrl(rawValue)) {
-		sourceContent = await ky(rawValue).text();
-		if (!resolvedReleaseNotesUrl) {
-			resolvedReleaseNotesUrl = rawValue;
-		}
-	}
-
-	const releaseNotes = (await htmlToPlainText(sourceContent)) ?? sourceContent;
-
-	return { releaseNotes, releaseNotesUrl: resolvedReleaseNotesUrl };
-}
-
 export async function resolveReleaseNotes(
 	task: JsonTask,
+	releaseNotesConfig: z.output<ReturnType<typeof normalizedReleaseNotesSchema>> | undefined,
 	version: string,
-	options?: { githubTag?: string },
+	githubTag?: string,
 ) {
-	if (!task.releaseNotes) {
-		return { releaseNotesUrl: undefined, releaseNotes: undefined };
+	const manifest: {
+		releaseNotes: string | undefined;
+		releaseNotesUrl: string | undefined;
+	} = {
+		releaseNotes: undefined,
+		releaseNotesUrl: undefined,
+	};
+
+	if (!releaseNotesConfig) {
+		return manifest;
 	}
 
-	if (!('source' in task.releaseNotes)) {
-		return {
-			releaseNotesUrl: resolveVersionPlaceholders(task.releaseNotes.url, version),
-			releaseNotes: undefined,
-		};
+	manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl;
+
+	if (releaseNotesConfig.kind === 'url-only') {
+		return manifest;
 	}
 
-	switch (task.releaseNotes.source) {
+	switch (releaseNotesConfig.source) {
 		case ReleaseNotesSource.Html: {
-			const sourceUrl = resolveVersionPlaceholders(task.releaseNotes.sourceUrl, version);
-			const releaseNotesUrl = task.releaseNotes.releaseNotesUrl
-				? resolveVersionPlaceholders(task.releaseNotes.releaseNotesUrl, version)
-				: sourceUrl;
-			const html = await ky(sourceUrl).text();
+			const html = await ky(releaseNotesConfig.sourceUrl).text();
+			const htmlPlainText = await htmlToPlainText(html);
 
-			let releaseNotes: string | undefined = applyCharacterLimit(
-				(await htmlToPlainText(html)) ?? html,
-				task.releaseNotes.characterLimit,
+			manifest.releaseNotes = applyCharacterLimit(
+				htmlPlainText ?? html,
+				releaseNotesConfig.characterLimit,
 			);
 
-			if (task.releaseNotes.cleanup) {
-				releaseNotes = await cleanupReleaseNotes(releaseNotes, version);
-			}
-
-			return { releaseNotesUrl, releaseNotes };
+			break;
 		}
 		case ReleaseNotesSource.Github: {
-			const owner =
-				task.releaseNotes.owner ||
-				(task.strategy === Strategy.GithubRelease ? task.github.owner : undefined);
-			const repo =
-				task.releaseNotes.repo ||
-				(task.strategy === Strategy.GithubRelease ? task.github.repo : undefined);
+			const githubConfig = 'github' in task ? task.github : undefined;
+			const owner = releaseNotesConfig.owner || githubConfig?.owner;
+			const repo = releaseNotesConfig.repo || githubConfig?.repo;
+			const tag = releaseNotesConfig.tag ?? githubTag;
 
 			if (!owner || !repo) {
 				throw new Error(
 					'releaseNotes.github owner and repo are required unless strategy is github-release',
 				);
 			}
-
-			const tag = task.releaseNotes.tag
-				? resolveVersionPlaceholders(task.releaseNotes.tag, version)
-				: options?.githubTag;
-
 			if (!tag) {
 				throw new Error(
 					'releaseNotes.tag is required unless strategy is github-release and a GitHub release tag was resolved',
 				);
 			}
-			const releaseNotesUrl = `https://github.com/${owner}/${repo}/releases/tag/${tag}`;
-			const githubNotes = await getFormattedGithubReleaseNotes(
-				owner,
-				repo,
-				tag,
-				process.env.GITHUB_TOKEN,
-			);
 
-			if (!githubNotes) {
-				return { releaseNotesUrl, releaseNotes: undefined };
-			}
-			if (!task.releaseNotes.cleanup) {
-				return { releaseNotesUrl, releaseNotes: githubNotes };
-			}
+			manifest.releaseNotesUrl = `https://github.com/${owner}/${repo}/releases/tag/${tag}`;
+			manifest.releaseNotes =
+				(await getFormattedGithubReleaseNotes(owner, repo, tag, process.env.GITHUB_TOKEN)) ||
+				undefined;
 
-			const releaseNotes: string | undefined = await cleanupReleaseNotes(githubNotes, version);
-			return { releaseNotesUrl, releaseNotes };
+			break;
 		}
 		case ReleaseNotesSource.Json: {
-			const sourceUrl = resolveVersionPlaceholders(task.releaseNotes.sourceUrl, version);
-			const configuredReleaseNotesUrl = task.releaseNotes.releaseNotesUrl
-				? resolveVersionPlaceholders(task.releaseNotes.releaseNotesUrl, version)
-				: undefined;
-			const response = await ky(sourceUrl).json();
-			const rawReleaseNotes = vs(getProperty(response, task.releaseNotes.path));
-			const resolved = await resolveNotesContentAndUrl(rawReleaseNotes, configuredReleaseNotesUrl);
-			let releaseNotes: string | undefined = resolved.releaseNotes;
+			let response = await ky(releaseNotesConfig.sourceUrl).json();
+			let rawReleaseNotes = vs(getProperty(response, releaseNotesConfig.path));
 
-			if (task.releaseNotes.cleanup) {
-				releaseNotes = await cleanupReleaseNotes(releaseNotes, version);
+			if (isHttpUrl(rawReleaseNotes)) {
+				manifest.releaseNotesUrl = rawReleaseNotes;
+				rawReleaseNotes = vs(await ky(rawReleaseNotes));
 			}
 
-			return { releaseNotesUrl: resolved.releaseNotesUrl, releaseNotes };
+			manifest.releaseNotes = rawReleaseNotes;
+
+			break;
 		}
 		case ReleaseNotesSource.Yaml: {
-			const sourceUrl = resolveVersionPlaceholders(task.releaseNotes.sourceUrl, version);
-			const configuredReleaseNotesUrl = task.releaseNotes.releaseNotesUrl
-				? resolveVersionPlaceholders(task.releaseNotes.releaseNotesUrl, version)
-				: undefined;
-			const response = await ky(sourceUrl).text();
-			const yaml = parse(response, { schema: 'failsafe' });
-			const rawReleaseNotes = vs(getProperty(yaml, task.releaseNotes.path));
-			const resolved = await resolveNotesContentAndUrl(rawReleaseNotes, configuredReleaseNotesUrl);
-			let releaseNotes: string | undefined = resolved.releaseNotes;
+			let response = await ky(releaseNotesConfig.sourceUrl).text();
+			let rawReleaseNotes = vs(getProperty(parse(response), releaseNotesConfig.path));
 
-			if (task.releaseNotes.cleanup) {
-				releaseNotes = await cleanupReleaseNotes(releaseNotes, version);
+			if (isHttpUrl(rawReleaseNotes)) {
+				manifest.releaseNotesUrl = rawReleaseNotes;
+				rawReleaseNotes = vs(await ky(rawReleaseNotes));
 			}
 
-			return { releaseNotesUrl: resolved.releaseNotesUrl, releaseNotes };
+			manifest.releaseNotes = rawReleaseNotes;
+
+			break;
 		}
 		case ReleaseNotesSource.BrowserRendering: {
-			const sourceUrl = resolveVersionPlaceholders(task.releaseNotes.sourceUrl, version);
-			const releaseNotesUrl = task.releaseNotes.releaseNotesUrl
-				? resolveVersionPlaceholders(task.releaseNotes.releaseNotesUrl, version)
-				: sourceUrl;
-			const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-			const apiToken = process.env.CLOUDFLARE_API_TOKEN;
-			const aiToken = process.env.CEREBRAS_API_KEY;
-
-			if (!accountId || !apiToken || !aiToken) {
-				return {
-					releaseNotesUrl,
-					releaseNotes: undefined,
-				};
-			}
-
-			const releaseNotes = await fetchBrowserRenderedReleaseNotes(
+			manifest.releaseNotes = await fetchBrowserRenderedReleaseNotes(
 				{
-					accountId,
-					apiToken,
-					aiToken,
-					url: sourceUrl,
-					waitUntil: task.releaseNotes.waitUntil,
-					waitForSelector: task.releaseNotes.waitForSelector,
+					url: releaseNotesConfig.sourceUrl,
+					waitUntil: releaseNotesConfig.waitUntil,
+					waitForSelector: releaseNotesConfig.waitForSelector,
 				},
 				version,
 			);
 
-			return {
-				releaseNotesUrl,
-				releaseNotes,
-			};
+			break;
 		}
 	}
+
+	if (!manifest.releaseNotes) {
+		manifest.releaseNotesUrl = undefined;
+	}
+
+	if ('cleanup' in releaseNotesConfig && releaseNotesConfig.cleanup && manifest.releaseNotes) {
+		manifest.releaseNotes = await cleanupReleaseNotes(manifest.releaseNotes, version);
+	}
+
+	return manifest;
 }

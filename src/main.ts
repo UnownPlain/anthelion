@@ -15,9 +15,11 @@ import {
 	checkVersionInRepo,
 	isStateMatching,
 	updateVersionState,
+	isHttpUrl,
 } from '@/helpers';
 import { resolveReleaseNotes } from '@/release-notes';
 import { JsonTaskSchema, Strategy } from '@/schema/json-task';
+import { normalizedReleaseNotesSchema } from '@/schema/release-notes';
 import { ScriptTaskResult } from '@/schema/script-task';
 import {
 	electronBuilder,
@@ -74,8 +76,6 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	let version: string;
 	let urls: string[] = task.urls || [];
 	let githubTag: string | undefined;
-	let resolvedReleaseNotesUrl: string | undefined;
-	let resolvedReleaseNotes: string | undefined;
 
 	switch (task.strategy) {
 		case Strategy.GithubRelease: {
@@ -112,7 +112,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 			const response = await ky(task.json.url).json();
 			version = vs(getProperty(response, task.json.path));
 			urls = urls.map((url) => {
-				if (!url.startsWith('https://')) {
+				if (!isHttpUrl(url)) {
 					return vs(getProperty(response, url));
 				}
 				return url;
@@ -139,7 +139,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 			const yaml = parse(response, { schema: 'failsafe' });
 			version = vs(getProperty(yaml, task.yaml.path));
 			urls = urls.map((url) => {
-				if (!url.startsWith('https://')) {
+				if (!isHttpUrl(url)) {
 					return vs(getProperty(yaml, url));
 				}
 				return url;
@@ -153,16 +153,17 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 
 	if (await checkVersionInRepo(version, packageIdentifier, logger)) return;
 
-	({ releaseNotesUrl: resolvedReleaseNotesUrl, releaseNotes: resolvedReleaseNotes } =
-		await resolveReleaseNotes(task, version, { githubTag }));
+	const { releaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
+		task,
+		normalizedReleaseNotesSchema(version).safeParse(task.releaseNotes).data,
+		version,
+		githubTag,
+	);
 
 	if (task.replace) {
 		await closeAllButMostRecentPR(packageIdentifier);
 	}
 	urls = urls.map((url) => resolveVersionPlaceholders(url, version));
-	resolvedReleaseNotesUrl = resolvedReleaseNotesUrl
-		? resolveVersionPlaceholders(resolvedReleaseNotesUrl, version)
-		: undefined;
 
 	logger.details(version, urls);
 
@@ -171,8 +172,8 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 		version,
 		urls,
 		replace: task.replace ? 'latest' : undefined,
-		releaseNotesUrl: resolvedReleaseNotesUrl,
-		releaseNotes: resolvedReleaseNotes,
+		releaseNotes,
+		releaseNotesUrl,
 		dryRun: process.env.DRY_RUN ? true : false,
 		token: process.env.GITHUB_TOKEN!,
 	});

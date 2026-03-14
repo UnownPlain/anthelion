@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { resolveVersionPlaceholders } from '@/helpers';
+
 export enum ReleaseNotesSource {
 	Html = 'html',
 	Github = 'github',
@@ -130,15 +132,81 @@ const releaseNotesUrlOnlySchema = z.object({
 	url: z.string().describe('URL to a release notes page. Supports {version} placeholders in URL.'),
 });
 
-export const releaseNotesSchema = z
-	.union([
-		z.discriminatedUnion('source', [
-			releaseNotesHtmlSchema,
-			releaseNotesBrowserRenderingSchema,
-			releaseNotesGithubSchema,
-			releaseNotesJsonSchema,
-			releaseNotesYamlSchema,
-		]),
-		releaseNotesUrlOnlySchema,
-	])
-	.optional();
+const releaseNotesSourceSchema = z.discriminatedUnion('source', [
+	releaseNotesHtmlSchema,
+	releaseNotesBrowserRenderingSchema,
+	releaseNotesGithubSchema,
+	releaseNotesJsonSchema,
+	releaseNotesYamlSchema,
+]);
+
+const releaseNotesUnionSchema = z.union([releaseNotesSourceSchema, releaseNotesUrlOnlySchema]);
+
+export const releaseNotesSchema = releaseNotesUnionSchema.optional();
+
+export function normalizedReleaseNotesSchema(version: string) {
+	return z.union([
+		releaseNotesUrlOnlySchema.transform((value) => ({
+			kind: 'url-only' as const,
+			releaseNotesUrl: resolveVersionPlaceholders(value.url, version),
+		})),
+		releaseNotesHtmlSchema.transform((value) => {
+			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
+			const releaseNotesUrl = value.releaseNotesUrl
+				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
+				: sourceUrl;
+
+			return {
+				kind: 'source' as const,
+				...value,
+				sourceUrl,
+				releaseNotesUrl,
+			};
+		}),
+		releaseNotesBrowserRenderingSchema.transform((value) => {
+			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
+			const releaseNotesUrl = value.releaseNotesUrl
+				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
+				: sourceUrl;
+
+			return {
+				kind: 'source' as const,
+				...value,
+				sourceUrl,
+				releaseNotesUrl,
+			};
+		}),
+		releaseNotesGithubSchema.transform((value) => ({
+			kind: 'source' as const,
+			...value,
+			tag: value.tag ? resolveVersionPlaceholders(value.tag, version) : undefined,
+			releaseNotesUrl: undefined,
+		})),
+		releaseNotesJsonSchema.transform((value) => {
+			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
+			const releaseNotesUrl = value.releaseNotesUrl
+				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
+				: sourceUrl;
+
+			return {
+				kind: 'source' as const,
+				...value,
+				sourceUrl,
+				releaseNotesUrl,
+			};
+		}),
+		releaseNotesYamlSchema.transform((value) => {
+			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
+			const releaseNotesUrl = value.releaseNotesUrl
+				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
+				: sourceUrl;
+
+			return {
+				kind: 'source' as const,
+				...value,
+				sourceUrl,
+				releaseNotesUrl,
+			};
+		}),
+	]);
+}

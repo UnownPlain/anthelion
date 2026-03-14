@@ -80,6 +80,10 @@ export function vs(str: unknown) {
 	return z.string().parse(str).trim();
 }
 
+export function isHttpUrl(value: string) {
+	return z.url().safeParse(value).success;
+}
+
 export function resolveVersionPlaceholders(template: string, version: string) {
 	const VERSION_PLACEHOLDER_REGEX = /\{version(?:\|([^|{}]*)\|([^{}]*))?\}/g;
 
