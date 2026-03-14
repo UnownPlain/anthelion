@@ -6,6 +6,6 @@
 		"regex": "href=.*?/v?(\\d+(?:\\.\\d+)+)/release/windows"
 	},
 	"urls": [
-		"https://epilogue.nyc3.cdn.digitaloceanspaces.com/releases/software/Playback/version/{version}/release/windows/playback-setup.exe|x64"
+		"https://releases.epilogue.co/desktop/playback/{version}/release/windows/playback-setup.exe|x64"
 	]
 }
