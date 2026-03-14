@@ -2,8 +2,8 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "json",
 	"json": {
-		"url": "https://github.com/sst/opencode/releases/latest/download/latest.json",
+		"url": "https://github.com/anomalyco/opencode/releases/latest/download/latest.json",
 		"path": "version"
 	},
-	"urls": ["platforms.windows-x86_64.url"]
+	"urls": ["platforms.windows-x86_64.url", "platforms.windows-aarch64.url"]
 }
