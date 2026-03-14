@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/streetwriters/notesnook/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/streetwriters/notesnook/releases/download/v{version}/notesnook_win_x64.exe",
+		"https://github.com/streetwriters/notesnook/releases/download/v{version}/notesnook_win_x64_portable.exe",
+		"https://github.com/streetwriters/notesnook/releases/download/v{version}/notesnook_win_arm64.exe",
+		"https://github.com/streetwriters/notesnook/releases/download/v{version}/notesnook_win_arm64_portable.exe"
+	]
+}
