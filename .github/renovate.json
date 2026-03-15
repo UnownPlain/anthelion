@@ -12,9 +12,9 @@
 			"minimumReleaseAge": "7 days"
 		},
 		{
-			"description": "Only update AI-SDK packages on every 5th day of the month",
+			"description": "Only update AI-SDK packages on Sunday",
 			"matchPackageNames": ["ai", "@ai-sdk/*"],
-			"schedule": ["* 0 */5 * *"]
+			"schedule": ["* 0-23 * * 0"]
 		},
 		{
 			"description": "Disable minimum release age checks for internal dependencies",
