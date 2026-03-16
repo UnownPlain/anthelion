@@ -168,7 +168,7 @@ export async function resolveReleaseNotes(
 
 			manifest.releaseNotesUrl = `https://github.com/${owner}/${repo}/releases/tag/${tag}`;
 			manifest.releaseNotes =
-				(await getFormattedGithubReleaseNotes(owner, repo, tag, process.env.GITHUB_TOKEN)) ||
+				(await getFormattedGithubReleaseNotes(owner, repo, tag, process.env.GITHUB_TOKEN)) ??
 				undefined;
 
 			break;
@@ -182,7 +182,7 @@ export async function resolveReleaseNotes(
 				rawReleaseNotes = vs(await ky(rawReleaseNotes));
 			}
 
-			manifest.releaseNotes = rawReleaseNotes;
+			manifest.releaseNotes = (await htmlToPlainText(rawReleaseNotes)) ?? undefined;
 
 			break;
 		}
@@ -195,7 +195,7 @@ export async function resolveReleaseNotes(
 				rawReleaseNotes = vs(await ky(rawReleaseNotes));
 			}
 
-			manifest.releaseNotes = rawReleaseNotes;
+			manifest.releaseNotes = (await htmlToPlainText(rawReleaseNotes)) ?? undefined;
 
 			break;
 		}
