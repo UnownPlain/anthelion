@@ -1,26 +1,13 @@
 name: Test
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'tasks/json/**'
-      - 'tasks/script/**'
-  pull_request:
-    paths:
-      - 'tasks/json/**'
-      - 'tasks/script/**'
+  workflow_call:
   workflow_dispatch:
     inputs:
       packages:
         description: 'Package IDs to test (space-separated)'
         required: false
         type: string
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
 
 permissions: {}
 

@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash -euo pipefail {0}
+
+jobs:
+  lint:
+    name: Lint
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    name: Test
+    uses: ./.github/workflows/test.yml
+
+  actionlint:
+    name: actionlint
+    permissions:
+      security-events: write # Required for upload-sarif (used by zizmor-action) to upload SARIF files.
+    uses: ./.github/workflows/actionlint.yml
+
+  all-checks-pass:
+    name: All Checks Pass
+    if: always()
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    needs:
+      - lint
+      - test
+      - actionlint
+    steps:
+      - name: Validate Required Checks
+        env:
+          FAILURES: ${{ contains(needs.*.result, 'failure') }}
+          CANCELLED: ${{ contains(needs.*.result, 'cancelled') }}
+        run: |
+          if [[ "${FAILURES}" == "true" || "${CANCELLED}" == "true" ]]; then
+            echo "❌ One or more jobs failed or were cancelled."
+            exit 1
+          fi
+          echo "✅ All checks passed!"
