@@ -70,7 +70,7 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 }
 
 async function handleJsonTask(fileName: string, logger: Logger) {
-	const file = await new fs.FileRef(`./${JSON_FOLDER}/${fileName}`).json();
+	const file = await fs.ref(`./${JSON_FOLDER}/${fileName}`).json();
 	const task = JsonTaskSchema.parse(file);
 	const packageIdentifier = fileName.replace('.json', '');
 	let version: string;
@@ -201,9 +201,9 @@ export async function executeTask(file: FileRef) {
 }
 
 async function runAllTasks() {
-	const scripts = await new fs.FileRef(SCRIPTS_FOLDER).list();
-	const json = await new fs.FileRef(JSON_FOLDER).list();
-	const tasks = scripts.concat(json);
+	const scripts = await fs.ref(SCRIPTS_FOLDER).list();
+	const json = await fs.ref(JSON_FOLDER).list();
+	const tasks: FileRef[] = scripts.concat(json);
 
 	console.log(`Found ${tasks.length} tasks to run\n`);
 
@@ -212,7 +212,8 @@ async function runAllTasks() {
 	const failures = results
 		.map((result, i) => ({ result, file: tasks[i] }))
 		.filter(
-			(x): x is { result: PromiseRejectedResult; file: FileRef } => x.result.status === 'rejected',
+			(x): x is { result: PromiseRejectedResult; file: FileRef } =>
+				x.result.status === 'rejected' && Boolean(x.file),
 		);
 
 	const errorSummary = failures
@@ -229,7 +230,7 @@ async function runAllTasks() {
 		if (errorSummary) {
 			summary += `\n\n## Run Errors\n\n${errorSummary}`;
 		}
-		await new fs.FileRef(process.env.GITHUB_STEP_SUMMARY).write(summary);
+		await fs.ref(process.env.GITHUB_STEP_SUMMARY).write(summary);
 	}
 
 	console.log(completed);

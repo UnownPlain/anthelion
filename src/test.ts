@@ -1,15 +1,15 @@
-import fs from '@rcompat/fs';
+import fs, { type FileRef } from '@rcompat/fs';
 
 import { vs } from '@/helpers';
 import { JSON_FOLDER, SCRIPTS_FOLDER, executeTask } from '@/main';
 
 const task = vs(process.argv[2]);
 
-const scripts = await new fs.FileRef(SCRIPTS_FOLDER).list();
-const json = await new fs.FileRef(JSON_FOLDER).list();
-const files = scripts.concat(json);
+const scripts = await fs.ref(SCRIPTS_FOLDER).list();
+const json = await fs.ref(JSON_FOLDER).list();
+const files: FileRef[] = scripts.concat(json);
 
-const file = files.find((t) => t.name === task || t.base === task);
+const file = files.find((t: FileRef) => t.name === task || t.base === task);
 
 if (!file) {
 	console.log(`Task ${task} not found`);

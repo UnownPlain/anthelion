@@ -112,7 +112,7 @@ export function match(str: string | undefined, regex: RegExp) {
 export async function isStateMatching(packageIdentifier: string, newState: string) {
 	if (process.env.DRY_RUN) return;
 	const versionStatePath = `version-state/${packageIdentifier}`;
-	const storedVersion = (await new fs.FileRef(versionStatePath).text()).trim();
+	const storedVersion = (await fs.ref(versionStatePath).text()).trim();
 
 	return newState === storedVersion;
 }
