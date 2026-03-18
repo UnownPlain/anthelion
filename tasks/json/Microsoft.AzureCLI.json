@@ -1,0 +1,18 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "redirect-match",
+	"redirectMatch": {
+		"url": "https://aka.ms/installazurecliwindowsx64",
+		"regex": "azure-cli-(\\d+(?:\\.\\d+)+)-x64\\.msi"
+	},
+	"urls": [
+		"https://azcliprod.blob.core.windows.net/msi/azure-cli-{version}-x64.msi",
+		"https://azcliprod.blob.core.windows.net/msi/azure-cli-{version}.msi"
+	],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://raw.githubusercontent.com/MicrosoftDocs/azure-docs-cli/refs/heads/main/docs-ref-conceptual/Latest-version/release-notes-azure-cli.md",
+		"releaseNotesUrl": "https://learn.microsoft.com/en-us/cli/azure/release-notes-azure-cli",
+		"characterLimit": 5000
+	}
+}
