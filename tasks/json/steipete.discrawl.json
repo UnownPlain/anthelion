@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "steipete", "repo": "discrawl" },
+	"urls": [
+		"https://github.com/steipete/discrawl/releases/download/v{version}/discrawl_{version}_windows_amd64.zip",
+		"https://github.com/steipete/discrawl/releases/download/v{version}/discrawl_{version}_windows_arm64.zip"
+	]
+}
