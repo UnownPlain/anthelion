@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@ai-sdk/cerebras": "2.0.39",
 		"@rcompat/fs": "0.26.0",
-		"@unownplain/anthelion-komac": "0.0.17",
+		"@unownplain/anthelion-komac": "0.0.18",
 		"ai": "6.0.116",
 		"ansis": "4.2.0",
 		"dot-prop": "10.1.0",
