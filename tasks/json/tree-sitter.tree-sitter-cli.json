@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "tree-sitter", "repo": "tree-sitter" },
+	"urls": [
+		"https://github.com/tree-sitter/tree-sitter/releases/download/v{version}/tree-sitter-cli-windows-x86.zip",
+		"https://github.com/tree-sitter/tree-sitter/releases/download/v{version}/tree-sitter-cli-windows-x64.zip",
+		"https://github.com/tree-sitter/tree-sitter/releases/download/v{version}/tree-sitter-cli-windows-arm64.zip"
+	]
+}
