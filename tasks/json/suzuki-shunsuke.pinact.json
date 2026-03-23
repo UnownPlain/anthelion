@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "suzuki-shunsuke", "repo": "pinact" },
+	"urls": [
+		"https://github.com/suzuki-shunsuke/pinact/releases/download/v{version}/pinact_windows_amd64.zip",
+		"https://github.com/suzuki-shunsuke/pinact/releases/download/v{version}/pinact_windows_arm64.zip"
+	]
+}
