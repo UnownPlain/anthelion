@@ -3,9 +3,7 @@ import ky from 'ky';
 import { match } from '@/helpers.ts';
 
 export default async function () {
-	const response = await ky('https://download.sysinternals.com/files/SysinternalsSuite.zip', {
-		method: 'head',
-	});
+	const response = await ky.head('https://download.sysinternals.com/files/SysinternalsSuite.zip');
 	const state = response.headers.get('last-modified') || '';
 	const [day, monthStr, year] = match(state, /^[A-Za-z]{3},\s+(\d{2})\s+([A-Za-z]{3})\s+(\d{4})/);
 
