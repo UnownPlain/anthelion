@@ -130,8 +130,7 @@ export async function checkVersionInRepo(
 		.split('.')
 		.join('/')}/${version}/${packageIdentifier}.yaml`;
 
-	const response = await ky(manifestPath, {
-		method: 'head',
+	const response = await ky.head(manifestPath, {
 		throwHttpErrors: false,
 	});
 
