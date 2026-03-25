@@ -192,7 +192,7 @@ export async function updateVersionState(packageIdentifier: string, latestVersio
 				branchName: process.env.GITHUB_REF_NAME,
 			},
 			message: {
-				headline: `Update ${packageIdentifier} version state`,
+				headline: `[ci skip] Update ${packageIdentifier} version state`,
 			},
 			fileChanges: {
 				additions: [
