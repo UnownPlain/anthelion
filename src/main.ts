@@ -181,7 +181,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	logger.logUpdateResult(updateResult);
 }
 
-export async function executeTask(file: FileRef) {
+async function executeTask(file: FileRef) {
 	const logger = new Logger();
 
 	logger.run(file.name);
@@ -200,36 +200,44 @@ export async function executeTask(file: FileRef) {
 	}
 }
 
-async function runAllTasks() {
+export async function runAllTasks(testTasks?: string[]) {
 	const scripts = await fs.ref(SCRIPTS_FOLDER).list();
 	const json = await fs.ref(JSON_FOLDER).list();
-	const tasks: FileRef[] = scripts.concat(json);
+	let tasks: FileRef[] = scripts.concat(json);
+
+	if (testTasks) {
+		tasks = tasks.filter((task) => testTasks.includes(task.base));
+	}
+
+	if (tasks.length === 0) {
+		console.log(ansis.red`Error: No tasks found`);
+		process.exit(1);
+	}
 
 	console.log(`Found ${tasks.length} tasks to run\n`);
 
 	const results = await Promise.allSettled(tasks.map(limitAsync(executeTask, MAX_CONCURRENCY)));
 
-	const failures = results
-		.map((result, i) => ({ result, file: tasks[i] }))
-		.filter(
-			(x): x is { result: PromiseRejectedResult; file: FileRef } =>
-				x.result.status === 'rejected' && Boolean(x.file),
-		);
-
-	const errorSummary = failures
-		.map(
-			(r) =>
-				`### ❌ Error in ${r.file.name}\n\`\`\`\n${ansis.strip(r.result.reason.message)}\n\`\`\`\n`,
-		)
-		.join('');
+	const failures = results.flatMap((result, i) => {
+		const file = tasks[i];
+		if (result.status !== 'rejected' || !file) return [];
+		return [{ result, file }];
+	});
 
 	const completed = `✅ Run completed: ${tasks.length - failures.length}/${tasks.length} tasks successful`;
 
 	if (process.env.GITHUB_STEP_SUMMARY) {
-		let summary = `# Summary\n\n${completed}`;
-		if (errorSummary) {
-			summary += `\n\n## Run Errors\n\n${errorSummary}`;
-		}
+		const runErrors = failures
+			.map(
+				(failedTask) =>
+					`### ❌ Error in ${failedTask.file.name}\n\`\`\`\n${ansis.strip(failedTask.result.reason.message)}\n\`\`\`\n`,
+			)
+			.join('');
+
+		const summary = runErrors
+			? `# Summary\n\n${completed}\n\n## Run Errors\n\n${runErrors}`
+			: `# Summary\n\n${completed}`;
+
 		await fs.ref(process.env.GITHUB_STEP_SUMMARY).write(summary);
 	}
 
