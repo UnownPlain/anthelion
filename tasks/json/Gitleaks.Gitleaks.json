@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "gitleaks", "repo": "gitleaks" },
+	"urls": [
+		"https://github.com/gitleaks/gitleaks/releases/download/v{version}/gitleaks_{version}_windows_x32.zip",
+		"https://github.com/gitleaks/gitleaks/releases/download/v{version}/gitleaks_{version}_windows_x64.zip",
+		"https://github.com/gitleaks/gitleaks/releases/download/v{version}/gitleaks_{version}_windows_arm64.zip"
+	]
+}
