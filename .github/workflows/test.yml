@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       packages:
-        description: 'Package IDs to test (space-separated)'
+        description: Package IDs to test (space-separated)
         required: false
         type: string
 

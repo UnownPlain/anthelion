@@ -1,4 +1,4 @@
-name: actionlint
+name: Lint Actions
 
 on:
   workflow_call:
@@ -37,15 +37,12 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install actionlint
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew install actionlint
-
       - name: Run actionlint
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          actionlint -color
+          brew install actionlint
+          # rhysd/actionlint#639
+          actionlint -color -ignore 'unexpected key "deployment" for "environment" section'
 
   zizmor:
     name: zizmor

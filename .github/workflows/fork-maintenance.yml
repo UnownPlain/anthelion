@@ -15,7 +15,9 @@ jobs:
   fork-maintenance:
     name: Fork Maintenance
     runs-on: ubuntu-slim
-    environment: Production
+    environment:
+      name: Production
+      deployment: false
     timeout-minutes: 5
     steps:
       - name: Install komac

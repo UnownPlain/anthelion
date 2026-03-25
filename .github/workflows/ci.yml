@@ -26,11 +26,11 @@ jobs:
     name: Test
     uses: ./.github/workflows/test.yml
 
-  actionlint:
-    name: actionlint
+  lint-actions:
+    name: Lint Actions
+    uses: ./.github/workflows/lint-actions.yml
     permissions:
       security-events: write # Required for upload-sarif (used by zizmor-action) to upload SARIF files.
-    uses: ./.github/workflows/actionlint.yml
 
   all-checks-pass:
     name: All Checks Pass
@@ -40,7 +40,7 @@ jobs:
     needs:
       - lint
       - test
-      - actionlint
+      - lint-actions
     steps:
       - name: Validate Required Checks
         env:
