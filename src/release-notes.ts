@@ -1,4 +1,4 @@
-import { cerebras } from '@ai-sdk/cerebras';
+import { groq } from '@ai-sdk/groq';
 import { getFormattedGithubReleaseNotes, htmlToPlainText } from '@unownplain/anthelion-komac';
 import { generateText, Output } from 'ai';
 import { getProperty } from 'dot-prop';
@@ -12,7 +12,7 @@ import { normalizedReleaseNotesSchema, ReleaseNotesSource } from '@/schema/relea
 
 const CleanupResultSchema = z.object({
 	releaseNotes: z.string(),
-	error: z.boolean().optional(),
+	error: z.boolean(),
 });
 
 const CLEANUP_SYSTEM_PROMPT = `
@@ -22,7 +22,7 @@ const CLEANUP_SYSTEM_PROMPT = `
 		Place newlines between headers but not between bullet points.
 
 		Remove any unnecessary info such as:
-		- Headers such as "Release Notes", "{app_name} Release Notes", "{app_name} Release", "X.X.X Release", "{app_name} version", etc.
+		- Headers such as "Release Notes", "<app_name> Release Notes", "<app_name> Release", "<version>", "<app_name> version", etc.
 		- Any checksum (SHA256, etc.) sections/tables
 		- Download methods/commands/how to download
 		- Released on dates
@@ -32,11 +32,11 @@ const CLEANUP_SYSTEM_PROMPT = `
 	`;
 
 async function cleanupReleaseNotes(releaseNotes: string, version: string) {
-	if (!process.env.CEREBRAS_API_KEY) {
+	if (!process.env.GROQ_API_KEY) {
 		return undefined;
 	}
 
-	const model = cerebras('qwen-3-235b-a22b-instruct-2507');
+	const model = groq('openai/gpt-oss-120b');
 	const { output } = await generateText({
 		model,
 		output: Output.object({ schema: CleanupResultSchema }),
@@ -70,9 +70,9 @@ type BrowserRenderingJsonEnvelope = {
 };
 
 async function fetchBrowserRenderedReleaseNotes(options: BrowserRenderingOptions, version: string) {
-	const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, CEREBRAS_API_KEY } = process.env;
+	const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, GROQ_API_KEY } = process.env;
 
-	if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_API_TOKEN || !CEREBRAS_API_KEY) {
+	if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_API_TOKEN || !GROQ_API_KEY) {
 		return undefined;
 	}
 
@@ -94,8 +94,8 @@ async function fetchBrowserRenderedReleaseNotes(options: BrowserRenderingOptions
 			},
 			custom_ai: [
 				{
-					model: 'cerebras/gpt-oss-120b',
-					authorization: `Bearer ${CEREBRAS_API_KEY}`,
+					model: 'groq/openai/gpt-oss-120b',
+					authorization: `Bearer ${GROQ_API_KEY}`,
 				},
 			],
 		},
