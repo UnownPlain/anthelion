@@ -35,7 +35,7 @@ export const JSON_FOLDER = 'tasks/json';
 
 async function handleScriptTask(fileName: string, logger: Logger) {
 	const task = await import(`../${SCRIPTS_FOLDER}/${fileName}`);
-	const { version, urls, releaseNotesUrl, replace, skipPrCheck, state } = ScriptTaskResult.parse(
+	const { version, urls, releaseNotes, replace, skipPrCheck, state } = ScriptTaskResult.parse(
 		await task.default(),
 	);
 	const packageIdentifier = fileName.replace('.ts', '');
@@ -49,11 +49,19 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 
 	logger.details(version, urls);
 
+	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl: manifestReleaseNotesUrl } =
+		await resolveReleaseNotes(
+			{},
+			normalizedReleaseNotesSchema(version).safeParse(releaseNotes).data,
+			version,
+		);
+
 	const updateResult = await updateVersion({
 		packageIdentifier,
 		version,
 		urls,
-		releaseNotesUrl,
+		releaseNotes: manifestReleaseNotes,
+		releaseNotesUrl: manifestReleaseNotesUrl,
 		replace: replace ? 'latest' : undefined,
 		dryRun: process.env.DRY_RUN ? true : false,
 		token: process.env.GITHUB_TOKEN!,
@@ -153,8 +161,13 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 
 	if (await checkVersionInRepo(version, packageIdentifier, logger)) return;
 
+	const releaseNotesTaskContext =
+		task.strategy === Strategy.GithubRelease
+			? { github: { owner: task.github.owner, repo: task.github.repo } }
+			: {};
+
 	const { releaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
-		task,
+		releaseNotesTaskContext,
 		normalizedReleaseNotesSchema(version).safeParse(task.releaseNotes).data,
 		version,
 		githubTag,

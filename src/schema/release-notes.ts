@@ -129,7 +129,9 @@ const releaseNotesYamlSchema = z.object({
 });
 
 const releaseNotesUrlOnlySchema = z.object({
-	url: z.string().describe('URL to a release notes page. Supports {version} placeholders in URL.'),
+	releaseNotesUrl: z
+		.string()
+		.describe('URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders.'),
 });
 
 const releaseNotesSourceSchema = z.discriminatedUnion('source', [
@@ -148,7 +150,7 @@ export function normalizedReleaseNotesSchema(version: string) {
 	return z.union([
 		releaseNotesUrlOnlySchema.transform((value) => ({
 			kind: 'url-only' as const,
-			releaseNotesUrl: resolveVersionPlaceholders(value.url, version),
+			releaseNotesUrl: resolveVersionPlaceholders(value.releaseNotesUrl, version),
 		})),
 		releaseNotesHtmlSchema.transform((value) => {
 			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);

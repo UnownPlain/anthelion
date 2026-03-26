@@ -7,8 +7,14 @@ import { parse } from 'yaml';
 import { z } from 'zod';
 
 import { isHttpUrl, vs } from '@/helpers.ts';
-import { type JsonTask } from '@/schema/json-task';
 import { normalizedReleaseNotesSchema, ReleaseNotesSource } from '@/schema/release-notes';
+
+type ReleaseNotesTaskContext = {
+	github?: {
+		owner: string;
+		repo: string;
+	};
+};
 
 const CleanupResultSchema = z.object({
 	releaseNotes: z.string(),
@@ -114,7 +120,7 @@ async function fetchBrowserRenderedReleaseNotes(options: BrowserRenderingOptions
 }
 
 export async function resolveReleaseNotes(
-	task: JsonTask,
+	task: ReleaseNotesTaskContext,
 	releaseNotesConfig: z.output<ReturnType<typeof normalizedReleaseNotesSchema>> | undefined,
 	version: string,
 	githubTag?: string,

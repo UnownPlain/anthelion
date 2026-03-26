@@ -13,6 +13,9 @@ export default async function () {
 	return {
 		version,
 		urls,
-		releaseNotesUrl: `https://fossil-scm.org/home/doc/trunk/www/changes.wiki#v${version.replace('.', '_')}`,
+		releaseNotes: {
+			source: 'html',
+			sourceUrl: `https://fossil-scm.org/home/doc/trunk/www/changes.wiki#v${version.replace('.', '_')}`,
+		},
 	};
 }
