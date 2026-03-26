@@ -67,7 +67,7 @@ jobs:
           else
             PACKAGE_IDS=""
             for file in $CHANGED_FILES; do
-              PACKAGE_IDS+="$(basename "$file") "
+              PACKAGE_IDS+="$(basename "${file%.*}") "
             done
             PACKAGE_IDS="${PACKAGE_IDS% }"
           fi
