@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/Kong/insomnia/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/Kong/insomnia/releases/download/core@{version}/Insomnia.Core-{version}.exe"
+	]
+}
