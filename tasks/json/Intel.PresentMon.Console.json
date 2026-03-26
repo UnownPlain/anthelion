@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "GameTechDev", "repo": "PresentMon" },
+	"urls": [
+		"https://github.com/GameTechDev/PresentMon/releases/download/v{version}/PresentMon-{version}-x86.exe",
+		"https://github.com/GameTechDev/PresentMon/releases/download/v{version}/PresentMon-{version}-x64.exe"
+	]
+}
