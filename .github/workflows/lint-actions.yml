@@ -11,6 +11,9 @@ jobs:
     name: Detect Workflow Changes
     runs-on: ubuntu-slim
     timeout-minutes: 5
+    concurrency:
+      group: lint-actions-detect-workflow-changes-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
     outputs:
       workflows_changed: ${{ steps.changed-files.outputs.any_changed }}
     steps:
@@ -31,6 +34,9 @@ jobs:
     if: ${{ needs.detect-workflow-changes.outputs.workflows_changed == 'true' }}
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 5
+    concurrency:
+      group: lint-actions-actionlint-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -48,6 +54,9 @@ jobs:
     name: zizmor
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 5
+    concurrency:
+      group: lint-actions-zizmor-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
     permissions:
       security-events: write # Required for upload-sarif (used by zizmor-action) to upload SARIF files.
     steps:
