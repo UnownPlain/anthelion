@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "mozilla", "repo": "sccache" },
+	"urls": [
+		"https://github.com/mozilla/sccache/releases/download/v{version}/sccache-v{version}-x86_64-pc-windows-msvc.zip",
+		"https://github.com/mozilla/sccache/releases/download/v{version}/sccache-v{version}-aarch64-pc-windows-msvc.zip"
+	]
+}
