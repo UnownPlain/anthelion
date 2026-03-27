@@ -4,6 +4,6 @@
 	"github": { "owner": "geteduroam", "repo": "windows-app" },
 	"urls": [
 		"https://github.com/geteduroam/windows-app/releases/download/v{version}/geteduroam.exe",
-		"https://github.com/geteduroam/windows-app/releases/download/v{version}/geteduroam_arm.exe"
+		"https://github.com/geteduroam/windows-app/releases/download/v{version}/geteduroam_arm.exe|arm64"
 	]
 }
