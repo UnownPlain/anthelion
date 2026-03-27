@@ -7,4 +7,8 @@ if (process.argv[3] === '--dry-run') {
 	process.env.DRY_RUN = 'true';
 }
 
-await runAllTasks(tasks);
+const failureCount = await runAllTasks(tasks);
+
+if (failureCount > 0) {
+	process.exit(1);
+}

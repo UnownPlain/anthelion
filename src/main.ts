@@ -255,6 +255,8 @@ export async function runAllTasks(testTasks?: string[]) {
 	}
 
 	console.log(completed);
+
+	return failures.length;
 }
 
 if (import.meta.main) {
