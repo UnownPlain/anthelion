@@ -40,11 +40,11 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 	);
 	const packageIdentifier = fileName.replace('.ts', '');
 
-	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier, logger))) return;
+	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier, logger))) return [];
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
 		logger.stateMatches(version);
-		return;
+		return [];
 	}
 
 	logger.details(version, urls);
@@ -75,6 +75,8 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 	}
 
 	logger.logUpdateResult(updateResult);
+
+	return updateResult.changes;
 }
 
 async function handleJsonTask(fileName: string, logger: Logger) {
@@ -159,7 +161,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	version = version.startsWith('v') ? version.substring(1) : version;
 	if (task.versionRemove) version = version.replaceAll(task.versionRemove, '');
 
-	if (await checkVersionInRepo(version, packageIdentifier, logger)) return;
+	if (await checkVersionInRepo(version, packageIdentifier, logger)) return [];
 
 	const releaseNotesTaskContext =
 		task.strategy === Strategy.GithubRelease
@@ -192,6 +194,8 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	});
 
 	logger.logUpdateResult(updateResult);
+
+	return updateResult.changes;
 }
 
 async function executeTask(file: FileRef) {
@@ -201,9 +205,15 @@ async function executeTask(file: FileRef) {
 
 	try {
 		if (file.name.endsWith('ts')) {
-			await handleScriptTask(file.name, logger);
+			return {
+				identifier: file.name,
+				manifests: await handleScriptTask(file.name, logger),
+			};
 		} else {
-			await handleJsonTask(file.name, logger);
+			return {
+				identifier: file.name,
+				manifests: await handleJsonTask(file.name, logger),
+			};
 		}
 	} catch (e) {
 		logger.error(file.name, e as Error);
@@ -240,6 +250,11 @@ export async function runAllTasks(testTasks?: string[]) {
 	const completed = `✅ Run completed: ${tasks.length - failures.length}/${tasks.length} tasks successful`;
 
 	if (process.env.GITHUB_STEP_SUMMARY) {
+		const generatedManifests = results.flatMap((result) => {
+			if (result.status !== 'fulfilled' || result.value.manifests.length === 0) return [];
+			return [result.value];
+		});
+
 		const runErrors = failures
 			.map(
 				(failedTask) =>
@@ -247,9 +262,40 @@ export async function runAllTasks(testTasks?: string[]) {
 			)
 			.join('');
 
-		const summary = runErrors
-			? `# Summary\n\n${completed}\n\n## Run Errors\n\n${runErrors}`
-			: `# Summary\n\n${completed}`;
+		const summarySections = ['# Summary', '', completed];
+
+		if (generatedManifests.length > 0) {
+			summarySections.push('', '## Generated Manifests', '');
+
+			for (const task of generatedManifests) {
+				summarySections.push(
+					`### ${task.identifier}`,
+					'',
+					'<details>',
+					'<summary>Details</summary>',
+					'',
+				);
+
+				for (const manifest of task.manifests) {
+					summarySections.push(
+						`#### ${manifest.path}`,
+						'',
+						'```yaml',
+						manifest.content.trimEnd(),
+						'```',
+						'',
+					);
+				}
+
+				summarySections.push('</details>', '');
+			}
+		}
+
+		if (runErrors) {
+			summarySections.push('', '## Run Errors', '', runErrors);
+		}
+
+		const summary = summarySections.join('\n');
 
 		await fs.ref(process.env.GITHUB_STEP_SUMMARY).write(summary);
 	}
