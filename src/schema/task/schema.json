@@ -78,6 +78,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "plain-text"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch plain text release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for fetched plain text release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Disabled by default for plain text sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -339,6 +369,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "plain-text"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch plain text release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for fetched plain text release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Disabled by default for plain text sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -585,6 +645,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "plain-text"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch plain text release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for fetched plain text release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Disabled by default for plain text sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -820,6 +910,36 @@
 										"cleanup": {
 											"default": true,
 											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "plain-text"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch plain text release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for fetched plain text release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Disabled by default for plain text sources.",
 											"type": "boolean"
 										}
 									},
@@ -1082,6 +1202,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "plain-text"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch plain text release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for fetched plain text release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Disabled by default for plain text sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -1318,6 +1468,36 @@
 										"cleanup": {
 											"default": true,
 											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "plain-text"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch plain text release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for fetched plain text release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Disabled by default for plain text sources.",
 											"type": "boolean"
 										}
 									},
@@ -1573,6 +1753,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "plain-text"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch plain text release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for fetched plain text release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Disabled by default for plain text sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -1810,6 +2020,36 @@
 										"cleanup": {
 											"default": true,
 											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "plain-text"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch plain text release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for fetched plain text release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Disabled by default for plain text sources.",
 											"type": "boolean"
 										}
 									},

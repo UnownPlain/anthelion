@@ -170,6 +170,13 @@ export async function resolveReleaseNotes(
 
 			break;
 		}
+		case ReleaseNotesSource.PlainText: {
+			const plainText = await ky(releaseNotesConfig.sourceUrl).text();
+
+			manifest.releaseNotes = applyCharacterLimit(plainText, releaseNotesConfig.characterLimit);
+
+			break;
+		}
 		case ReleaseNotesSource.Github: {
 			const githubConfig = 'github' in task ? task.github : undefined;
 			const owner = releaseNotesConfig.owner || githubConfig?.owner;

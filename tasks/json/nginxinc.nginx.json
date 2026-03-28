@@ -7,7 +7,7 @@
 	},
 	"urls": ["https://nginx.org/download/nginx-{version}.zip|x64"],
 	"releaseNotes": {
-		"source": "html",
+		"source": "plain-text",
 		"sourceUrl": "https://nginx.org/en/CHANGES",
 		"characterLimit": 5000
 	}

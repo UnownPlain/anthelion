@@ -5,6 +5,7 @@ import { resolveVersionPlaceholders } from '@/helpers';
 export enum ReleaseNotesSource {
 	Html = 'html',
 	Markdown = 'markdown',
+	PlainText = 'plain-text',
 	Github = 'github',
 	Json = 'json',
 	Yaml = 'yaml',
@@ -58,6 +59,31 @@ const releaseNotesMarkdownSchema = z.object({
 		.boolean()
 		.default(true)
 		.describe('Cleanup release notes with AI. Enabled by default for markdown sources.')
+		.optional(),
+});
+
+const releaseNotesPlainTextSchema = z.object({
+	source: z.literal(ReleaseNotesSource.PlainText),
+	sourceUrl: z
+		.string()
+		.describe(
+			'Source URL to fetch plain text release notes from. Supports {version} placeholders in URL.',
+		),
+	releaseNotesUrl: z
+		.string()
+		.describe(
+			'Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL.',
+		)
+		.optional(),
+	characterLimit: z
+		.int()
+		.positive()
+		.describe('Optional max character limit for fetched plain text release notes.')
+		.optional(),
+	cleanup: z
+		.boolean()
+		.default(true)
+		.describe('Cleanup release notes with AI. Disabled by default for plain text sources.')
 		.optional(),
 });
 
@@ -167,6 +193,7 @@ const releaseNotesUrlOnlySchema = z
 const releaseNotesSourceSchema = z.discriminatedUnion('source', [
 	releaseNotesHtmlSchema,
 	releaseNotesMarkdownSchema,
+	releaseNotesPlainTextSchema,
 	releaseNotesBrowserRenderingSchema,
 	releaseNotesGithubSchema,
 	releaseNotesJsonSchema,
@@ -197,6 +224,19 @@ export function normalizedReleaseNotesSchema(version: string) {
 			};
 		}),
 		releaseNotesMarkdownSchema.transform((value) => {
+			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
+			const releaseNotesUrl = value.releaseNotesUrl
+				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
+				: sourceUrl;
+
+			return {
+				kind: 'source' as const,
+				...value,
+				sourceUrl,
+				releaseNotesUrl,
+			};
+		}),
+		releaseNotesPlainTextSchema.transform((value) => {
 			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
 			const releaseNotesUrl = value.releaseNotesUrl
 				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
