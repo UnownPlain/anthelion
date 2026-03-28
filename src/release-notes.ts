@@ -1,5 +1,9 @@
 import { groq } from '@ai-sdk/groq';
-import { getFormattedGithubReleaseNotes, htmlToPlainText } from '@unownplain/anthelion-komac';
+import {
+	getFormattedGithubReleaseNotes,
+	htmlToPlainText,
+	markdownToPlainText,
+} from '@unownplain/anthelion-komac';
 import { generateText, Output } from 'ai';
 import { getProperty } from 'dot-prop';
 import ky from 'ky';
@@ -155,6 +159,17 @@ export async function resolveReleaseNotes(
 
 			break;
 		}
+		case ReleaseNotesSource.Markdown: {
+			const markdown = await ky(releaseNotesConfig.sourceUrl).text();
+			const markdownPlainText = await markdownToPlainText(markdown);
+
+			manifest.releaseNotes = applyCharacterLimit(
+				markdownPlainText ?? markdown,
+				releaseNotesConfig.characterLimit,
+			);
+
+			break;
+		}
 		case ReleaseNotesSource.Github: {
 			const githubConfig = 'github' in task ? task.github : undefined;
 			const owner = releaseNotesConfig.owner || githubConfig?.owner;
@@ -218,7 +233,6 @@ export async function resolveReleaseNotes(
 			break;
 		}
 	}
-
 	if (!manifest.releaseNotes) {
 		manifest.releaseNotesUrl = undefined;
 	}

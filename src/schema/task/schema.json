@@ -48,6 +48,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "markdown"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -279,6 +309,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "markdown"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -495,6 +555,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "markdown"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -700,6 +790,36 @@
 										"cleanup": {
 											"default": true,
 											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "markdown"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
 											"type": "boolean"
 										}
 									},
@@ -932,6 +1052,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "markdown"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -1138,6 +1288,36 @@
 										"cleanup": {
 											"default": true,
 											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "markdown"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
 											"type": "boolean"
 										}
 									},
@@ -1363,6 +1543,36 @@
 									"properties": {
 										"source": {
 											"type": "string",
+											"const": "markdown"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
 											"const": "browser-rendering"
 										},
 										"sourceUrl": {
@@ -1570,6 +1780,36 @@
 										"cleanup": {
 											"default": true,
 											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "markdown"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
 											"type": "boolean"
 										}
 									},

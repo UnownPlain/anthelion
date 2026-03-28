@@ -8,7 +8,7 @@
 	],
 	"versionRemove": "bun-v",
 	"releaseNotes": {
-		"source": "html",
+		"source": "markdown",
 		"sourceUrl": "https://bun.com/blog/bun-v{version}.md",
 		"releaseNotesUrl": "https://bun.com/blog/bun-v{version}"
 	}

@@ -4,6 +4,7 @@ import { resolveVersionPlaceholders } from '@/helpers';
 
 export enum ReleaseNotesSource {
 	Html = 'html',
+	Markdown = 'markdown',
 	Github = 'github',
 	Json = 'json',
 	Yaml = 'yaml',
@@ -32,6 +33,31 @@ const releaseNotesHtmlSchema = z.object({
 		.boolean()
 		.default(true)
 		.describe('Cleanup release notes with AI. Enabled by default for HTML sources.')
+		.optional(),
+});
+
+const releaseNotesMarkdownSchema = z.object({
+	source: z.literal(ReleaseNotesSource.Markdown),
+	sourceUrl: z
+		.string()
+		.describe(
+			'Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL.',
+		),
+	releaseNotesUrl: z
+		.string()
+		.describe(
+			'Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL.',
+		)
+		.optional(),
+	characterLimit: z
+		.int()
+		.positive()
+		.describe('Optional max character limit for parsed markdown release notes.')
+		.optional(),
+	cleanup: z
+		.boolean()
+		.default(true)
+		.describe('Cleanup release notes with AI. Enabled by default for markdown sources.')
 		.optional(),
 });
 
@@ -128,14 +154,19 @@ const releaseNotesYamlSchema = z.object({
 		.optional(),
 });
 
-const releaseNotesUrlOnlySchema = z.object({
-	releaseNotesUrl: z
-		.string()
-		.describe('URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders.'),
-});
+const releaseNotesUrlOnlySchema = z
+	.object({
+		releaseNotesUrl: z
+			.string()
+			.describe(
+				'URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders.',
+			),
+	})
+	.strict();
 
 const releaseNotesSourceSchema = z.discriminatedUnion('source', [
 	releaseNotesHtmlSchema,
+	releaseNotesMarkdownSchema,
 	releaseNotesBrowserRenderingSchema,
 	releaseNotesGithubSchema,
 	releaseNotesJsonSchema,
@@ -153,6 +184,19 @@ export function normalizedReleaseNotesSchema(version: string) {
 			releaseNotesUrl: resolveVersionPlaceholders(value.releaseNotesUrl, version),
 		})),
 		releaseNotesHtmlSchema.transform((value) => {
+			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
+			const releaseNotesUrl = value.releaseNotesUrl
+				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
+				: sourceUrl;
+
+			return {
+				kind: 'source' as const,
+				...value,
+				sourceUrl,
+				releaseNotesUrl,
+			};
+		}),
+		releaseNotesMarkdownSchema.transform((value) => {
 			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
 			const releaseNotesUrl = value.releaseNotesUrl
 				? resolveVersionPlaceholders(value.releaseNotesUrl, version)

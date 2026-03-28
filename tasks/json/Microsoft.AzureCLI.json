@@ -10,7 +10,7 @@
 		"https://azcliprod.blob.core.windows.net/msi/azure-cli-{version}.msi"
 	],
 	"releaseNotes": {
-		"source": "html",
+		"source": "markdown",
 		"sourceUrl": "https://raw.githubusercontent.com/MicrosoftDocs/azure-docs-cli/refs/heads/main/docs-ref-conceptual/Latest-version/release-notes-azure-cli.md",
 		"releaseNotesUrl": "https://learn.microsoft.com/en-us/cli/azure/release-notes-azure-cli",
 		"characterLimit": 5000
