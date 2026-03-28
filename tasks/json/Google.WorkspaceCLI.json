@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "googleworkspace", "repo": "cli" },
+	"urls": [
+		"https://github.com/googleworkspace/cli/releases/download/v{version}/google-workspace-cli-x86_64-pc-windows-msvc.zip"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
+}
