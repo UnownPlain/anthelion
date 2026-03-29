@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "danmar", "repo": "cppcheck" },
+	"urls": [
+		"https://github.com/danmar/cppcheck/releases/download/{version}/cppcheck-{version}-x64-Setup.msi"
+	]
+}

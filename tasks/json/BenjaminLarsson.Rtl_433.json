@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "merbanan", "repo": "rtl_433" },
+	"urls": [
+		"https://github.com/merbanan/rtl_433/releases/download/{version}/rtl_433-win-x32-{version}.zip",
+		"https://github.com/merbanan/rtl_433/releases/download/{version}/rtl_433-win-x64-{version}.zip"
+	]
+}

@@ -49,14 +49,24 @@ export async function getLatestVersion(options: {
 	};
 }
 
-export async function getAllReleases(owner: string, repo: string, preRelease = false) {
+export type ReleaseType = 'preRelease' | 'all' | 'stable';
+
+export async function getAllReleases(owner: string, repo: string, type: ReleaseType = 'stable') {
 	const { data: releases } = await octokit.rest.repos.listReleases({
 		owner,
 		repo,
 		per_page: 20,
 	});
 
-	return releases.filter((release) => release.prerelease === preRelease);
+	switch (type) {
+		case 'preRelease':
+			return releases.filter((release) => release.prerelease);
+		case 'all':
+			return releases;
+		case 'stable':
+		default:
+			return releases.filter((release) => !release.prerelease);
+	}
 }
 
 export async function getReleaseByTag(owner: string, repo: string, tag: string) {

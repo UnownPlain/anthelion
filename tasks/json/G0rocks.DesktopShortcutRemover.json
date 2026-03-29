@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "G0rocks", "repo": "desktop_shortcut_remover" },
+	"urls": [
+		"https://github.com/G0rocks/desktop_shortcut_remover/releases/download/{version}/desktop_shortcut_remover.exe"
+	]
+}
