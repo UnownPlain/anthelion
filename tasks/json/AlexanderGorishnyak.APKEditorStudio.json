@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "kefir500", "repo": "apk-editor-studio" },
+	"urls": [
+		"https://github.com/kefir500/apk-editor-studio/releases/download/v{version}/apk-editor-studio_windows_{version}.msi"
+	]
+}

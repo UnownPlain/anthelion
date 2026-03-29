@@ -1,7 +1,7 @@
 import { getAllReleases } from '@/github.ts';
 
 export default async function () {
-	const releases = await getAllReleases('duplicati', 'duplicati', true);
+	const releases = await getAllReleases('duplicati', 'duplicati', 'preRelease');
 	const release = releases.filter((release) => release.tag_name.includes('beta'))[0];
 
 	const tag = release?.tag_name.slice(1);

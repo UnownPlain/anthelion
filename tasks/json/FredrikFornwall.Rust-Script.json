@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "fornwall", "repo": "rust-script" },
+	"urls": [
+		"https://github.com/fornwall/rust-script/releases/download/{version}/rust-script-x86_64-pc-windows-msvc.zip"
+	]
+}
