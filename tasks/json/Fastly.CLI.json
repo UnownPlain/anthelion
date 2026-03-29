@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "fastly", "repo": "cli" },
+	"urls": [
+		"https://github.com/fastly/cli/releases/download/v{version}/fastly_v{version}_windows-386.zip",
+		"https://github.com/fastly/cli/releases/download/v{version}/fastly_v{version}_windows-amd64.zip",
+		"https://github.com/fastly/cli/releases/download/v{version}/fastly_v{version}_windows-arm64.zip"
+	]
+}
