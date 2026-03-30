@@ -3,7 +3,7 @@
 	"strategy": "json",
 	"json": {
 		"url": "https://gitlab.com/api/v4/projects/gitlab-org%2Fgitlab-runner/releases",
-		"path": "[0].tag_name"
+		"path": "0.tag_name"
 	},
 	"urls": [
 		"https://gitlab-runner-downloads.s3.amazonaws.com/v{version}/binaries/gitlab-runner-windows-386.exe",

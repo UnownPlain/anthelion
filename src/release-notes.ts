@@ -5,12 +5,11 @@ import {
 	markdownToPlainText,
 } from '@unownplain/anthelion-komac';
 import { generateText, Output } from 'ai';
-import { getProperty } from 'dot-prop';
 import ky from 'ky';
 import { parse } from 'yaml';
 import { z } from 'zod';
 
-import { isHttpUrl, vs } from '@/helpers.ts';
+import { get, isHttpUrl, vs } from '@/helpers.ts';
 import { normalizedReleaseNotesSchema, ReleaseNotesSource } from '@/schema/release-notes';
 
 type ReleaseNotesTaskContext = {
@@ -203,7 +202,7 @@ export async function resolveReleaseNotes(
 		}
 		case ReleaseNotesSource.Json: {
 			let response = await ky(releaseNotesConfig.sourceUrl).json();
-			let rawReleaseNotes = vs(getProperty(response, releaseNotesConfig.path));
+			let rawReleaseNotes = vs(get(response, releaseNotesConfig.path));
 
 			if (isHttpUrl(rawReleaseNotes)) {
 				manifest.releaseNotesUrl = rawReleaseNotes;
@@ -216,7 +215,7 @@ export async function resolveReleaseNotes(
 		}
 		case ReleaseNotesSource.Yaml: {
 			let response = await ky(releaseNotesConfig.sourceUrl).text();
-			let rawReleaseNotes = vs(getProperty(parse(response), releaseNotesConfig.path));
+			let rawReleaseNotes = vs(get(parse(response), releaseNotesConfig.path));
 
 			if (isHttpUrl(rawReleaseNotes)) {
 				manifest.releaseNotesUrl = rawReleaseNotes;

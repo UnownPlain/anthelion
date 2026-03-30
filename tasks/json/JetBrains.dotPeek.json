@@ -3,7 +3,7 @@
 	"strategy": "json",
 	"json": {
 		"url": "https://data.services.jetbrains.com/products/releases?code=DPK&latest=true&type=release",
-		"path": "DPK[0].version"
+		"path": "DPK.0.version"
 	},
 	"urls": [
 		"https://download.jetbrains.com/resharper/dotUltimate.{version}/JetBrains.dotPeek.{version}.web.exe"

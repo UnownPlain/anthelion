@@ -3,7 +3,7 @@
 	"strategy": "json",
 	"json": {
 		"url": "https://codeberg.org/api/v1/repos/arnauc/hevi/releases",
-		"path": "[0].tag_name"
+		"path": "0.tag_name"
 	},
 	"urls": [
 		"https://codeberg.org/arnauc/hevi/releases/download/v{version}/hevi-x86-windows.exe",

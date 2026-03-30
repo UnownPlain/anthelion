@@ -1,7 +1,6 @@
 import fs, { type FileRef } from '@rcompat/fs';
 import { updateVersion } from '@unownplain/anthelion-komac';
 import ansis from 'ansis';
-import { getProperty } from 'dot-prop';
 import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 import { parse } from 'yaml';
@@ -9,6 +8,7 @@ import { parse } from 'yaml';
 import { getLatestVersion } from '@/github';
 import {
 	closeAllButMostRecentPR,
+	get,
 	Logger,
 	resolveVersionPlaceholders,
 	vs,
@@ -120,10 +120,10 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 			break;
 		case Strategy.Json: {
 			const response = await ky(task.json.url).json();
-			version = vs(getProperty(response, task.json.path));
+			version = vs(get(response, task.json.path));
 			urls = urls.map((url) => {
 				if (!isHttpUrl(url)) {
-					return vs(getProperty(response, url));
+					return vs(get(response, url));
 				}
 				return url;
 			});
@@ -147,10 +147,10 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 			const response = await ky(task.yaml.url).text();
 			// This is set to failsafe so incorrectly quoted values aren't parsed as numbers
 			const yaml = parse(response, { schema: 'failsafe' });
-			version = vs(getProperty(yaml, task.yaml.path));
+			version = vs(get(yaml, task.yaml.path));
 			urls = urls.map((url) => {
 				if (!isHttpUrl(url)) {
-					return vs(getProperty(yaml, url));
+					return vs(get(yaml, url));
 				}
 				return url;
 			});

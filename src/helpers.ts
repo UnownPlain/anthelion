@@ -80,6 +80,13 @@ export function vs(str: unknown) {
 	return z.string().parse(str).trim();
 }
 
+export function get(obj: unknown, path: string, defaultValue?: unknown): unknown {
+	return (
+		path.split('.').reduce((acc, key) => (acc as Record<string, unknown>)?.[key], obj) ??
+		defaultValue
+	);
+}
+
 export function isHttpUrl(value: string) {
 	return z.url().safeParse(value).success;
 }

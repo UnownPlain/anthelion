@@ -3,7 +3,7 @@
 	"strategy": "yaml",
 	"yaml": {
 		"url": "https://cdn.openttd.org/openttd-releases/latest.yaml",
-		"path": "latest[0].version"
+		"path": "latest.0.version"
 	},
 	"urls": [
 		"https://cdn.openttd.org/openttd-releases/{version}/openttd-{version}-windows-win32.exe",
