@@ -8,7 +8,7 @@ Scripts and tools used to automatically update some packages in the
 
 # License
 
-Licensed under the [MIT LICENSE][license-link].
+Licensed under [GPL-3.0-or-later][license-link].
 
 Some of the regular expressions in this project are adapted / taken from
 packages in the following repos:
