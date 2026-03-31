@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "github", "repo": "smimesign" },
+	"urls": [
+		"https://github.com/github/smimesign/releases/download/v{version}/smimesign-windows-386-v{version}.zip",
+		"https://github.com/github/smimesign/releases/download/v{version}/smimesign-windows-amd64-v{version}.zip",
+		"https://github.com/github/smimesign/releases/download/v{version}/smimesign-windows-v{version}.exe"
+	]
+}
