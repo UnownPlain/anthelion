@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "Froststrap", "repo": "Froststrap" },
+	"urls": [
+		"https://github.com/Froststrap/Froststrap/releases/download/v{version}/Froststrap-v{version}.exe"
+	]
+}
