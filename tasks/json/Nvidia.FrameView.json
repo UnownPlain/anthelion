@@ -6,7 +6,7 @@
 		"regex": "href='[^\"]*FrameView[._-]v?(\\d+(?:\\.\\d+)+)[^\"]*\\.exe'"
 	},
 	"urls": [
-		"https://images.nvidia.com/content/geforce/technologies/frameview/FrameView_{version}/FrameViewSetup.exe"
+		"https://images.nvidia.com/content/geforce/technologies/frameview/FrameView_{version}/FrameViewSetup.exe|x64"
 	],
 	"releaseNotes": {
 		"source": "browser-rendering",
