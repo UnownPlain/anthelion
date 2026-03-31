@@ -1,8 +1,0 @@
-{
-	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "redirect-match",
-	"redirectMatch": {
-		"url": "https://www.smartftp.com/get/Client?platform=x64&file=SmartFTP.msi",
-		"regex": "Products/Client/(\\d+(?:\\.\\d+)+)/[^/]+/SmartFTP\\.msi"
-	}
-}
