@@ -47,8 +47,7 @@ jobs:
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           brew install actionlint
-          # rhysd/actionlint#639
-          actionlint -color -ignore 'unexpected key "deployment" for "environment" section'
+          actionlint -color
 
   zizmor:
     name: zizmor
