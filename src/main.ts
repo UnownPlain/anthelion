@@ -40,11 +40,11 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 	);
 	const packageIdentifier = fileName.replace('.ts', '');
 
-	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier, logger))) return [];
+	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier, logger))) return null;
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
 		logger.stateMatches(version);
-		return [];
+		return null;
 	}
 
 	logger.details(version, urls);
@@ -76,7 +76,7 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 
 	logger.logUpdateResult(updateResult);
 
-	return updateResult.changes;
+	return updateResult;
 }
 
 async function handleJsonTask(fileName: string, logger: Logger) {
@@ -161,7 +161,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 	version = version.startsWith('v') ? version.substring(1) : version;
 	if (task.versionRemove) version = version.replaceAll(task.versionRemove, '');
 
-	if (await checkVersionInRepo(version, packageIdentifier, logger)) return [];
+	if (await checkVersionInRepo(version, packageIdentifier, logger)) return null;
 
 	const releaseNotesTaskContext =
 		task.strategy === Strategy.GithubRelease
@@ -195,7 +195,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 
 	logger.logUpdateResult(updateResult);
 
-	return updateResult.changes;
+	return updateResult;
 }
 
 async function executeTask(file: FileRef) {
@@ -207,12 +207,12 @@ async function executeTask(file: FileRef) {
 		if (file.name.endsWith('ts')) {
 			return {
 				identifier: file.name,
-				manifests: await handleScriptTask(file.name, logger),
+				updateResult: await handleScriptTask(file.name, logger),
 			};
 		} else {
 			return {
 				identifier: file.name,
-				manifests: await handleJsonTask(file.name, logger),
+				updateResult: await handleJsonTask(file.name, logger),
 			};
 		}
 	} catch (e) {
@@ -251,8 +251,11 @@ export async function runAllTasks(testTasks?: string[]) {
 
 	if (process.env.GITHUB_STEP_SUMMARY) {
 		const generatedManifests = results.flatMap((result) => {
-			if (result.status !== 'fulfilled' || result.value.manifests.length === 0) return [];
-			return [result.value];
+			if (result.status !== 'fulfilled') return [];
+			const updateResult = result.value.updateResult;
+			if (!updateResult || updateResult.changes.length === 0) return [];
+
+			return [updateResult];
 		});
 
 		const runErrors = failures
@@ -269,14 +272,16 @@ export async function runAllTasks(testTasks?: string[]) {
 
 			for (const task of generatedManifests) {
 				summarySections.push(
-					`### ${task.identifier}`,
+					`### ${task.packageIdentifier}`,
+					`Version: ${task.version}`,
+					`Pull Request: ${task.pullRequestUrl ?? 'Dry Run'}`,
 					'',
 					'<details>',
-					'<summary>Details</summary>',
+					'<summary>Manifests</summary>',
 					'',
 				);
 
-				for (const manifest of task.manifests) {
+				for (const manifest of task.changes) {
 					summarySections.push(
 						`#### ${manifest.path}`,
 						'',
