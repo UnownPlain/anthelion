@@ -23,7 +23,7 @@ export default async function () {
 		releaseNotes: {
 			source: 'json',
 			sourceUrl: `https://downloads.cloudflareclient.com/v1/update/json/windows/ga`,
-			path: 'items[0].releaseNotes',
+			path: 'items.0.releaseNotes',
 			releaseNotesUrl: `https://developers.cloudflare.com/cloudflare-one/changelog/warp/#${vs(response.items[0]?.releaseDate.split('T')[0])}`,
 			cleanup: true,
 		},
