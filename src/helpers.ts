@@ -51,15 +51,28 @@ export class Logger {
 		this.log(pr.pullRequestUrl + '\n');
 	}
 
-	error(task: string, error: Error) {
+	error(task: string, error: unknown) {
 		this.log(bgRed`❌ Error running ${task}`);
-		this.log(redBright`${error instanceof ZodError ? z.prettifyError(error) : error}\n`);
+		this.log(redBright(`${formatError(error)}\n`));
 	}
 
 	details(version: string, urls: string[]) {
 		this.log(`Version: ${version}`);
 		this.log(`URLs: ${urls.join(' ')}\n`);
 	}
+}
+
+function formatError(error: unknown) {
+	if (error instanceof ZodError) {
+		const prettyError = z.prettifyError(error);
+		return error.stack ? `${prettyError}\n\n${error.stack}` : prettyError;
+	}
+
+	if (error instanceof Error) {
+		return error.stack ?? error.message;
+	}
+
+	return String(error);
 }
 
 export function compareVersions(a: string, b: string) {

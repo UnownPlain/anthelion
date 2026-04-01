@@ -216,7 +216,7 @@ async function executeTask(file: FileRef) {
 			};
 		}
 	} catch (e) {
-		logger.error(file.name, e as Error);
+		logger.error(file.name, e);
 		throw e;
 	} finally {
 		logger.flush();

@@ -209,7 +209,7 @@ export async function resolveReleaseNotes(
 
 			if (isHttpUrl(rawReleaseNotes)) {
 				manifest.releaseNotesUrl = rawReleaseNotes;
-				rawReleaseNotes = vs(await ky(rawReleaseNotes));
+				rawReleaseNotes = vs(await ky(rawReleaseNotes).text());
 			}
 
 			manifest.releaseNotes = (await htmlToPlainText(rawReleaseNotes)) ?? undefined;
@@ -222,7 +222,7 @@ export async function resolveReleaseNotes(
 
 			if (isHttpUrl(rawReleaseNotes)) {
 				manifest.releaseNotesUrl = rawReleaseNotes;
-				rawReleaseNotes = vs(await ky(rawReleaseNotes));
+				rawReleaseNotes = vs(await ky(rawReleaseNotes).text());
 			}
 
 			manifest.releaseNotes = (await htmlToPlainText(rawReleaseNotes)) ?? undefined;
