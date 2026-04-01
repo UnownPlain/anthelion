@@ -4,9 +4,9 @@ import { z } from 'zod';
 import { JsonTaskSchema } from '@/schema/json-task';
 
 export async function generateJsonTaskSchema() {
-	const schemaFile = fs.ref('./src/schema/task/schema.json');
+	const schemaFile = fs.ref('./src/schema/schema.json');
 	await schemaFile.write(JSON.stringify(z.toJSONSchema(JsonTaskSchema), null, 2));
-	console.log('Successfully generated JSON schema: src/schema/task/schema.json');
+	console.log('Successfully generated JSON schema: src/schema/schema.json');
 }
 
 await generateJsonTaskSchema();
