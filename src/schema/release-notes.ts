@@ -92,7 +92,7 @@ const releaseNotesBrowserRenderingSchema = z.object({
 	sourceUrl: z
 		.string()
 		.describe(
-			'Source URL to fetch and parse release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL.',
+			'Source URL to fetch rendered markdown release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL.',
 		),
 	releaseNotesUrl: z
 		.string()
@@ -103,7 +103,7 @@ const releaseNotesBrowserRenderingSchema = z.object({
 	characterLimit: z
 		.int()
 		.positive()
-		.describe('Optional max character limit for parsed HTML release notes.')
+		.describe('Optional max character limit for parsed markdown release notes.')
 		.optional(),
 	waitUntil: z
 		.enum(['load', 'domcontentloaded', 'networkidle0', 'networkidle2'])
@@ -111,7 +111,12 @@ const releaseNotesBrowserRenderingSchema = z.object({
 		.optional(),
 	waitForSelector: z
 		.string()
-		.describe('Optional selector to wait for before capturing HTML.')
+		.describe('Optional selector to wait for before capturing markdown.')
+		.optional(),
+	cleanup: z
+		.boolean()
+		.default(true)
+		.describe('Cleanup release notes with AI. Enabled by default for browser rendering sources.')
 		.optional(),
 });
 

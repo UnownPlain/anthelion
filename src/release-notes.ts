@@ -66,60 +66,63 @@ function applyCharacterLimit(releaseNotes: string, characterLimit: number | unde
 }
 
 type BrowserRenderingOptions = {
-	cacheTtl?: number;
 	url: string;
 	waitUntil?: 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
 	waitForSelector?: string;
 };
 
-type BrowserRenderingJsonEnvelope = {
+type BrowserRenderingMarkdownEnvelope = {
 	success: boolean;
 	errors?: Array<{ code: number; message: string }>;
-	result?: unknown;
+	result?: string;
 };
 
-async function fetchBrowserRenderedReleaseNotes(options: BrowserRenderingOptions, version: string) {
-	const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, GROQ_API_KEY } = process.env;
+async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
+	const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN } = process.env;
 
-	if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_API_TOKEN || !GROQ_API_KEY) {
+	if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_API_TOKEN) {
 		return undefined;
 	}
 
-	const endpoint = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/browser-rendering/json`;
+	const endpoint = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/browser-rendering/markdown`;
+	const requestBody: {
+		gotoOptions?: {
+			waitUntil?: BrowserRenderingOptions['waitUntil'];
+		};
+		url: string;
+		waitForSelector?: string;
+	} = {
+		url: options.url,
+	};
+
+	if (options.waitUntil) {
+		requestBody.gotoOptions = {
+			waitUntil: options.waitUntil,
+		};
+	}
+
+	if (options.waitForSelector) {
+		requestBody.waitForSelector = options.waitForSelector;
+	}
+
 	const response = await ky.post(endpoint, {
 		headers: {
 			authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
 		},
 		json: {
-			url: options.url,
-			prompt: CLEANUP_SYSTEM_PROMPT.replaceAll('{version}', version),
-			response_format: {
-				type: 'json_schema',
-				json_schema: {
-					name: 'release_notes',
-					schema: z.toJSONSchema(CleanupResultSchema, { target: 'openapi-3.0' }),
-					strict: true,
-				},
-			},
-			custom_ai: [
-				{
-					model: 'groq/openai/gpt-oss-120b',
-					authorization: `Bearer ${GROQ_API_KEY}`,
-				},
-			],
+			...requestBody,
 		},
 		throwHttpErrors: false,
 	});
 
-	const data = (await response.json()) as BrowserRenderingJsonEnvelope;
-	if (!response.ok || !data.success || !data.result) {
+	const data = (await response.json()) as BrowserRenderingMarkdownEnvelope;
+	if (!response.ok || !data.success || typeof data.result !== 'string') {
 		const errorMessage =
 			data.errors?.[0]?.message ?? 'Unknown error from Cloudflare Browser Rendering';
 		throw new Error(`Cloudflare Browser Rendering failed: ${errorMessage}`);
 	}
 
-	const parsed = CleanupResultSchema.parse(data.result);
-	return parsed.error ? undefined : parsed.releaseNotes;
+	return data.result;
 }
 
 export async function resolveReleaseNotes(
@@ -227,14 +230,19 @@ export async function resolveReleaseNotes(
 			break;
 		}
 		case ReleaseNotesSource.BrowserRendering: {
-			manifest.releaseNotes = await fetchBrowserRenderedReleaseNotes(
-				{
-					url: releaseNotesConfig.sourceUrl,
-					waitUntil: releaseNotesConfig.waitUntil,
-					waitForSelector: releaseNotesConfig.waitForSelector,
-				},
-				version,
-			);
+			const renderedMarkdown = await fetchBrowserRenderedMarkdown({
+				url: releaseNotesConfig.sourceUrl,
+				waitUntil: releaseNotesConfig.waitUntil,
+				waitForSelector: releaseNotesConfig.waitForSelector,
+			});
+
+			if (renderedMarkdown !== undefined) {
+				const markdownPlainText = await markdownToPlainText(renderedMarkdown);
+				manifest.releaseNotes = applyCharacterLimit(
+					markdownPlainText ?? renderedMarkdown,
+					releaseNotesConfig.characterLimit,
+				);
+			}
 
 			break;
 		}
