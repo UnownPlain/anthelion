@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://download.tidal.com/desktop/windows/RELEASES",
+		"regex": "(?:[\\s\\S]*TIDAL-)?TIDAL-(\\d+(?:\\.\\d+)+)-full\\.nupkg(?![\\s\\S]*TIDAL-\\d+(?:\\.\\d+)+-full\\.nupkg)"
+	},
+	"urls": ["https://download.tidal.com/desktop/TIDALSetup.exe"]
+}
