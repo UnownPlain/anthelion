@@ -14,5 +14,9 @@ export default async function () {
 	return {
 		version,
 		urls,
+		releaseNotes: {
+			source: 'html',
+			sourceUrl: `https://www.cpuid.com/softwares/cpu-z.html#version-history`,
+		},
 	};
 }
