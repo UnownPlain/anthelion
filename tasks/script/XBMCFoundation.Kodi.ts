@@ -15,5 +15,9 @@ export default async function () {
 	return {
 		version: `${version}.0.0`,
 		urls,
+		releaseNotes: {
+			source: 'html',
+			sourceUrl: `https://kodi.tv/article/kodi-${tag?.replaceAll('.', '-').toLowerCase()}-release/`,
+		},
 	};
 }
