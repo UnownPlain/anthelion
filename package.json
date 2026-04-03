@@ -9,9 +9,9 @@
 	"scripts": {
 		"start": "bun src/main.ts",
 		"pkgtest": "bun src/test.ts",
-		"format": "oxfmt",
-		"lint": "oxlint --type-check --type-aware",
-		"gen-schema": "bun run src/schema/generate.ts && oxfmt"
+		"format": "bun --bun oxfmt",
+		"lint": "bun --bun oxlint --type-check --type-aware",
+		"gen-schema": "bun src/schema/generate.ts && bun format"
 	},
 	"dependencies": {
 		"@ai-sdk/groq": "3.0.31",
