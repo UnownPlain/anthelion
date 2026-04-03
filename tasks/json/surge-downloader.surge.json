@@ -1,10 +1,10 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
-	"github": { "owner": "surge-downloader", "repo": "Surge" },
+	"github": { "owner": "SurgeDM", "repo": "Surge" },
 	"urls": [
-		"https://github.com/surge-downloader/Surge/releases/download/v{version}/Surge_{version}_windows_386.zip",
-		"https://github.com/surge-downloader/Surge/releases/download/v{version}/Surge_{version}_windows_amd64.zip",
-		"https://github.com/surge-downloader/Surge/releases/download/v{version}/Surge_{version}_windows_arm64.zip"
+		"https://github.com/SurgeDM/Surge/releases/download/v{version}/Surge_{version}_windows_386.zip",
+		"https://github.com/SurgeDM/Surge/releases/download/v{version}/Surge_{version}_windows_amd64.zip",
+		"https://github.com/SurgeDM/Surge/releases/download/v{version}/Surge_{version}_windows_arm64.zip"
 	]
 }
