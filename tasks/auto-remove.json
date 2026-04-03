@@ -1,1 +1,4 @@
-["Google.Chrome.EXE", "Google.Chrome.Beta.EXE", "Google.Chrome.Dev.EXE"]
+{
+	"vanity_url_packages": ["Microsoft.Office", "Google.Chrome"],
+	"remove_dead_versions": ["Google.Chrome.EXE", "Google.Chrome.Beta.EXE", "Google.Chrome.Dev.EXE"]
+}

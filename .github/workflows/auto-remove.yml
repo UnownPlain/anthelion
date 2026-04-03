@@ -42,6 +42,14 @@ jobs:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
         run: |
-          jq -r '.[]' tasks/auto-remove.json | while read -r pkg_id; do
+          jq -r '.vanity_url_packages[]' tasks/auto-remove.json | while read -r pkg_id; do
+            komac list-versions "$pkg_id" --json |
+              jq -r '.[0:-1][]' |
+              while read -r version; do
+                komac remove "$pkg_id" --version "$version" --submit --no-warning --reason 'Old Vanity URL version'
+              done
+          done
+
+          jq -r '.remove_dead_versions[]' tasks/auto-remove.json | while read -r pkg_id; do
             komac remove-dead-versions "$pkg_id" --auto
           done
