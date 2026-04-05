@@ -16,7 +16,7 @@ jobs:
     name: Fork Maintenance
     runs-on: ubuntu-slim
     environment:
-      name: Production
+      name: Production (gh only)
       deployment: false
     timeout-minutes: 5
     steps:
