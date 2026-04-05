@@ -12,13 +12,6 @@ import { z } from 'zod';
 import { get, isHttpUrl, vs } from '@/helpers.ts';
 import { normalizedReleaseNotesSchema, ReleaseNotesSource } from '@/schema/release-notes';
 
-type ReleaseNotesTaskContext = {
-	github?: {
-		owner: string;
-		repo: string;
-	};
-};
-
 const CleanupResultSchema = z.object({
 	releaseNotes: z.string(),
 	error: z.boolean(),
@@ -126,10 +119,13 @@ async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
 }
 
 export async function resolveReleaseNotes(
-	task: ReleaseNotesTaskContext,
 	releaseNotesConfig: z.output<ReturnType<typeof normalizedReleaseNotesSchema>> | undefined,
 	version: string,
 	githubTag?: string,
+	github?: {
+		owner: string;
+		repo: string;
+	},
 ) {
 	const manifest: {
 		releaseNotes: string | undefined;
@@ -180,9 +176,8 @@ export async function resolveReleaseNotes(
 			break;
 		}
 		case ReleaseNotesSource.Github: {
-			const githubConfig = 'github' in task ? task.github : undefined;
-			const owner = releaseNotesConfig.owner || githubConfig?.owner;
-			const repo = releaseNotesConfig.repo || githubConfig?.repo;
+			const owner = releaseNotesConfig.owner || github?.owner;
+			const repo = releaseNotesConfig.repo || github?.repo;
 			const tag = releaseNotesConfig.tag ?? githubTag;
 
 			if (!owner || !repo) {

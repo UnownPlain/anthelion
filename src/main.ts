@@ -51,7 +51,6 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 
 	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl: manifestReleaseNotesUrl } =
 		await resolveReleaseNotes(
-			{},
 			normalizedReleaseNotesSchema(version).safeParse(releaseNotes).data,
 			version,
 		);
@@ -163,16 +162,13 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 
 	if (await checkVersionInRepo(version, packageIdentifier, logger)) return null;
 
-	const releaseNotesTaskContext =
-		task.strategy === Strategy.GithubRelease
-			? { github: { owner: task.github.owner, repo: task.github.repo } }
-			: {};
-
 	const { releaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
-		releaseNotesTaskContext,
 		normalizedReleaseNotesSchema(version).safeParse(task.releaseNotes).data,
 		version,
 		githubTag,
+		task.strategy === Strategy.GithubRelease
+			? { owner: task.github.owner, repo: task.github.repo }
+			: undefined,
 	);
 
 	if (task.replace) {
