@@ -10,7 +10,11 @@ import { parse } from 'yaml';
 import { z } from 'zod';
 
 import { get, isHttpUrl, vs } from '@/helpers.ts';
-import { normalizedReleaseNotesSchema, ReleaseNotesSource } from '@/schema/release-notes';
+import {
+	normalizedReleaseNotesSchema,
+	ReleaseNotesSource,
+	type NestedReleaseNotesSource,
+} from '@/schema/release-notes';
 
 const CleanupResultSchema = z.object({
 	releaseNotes: z.string(),
@@ -18,7 +22,7 @@ const CleanupResultSchema = z.object({
 });
 
 const CLEANUP_SYSTEM_PROMPT = `
-		Your goal is to format release notes from HTML, markdown, XML, or unclean text into plain text (NOT MARKDOWN) suitable for viewing in terminals.
+		Your goal is to format release notes from HTML, markdown, XML, or unclean text into plain text suitable for viewing in terminals.
 
 		Unless the context exceeds 10000 characters, do not summarize the content and format the text verbatim.
 		Place newlines between headers but not between bullet points.
@@ -30,7 +34,8 @@ const CLEANUP_SYSTEM_PROMPT = `
 		- Released on dates
 		- Time to read (X min read)
 
-		Current package version is {version}. Only include the release notes for this version. If there are no release notes for this version, return an error.
+		Current package version is {version}. Only include the release notes for this version.
+		If the version is not specified, assume it is the correct version.
 	`;
 
 async function cleanupReleaseNotes(releaseNotes: string, version: string) {
@@ -69,6 +74,17 @@ type BrowserRenderingMarkdownEnvelope = {
 	errors?: Array<{ code: number; message: string }>;
 	result?: string;
 };
+
+async function parseNestedReleaseNotes(content: string, source: NestedReleaseNotesSource) {
+	switch (source) {
+		case ReleaseNotesSource.Markdown:
+			return (await markdownToPlainText(content)) ?? undefined;
+		case ReleaseNotesSource.PlainText:
+			return content;
+		case ReleaseNotesSource.Html:
+			return (await htmlToPlainText(content)) ?? undefined;
+	}
+}
 
 async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
 	const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN } = process.env;
@@ -207,7 +223,10 @@ export async function resolveReleaseNotes(
 				rawReleaseNotes = vs(await ky(rawReleaseNotes).text());
 			}
 
-			manifest.releaseNotes = (await htmlToPlainText(rawReleaseNotes)) ?? undefined;
+			manifest.releaseNotes = await parseNestedReleaseNotes(
+				rawReleaseNotes,
+				releaseNotesConfig.nestedSource,
+			);
 
 			break;
 		}
@@ -220,7 +239,10 @@ export async function resolveReleaseNotes(
 				rawReleaseNotes = vs(await ky(rawReleaseNotes).text());
 			}
 
-			manifest.releaseNotes = (await htmlToPlainText(rawReleaseNotes)) ?? undefined;
+			manifest.releaseNotes = await parseNestedReleaseNotes(
+				rawReleaseNotes,
+				releaseNotesConfig.nestedSource,
+			);
 
 			break;
 		}
@@ -242,6 +264,7 @@ export async function resolveReleaseNotes(
 			break;
 		}
 	}
+
 	if (!manifest.releaseNotes) {
 		manifest.releaseNotesUrl = undefined;
 	}

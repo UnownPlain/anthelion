@@ -190,13 +190,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								},
 								{
@@ -219,13 +223,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								}
 							]
@@ -486,13 +494,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								},
 								{
@@ -515,13 +527,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								}
 							]
@@ -767,13 +783,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								},
 								{
@@ -796,13 +816,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								}
 							]
@@ -1048,13 +1072,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								},
 								{
@@ -1077,13 +1105,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								}
 							]
@@ -1334,13 +1366,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								},
 								{
@@ -1363,13 +1399,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								}
 							]
@@ -1616,13 +1656,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								},
 								{
@@ -1645,13 +1689,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								}
 							]
@@ -1895,13 +1943,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								},
 								{
@@ -1924,13 +1976,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								}
 							]
@@ -2178,13 +2234,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for JSON sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								},
 								{
@@ -2207,13 +2267,17 @@
 											"type": "string",
 											"description": "Dot-separated path to release notes content or URL."
 										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
 										"cleanup": {
-											"default": false,
-											"description": "Cleanup release notes with AI. Disabled by default for YAML sources.",
-											"type": "boolean"
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
 										}
 									},
-									"required": ["source", "sourceUrl", "path"],
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
 									"additionalProperties": false
 								}
 							]

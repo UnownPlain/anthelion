@@ -12,6 +12,23 @@ export enum ReleaseNotesSource {
 	BrowserRendering = 'browser-rendering',
 }
 
+const releaseNotesNestedSourceSchema = z
+	.enum([ReleaseNotesSource.Html, ReleaseNotesSource.Markdown, ReleaseNotesSource.PlainText])
+	.describe(
+		'Source format for nested release notes content. Supports html, markdown, and plain-text.',
+	);
+
+export type NestedReleaseNotesSource = z.infer<typeof releaseNotesNestedSourceSchema>;
+
+function getDefaultCleanupForSource(source: NestedReleaseNotesSource) {
+	switch (source) {
+		case ReleaseNotesSource.Html:
+		case ReleaseNotesSource.Markdown:
+		case ReleaseNotesSource.PlainText:
+			return true;
+	}
+}
+
 const releaseNotesHtmlSchema = z.object({
 	source: z.literal(ReleaseNotesSource.Html),
 	sourceUrl: z
@@ -159,10 +176,10 @@ const releaseNotesJsonSchema = z.object({
 		)
 		.optional(),
 	path: z.string().describe('Dot-separated path to release notes content or URL.'),
+	nestedSource: releaseNotesNestedSourceSchema,
 	cleanup: z
 		.boolean()
-		.default(false)
-		.describe('Cleanup release notes with AI. Disabled by default for JSON sources.')
+		.describe('Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior.')
 		.optional(),
 });
 
@@ -178,10 +195,10 @@ const releaseNotesYamlSchema = z.object({
 		)
 		.optional(),
 	path: z.string().describe('Dot-separated path to release notes content or URL.'),
+	nestedSource: releaseNotesNestedSourceSchema,
 	cleanup: z
 		.boolean()
-		.default(false)
-		.describe('Cleanup release notes with AI. Disabled by default for YAML sources.')
+		.describe('Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior.')
 		.optional(),
 });
 
@@ -278,12 +295,14 @@ export function normalizedReleaseNotesSchema(version: string) {
 			const releaseNotesUrl = value.releaseNotesUrl
 				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
 				: sourceUrl;
+			const cleanup = value.cleanup ?? getDefaultCleanupForSource(value.nestedSource);
 
 			return {
 				kind: 'source' as const,
 				...value,
 				sourceUrl,
 				releaseNotesUrl,
+				cleanup,
 			};
 		}),
 		releaseNotesYamlSchema.transform((value) => {
@@ -291,12 +310,14 @@ export function normalizedReleaseNotesSchema(version: string) {
 			const releaseNotesUrl = value.releaseNotesUrl
 				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
 				: sourceUrl;
+			const cleanup = value.cleanup ?? getDefaultCleanupForSource(value.nestedSource);
 
 			return {
 				kind: 'source' as const,
 				...value,
 				sourceUrl,
 				releaseNotesUrl,
+				cleanup,
 			};
 		}),
 	]);
