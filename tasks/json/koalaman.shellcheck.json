@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "koalaman", "repo": "shellcheck" },
+	"urls": [
+		"https://github.com/koalaman/shellcheck/releases/download/v{version}/shellcheck-v{version}.zip"
+	]
+}
