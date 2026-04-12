@@ -14,7 +14,7 @@
 		"gen-schema": "bun src/schema/generate.ts && bun format"
 	},
 	"dependencies": {
-		"@ai-sdk/groq": "3.0.32",
+		"@ai-sdk/groq": "3.0.35",
 		"@rcompat/fs": "0.29.0",
 		"@unownplain/anthelion-komac": "0.0.26",
 		"ai": "6.0.143",
