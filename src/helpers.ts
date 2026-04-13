@@ -174,8 +174,8 @@ export async function checkVersionInRepo(
 export async function closeAllButMostRecentPR(packageIdentifier: string) {
 	if (process.env.DRY_RUN) return;
 
-	// Wait 5s for GitHub API to update
-	await delay(5000);
+	// Wait for GitHub API to update
+	await delay(10_000);
 
 	const prSearch = await octokit.rest.search.issuesAndPullRequests({
 		q: `${packageIdentifier}+is:pr+author:UnownBot+is:open+repo:microsoft/winget-pkgs+sort:created-desc`,
