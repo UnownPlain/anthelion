@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.scummvm.org/downloads/",
+		"regex": "href=.*?scummvm[._-]v?(\\d+(?:\\.\\d+)+)\\.t"
+	},
+	"urls": ["https://downloads.scummvm.org/frs/scummvm/{version}/scummvm-{version}-win32.exe"]
+}
