@@ -22,6 +22,11 @@ jobs:
     steps:
       - name: Install komac
         uses: UnownPlain/install-komac@main
+        with:
+          version: nightly
+          repo: unpn-org/Komac
+          linux_libc: musl
+          compression: zst
 
       - name: Sync Fork & Cleanup Branches
         env:
