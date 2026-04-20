@@ -1,0 +1,25 @@
+name: Auto Approve
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  auto-approve:
+    name: Auto Approve
+    if: ${{ github.event.pull_request.user.login == github.repository_owner && github.repository == github.event.pull_request.head.repo.full_name }}
+    runs-on: ubuntu-slim
+    timeout-minutes: 1
+    permissions:
+      pull-requests: write # Required to approve PR
+    steps:
+      - name: Approve PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
