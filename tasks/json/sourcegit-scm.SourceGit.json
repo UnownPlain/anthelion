@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "sourcegit-scm", "repo": "sourcegit" },
+	"urls": [
+		"https://github.com/sourcegit-scm/sourcegit/releases/download/v{version}/sourcegit_{version}.win-x64.zip",
+		"https://github.com/sourcegit-scm/sourcegit/releases/download/v{version}/sourcegit_{version}.win-arm64.zip"
+	]
+}
