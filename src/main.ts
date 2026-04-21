@@ -52,6 +52,7 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl: manifestReleaseNotesUrl } =
 		await resolveReleaseNotes(
 			normalizedReleaseNotesSchema(version).safeParse(releaseNotes).data,
+			packageIdentifier,
 			version,
 		);
 
@@ -164,6 +165,7 @@ async function handleJsonTask(fileName: string, logger: Logger) {
 
 	const { releaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
 		normalizedReleaseNotesSchema(version).safeParse(task.releaseNotes).data,
+		packageIdentifier,
 		version,
 		githubTag,
 		task.strategy === Strategy.GithubRelease

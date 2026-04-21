@@ -2,7 +2,10 @@ import { getAllReleases } from '@/github.ts';
 import { match } from '@/helpers.ts';
 
 export default async function () {
-	const releases = await getAllReleases('oxc-project', 'oxc');
+	const owner = 'oxc-project';
+	const repo = 'oxc';
+
+	const releases = await getAllReleases(owner, repo);
 	const release = releases.find((entry) => entry.tag_name.startsWith('apps_v'));
 
 	const [version] = match(release?.name ?? '', /oxfmt v(\d+(?:\.\d+)+)/i);
@@ -15,5 +18,12 @@ export default async function () {
 	return {
 		version,
 		urls,
+		releaseNotes: {
+			source: 'github',
+			owner,
+			repo,
+			tag: release?.tag_name,
+			cleanup: true,
+		},
 	};
 }

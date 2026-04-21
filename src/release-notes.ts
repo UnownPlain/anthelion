@@ -34,11 +34,15 @@ const CLEANUP_SYSTEM_PROMPT = `
 		- Released on dates
 		- Time to read (X min read)
 
-		Current package version is {version}. Only include the release notes for this version.
-		If the version is not specified, assume it is the correct version.
+		The package identifier is {packageIdentifier} and current package version is {version}. Only include the release notes for this version and package.
+		If the package or version is not specified, assume it is the correct version or package.
 	`;
 
-async function cleanupReleaseNotes(releaseNotes: string, version: string) {
+async function cleanupReleaseNotes(
+	releaseNotes: string,
+	version: string,
+	packageIdentifier: string,
+) {
 	if (!process.env.GROQ_API_KEY) {
 		return undefined;
 	}
@@ -47,7 +51,10 @@ async function cleanupReleaseNotes(releaseNotes: string, version: string) {
 	const { output } = await generateText({
 		model,
 		output: Output.object({ schema: CleanupResultSchema }),
-		system: CLEANUP_SYSTEM_PROMPT.replaceAll('{version}', version),
+		system: CLEANUP_SYSTEM_PROMPT.replaceAll('{version}', version).replaceAll(
+			'{packageIdentifier}',
+			packageIdentifier,
+		),
 		prompt: releaseNotes,
 		temperature: 0,
 	});
@@ -136,6 +143,7 @@ async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
 
 export async function resolveReleaseNotes(
 	releaseNotesConfig: z.output<ReturnType<typeof normalizedReleaseNotesSchema>> | undefined,
+	packageIdentifier: string,
 	version: string,
 	githubTag?: string,
 	github?: {
@@ -270,7 +278,11 @@ export async function resolveReleaseNotes(
 	}
 
 	if ('cleanup' in releaseNotesConfig && releaseNotesConfig.cleanup && manifest.releaseNotes) {
-		manifest.releaseNotes = await cleanupReleaseNotes(manifest.releaseNotes, version);
+		manifest.releaseNotes = await cleanupReleaseNotes(
+			manifest.releaseNotes,
+			version,
+			packageIdentifier,
+		);
 	}
 
 	return manifest;

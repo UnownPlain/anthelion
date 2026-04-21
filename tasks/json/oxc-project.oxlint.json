@@ -7,5 +7,9 @@
 		"https://github.com/oxc-project/oxc/releases/download/apps_v{version}/oxlint-i686-pc-windows-msvc.zip",
 		"https://github.com/oxc-project/oxc/releases/download/apps_v{version}/oxlint-x86_64-pc-windows-msvc.zip",
 		"https://github.com/oxc-project/oxc/releases/download/apps_v{version}/oxlint-aarch64-pc-windows-msvc.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }
