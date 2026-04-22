@@ -4,7 +4,10 @@
 	"github": { "owner": "cli", "repo": "cli" },
 	"urls": [
 		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_386.msi",
+		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_386.zip",
 		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_amd64.msi",
-		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_arm64.msi"
+		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_amd64.zip",
+		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_arm64.msi",
+		"https://github.com/cli/cli/releases/download/v{version}/gh_{version}_windows_arm64.zip"
 	]
 }
