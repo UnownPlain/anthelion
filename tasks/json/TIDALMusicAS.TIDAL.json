@@ -5,5 +5,6 @@
 		"url": "https://download.tidal.com/desktop/windows/RELEASES",
 		"regex": "(?:[\\s\\S]*TIDAL-)?TIDAL-(\\d+(?:\\.\\d+)+)-full\\.nupkg(?![\\s\\S]*TIDAL-\\d+(?:\\.\\d+)+-full\\.nupkg)"
 	},
-	"urls": ["https://download.tidal.com/desktop/TIDALSetup.exe"]
+	"urls": ["https://download.tidal.com/desktop/TIDALSetup.exe"],
+	"replace": true
 }
