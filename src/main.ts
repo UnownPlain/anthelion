@@ -40,12 +40,12 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 	);
 	const packageIdentifier = fileName.replace('.ts', '');
 
-	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier, logger))) return null;
-
 	if (state && (await isStateMatching(packageIdentifier, state))) {
 		logger.stateMatches(version);
 		return null;
 	}
+
+	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier, logger))) return null;
 
 	logger.details(version, urls);
 
