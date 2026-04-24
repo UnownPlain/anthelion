@@ -1,0 +1,19 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://github.com/posit-dev/air/releases/latest/download/dist-manifest.json",
+		"path": "releases.0.app_version"
+	},
+	"urls": [
+		"https://github.com/posit-dev/air/releases/download/{version}/air-x86_64-pc-windows-msvc.zip",
+		"https://github.com/posit-dev/air/releases/download/{version}/air-aarch64-pc-windows-msvc.zip"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"owner": "posit-dev",
+		"repo": "air",
+		"tag": "{version}",
+		"cleanup": true
+	}
+}
