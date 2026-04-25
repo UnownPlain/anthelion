@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://download.linphone.org/releases/windows/RELEASE",
+		"regex": "Linphone-(\\d+(?:\\.\\d+)+)-win64\\.exe"
+	},
+	"urls": ["https://download.linphone.org/releases/windows/app/Linphone-{version}-win64.exe"]
+}
