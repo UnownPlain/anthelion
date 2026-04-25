@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "suzuki-shunsuke", "repo": "ghtkn" },
+	"urls": [
+		"https://github.com/suzuki-shunsuke/ghtkn/releases/download/v{version}/ghtkn_windows_amd64.zip",
+		"https://github.com/suzuki-shunsuke/ghtkn/releases/download/v{version}/ghtkn_windows_arm64.zip"
+	]
+}
