@@ -2,5 +2,8 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
 	"github": { "owner": "zigtools", "repo": "zls" },
-	"urls": ["https://github.com/zigtools/zls/releases/download/{version}/zls-x86_64-windows.zip"]
+	"urls": [
+		"https://github.com/zigtools/zls/releases/download/{version}/zls-x86_64-windows.zip",
+		"https://github.com/zigtools/zls/releases/download/{version}/zls-aarch64-windows.zip"
+	]
 }
