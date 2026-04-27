@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "spotbye", "repo": "SpotiFLAC" },
+	"urls": ["https://github.com/spotbye/SpotiFLAC/releases/download/v{version}/SpotiFLAC.exe"],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
+}
