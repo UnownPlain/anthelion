@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "thonny", "repo": "thonny" },
+	"urls": [
+		"https://github.com/thonny/thonny/releases/download/v{version}/thonny-{version}-x64.exe",
+		"https://github.com/thonny/thonny/releases/download/v{version}/thonny-{version}-arm64.exe"
+	]
+}
