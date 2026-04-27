@@ -1,14 +1,17 @@
-import { pageMatch } from '@/strategies.ts';
+import ky from 'ky';
+
+import { match } from '@/helpers';
 
 export default async function () {
-	const version = await pageMatch(
-		'https://ilspy.net/updates.xml',
-		/<latestVersion>(\d+(?:\.\d+)+)<\/latestVersion>/i,
+	const response = await ky('https://ilspy.net/updates.xml').text();
+	const [version, releaseTag] = match(
+		response,
+		/<latestVersion>(\d+(?:\.\d+)+)<\/latestVersion>[\s\S]*?<releaseTag>(v\d+(?:\.\d+)+)<\/releaseTag>/i,
 	);
-	const downloadVersion = version.split('.').slice(0, 2).join('.');
+
 	const urls = [
-		`https://github.com/icsharpcode/ILSpy/releases/download/v${downloadVersion}/ILSpy_Installer_${version}-x64.msi`,
-		`https://github.com/icsharpcode/ILSpy/releases/download/v${downloadVersion}/ILSpy_Installer_${version}-arm64.msi`,
+		`https://github.com/icsharpcode/ILSpy/releases/download/${releaseTag}/ILSpy_Installer_${version}-x64.msi`,
+		`https://github.com/icsharpcode/ILSpy/releases/download/${releaseTag}/ILSpy_Installer_${version}-arm64.msi`,
 	];
 
 	return {
