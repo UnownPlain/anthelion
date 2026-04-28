@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "Arelle", "repo": "Arelle" },
+	"urls": [
+		"https://github.com/Arelle/Arelle/releases/download/{version}/arelle-win-{version}.exe",
+		"https://github.com/Arelle/Arelle/releases/download/{version}/arelle-win-{version}.zip|x64"
+	]
+}
