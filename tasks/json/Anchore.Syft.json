@@ -3,6 +3,7 @@
 	"strategy": "github-release",
 	"github": { "owner": "anchore", "repo": "syft" },
 	"urls": [
-		"https://github.com/anchore/syft/releases/download/v{version}/syft_{version}_windows_amd64.zip"
+		"https://github.com/anchore/syft/releases/download/v{version}/syft_{version}_windows_amd64.zip",
+		"https://github.com/anchore/syft/releases/download/v{version}/syft_{version}_windows_arm64.zip"
 	]
 }
