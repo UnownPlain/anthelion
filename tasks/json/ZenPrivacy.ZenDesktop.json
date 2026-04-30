@@ -1,9 +1,9 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
-	"github": { "owner": "ZenPrivacy", "repo": "zen-desktop" },
+	"github": { "owner": "irbis-sh", "repo": "zen-desktop" },
 	"urls": [
-		"https://github.com/ZenPrivacy/zen-desktop/releases/download/v{version}/Zen-amd64-installer.exe",
-		"https://github.com/ZenPrivacy/zen-desktop/releases/download/v{version}/Zen-arm64-installer.exe"
+		"https://github.com/irbis-sh/zen-desktop/releases/download/v{version}/Zen-amd64-installer.exe",
+		"https://github.com/irbis-sh/zen-desktop/releases/download/v{version}/Zen-arm64-installer.exe"
 	]
 }
