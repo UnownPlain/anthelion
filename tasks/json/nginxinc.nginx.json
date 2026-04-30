@@ -2,8 +2,8 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "page-match",
 	"pageMatch": {
-		"url": "https://nginx.org/",
-		"regex": "nginx[._-]v?(\\d+(?:\\.\\d+)+)</a>\nmainline version"
+		"url": "https://nginx.org/en/download.html",
+		"regex": "<a href=\"/en/CHANGES\">CHANGES</a></td><td width=\"20%\"><a href=\"/download/nginx-(\\d+(?:\\.\\d+)+)\\.tar\\.gz\">nginx-\\1</a>[\\s\\S]*?<a href=\"/download/nginx-\\1\\.zip\">nginx/Windows-\\1</a>"
 	},
 	"urls": ["https://nginx.org/download/nginx-{version}.zip|x64"],
 	"releaseNotes": {
