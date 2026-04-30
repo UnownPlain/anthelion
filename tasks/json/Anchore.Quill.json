@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "anchore", "repo": "quill" },
+	"urls": [
+		"https://github.com/anchore/quill/releases/download/v{version}/quill_{version}_windows_amd64.zip"
+	]
+}
