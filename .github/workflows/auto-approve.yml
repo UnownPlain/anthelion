@@ -2,6 +2,8 @@ name: Auto Approve
 
 on:
   pull_request:
+    types:
+      - opened
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
