@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "MABeatty1978", "repo": "TempestData" },
+	"urls": [
+		"https://github.com/MABeatty1978/TempestData/releases/download/v{version}/TempestData.exe"
+	]
+}
