@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "Boshen", "repo": "cargo-shear" },
+	"urls": [
+		"https://github.com/Boshen/cargo-shear/releases/download/v{version}/cargo-shear-x86_64-pc-windows-msvc.zip",
+		"https://github.com/Boshen/cargo-shear/releases/download/v{version}/cargo-shear-aarch64-pc-windows-msvc.zip"
+	]
+}
