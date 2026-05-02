@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "jdx", "repo": "mise" },
+	"urls": [
+		"https://github.com/jdx/mise/releases/download/v{version}/mise-v{version}-windows-x64.zip",
+		"https://github.com/jdx/mise/releases/download/v{version}/mise-v{version}-windows-arm64.zip"
+	]
+}
