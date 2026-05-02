@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "freedomofpress", "repo": "dangerzone" },
+	"urls": [
+		"https://github.com/freedomofpress/dangerzone/releases/download/v{version}/Dangerzone-{version}.msi"
+	]
+}
