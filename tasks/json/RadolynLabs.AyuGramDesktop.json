@@ -1,0 +1,6 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "AyuGram", "repo": "AyuGramDesktop" },
+	"urls": ["https://github.com/AyuGram/AyuGramDesktop/releases/download/v{version}/AyuGram.zip|x64"]
+}
