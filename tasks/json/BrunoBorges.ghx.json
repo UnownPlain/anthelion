@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "brunoborges", "repo": "ghx" },
+	"urls": [
+		"https://github.com/brunoborges/ghx/releases/download/v{version}/ghx-windows-amd64.zip",
+		"https://github.com/brunoborges/ghx/releases/download/v{version}/ghx-windows-arm64.zip"
+	]
+}
