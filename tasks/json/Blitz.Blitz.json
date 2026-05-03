@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "redirect-match",
+	"redirectMatch": {
+		"url": "https://blitz.gg/download/win",
+		"regex": "Blitz-(\\d+(?:\\.\\d+)+)\\.exe"
+	},
+	"urls": ["https://blitz-main.blitz.gg/Blitz-{version}.exe"]
+}
