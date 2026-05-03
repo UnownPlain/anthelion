@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "canonical", "repo": "multipass" },
+	"urls": [
+		"https://github.com/canonical/multipass/releases/download/v{version}/multipass-{version}%2Bwin-win64.msi"
+	]
+}
