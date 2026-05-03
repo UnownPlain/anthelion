@@ -5,7 +5,7 @@ export default async function () {
 		'https://www.fossil-scm.org/home/uv/download.js',
 		/"title":\s*?"Version (\d+(?:\.\d+)+)\s*?\(/i,
 	);
-	const urls = [
+	const urls = () => [
 		`https://fossil-scm.org/home/uv/fossil-w64-${version}.zip`,
 		`https://fossil-scm.org/home/uv/fossil-w32-${version}.zip`,
 	];

@@ -6,7 +6,7 @@ export default async function () {
 	).split('.');
 
 	const version = `${releases[0]}.${releases[1]}${releases[2]}`;
-	const urls = [
+	const urls = () => [
 		`https://download.cpuid.com/cpu-z/cpu-z_${version}-en.exe`,
 		`https://download.cpuid.com/cpu-z/cpu-z_${version}-cn.exe`,
 	];

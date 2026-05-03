@@ -288,6 +288,13 @@
 						"fetchLatest": {
 							"default": false,
 							"type": "boolean"
+						},
+						"perPage": {
+							"default": 25,
+							"type": "integer",
+							"exclusiveMinimum": 0,
+							"maximum": 9007199254740991,
+							"description": "Number of releases to fetch from the GitHub Releases API."
 						}
 					},
 					"required": ["owner", "repo"],

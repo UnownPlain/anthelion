@@ -11,7 +11,7 @@ export default async function () {
 	}>();
 
 	const version = releases.computer.Windows.version.split('-')[0];
-	const urls = [releases.computer.Windows.releases[0]?.url];
+	const urls = () => [releases.computer.Windows.releases[0]?.url];
 
 	return {
 		version,

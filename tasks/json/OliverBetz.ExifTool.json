@@ -2,8 +2,8 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "page-match",
 	"pageMatch": {
-		"url": "https://oliverbetz.de/pages/Artikel/ExifTool-for-Windows",
-		"regex": "ExifTool_install_(\\d+\\.\\d+)_32\\.exe"
+		"url": "https://oliverbetz.de/cms/files/Artikel/ExifTool-for-Windows/exiftool_latest_version.txt",
+		"regex": "(.*)"
 	},
 	"urls": [
 		"https://oliverbetz.de/cms/files/Artikel/ExifTool-for-Windows/ExifTool_install_{version}_32.exe|x86",

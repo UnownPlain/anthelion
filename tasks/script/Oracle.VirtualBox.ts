@@ -7,7 +7,7 @@ export default async function () {
 	const regex = /href=.*?VirtualBox[._-]v?(\d+(?:\.\d+)*[a-z]?)[._-](\d+)[._-]Win\.exe/i;
 
 	const [version, version2] = match(response, regex);
-	const urls = [
+	const urls = () => [
 		`https://download.virtualbox.org/virtualbox/${version}/VirtualBox-${version}-${version2}-Win.exe|x64`,
 	];
 

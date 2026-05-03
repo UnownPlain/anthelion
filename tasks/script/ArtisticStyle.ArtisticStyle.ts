@@ -7,7 +7,7 @@ export default async function () {
 	const [version] = match(response, /astyle[._-]v?(\d+(?:\.\d+)+)[._-]/);
 	const pathVersion = version?.split('.').slice(0, -1).join('.');
 
-	const urls = [
+	const urls = () => [
 		`https://sourceforge.net/projects/astyle/files/astyle/astyle%20${pathVersion}/astyle-${version}.zip/download`,
 		`https://sourceforge.net/projects/astyle/files/astyle/astyle%20${pathVersion}/astyle-${version}-x64.zip/download`,
 	];

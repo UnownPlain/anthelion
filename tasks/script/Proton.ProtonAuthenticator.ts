@@ -7,7 +7,7 @@ export default async function () {
 	const versions = releases.Releases.filter((version) => version.CategoryName === 'Stable');
 
 	const version = versions[0]?.Version;
-	const urls = [
+	const urls = () => [
 		`https://proton.me/download/authenticator/windows/ProtonAuthenticator_${version}_x64_en-US.msi`,
 	];
 

@@ -226,64 +226,33 @@ const releaseNotesUnionSchema = z.union([releaseNotesSourceSchema, releaseNotesU
 
 export const releaseNotesSchema = releaseNotesUnionSchema.optional();
 
+function normalizeSourceUrls<T extends { sourceUrl: string; releaseNotesUrl?: string }>(
+	value: T,
+	version: string,
+) {
+	const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
+	const releaseNotesUrl = value.releaseNotesUrl
+		? resolveVersionPlaceholders(value.releaseNotesUrl, version)
+		: sourceUrl;
+
+	return {
+		kind: 'source' as const,
+		...value,
+		sourceUrl,
+		releaseNotesUrl,
+	};
+}
+
 export function normalizedReleaseNotesSchema(version: string) {
 	return z.union([
 		releaseNotesUrlOnlySchema.transform((value) => ({
 			kind: 'url-only' as const,
 			releaseNotesUrl: resolveVersionPlaceholders(value.releaseNotesUrl, version),
 		})),
-		releaseNotesHtmlSchema.transform((value) => {
-			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
-			const releaseNotesUrl = value.releaseNotesUrl
-				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
-				: sourceUrl;
-
-			return {
-				kind: 'source' as const,
-				...value,
-				sourceUrl,
-				releaseNotesUrl,
-			};
-		}),
-		releaseNotesMarkdownSchema.transform((value) => {
-			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
-			const releaseNotesUrl = value.releaseNotesUrl
-				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
-				: sourceUrl;
-
-			return {
-				kind: 'source' as const,
-				...value,
-				sourceUrl,
-				releaseNotesUrl,
-			};
-		}),
-		releaseNotesPlainTextSchema.transform((value) => {
-			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
-			const releaseNotesUrl = value.releaseNotesUrl
-				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
-				: sourceUrl;
-
-			return {
-				kind: 'source' as const,
-				...value,
-				sourceUrl,
-				releaseNotesUrl,
-			};
-		}),
-		releaseNotesBrowserRenderingSchema.transform((value) => {
-			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
-			const releaseNotesUrl = value.releaseNotesUrl
-				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
-				: sourceUrl;
-
-			return {
-				kind: 'source' as const,
-				...value,
-				sourceUrl,
-				releaseNotesUrl,
-			};
-		}),
+		releaseNotesHtmlSchema.transform((value) => normalizeSourceUrls(value, version)),
+		releaseNotesMarkdownSchema.transform((value) => normalizeSourceUrls(value, version)),
+		releaseNotesPlainTextSchema.transform((value) => normalizeSourceUrls(value, version)),
+		releaseNotesBrowserRenderingSchema.transform((value) => normalizeSourceUrls(value, version)),
 		releaseNotesGithubSchema.transform((value) => ({
 			kind: 'source' as const,
 			...value,
@@ -291,32 +260,18 @@ export function normalizedReleaseNotesSchema(version: string) {
 			releaseNotesUrl: undefined,
 		})),
 		releaseNotesJsonSchema.transform((value) => {
-			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
-			const releaseNotesUrl = value.releaseNotesUrl
-				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
-				: sourceUrl;
 			const cleanup = value.cleanup ?? getDefaultCleanupForSource(value.nestedSource);
 
 			return {
-				kind: 'source' as const,
-				...value,
-				sourceUrl,
-				releaseNotesUrl,
+				...normalizeSourceUrls(value, version),
 				cleanup,
 			};
 		}),
 		releaseNotesYamlSchema.transform((value) => {
-			const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
-			const releaseNotesUrl = value.releaseNotesUrl
-				? resolveVersionPlaceholders(value.releaseNotesUrl, version)
-				: sourceUrl;
 			const cleanup = value.cleanup ?? getDefaultCleanupForSource(value.nestedSource);
 
 			return {
-				kind: 'source' as const,
-				...value,
-				sourceUrl,
-				releaseNotesUrl,
+				...normalizeSourceUrls(value, version),
 				cleanup,
 			};
 		}),

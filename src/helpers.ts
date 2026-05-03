@@ -4,12 +4,12 @@ import {
 	type ExistingPullRequestResult,
 	type UpdateVersionResult,
 } from '@unownplain/anthelion-komac';
-import { bgRed, blue, green, redBright, yellow } from 'ansis';
+import { bgRed, blue, green, magenta, redBright, yellow } from 'ansis';
 import { delay } from 'es-toolkit';
 import ky from 'ky';
 import { z, ZodError } from 'zod';
 
-import { octokit, getRepoHeadSha } from '@/github.ts';
+import { githubClient, getRepositoryHeadSha } from '@/github.ts';
 
 export class Logger {
 	private logs: string[] = [];
@@ -18,17 +18,23 @@ export class Logger {
 		this.logs.push(line);
 	}
 
+	blankLine() {
+		if (this.logs.at(-1) !== '') {
+			this.logs.push('');
+		}
+	}
+
 	logUpdateResult(result: UpdateVersionResult) {
 		for (const file of result.changes) {
 			this.logs.push(file.content);
 		}
 		this.logs.push(
-			`Pull request URL: ${result.pullRequestUrl ? result.pullRequestUrl : 'Dry Run'}\n`,
+			`Pull request URL: ${result.pullRequestUrl ? result.pullRequestUrl : 'Dry Run'}`,
 		);
 	}
 
 	stateMatches(version: string) {
-		this.logs.push(green`Stored state matches latest state. (${version})\n`);
+		this.logs.push(green`Stored state matches latest state. (${version})`);
 	}
 
 	flush() {
@@ -42,24 +48,43 @@ export class Logger {
 		this.log(`${blue('==>')} Running ${task}`);
 	}
 
+	duration(task: string, milliseconds: number) {
+		this.log(`${magenta('==>')} Completed ${task} in ${formatDuration(milliseconds)}`);
+	}
+
 	present(version: string) {
-		this.log(green`Package is up-to-date! (${version})\n`);
+		this.log(green`Package is up-to-date! (${version})`);
 	}
 
 	prExists(pr: ExistingPullRequestResult) {
 		this.log(yellow`There is already a PR with state ${pr.state} created at ${pr.createdAt}.`);
-		this.log(pr.pullRequestUrl + '\n');
+		this.log(pr.pullRequestUrl);
 	}
 
 	error(task: string, error: unknown) {
 		this.log(bgRed`❌ Error running ${task}`);
-		this.log(redBright(`${formatError(error)}\n`));
+		this.log(redBright(formatError(error)));
 	}
 
 	details(version: string, urls: string[]) {
 		this.log(`Version: ${version}`);
 		this.log(`URLs: ${urls.join(' ')}\n`);
 	}
+}
+
+function formatDuration(milliseconds: number) {
+	if (milliseconds < 1000) {
+		return `${milliseconds.toFixed(0)}ms`;
+	}
+
+	const seconds = milliseconds / 1000;
+	if (seconds < 60) {
+		return `${seconds.toFixed(2)}s`;
+	}
+
+	const minutes = Math.floor(seconds / 60);
+	const remainingSeconds = seconds % 60;
+	return `${minutes}m ${remainingSeconds.toFixed(2)}s`;
 }
 
 function formatError(error: unknown) {
@@ -144,8 +169,7 @@ export async function checkVersionInRepo(
 ) {
 	if (process.env.DRY_RUN) return false;
 
-	const MANIFEST_URL =
-		'https://raw.githubusercontent.com/microsoft/winget-pkgs/refs/heads/master/manifests';
+	const MANIFEST_URL = 'https://cdn.jsdelivr.net/gh/microsoft/winget-pkgs@master/manifests';
 	const manifestPath = `${MANIFEST_URL}/${packageIdentifier.charAt(0).toLowerCase()}/${packageIdentifier
 		.split('.')
 		.join('/')}/${version}/${packageIdentifier}.yaml`;
@@ -177,12 +201,12 @@ export async function closeAllButMostRecentPR(packageIdentifier: string) {
 	// Wait for GitHub API to update
 	await delay(10_000);
 
-	const prSearch = await octokit.rest.search.issuesAndPullRequests({
+	const prSearch = await githubClient.rest.search.issuesAndPullRequests({
 		q: `${packageIdentifier}+is:pr+author:UnownBot+is:open+repo:microsoft/winget-pkgs+sort:created-desc`,
 	});
 
 	for (const pr of prSearch.data.items.slice(1)) {
-		await octokit.rest.pulls.update({
+		await githubClient.rest.pulls.update({
 			owner: 'microsoft',
 			repo: 'winget-pkgs',
 			pull_number: pr.number,
@@ -205,7 +229,7 @@ export async function updateVersionState(packageIdentifier: string, latestVersio
 		}
 	`;
 
-	await octokit.graphql(mutation, {
+	await githubClient.graphql(mutation, {
 		input: {
 			branch: {
 				repositoryNameWithOwner: process.env.GITHUB_REPOSITORY,
@@ -222,7 +246,50 @@ export async function updateVersionState(packageIdentifier: string, latestVersio
 					},
 				],
 			},
-			expectedHeadOid: await getRepoHeadSha(),
+			expectedHeadOid: await getRepositoryHeadSha(),
 		},
 	});
+}
+
+export function normalizeVersion(version: string, remove?: string) {
+	const normalized = version.startsWith('v') ? version.substring(1) : version;
+	return remove ? normalized.replaceAll(remove, '') : normalized;
+}
+
+export function resolveDataBackedUrls(urls: string[], data: unknown) {
+	return urls.map((url) => (isHttpUrl(url) ? url : vs(get(data, url))));
+}
+
+export function firstMatch(str: string, regex: RegExp, errorMessage: string) {
+	const version = match(str, regex)[0];
+	if (!version) {
+		throw new Error(errorMessage);
+	}
+
+	return version;
+}
+
+type TemplateValue = string | number | bigint | boolean | null | undefined;
+
+export function dedent(strings: TemplateStringsArray, ...values: TemplateValue[]) {
+	let text = strings[0] ?? '';
+
+	for (let i = 0; i < values.length; i++) {
+		text += `${values[i] ?? ''}${strings[i + 1] ?? ''}`;
+	}
+
+	const lines = text
+		.replace(/^\r?\n/, '')
+		.replace(/\r?\n[\t ]*$/, '')
+		.split(/\r?\n/);
+	const indentation = lines
+		.filter((line) => line.trim().length > 0)
+		.map((line) => line.match(/^[\t ]*/)?.[0].length ?? 0);
+	const minIndentation = Math.min(...indentation);
+
+	if (!Number.isFinite(minIndentation) || minIndentation === 0) {
+		return lines.join('\n');
+	}
+
+	return lines.map((line) => (line.trim().length > 0 ? line.slice(minIndentation) : '')).join('\n');
 }

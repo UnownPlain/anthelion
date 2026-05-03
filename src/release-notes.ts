@@ -9,7 +9,7 @@ import ky from 'ky';
 import { parse } from 'yaml';
 import { z } from 'zod';
 
-import { get, isHttpUrl, vs } from '@/helpers.ts';
+import { dedent, get, isHttpUrl, vs } from '@/helpers.ts';
 import {
 	normalizedReleaseNotesSchema,
 	ReleaseNotesSource,
@@ -21,22 +21,20 @@ const CleanupResultSchema = z.object({
 	error: z.boolean(),
 });
 
-const CLEANUP_SYSTEM_PROMPT = `
-		Your goal is to format release notes from HTML, markdown, XML, or unclean text into plain text suitable for viewing in terminals.
+const CLEANUP_SYSTEM_PROMPT = dedent`
+	Your goal is to format release notes from HTML, markdown, XML, or unclean text into plain text suitable for viewing in terminals.
 
-		Unless the context exceeds 10000 characters, do not summarize the content and format the text verbatim.
-		Place newlines between headers but not between bullet points.
+	Unless the context exceeds 10000 characters, do not summarize the content and format the text verbatim. Place newlines between headers but not between bullet points.
 
-		Remove any unnecessary info such as:
-		- Headers such as "Release Notes", "<app_name> Release Notes", "<app_name> Release", "<version>", "<app_name> version", etc.
-		- Any checksum (SHA256, etc.) sections/tables
-		- Download methods/commands/how to download
-		- Released on dates
-		- Time to read (X min read)
+	Remove any unnecessary info such as:
+	- Headers such as "Release Notes", "<app_name> Release Notes", "<app_name> Release", "<version>", "<app_name> version", etc.
+	- Any checksum (SHA256, etc.) sections/tables
+	- Download methods/commands/how to download
+	- Released on dates
+	- Time to read (X min read)
 
-		The package identifier is {packageIdentifier} and current package version is {version}. Only include the release notes for this version and package.
-		If the package or version is not specified, assume it is the correct version or package.
-	`;
+	The package identifier is {packageIdentifier} and current package version is {version}. Only include the release notes for this version and package. If the package or version is not specified, assume it is the correct version or package.
+`;
 
 async function cleanupReleaseNotes(
 	releaseNotes: string,
@@ -141,6 +139,39 @@ async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
 	return data.result;
 }
 
+async function fetchPlainTextReleaseNotes(
+	url: string,
+	source: NestedReleaseNotesSource,
+	characterLimit?: number,
+) {
+	const content = await ky(url).text();
+	const parsed = await parseNestedReleaseNotes(content, source);
+
+	return applyCharacterLimit(parsed ?? content, characterLimit);
+}
+
+async function resolveNestedReleaseNotes(
+	sourceUrl: string,
+	path: string,
+	source: NestedReleaseNotesSource,
+	format: 'json' | 'yaml',
+) {
+	const response =
+		format === 'json' ? await ky(sourceUrl).json() : parse(await ky(sourceUrl).text());
+	let rawReleaseNotes = vs(get(response, path));
+	let releaseNotesUrl: string | undefined;
+
+	if (isHttpUrl(rawReleaseNotes)) {
+		releaseNotesUrl = rawReleaseNotes;
+		rawReleaseNotes = vs(await ky(rawReleaseNotes).text());
+	}
+
+	return {
+		releaseNotes: await parseNestedReleaseNotes(rawReleaseNotes, source),
+		releaseNotesUrl,
+	};
+}
+
 export async function resolveReleaseNotes(
 	releaseNotesConfig: z.output<ReturnType<typeof normalizedReleaseNotesSchema>> | undefined,
 	packageIdentifier: string,
@@ -151,10 +182,7 @@ export async function resolveReleaseNotes(
 		repo: string;
 	},
 ) {
-	const manifest: {
-		releaseNotes: string | undefined;
-		releaseNotesUrl: string | undefined;
-	} = {
+	const manifest: { releaseNotes: string | undefined; releaseNotesUrl: string | undefined } = {
 		releaseNotes: undefined,
 		releaseNotesUrl: undefined,
 	};
@@ -170,35 +198,30 @@ export async function resolveReleaseNotes(
 	}
 
 	switch (releaseNotesConfig.source) {
-		case ReleaseNotesSource.Html: {
-			const html = await ky(releaseNotesConfig.sourceUrl).text();
-			const htmlPlainText = await htmlToPlainText(html);
-
-			manifest.releaseNotes = applyCharacterLimit(
-				htmlPlainText ?? html,
+		case ReleaseNotesSource.Html:
+			manifest.releaseNotes = await fetchPlainTextReleaseNotes(
+				releaseNotesConfig.sourceUrl,
+				ReleaseNotesSource.Html,
 				releaseNotesConfig.characterLimit,
 			);
 
 			break;
-		}
-		case ReleaseNotesSource.Markdown: {
-			const markdown = await ky(releaseNotesConfig.sourceUrl).text();
-			const markdownPlainText = await markdownToPlainText(markdown);
-
-			manifest.releaseNotes = applyCharacterLimit(
-				markdownPlainText ?? markdown,
+		case ReleaseNotesSource.Markdown:
+			manifest.releaseNotes = await fetchPlainTextReleaseNotes(
+				releaseNotesConfig.sourceUrl,
+				ReleaseNotesSource.Markdown,
 				releaseNotesConfig.characterLimit,
 			);
 
 			break;
-		}
-		case ReleaseNotesSource.PlainText: {
-			const plainText = await ky(releaseNotesConfig.sourceUrl).text();
-
-			manifest.releaseNotes = applyCharacterLimit(plainText, releaseNotesConfig.characterLimit);
+		case ReleaseNotesSource.PlainText:
+			manifest.releaseNotes = await fetchPlainTextReleaseNotes(
+				releaseNotesConfig.sourceUrl,
+				ReleaseNotesSource.PlainText,
+				releaseNotesConfig.characterLimit,
+			);
 
 			break;
-		}
 		case ReleaseNotesSource.Github: {
 			const owner = releaseNotesConfig.owner || github?.owner;
 			const repo = releaseNotesConfig.repo || github?.repo;
@@ -223,34 +246,26 @@ export async function resolveReleaseNotes(
 			break;
 		}
 		case ReleaseNotesSource.Json: {
-			let response = await ky(releaseNotesConfig.sourceUrl).json();
-			let rawReleaseNotes = vs(get(response, releaseNotesConfig.path));
-
-			if (isHttpUrl(rawReleaseNotes)) {
-				manifest.releaseNotesUrl = rawReleaseNotes;
-				rawReleaseNotes = vs(await ky(rawReleaseNotes).text());
-			}
-
-			manifest.releaseNotes = await parseNestedReleaseNotes(
-				rawReleaseNotes,
+			const result = await resolveNestedReleaseNotes(
+				releaseNotesConfig.sourceUrl,
+				releaseNotesConfig.path,
 				releaseNotesConfig.nestedSource,
+				'json',
 			);
+			manifest.releaseNotes = result.releaseNotes;
+			manifest.releaseNotesUrl = result.releaseNotesUrl ?? manifest.releaseNotesUrl;
 
 			break;
 		}
 		case ReleaseNotesSource.Yaml: {
-			let response = await ky(releaseNotesConfig.sourceUrl).text();
-			let rawReleaseNotes = vs(get(parse(response), releaseNotesConfig.path));
-
-			if (isHttpUrl(rawReleaseNotes)) {
-				manifest.releaseNotesUrl = rawReleaseNotes;
-				rawReleaseNotes = vs(await ky(rawReleaseNotes).text());
-			}
-
-			manifest.releaseNotes = await parseNestedReleaseNotes(
-				rawReleaseNotes,
+			const result = await resolveNestedReleaseNotes(
+				releaseNotesConfig.sourceUrl,
+				releaseNotesConfig.path,
 				releaseNotesConfig.nestedSource,
+				'yaml',
 			);
+			manifest.releaseNotes = result.releaseNotes;
+			manifest.releaseNotesUrl = result.releaseNotesUrl ?? manifest.releaseNotesUrl;
 
 			break;
 		}

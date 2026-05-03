@@ -12,6 +12,6 @@ export default async function () {
 
 	return {
 		version,
-		urls: [url],
+		urls: () => [url],
 	};
 }

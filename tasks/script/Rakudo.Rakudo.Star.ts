@@ -28,6 +28,6 @@ export default async function () {
 
 	return {
 		version,
-		urls: [latestWindowsMsi.url],
+		urls: () => [latestWindowsMsi.url],
 	};
 }

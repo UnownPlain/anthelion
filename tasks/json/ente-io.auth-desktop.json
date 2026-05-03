@@ -4,7 +4,8 @@
 	"github": {
 		"owner": "ente-io",
 		"repo": "ente",
-		"tagFilter": "auth-v"
+		"tagFilter": "auth-v",
+		"perPage": 50
 	},
 	"urls": [
 		"https://github.com/ente-io/ente/releases/download/auth-v{version}/ente-auth-v{version}-installer.exe"

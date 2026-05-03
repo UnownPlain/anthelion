@@ -1,8 +1,0 @@
-{
-	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "github-release",
-	"github": { "owner": "jellyfin", "repo": "jellyfin-media-player" },
-	"urls": [
-		"https://github.com/jellyfin/jellyfin-media-player/releases/download/v{version}/JellyfinMediaPlayer-{version}-windows-x64.exe"
-	]
-}

@@ -1,7 +1,7 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
-	"github": { "owner": "M2Team", "repo": "NanaZip", "preRelease": true },
+	"github": { "owner": "M2Team", "repo": "NanaZip", "preRelease": true, "perPage": 50 },
 	"urls": [
 		"https://github.com/M2Team/NanaZip/releases/download/{version}/NanaZipPreview_{version}.msixbundle"
 	]

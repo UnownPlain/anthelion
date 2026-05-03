@@ -1,15 +1,18 @@
-import { getAllReleases } from '@/github.ts';
+import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers';
 
 export default async function () {
-	const releases = await getAllReleases('icsharpcode', 'ILSpy', 'all');
-	const release = releases.filter((release) => release.tag_name.includes('preview'))[0];
+	const release = await getLatestRelease({
+		owner: 'icsharpcode',
+		repo: 'ILSpy',
+		kind: 'all',
+		tagIncludes: 'preview',
+	});
 
-	const urls = release?.assets
-		.filter((release) => release.browser_download_url.includes('.msi'))
-		.map((release) => release.browser_download_url);
+	const urls = () => release.urls().filter((url) => url.endsWith('.msi'));
+	const asset = release.assetNames().find((name) => name.endsWith('.msi'));
 	const [version] = match(
-		urls?.[0],
+		asset,
 		/ILSpy_Installer_(\d+(?:\.\d+){3}-preview\d+)-(?:x64|arm64)\.msi$/i,
 	);
 

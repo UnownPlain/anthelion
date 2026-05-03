@@ -13,7 +13,7 @@ export default async function () {
 		},
 	);
 
-	const urls = [response.headers.get('location')];
+	const urls = () => [response.headers.get('location')];
 
 	return {
 		version,

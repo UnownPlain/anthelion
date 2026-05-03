@@ -11,7 +11,7 @@ export default async function () {
 
 	return {
 		version,
-		urls: [`${url}|x64`],
+		urls: () => [`${url}|x64`],
 		releaseNotes: {
 			releaseNotesUrl: 'https://androidstudio.googleblog.com/',
 		},
