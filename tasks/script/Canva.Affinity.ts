@@ -9,7 +9,7 @@ export default async function () {
 	}>();
 
 	const version = release.version;
-	const urls = [release.uri, release.uri.replace('x64', 'arm64')];
+	const urls = () => [release.uri, release.uri.replace('x64', 'arm64')];
 
 	return {
 		version,

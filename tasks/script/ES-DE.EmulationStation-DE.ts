@@ -11,9 +11,8 @@ export default async function () {
 	>();
 
 	const version = releases[0]?.tag_name.substring(1);
-	const urls = releases[0]?.assets.links
-		.filter((link) => link.name.includes('.exe'))
-		?.map((link) => link.url);
+	const urls = () =>
+		releases[0]?.assets.links.filter((link) => link.name.includes('.exe'))?.map((link) => link.url);
 
 	return {
 		version,

@@ -1,30 +1,27 @@
 import { Temporal } from 'temporal-polyfill';
 
-import { getAllReleases } from '@/github.ts';
+import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers.ts';
 
 export default async function () {
-	const releases = await getAllReleases('yt-dlp', 'FFmpeg-Builds');
 	const date = Temporal.Now.plainDateISO().add({ days: 1 }).with({ day: 1 }).subtract({ days: 1 });
+	const release = await getLatestRelease({
+		owner: 'yt-dlp',
+		repo: 'FFmpeg-Builds',
+		tagIncludes: date.toString(),
+	});
 
-	const release = releases.find((release) => release.tag_name.includes(date.toString()));
-
-	if (!release) {
-		throw new Error('Failed to find release. Upstream might not have published this version yet.');
-	}
-
-	const urls = release.assets
-		.filter(
-			(asset) =>
-				asset.name.includes('win') &&
-				!asset.name.includes('shared') &&
-				asset.name.includes('ffmpeg-N'),
-		)
-		.map((asset) => {
-			const url = asset.browser_download_url;
-			return url.includes('arm64') ? `${url}|arm64` : url;
-		});
-	const [version] = match(urls[0], /ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i);
+	const urls = () =>
+		release
+			.urls()
+			.filter((url) => url.includes('win') && !url.includes('shared') && url.includes('ffmpeg-N'))
+			.map((url) => {
+				return url.includes('arm64') ? `${url}|arm64` : url;
+			});
+	const asset = release
+		.assetNames()
+		.find((name) => name.includes('win') && !name.includes('shared') && name.includes('ffmpeg-N'));
+	const [version] = match(asset, /ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i);
 
 	return {
 		version: `N-${version}-${date.toString().replaceAll('-', '')}`,

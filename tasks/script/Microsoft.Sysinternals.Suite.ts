@@ -27,7 +27,7 @@ export default async function () {
 
 	return {
 		version,
-		urls: [
+		urls: () => [
 			'https://download.sysinternals.com/files/SysinternalsSuite.zip',
 			'https://download.sysinternals.com/files/SysinternalsSuite-ARM64.zip',
 		],

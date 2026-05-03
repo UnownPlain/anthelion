@@ -9,7 +9,7 @@ export default async function () {
 		response,
 		/MainBundle Name="Microsoft\.TimeTravelDebugging" Version="([^"]+)/i,
 	);
-	const urls = [
+	const urls = () => [
 		`https://windbg.download.prss.microsoft.com/dbazure/prod/${version?.replaceAll('.', '-')}/TTD.msixbundle`,
 	];
 

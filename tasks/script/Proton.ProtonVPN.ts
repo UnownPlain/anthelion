@@ -7,7 +7,7 @@ export default async function () {
 	const versions = releases.Releases.filter((version) => version.CategoryName === 'Stable');
 
 	const version = versions[0]?.Version;
-	const urls = [
+	const urls = () => [
 		`https://vpn.protondownload.com/download/ProtonVPN_v${version}_x64.exe`,
 		`https://vpn.protondownload.com/download/ProtonVPN_v${version}_arm64.exe`,
 	];

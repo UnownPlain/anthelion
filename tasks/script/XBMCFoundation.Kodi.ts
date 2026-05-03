@@ -1,13 +1,13 @@
-import { getLatestVersion } from '@/github.ts';
+import { getLatestRelease } from '@/github.ts';
 
 export default async function () {
-	const { version: tag } = await getLatestVersion({
+	const { tag } = await getLatestRelease({
 		owner: 'xbmc',
 		repo: 'xbmc',
 	});
 
 	const version = tag.split('-')[0];
-	const urls = [
+	const urls = () => [
 		`https://mirrors.kodi.tv/releases/windows/win64/kodi-${tag}-x64.exe`,
 		`https://mirrors.kodi.tv/releases/windows/win32/kodi-${tag}-x86.exe`,
 	];

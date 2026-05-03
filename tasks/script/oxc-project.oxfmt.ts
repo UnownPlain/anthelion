@@ -1,19 +1,17 @@
-import { getAllReleases } from '@/github.ts';
+import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers.ts';
 
 export default async function () {
 	const owner = 'oxc-project';
 	const repo = 'oxc';
+	const release = await getLatestRelease({
+		owner,
+		repo,
+		tagIncludes: 'apps_v',
+	});
 
-	const releases = await getAllReleases(owner, repo);
-	const release = releases.find((entry) => entry.tag_name.startsWith('apps_v'));
-
-	const [version] = match(release?.name ?? '', /oxfmt v(\d+(?:\.\d+)+)/i);
-	const urls = [
-		`https://github.com/oxc-project/oxc/releases/download/${release?.tag_name}/oxfmt-i686-pc-windows-msvc.zip`,
-		`https://github.com/oxc-project/oxc/releases/download/${release?.tag_name}/oxfmt-x86_64-pc-windows-msvc.zip`,
-		`https://github.com/oxc-project/oxc/releases/download/${release?.tag_name}/oxfmt-aarch64-pc-windows-msvc.zip`,
-	];
+	const [version] = match(release.title ?? '', /oxfmt v(\d+(?:\.\d+)+)/i);
+	const urls = () => release.urls().filter((url) => url.endsWith('pc-windows-msvc.zip'));
 
 	return {
 		version,
@@ -22,7 +20,7 @@ export default async function () {
 			source: 'github',
 			owner,
 			repo,
-			tag: release?.tag_name,
+			tag: release.tag,
 			cleanup: true,
 		},
 	};

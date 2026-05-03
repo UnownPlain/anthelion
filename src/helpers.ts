@@ -9,7 +9,7 @@ import { delay } from 'es-toolkit';
 import ky from 'ky';
 import { z, ZodError } from 'zod';
 
-import { octokit, getRepoHeadSha } from '@/github.ts';
+import { githubClient, getRepositoryHeadSha } from '@/github.ts';
 
 export class Logger {
 	private logs: string[] = [];
@@ -177,12 +177,12 @@ export async function closeAllButMostRecentPR(packageIdentifier: string) {
 	// Wait for GitHub API to update
 	await delay(10_000);
 
-	const prSearch = await octokit.rest.search.issuesAndPullRequests({
+	const prSearch = await githubClient.rest.search.issuesAndPullRequests({
 		q: `${packageIdentifier}+is:pr+author:UnownBot+is:open+repo:microsoft/winget-pkgs+sort:created-desc`,
 	});
 
 	for (const pr of prSearch.data.items.slice(1)) {
-		await octokit.rest.pulls.update({
+		await githubClient.rest.pulls.update({
 			owner: 'microsoft',
 			repo: 'winget-pkgs',
 			pull_number: pr.number,
@@ -205,7 +205,7 @@ export async function updateVersionState(packageIdentifier: string, latestVersio
 		}
 	`;
 
-	await octokit.graphql(mutation, {
+	await githubClient.graphql(mutation, {
 		input: {
 			branch: {
 				repositoryNameWithOwner: process.env.GITHUB_REPOSITORY,
@@ -222,7 +222,25 @@ export async function updateVersionState(packageIdentifier: string, latestVersio
 					},
 				],
 			},
-			expectedHeadOid: await getRepoHeadSha(),
+			expectedHeadOid: await getRepositoryHeadSha(),
 		},
 	});
+}
+
+export function normalizeVersion(version: string, remove?: string) {
+	const normalized = version.startsWith('v') ? version.substring(1) : version;
+	return remove ? normalized.replaceAll(remove, '') : normalized;
+}
+
+export function resolveDataBackedUrls(urls: string[], data: unknown) {
+	return urls.map((url) => (isHttpUrl(url) ? url : vs(get(data, url))));
+}
+
+export function firstMatch(str: string, regex: RegExp, errorMessage: string) {
+	const version = match(str, regex)[0];
+	if (!version) {
+		throw new Error(errorMessage);
+	}
+
+	return version;
 }

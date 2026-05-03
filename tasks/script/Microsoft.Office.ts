@@ -12,7 +12,7 @@ export default async function () {
 
 	return {
 		version: 'productVersion',
-		urls: ['https://officecdn.microsoft.com/pr/wsus/setup.exe'],
+		urls: () => ['https://officecdn.microsoft.com/pr/wsus/setup.exe'],
 		state,
 	};
 }

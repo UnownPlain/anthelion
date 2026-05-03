@@ -5,22 +5,23 @@ import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 import { parse } from 'yaml';
 
-import { getLatestVersion } from '@/github';
+import { getLatestRelease } from '@/github';
 import {
 	closeAllButMostRecentPR,
+	checkVersionInRepo,
 	get,
+	isStateMatching,
 	Logger,
 	resolveVersionPlaceholders,
-	vs,
-	checkVersionInRepo,
-	isStateMatching,
 	updateVersionState,
-	isHttpUrl,
+	vs,
+	normalizeVersion,
+	resolveDataBackedUrls,
 } from '@/helpers';
 import { resolveReleaseNotes } from '@/release-notes';
-import { JsonTaskSchema, Strategy } from '@/schema/json-task';
+import { JsonTaskSchema, Strategy, type JsonTask } from '@/schema/json-task';
 import { normalizedReleaseNotesSchema } from '@/schema/release-notes';
-import { ScriptTaskResult } from '@/schema/script-task';
+import { ScriptTaskResult, type Urls } from '@/schema/script-task';
 import {
 	electronBuilder,
 	pageMatch,
@@ -29,9 +30,57 @@ import {
 	sourceforge,
 } from '@/strategies';
 
-const MAX_CONCURRENCY = 32;
+const MAX_CONCURRENCY = 128;
 export const SCRIPTS_FOLDER = 'tasks/script';
 export const JSON_FOLDER = 'tasks/json';
+
+type UpdateTaskOptions = {
+	packageIdentifier: string;
+	version: string;
+	urls: Urls;
+	releaseNotes: unknown;
+	replace?: boolean;
+	logger: Logger;
+	githubTag?: string;
+	github?: {
+		owner: string;
+		repo: string;
+	};
+};
+
+async function updatePackage(options: UpdateTaskOptions) {
+	const { packageIdentifier, version, urls, releaseNotes, replace, logger, githubTag, github } =
+		options;
+	const resolvedUrls = urls().map((url) => resolveVersionPlaceholders(url, version));
+	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
+		normalizedReleaseNotesSchema(version).safeParse(releaseNotes).data,
+		packageIdentifier,
+		version,
+		githubTag,
+		github,
+	);
+
+	logger.details(version, resolvedUrls);
+
+	const updateResult = await updateVersion({
+		packageIdentifier,
+		version,
+		urls: resolvedUrls,
+		replace: replace ? 'latest' : undefined,
+		releaseNotes: manifestReleaseNotes,
+		releaseNotesUrl,
+		dryRun: Boolean(process.env.DRY_RUN),
+		token: process.env.GITHUB_TOKEN!,
+	});
+
+	logger.logUpdateResult(updateResult);
+
+	if (replace) {
+		await closeAllButMostRecentPR(packageIdentifier);
+	}
+
+	return updateResult;
+}
 
 async function handleScriptTask(fileName: string, logger: Logger) {
 	const task = await import(`../${SCRIPTS_FOLDER}/${fileName}`);
@@ -47,153 +96,124 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 
 	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier, logger))) return null;
 
-	logger.details(version, urls);
-
-	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl: manifestReleaseNotesUrl } =
-		await resolveReleaseNotes(
-			normalizedReleaseNotesSchema(version).safeParse(releaseNotes).data,
-			packageIdentifier,
-			version,
-		);
-
-	const updateResult = await updateVersion({
+	const updateResult = await updatePackage({
 		packageIdentifier,
 		version,
 		urls,
-		releaseNotes: manifestReleaseNotes,
-		releaseNotesUrl: manifestReleaseNotesUrl,
-		replace: replace ? 'latest' : undefined,
-		dryRun: process.env.DRY_RUN ? true : false,
-		token: process.env.GITHUB_TOKEN!,
+		releaseNotes,
+		replace,
+		logger,
 	});
 
 	if (state) {
 		await updateVersionState(packageIdentifier, state);
 	}
-	if (replace) {
-		await closeAllButMostRecentPR(packageIdentifier);
-	}
-
-	logger.logUpdateResult(updateResult);
 
 	return updateResult;
 }
 
-async function handleJsonTask(fileName: string, logger: Logger) {
-	const file = await fs.ref(`./${JSON_FOLDER}/${fileName}`).json();
-	const task = JsonTaskSchema.parse(file);
-	const packageIdentifier = fileName.replace('.json', '');
-	let version: string;
-	let urls: string[] = task.urls || [];
-	let githubTag: string | undefined;
-
+async function resolveJsonTask(task: JsonTask, initialUrls: string[]) {
 	switch (task.strategy) {
 		case Strategy.GithubRelease: {
-			const latest = await getLatestVersion({
+			const latest = await getLatestRelease({
 				owner: task.github.owner,
 				repo: task.github.repo,
-				preRelease: task.github.preRelease,
-				tagFilter: task.github.tagFilter,
-				latest: task.github.fetchLatest,
+				kind: task.github.preRelease ? 'prerelease' : 'stable',
+				tagIncludes: task.github.tagFilter,
+				useLatestEndpoint: task.github.fetchLatest,
 			});
-			githubTag = latest.tag;
-			version = latest.version;
-			if (task.github.fetchUrlsFromApi) {
-				if (latest.urls.length === 0) {
-					throw new Error('No URLs found in GitHub release');
-				}
-				urls = urls.concat(latest.urls);
-			}
-			break;
+
+			return {
+				version: latest.version,
+				urls: () => {
+					const releaseUrls = task.github.fetchUrlsFromApi ? latest.urls() : [];
+
+					if (task.github.fetchUrlsFromApi && releaseUrls.length === 0) {
+						throw new Error('No URLs found in GitHub release');
+					}
+
+					return initialUrls.concat(releaseUrls);
+				},
+				githubTag: latest.releaseTag,
+			};
 		}
 		case Strategy.ElectronBuilder:
-			version = await electronBuilder(task.electronBuilder.url);
-			break;
+			return {
+				version: await electronBuilder(task.electronBuilder.url),
+				urls: () => initialUrls,
+			};
 		case Strategy.PageMatch:
-			version = await pageMatch(task.pageMatch.url, new RegExp(task.pageMatch.regex, 'i'));
-			break;
+			return {
+				version: await pageMatch(task.pageMatch.url, new RegExp(task.pageMatch.regex, 'i')),
+				urls: () => initialUrls,
+			};
 		case Strategy.SortVersions:
-			version = await sortVersionsMatch(
-				task.sortVersions.url,
-				new RegExp(task.sortVersions.regex, 'i'),
-			);
-			break;
+			return {
+				version: await sortVersionsMatch(
+					task.sortVersions.url,
+					new RegExp(task.sortVersions.regex, 'i'),
+				),
+				urls: () => initialUrls,
+			};
 		case Strategy.Json: {
 			const response = await ky(task.json.url).json();
-			version = vs(get(response, task.json.path));
-			urls = urls.map((url) => {
-				if (!isHttpUrl(url)) {
-					return vs(get(response, url));
-				}
-				return url;
-			});
-			break;
+
+			return {
+				version: vs(get(response, task.json.path)),
+				urls: () => resolveDataBackedUrls(initialUrls, response),
+			};
 		}
 		case Strategy.RedirectMatch: {
 			const result = await redirectMatch(
 				task.redirectMatch.url,
 				new RegExp(task.redirectMatch.regex, 'i'),
 			);
-			version = result.version;
-			if (!task.urls) {
-				urls.push(result.url);
-			}
-			break;
+
+			return {
+				version: result.version,
+				urls: () => (task.urls ? initialUrls : initialUrls.concat(result.url)),
+			};
 		}
 		case Strategy.SourceForge:
-			version = await sourceforge(task.sourceforge.project, task.sourceforge.file);
-			break;
+			return {
+				version: await sourceforge(task.sourceforge.project, task.sourceforge.file),
+				urls: () => initialUrls,
+			};
 		case Strategy.Yaml: {
 			const response = await ky(task.yaml.url).text();
 			// This is set to failsafe so incorrectly quoted values aren't parsed as numbers
 			const yaml = parse(response, { schema: 'failsafe' });
-			version = vs(get(yaml, task.yaml.path));
-			urls = urls.map((url) => {
-				if (!isHttpUrl(url)) {
-					return vs(get(yaml, url));
-				}
-				return url;
-			});
-			break;
+
+			return {
+				version: vs(get(yaml, task.yaml.path)),
+				urls: () => resolveDataBackedUrls(initialUrls, yaml),
+			};
 		}
 	}
+}
 
-	version = version.startsWith('v') ? version.substring(1) : version;
-	if (task.versionRemove) version = version.replaceAll(task.versionRemove, '');
+async function handleJsonTask(fileName: string, logger: Logger) {
+	const file = await fs.ref(`./${JSON_FOLDER}/${fileName}`).json();
+	const task = JsonTaskSchema.parse(file);
+	const packageIdentifier = fileName.replace('.json', '');
+	const resolvedTask = await resolveJsonTask(task, task.urls ?? []);
+	const version = normalizeVersion(resolvedTask.version, task.versionRemove);
 
 	if (await checkVersionInRepo(version, packageIdentifier, logger)) return null;
 
-	const { releaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
-		normalizedReleaseNotesSchema(version).safeParse(task.releaseNotes).data,
+	return updatePackage({
 		packageIdentifier,
 		version,
-		githubTag,
-		task.strategy === Strategy.GithubRelease
-			? { owner: task.github.owner, repo: task.github.repo }
-			: undefined,
-	);
-
-	if (task.replace) {
-		await closeAllButMostRecentPR(packageIdentifier);
-	}
-	urls = urls.map((url) => resolveVersionPlaceholders(url, version));
-
-	logger.details(version, urls);
-
-	const updateResult = await updateVersion({
-		packageIdentifier,
-		version,
-		urls,
-		replace: task.replace ? 'latest' : undefined,
-		releaseNotes,
-		releaseNotesUrl,
-		dryRun: process.env.DRY_RUN ? true : false,
-		token: process.env.GITHUB_TOKEN!,
+		urls: resolvedTask.urls,
+		releaseNotes: task.releaseNotes,
+		replace: task.replace,
+		logger,
+		githubTag: resolvedTask.githubTag,
+		github:
+			task.strategy === Strategy.GithubRelease
+				? { owner: task.github.owner, repo: task.github.repo }
+				: undefined,
 	});
-
-	logger.logUpdateResult(updateResult);
-
-	return updateResult;
 }
 
 async function executeTask(file: FileRef) {

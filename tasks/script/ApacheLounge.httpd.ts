@@ -10,7 +10,7 @@ export default async function () {
 	);
 
 	const [x64, version, x86] = captures;
-	const urls = [`https://www.apachelounge.com${x64}`, `https://www.apachelounge.com${x86}`];
+	const urls = () => [`https://www.apachelounge.com${x64}`, `https://www.apachelounge.com${x86}`];
 
 	return {
 		version,

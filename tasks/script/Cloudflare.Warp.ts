@@ -15,7 +15,7 @@ export default async function () {
 	}>();
 
 	const version = response.items[0]?.version;
-	const urls = [response.items[0]?.packageURL];
+	const urls = () => [response.items[0]?.packageURL];
 
 	return {
 		version: version?.substring(2),

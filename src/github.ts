@@ -2,101 +2,106 @@ import { extname } from 'node:path';
 
 import { Octokit } from 'octokit';
 
-export const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+export const githubClient = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
-export async function getLatestVersion(options: {
+const INSTALLER_EXTENSIONS = new Set(['.exe', '.msi', '.msix', '.msixbundle', '.appx', '.zip']);
+
+type GitHubRepository = {
 	owner: string;
 	repo: string;
-	preRelease?: boolean;
-	tagFilter?: string;
-	latest?: boolean;
-}) {
-	const { owner, repo, preRelease = false, tagFilter = '', latest = false } = options;
+};
 
+type LatestReleaseOptions = GitHubRepository & {
+	kind?: 'stable' | 'prerelease' | 'all';
+	tagIncludes?: string;
+	useLatestEndpoint?: boolean;
+	perPage?: number;
+};
+
+export async function getLatestRelease(options: LatestReleaseOptions) {
+	const {
+		owner,
+		repo,
+		kind = 'stable',
+		tagIncludes = '',
+		useLatestEndpoint,
+		perPage = 20,
+	} = options;
 	let release;
 
-	if (latest) {
-		const { data } = await octokit.rest.repos.getLatestRelease({
-			owner,
-			repo,
-		});
+	if (useLatestEndpoint) {
+		const { data } = await githubClient.rest.repos.getLatestRelease({ owner, repo });
 		release = data;
 	} else {
-		const { data } = await octokit.rest.repos.listReleases({
+		let { data: releases } = await githubClient.rest.repos.listReleases({
 			owner,
 			repo,
+			per_page: perPage,
 		});
 
-		const releases = data.filter(
-			(r) => r.prerelease === preRelease && r.tag_name.includes(tagFilter),
-		);
-		if (!releases[0]) {
-			throw new Error('No releases found');
+		switch (kind) {
+			case 'all':
+				break;
+			case 'prerelease':
+				releases = releases.filter((release) => release.prerelease);
+				break;
+			case 'stable':
+				releases = releases.filter((release) => !release.prerelease);
+				break;
 		}
-		release = releases[0];
+
+		if (tagIncludes) {
+			release = releases.find((release) => release.tag_name.includes(tagIncludes));
+		} else {
+			release = releases[0];
+		}
 	}
 
-	const urls = release.assets
-		.filter((asset) =>
-			['.exe', '.msi', '.msix', '.msixbundle', '.appx'].includes(extname(asset.name)),
-		)
-		.map((asset) => asset.browser_download_url);
+	if (!release) {
+		throw new Error('No GitHub release found');
+	}
 
 	return {
-		tag: release.tag_name,
-		version: release.tag_name.replace(tagFilter, '').replace(/^v/, ''),
-		urls,
+		version: release.tag_name.replace(/^v/, '').replace(tagIncludes, ''),
+		tag: release.tag_name.replace(/^v/, ''),
+		releaseTag: release.tag_name,
+		title: release.name,
+		assetNames: () => release.assets.map((asset) => asset.name),
+		urls: () =>
+			release.assets
+				.filter((asset) => INSTALLER_EXTENSIONS.has(extname(asset.name)))
+				.map((asset) => asset.browser_download_url),
 	};
 }
 
-export type ReleaseType = 'preRelease' | 'all' | 'stable';
-
-export async function getAllReleases(owner: string, repo: string, type: ReleaseType = 'stable') {
-	const { data: releases } = await octokit.rest.repos.listReleases({
-		owner,
-		repo,
-		per_page: 20,
-	});
-
-	switch (type) {
-		case 'preRelease':
-			return releases.filter((release) => release.prerelease);
-		case 'all':
-			return releases;
-		case 'stable':
-		default:
-			return releases.filter((release) => !release.prerelease);
-	}
-}
-
-export async function getReleaseByTag(owner: string, repo: string, tag: string) {
-	const release = await octokit.rest.repos.getReleaseByTag({
+export async function getReleaseByTag(options: GitHubRepository & { tag: string }) {
+	const { owner, repo, tag } = options;
+	const { data } = await githubClient.rest.repos.getReleaseByTag({
 		owner,
 		repo,
 		tag,
 	});
 
-	return release.data;
+	return data;
 }
 
-export async function getRepoHeadSha() {
-	const REPO_OWNER = process.env.GITHUB_REPOSITORY_OWNER;
-	const REPO = process.env.GITHUB_REPOSITORY;
+export async function getRepositoryHeadSha() {
+	const repository = process.env.GITHUB_REPOSITORY;
 
-	if (!REPO_OWNER || !REPO) {
-		throw new Error('Missing GITHUB_REPOSITORY_OWNER or GITHUB_REPOSITORY environment variable');
+	if (!repository) {
+		throw new Error('Missing GITHUB_REPOSITORY environment variable');
 	}
 
-	const parts = REPO.split('/');
-	if (!parts[1]) {
+	const [owner, repo] = repository.split('/');
+	if (!owner || !repo) {
 		throw new Error('Invalid GITHUB_REPOSITORY format; expected owner/repo');
 	}
 
-	const commit = await octokit.rest.repos.getCommit({
-		owner: REPO_OWNER,
-		repo: parts[1],
+	const { data } = await githubClient.rest.repos.getCommit({
+		owner,
+		repo,
 		ref: 'HEAD',
 	});
 
-	return commit.data.sha;
+	return data.sha;
 }

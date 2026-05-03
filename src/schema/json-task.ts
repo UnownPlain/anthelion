@@ -63,6 +63,11 @@ const yamlStrategySchema = z.object({
 	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
 });
 
+const urlsSchema = z
+	.array(z.string())
+	.min(1)
+	.describe('Template or literal URLs with {version} placeholder.');
+
 const baseTaskFields = {
 	$schema: z.url().describe('Optional JSON Schema reference URL.').optional(),
 	releaseNotes: releaseNotesSchema,
@@ -82,11 +87,7 @@ const githubReleaseVariant = z
 		...baseTaskFields,
 		strategy: z.literal(Strategy.GithubRelease),
 		github: githubSchema,
-		urls: z
-			.array(z.string())
-			.min(1)
-			.describe('Template or literal URLs with {version} placeholder.')
-			.optional(),
+		urls: urlsSchema.optional(),
 	})
 	.superRefine((task, ctx) => {
 		const fetchUrlsFromApi = task.github.fetchUrlsFromApi;
@@ -109,53 +110,49 @@ const pageMatchVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.PageMatch),
 	pageMatch: pageMatchSchema,
-	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
+	urls: urlsSchema,
 });
 
 const sortVersionsVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.SortVersions),
 	sortVersions: sortVersionsSchema,
-	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
+	urls: urlsSchema,
 });
 
 const redirectMatchVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.RedirectMatch),
 	redirectMatch: redirectMatchSchema,
-	urls: z
-		.array(z.string())
-		.min(1)
-		.describe('Template or literal URLs with {version} placeholder.')
-		.optional(),
+	urls: urlsSchema.optional(),
 });
 
 const sourceforgeVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.SourceForge),
 	sourceforge: sourceforgeSchema,
-	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
+	urls: urlsSchema,
 });
 
 const electronBuilderVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.ElectronBuilder),
 	electronBuilder: electronBuilderSchema,
-	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
+	urls: urlsSchema,
 });
 
 const jsonVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.Json),
 	json: jsonStrategySchema,
-	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
+	urls: urlsSchema,
 });
 
 const yamlVariant = z.object({
 	...baseTaskFields,
 	strategy: z.literal(Strategy.Yaml),
 	yaml: yamlStrategySchema,
-	urls: z.array(z.string()).min(1).describe('Template or literal URLs with {version} placeholder.'),
+	urls: urlsSchema,
 });
 
 export const JsonTaskSchema = z

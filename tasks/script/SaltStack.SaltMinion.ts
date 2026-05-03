@@ -8,7 +8,7 @@ export default async function () {
 	).text();
 
 	const version = sortVersions(releases, /href=["']?(\d+(?:\.\d+)*)\/?["' >]/gi);
-	const urls = [
+	const urls = () => [
 		`https://packages.broadcom.com/artifactory/saltproject-generic/windows/${version}/Salt-Minion-${version}-Py3-AMD64-Setup.exe`,
 		`https://packages.broadcom.com/artifactory/saltproject-generic/windows/${version}/Salt-Minion-${version}-Py3-AMD64.msi`,
 		`https://packages.broadcom.com/artifactory/saltproject-generic/windows/${version}/Salt-Minion-${version}-Py3-x86-Setup.exe`,

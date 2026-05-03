@@ -1,22 +1,21 @@
-import { getLatestVersion } from '@/github.ts';
+import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers';
 
 export default async function () {
-	const { version: tag } = await getLatestVersion({
+	const release = await getLatestRelease({
 		owner: 'git-for-windows',
 		repo: 'git',
 	});
 
-	const version = match(tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
+	const version = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
 	const baseVersion = version[0];
 	const buildNumber = version[1];
 	const finalVersion = buildNumber === '1' ? baseVersion : `${baseVersion}.${buildNumber}`;
 
-	const urls = [
-		`https://github.com/git-for-windows/git/releases/download/v${tag}/MinGit-${finalVersion}-32-bit.zip`,
-		`https://github.com/git-for-windows/git/releases/download/v${tag}/MinGit-${finalVersion}-64-bit.zip`,
-		`https://github.com/git-for-windows/git/releases/download/v${tag}/MinGit-${finalVersion}-arm64.zip`,
-	];
+	const urls = () =>
+		release
+			.urls()
+			.filter((url) => url.includes('MinGit') && url.endsWith('.zip') && !url.includes('busybox'));
 
 	return {
 		version: finalVersion,

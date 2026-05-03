@@ -1,13 +1,13 @@
-import { getLatestVersion } from '@/github.ts';
+import { getLatestRelease } from '@/github.ts';
 
 export default async function () {
-	const { version, urls } = await getLatestVersion({
+	const { version, urls } = await getLatestRelease({
 		owner: 'YACReader',
 		repo: 'yacreader',
 	});
 
 	return {
 		version,
-		urls: urls.filter((url) => url.includes('qt')),
+		urls: () => urls().filter((url) => url.includes('qt')),
 	};
 }

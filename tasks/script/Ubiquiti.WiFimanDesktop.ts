@@ -14,7 +14,7 @@ export default async function () {
 	const release = releases.data.releases.items.filter((r) => r.title.includes('Desktop'));
 
 	const version = release[0]?.version;
-	const urls = [
+	const urls = () => [
 		`https://desktop.wifiman.com/wifiman-desktop-${version}-amd64.exe`,
 		`https://desktop.wifiman.com/wifiman-desktop-${version}-arm64.exe`,
 	];

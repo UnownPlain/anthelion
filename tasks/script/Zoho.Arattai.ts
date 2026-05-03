@@ -7,7 +7,7 @@ export default async function () {
 		windows: { '32bit': string; '64bit': string };
 	}>();
 
-	const urls = [releases.windows['32bit'], releases.windows['64bit']];
+	const urls = () => [releases.windows['32bit'], releases.windows['64bit']];
 	const [version] = match(
 		releases.windows['64bit'],
 		/Arattai[._-]v?(\d+(?:\.\d+)+)(?:[._-]x\d+)?\.exe/i,
