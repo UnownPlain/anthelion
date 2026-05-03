@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://api.fluxer.app/dl/desktop/stable/win32/x64/latest",
+		"path": "version"
+	},
+	"urls": [
+		"https://api.fluxer.app/dl/desktop/stable/win32/x64/{version}/setup",
+		"https://api.fluxer.app/dl/desktop/stable/win32/arm64/{version}/setup"
+	]
+}
