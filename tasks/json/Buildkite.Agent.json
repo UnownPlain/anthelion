@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "buildkite", "repo": "agent" },
+	"urls": [
+		"https://github.com/buildkite/agent/releases/download/v{version}/buildkite-agent-windows-386-{version}.zip",
+		"https://github.com/buildkite/agent/releases/download/v{version}/buildkite-agent-windows-amd64-{version}.zip",
+		"https://github.com/buildkite/agent/releases/download/v{version}/buildkite-agent-windows-arm64-{version}.zip"
+	]
+}
