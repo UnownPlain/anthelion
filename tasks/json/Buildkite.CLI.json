@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "buildkite", "repo": "cli" },
+	"urls": [
+		"https://github.com/buildkite/cli/releases/download/v{version}/bk_{version}_windows_amd64.zip",
+		"https://github.com/buildkite/cli/releases/download/v{version}/bk_{version}_windows_arm64.zip"
+	]
+}
