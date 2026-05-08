@@ -52,6 +52,17 @@ export class Logger {
 		this.log(`${magenta('==>')} Completed ${task} in ${formatDuration(milliseconds)}`);
 	}
 
+	timings(timings: Record<string, number>) {
+		const entries = Object.entries(timings);
+		if (entries.length === 0) return;
+
+		this.log(
+			`Timings: ${entries
+				.map(([name, milliseconds]) => `${name}=${formatDuration(milliseconds)}`)
+				.join(', ')}`,
+		);
+	}
+
 	present(version: string) {
 		this.log(green`Package is up-to-date! (${version})`);
 	}
@@ -78,7 +89,7 @@ export class Logger {
 	}
 }
 
-function formatDuration(milliseconds: number) {
+export function formatDuration(milliseconds: number) {
 	if (milliseconds < 1000) {
 		return `${milliseconds.toFixed(0)}ms`;
 	}
