@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://gitea.com/api/v1/repos/gitea/runner/releases/latest",
+		"path": "tag_name"
+	},
+	"urls": [
+		"https://gitea.com/gitea/runner/releases/download/v{version}/gitea-runner-{version}-windows-amd64.exe"
+	]
+}
