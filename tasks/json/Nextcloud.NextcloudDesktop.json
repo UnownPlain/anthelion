@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "nextcloud-releases", "repo": "desktop" },
+	"urls": [
+		"https://github.com/nextcloud-releases/desktop/releases/download/v{version}/Nextcloud-{version}-x64.msi"
+	]
+}
