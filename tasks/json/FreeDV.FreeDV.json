@@ -4,5 +4,9 @@
 	"github": { "owner": "drowe67", "repo": "freedv-gui" },
 	"urls": [
 		"https://github.com/drowe67/freedv-gui/releases/download/v{version}/FreeDV-{version}-windows-x86_64.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }
