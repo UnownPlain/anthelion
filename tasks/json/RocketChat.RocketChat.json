@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/RocketChat/Rocket.Chat.Electron/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/RocketChat/Rocket.Chat.Electron/releases/download/{version}/rocketchat-{version}-win-ia32.exe",
+		"https://github.com/RocketChat/Rocket.Chat.Electron/releases/download/{version}/rocketchat-{version}-win-x64.exe",
+		"https://github.com/RocketChat/Rocket.Chat.Electron/releases/download/{version}/rocketchat-{version}-win-arm64.exe"
+	]
+}
