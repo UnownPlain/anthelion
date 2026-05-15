@@ -1,9 +1,11 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "json",
-	"json": {
-		"url": "https://github.com/anomalyco/opencode/releases/latest/download/latest.json",
-		"path": "version"
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/anomalyco/opencode/releases/latest/download/latest.yml"
 	},
-	"urls": ["platforms.windows-x86_64.url", "platforms.windows-aarch64.url"]
+	"urls": [
+		"https://github.com/anomalyco/opencode/releases/download/v{version}/opencode-desktop-win-x64.exe",
+		"https://github.com/anomalyco/opencode/releases/download/v{version}/opencode-desktop-win-arm64.exe"
+	]
 }
