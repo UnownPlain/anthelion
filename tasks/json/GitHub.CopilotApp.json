@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://github.com/github/app/releases/latest/download/latest.json",
+		"path": "version"
+	},
+	"urls": [
+		"https://github.com/github/app/releases/download/v{version}/GitHub-Copilot-windows-x64-setup.exe",
+		"https://github.com/github/app/releases/download/v{version}/GitHub-Copilot-windows-arm64-setup.exe",
+		"https://github.com/github/app/releases/download/v{version}/GitHub-Copilot-windows-x64.msi",
+		"https://github.com/github/app/releases/download/v{version}/GitHub-Copilot-windows-arm64.msi"
+	]
+}
