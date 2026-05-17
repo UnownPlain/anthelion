@@ -10,7 +10,11 @@ export default async function () {
 		};
 	}>();
 
-	const version = releases.computer.Windows.version.split('-')[0];
+	const version = releases.computer.Windows.version
+		.split('-')[0]
+		?.split('.')
+		.slice(0, -1)
+		.join('.');
 	const urls = () => [releases.computer.Windows.releases[0]?.url];
 
 	return {
