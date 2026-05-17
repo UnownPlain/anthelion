@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "houmain", "repo": "keymapper" },
+	"urls": [
+		"https://github.com/houmain/keymapper/releases/download/{version}/keymapper-{version}-Windows-x86_64.msi",
+		"https://github.com/houmain/keymapper/releases/download/{version}/keymapper-{version}-Windows-arm64.msi"
+	]
+}
