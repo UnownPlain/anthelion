@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://main-kp-site-gateway-http.prodv2.pac.xvservice.net/api/v2/installers",
+		"path": "installers.win12.version"
+	},
+	"urls": ["installers.win12.locations.default"]
+}
