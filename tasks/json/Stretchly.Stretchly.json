@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/hovancik/stretchly/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/hovancik/stretchly/releases/download/v{version}/Stretchly-Setup-{version}.exe"
+	]
+}
