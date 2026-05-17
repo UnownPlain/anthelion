@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "opentofu", "repo": "opentofu" },
+	"urls": [
+		"https://github.com/opentofu/opentofu/releases/download/v{version}/tofu_{version}_windows_386.zip",
+		"https://github.com/opentofu/opentofu/releases/download/v{version}/tofu_{version}_windows_amd64.zip"
+	]
+}
