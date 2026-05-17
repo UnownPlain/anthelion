@@ -31,7 +31,7 @@ const githubSchema = z.object({
 		.int()
 		.positive()
 		.describe('Number of releases to fetch from the GitHub Releases API.')
-		.default(5)
+		.default(25)
 		.optional(),
 });
 
