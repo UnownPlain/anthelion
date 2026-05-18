@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "walles", "repo": "moor" },
+	"urls": [
+		"https://github.com/walles/moor/releases/download/v{version}/moor-v{version}-windows-amd64.exe"
+	]
+}
