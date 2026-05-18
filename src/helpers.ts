@@ -33,8 +33,8 @@ export class Logger {
 		);
 	}
 
-	stateMatches(version: string) {
-		this.logs.push(green`Stored state matches latest state. (${version})`);
+	stateMatches() {
+		this.logs.push(green`Stored state matches latest state.`);
 	}
 
 	flush() {

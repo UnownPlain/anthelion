@@ -8,10 +8,11 @@ export default async function () {
 		tag: 'twilight-1',
 	});
 	const state = release.name || '';
-	const [version] = match(state, /Twilight build - (\S+)/);
 
 	return {
-		version,
+		version: () => {
+			return match(state, /Twilight build - (\S+)/)[0];
+		},
 		urls: () => [
 			'https://github.com/zen-browser/desktop/releases/download/twilight-1/zen.installer.exe|x64',
 			'https://github.com/zen-browser/desktop/releases/download/twilight-1/zen.installer-arm64.exe',

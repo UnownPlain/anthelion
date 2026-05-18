@@ -9,7 +9,7 @@ export default async function () {
 	}
 
 	return {
-		version: 'displayVersion',
+		version: () => 'displayVersion',
 		urls: () => ['https://dsadata.intel.com/installer'],
 		state,
 	};

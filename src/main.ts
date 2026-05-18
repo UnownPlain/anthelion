@@ -90,15 +90,19 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 	const packageIdentifier = fileName.replace('.ts', '');
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
-		logger.stateMatches(version);
+		logger.stateMatches();
 		return null;
 	}
 
-	if (!skipPrCheck && (await checkVersionInRepo(version, packageIdentifier, logger))) return null;
+	const resolvedVersion = vs(typeof version === 'function' ? await version() : version);
+
+	if (!skipPrCheck && (await checkVersionInRepo(resolvedVersion, packageIdentifier, logger))) {
+		return null;
+	}
 
 	const updateResult = await updatePackage({
 		packageIdentifier,
-		version,
+		version: resolvedVersion,
 		urls,
 		releaseNotes,
 		replace,

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { releaseNotesSchema } from '@/schema/release-notes';
 
 export type Urls = () => string[];
+export type Version = () => string | Promise<string>;
 
 export const urlsSchema = z
 	.union([
@@ -13,11 +14,24 @@ export const urlsSchema = z
 	])
 	.transform((urls): Urls => (typeof urls === 'function' ? urls : () => urls));
 
-export const ScriptTaskResult = z.object({
-	version: z.string(),
+const versionSchema = z.custom<Version>((value) => typeof value === 'function', {
+	message: 'Expected a function returning a version',
+});
+
+const scriptTaskCommonSchema = z.object({
 	urls: urlsSchema,
 	releaseNotes: releaseNotesSchema,
 	replace: z.boolean().optional(),
 	skipPrCheck: z.boolean().default(false),
-	state: z.string().optional(),
 });
+
+export const ScriptTaskResult = z.union([
+	scriptTaskCommonSchema.extend({
+		version: versionSchema,
+		state: z.string().min(1),
+	}),
+	scriptTaskCommonSchema.extend({
+		version: z.string(),
+		state: z.undefined().optional(),
+	}),
+]);
