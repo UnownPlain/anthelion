@@ -23,6 +23,7 @@ const scriptTaskCommonSchema = z.object({
 	releaseNotes: releaseNotesSchema,
 	replace: z.boolean().optional(),
 	skipPrCheck: z.boolean().default(false),
+	installerMatches: z.string().array().optional(),
 });
 
 export const ScriptTaskResult = z.union([

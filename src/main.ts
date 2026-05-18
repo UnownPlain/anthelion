@@ -34,49 +34,49 @@ const MAX_CONCURRENCY = 128;
 export const SCRIPTS_FOLDER = 'tasks/script';
 export const JSON_FOLDER = 'tasks/json';
 
-type UpdateTaskOptions = {
+async function updatePackage(options: {
 	packageIdentifier: string;
 	version: string;
 	urls: Urls;
 	releaseNotes: unknown;
 	replace?: boolean;
+	installerMatches?: string[];
 	logger: Logger;
 	githubTag?: string;
 	github?: {
 		owner: string;
 		repo: string;
 	};
-};
-
-async function updatePackage(options: UpdateTaskOptions) {
-	const { packageIdentifier, version, urls, releaseNotes, replace, logger, githubTag, github } =
-		options;
-	const resolvedUrls = urls().map((url) => resolveVersionPlaceholders(url, version));
+}) {
+	const resolvedUrls = options
+		.urls()
+		.map((url) => resolveVersionPlaceholders(url, options.version));
 	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
-		normalizedReleaseNotesSchema(version).safeParse(releaseNotes).data,
-		packageIdentifier,
-		version,
-		githubTag,
-		github,
+		normalizedReleaseNotesSchema(options.version).safeParse(options.releaseNotes).data,
+		options.packageIdentifier,
+		options.version,
+		options.githubTag,
+		options.github,
 	);
 
-	logger.details(version, resolvedUrls);
+	options.logger.details(options.version, resolvedUrls);
 
 	const updateResult = await updateVersion({
-		packageIdentifier,
-		version,
+		packageIdentifier: options.packageIdentifier,
+		version: options.version,
 		urls: resolvedUrls,
-		replace: replace ? 'latest' : undefined,
+		replace: options.replace ? 'latest' : undefined,
 		releaseNotes: manifestReleaseNotes,
-		releaseNotesUrl,
+		releaseNotesUrl: releaseNotesUrl,
+		installerMatches: options.installerMatches,
 		dryRun: Boolean(process.env.DRY_RUN),
 		token: process.env.GITHUB_TOKEN!,
 	});
 
-	logger.logUpdateResult(updateResult);
+	options.logger.logUpdateResult(updateResult);
 
-	if (replace) {
-		await closeAllButMostRecentPR(packageIdentifier);
+	if (options.replace) {
+		await closeAllButMostRecentPR(options.packageIdentifier);
 	}
 
 	return updateResult;
@@ -84,9 +84,8 @@ async function updatePackage(options: UpdateTaskOptions) {
 
 async function handleScriptTask(fileName: string, logger: Logger) {
 	const task = await import(`../${SCRIPTS_FOLDER}/${fileName}`);
-	const { version, urls, releaseNotes, replace, skipPrCheck, state } = ScriptTaskResult.parse(
-		await task.default(),
-	);
+	const { version, urls, releaseNotes, replace, skipPrCheck, state, installerMatches } =
+		ScriptTaskResult.parse(await task.default());
 	const packageIdentifier = fileName.replace('.ts', '');
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
@@ -105,6 +104,7 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 		version: resolvedVersion,
 		urls,
 		releaseNotes,
+		installerMatches,
 		replace,
 		logger,
 	});
