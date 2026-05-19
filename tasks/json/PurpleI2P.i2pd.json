@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "PurpleI2P", "repo": "i2pd" },
+	"urls": [
+		"https://github.com/PurpleI2P/i2pd/releases/download/{version}/setup_i2pd_v{version}.exe"
+	]
+}
