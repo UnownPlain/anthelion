@@ -48,9 +48,9 @@ async function updatePackage(options: {
 		repo: string;
 	};
 }) {
-	const resolvedUrls = options
-		.urls()
-		.map((url) => resolveVersionPlaceholders(url, options.version));
+	const resolvedUrls = (await options.urls()).map((url) =>
+		resolveVersionPlaceholders(url, options.version),
+	);
 	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
 		normalizedReleaseNotesSchema(options.version).safeParse(options.releaseNotes).data,
 		options.packageIdentifier,
@@ -93,7 +93,7 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 		return null;
 	}
 
-	const resolvedVersion = vs(typeof version === 'function' ? await version() : version);
+	const resolvedVersion = vs(typeof version === 'function' ? version() : version);
 
 	if (!skipPrCheck && (await checkVersionInRepo(resolvedVersion, packageIdentifier, logger))) {
 		return null;

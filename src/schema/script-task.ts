@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 import { releaseNotesSchema } from '@/schema/release-notes';
 
-export type Urls = () => string[];
-export type Version = () => string | Promise<string>;
+export type Urls = () => string[] | Promise<string[]>;
+export type Version = () => string;
 
 export const urlsSchema = z
 	.union([

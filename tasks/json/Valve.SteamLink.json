@@ -1,9 +1,0 @@
-{
-	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "redirect-match",
-	"redirectMatch": {
-		"url": "https://community.chocolatey.org/api/v2/package/steamlink/",
-		"regex": "steamlink[._-]v?(\\d+(?:\\.\\d+)+)\\.nupkg"
-	},
-	"urls": ["https://media.steampowered.com/steamlink/windows/SteamLink-{version}.zip"]
-}
