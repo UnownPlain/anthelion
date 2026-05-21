@@ -1,0 +1,6 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "microsoft", "repo": "apm" },
+	"urls": ["https://github.com/microsoft/apm/releases/download/v{version}/apm-windows-x86_64.zip"]
+}
