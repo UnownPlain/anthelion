@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://developers.google.com/speed/webp/download",
+		"regex": "libwebp-(\\d+(?:\\.\\d+)+)-windows-x64\\.zip"
+	},
+	"urls": [
+		"https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-{version}-windows-x64.zip"
+	]
+}
