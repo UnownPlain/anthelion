@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "redirect-match",
+	"redirectMatch": {
+		"url": "https://definitionupdates.microsoft.com/packages?package=scanner&arch=x64",
+		"regex": "packageVersion=(\\d+(?:\\.\\d+)+)"
+	},
+	"urls": [
+		"https://definitionupdates.microsoft.com/packages/content/msert.exe?packageType=Scanner&packageVersion={version}&arch=x86",
+		"https://definitionupdates.microsoft.com/packages/content/msert.exe?packageType=Scanner&packageVersion={version}&arch=amd64"
+	]
+}
