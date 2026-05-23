@@ -57,7 +57,13 @@ export class Logger {
 	}
 
 	prExists(pr: ExistingPullRequestResult) {
-		this.log(yellow`There is already a PR with state ${pr.state} created at ${pr.createdAt}.`);
+		if (pr.createdByAuthenticatedUser) {
+			this.log(green`PR with state ${pr.state} was created at ${pr.createdAt}.`);
+		} else {
+			this.log(
+				yellow`PR created by ${pr.createdBy} with state ${pr.state} created at ${pr.createdAt}.`,
+			);
+		}
 		this.log(pr.pullRequestUrl);
 	}
 
