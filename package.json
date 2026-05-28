@@ -19,7 +19,7 @@
 		"@unownplain/anthelion-komac": "0.0.39",
 		"ai": "6.0.190",
 		"ansis": "4.3.0",
-		"es-toolkit": "1.46.1",
+		"es-toolkit": "1.47.0",
 		"ky": "2.0.2",
 		"octokit": "5.0.5",
 		"temporal-polyfill": "0.3.2",
