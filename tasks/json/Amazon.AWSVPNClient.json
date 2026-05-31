@@ -1,0 +1,16 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://docs.aws.amazon.com/vpn/latest/clientvpn-user/client-vpn-connect-windows-release-notes.html",
+		"regex": "https://d20adtppz83p9s\\.cloudfront\\.net/WPF/(\\d+(?:\\.\\d+)+)/AWS_VPN_Client\\.msi"
+	},
+	"urls": [
+		"https://d20adtppz83p9s.cloudfront.net/WPF/{version}/AWS_VPN_Client.msi",
+		"https://d20adtppz83p9s.cloudfront.net/WPF_ARM64/{version}/AWS_VPN_Client_ARM64.msi"
+	],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://docs.aws.amazon.com/vpn/latest/clientvpn-user/client-vpn-connect-windows-release-notes.html"
+	}
+}
