@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "balena-io", "repo": "balena-cli" },
+	"urls": [
+		"https://github.com/balena-io/balena-cli/releases/download/v{version}/balena-cli-v{version}-windows-x64-installer.exe"
+	]
+}
