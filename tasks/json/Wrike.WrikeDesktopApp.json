@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://www.wrike.com/frontend/electron-app/changelog.json",
+		"path": "0.version"
+	},
+	"urls": [
+		"https://dl.wrike.com/download/WrikeDesktopApp_32.v{version}.msi",
+		"https://dl.wrike.com/download/WrikeDesktopApp_64.v{version}.msi"
+	]
+}
