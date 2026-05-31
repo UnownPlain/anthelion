@@ -17,6 +17,10 @@
 			"schedule": ["* 0-23 * * 0"]
 		},
 		{
+			"matchPackageNames": ["oxlint", "oxfmt"],
+			"groupName": "oxc ecosystem"
+		},
+		{
 			"description": "Disable minimum release age checks for internal dependencies",
 			"matchPackageNames": ["@unownplain/*", "UnownPlain/*"],
 			"minimumReleaseAge": null
