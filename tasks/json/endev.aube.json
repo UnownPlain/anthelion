@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "endevco", "repo": "aube" },
+	"urls": [
+		"https://github.com/endevco/aube/releases/download/v{version}/aube-v{version}-x86_64-pc-windows-msvc.zip",
+		"https://github.com/endevco/aube/releases/download/v{version}/aube-v{version}-aarch64-pc-windows-msvc.zip"
+	]
+}
