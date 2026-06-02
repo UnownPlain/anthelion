@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "peazip", "repo": "PeaZip" },
+	"urls": [
+		"https://github.com/peazip/PeaZip/releases/download/{version}/peazip-{version}.WIN64.exe",
+		"https://github.com/peazip/PeaZip/releases/download/{version}/peazip-{version}.WINDOWS.exe|x86",
+		"https://github.com/peazip/PeaZip/releases/download/{version}/peazip_portable-{version}.WIN64.zip",
+		"https://github.com/peazip/PeaZip/releases/download/{version}/peazip_portable-{version}.WINDOWS.zip|x86"
+	]
+}
