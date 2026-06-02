@@ -36,6 +36,8 @@ const CLEANUP_SYSTEM_PROMPT = dedent`
 	The package identifier is {packageIdentifier} and current package version is {version}. Only include the release notes for this version and package. If the package or version is not specified, assume it is the correct version or package.
 `;
 
+type ReleaseNotesConfig = z.output<ReturnType<typeof normalizedReleaseNotesSchema>>;
+
 async function cleanupReleaseNotes(
 	releaseNotes: string,
 	version: string,
@@ -60,14 +62,6 @@ async function cleanupReleaseNotes(
 	return output.error ? undefined : output.releaseNotes;
 }
 
-function applyCharacterLimit(releaseNotes: string, characterLimit: number | undefined) {
-	if (!characterLimit || releaseNotes.length <= characterLimit) {
-		return releaseNotes;
-	}
-
-	return releaseNotes.slice(0, characterLimit).trim();
-}
-
 type BrowserRenderingOptions = {
 	url: string;
 	waitUntil?: 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
@@ -80,14 +74,20 @@ type BrowserRenderingMarkdownEnvelope = {
 	result?: string;
 };
 
-async function parseNestedReleaseNotes(content: string, source: NestedReleaseNotesSource) {
+function limitLength(releaseNotes: string, characterLimit?: number) {
+	return characterLimit && releaseNotes.length > characterLimit
+		? releaseNotes.slice(0, characterLimit).trim()
+		: releaseNotes;
+}
+
+async function formatReleaseNotes(content: string, source: NestedReleaseNotesSource) {
 	switch (source) {
 		case ReleaseNotesSource.Markdown:
-			return (await markdownToPlainText(content)) ?? undefined;
+			return (await markdownToPlainText(content)) ?? content;
+		case ReleaseNotesSource.Html:
+			return (await htmlToPlainText(content)) ?? content;
 		case ReleaseNotesSource.PlainText:
 			return content;
-		case ReleaseNotesSource.Html:
-			return (await htmlToPlainText(content)) ?? undefined;
 	}
 }
 
@@ -139,17 +139,6 @@ async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
 	return data.result;
 }
 
-async function fetchPlainTextReleaseNotes(
-	url: string,
-	source: NestedReleaseNotesSource,
-	characterLimit?: number,
-) {
-	const content = await ky(url).text();
-	const parsed = await parseNestedReleaseNotes(content, source);
-
-	return applyCharacterLimit(parsed ?? content, characterLimit);
-}
-
 async function resolveNestedReleaseNotes(
 	sourceUrl: string,
 	path: string,
@@ -167,13 +156,13 @@ async function resolveNestedReleaseNotes(
 	}
 
 	return {
-		releaseNotes: await parseNestedReleaseNotes(rawReleaseNotes, source),
+		releaseNotes: await formatReleaseNotes(rawReleaseNotes, source),
 		releaseNotesUrl,
 	};
 }
 
 export async function resolveReleaseNotes(
-	releaseNotesConfig: z.output<ReturnType<typeof normalizedReleaseNotesSchema>> | undefined,
+	releaseNotesConfig: ReleaseNotesConfig | undefined,
 	packageIdentifier: string,
 	version: string,
 	githubTag?: string,
@@ -199,25 +188,13 @@ export async function resolveReleaseNotes(
 
 	switch (releaseNotesConfig.source) {
 		case ReleaseNotesSource.Html:
-			manifest.releaseNotes = await fetchPlainTextReleaseNotes(
-				releaseNotesConfig.sourceUrl,
-				ReleaseNotesSource.Html,
-				releaseNotesConfig.characterLimit,
-			);
-
-			break;
 		case ReleaseNotesSource.Markdown:
-			manifest.releaseNotes = await fetchPlainTextReleaseNotes(
-				releaseNotesConfig.sourceUrl,
-				ReleaseNotesSource.Markdown,
-				releaseNotesConfig.characterLimit,
-			);
-
-			break;
 		case ReleaseNotesSource.PlainText:
-			manifest.releaseNotes = await fetchPlainTextReleaseNotes(
-				releaseNotesConfig.sourceUrl,
-				ReleaseNotesSource.PlainText,
+			manifest.releaseNotes = limitLength(
+				await formatReleaseNotes(
+					await ky(releaseNotesConfig.sourceUrl).text(),
+					releaseNotesConfig.source,
+				),
 				releaseNotesConfig.characterLimit,
 			);
 
@@ -277,9 +254,8 @@ export async function resolveReleaseNotes(
 			});
 
 			if (renderedMarkdown !== undefined) {
-				const markdownPlainText = await markdownToPlainText(renderedMarkdown);
-				manifest.releaseNotes = applyCharacterLimit(
-					markdownPlainText ?? renderedMarkdown,
+				manifest.releaseNotes = limitLength(
+					await formatReleaseNotes(renderedMarkdown, ReleaseNotesSource.Markdown),
 					releaseNotesConfig.characterLimit,
 				);
 			}
