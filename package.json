@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@ai-sdk/groq": "3.0.39",
 		"@rcompat/fs": "0.33.2",
-		"@unownplain/anthelion-komac": "0.0.40",
+		"@unownplain/anthelion-komac": "0.0.41",
 		"ai": "6.0.192",
 		"ansis": "4.3.1",
 		"es-toolkit": "1.47.0",
