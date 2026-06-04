@@ -30,7 +30,7 @@ import {
 	sourceforge,
 } from '@/strategies';
 
-const MAX_CONCURRENCY = 128;
+const MAX_CONCURRENCY = 256;
 export const SCRIPTS_FOLDER = 'tasks/script';
 export const JSON_FOLDER = 'tasks/json';
 
