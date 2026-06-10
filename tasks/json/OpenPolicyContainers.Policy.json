@@ -3,6 +3,7 @@
 	"strategy": "github-release",
 	"github": { "owner": "opcr-io", "repo": "policy" },
 	"urls": [
+		"https://github.com/opcr-io/policy/releases/download/v{version}/policy_windows_amd64.msi",
 		"https://github.com/opcr-io/policy/releases/download/v{version}/policy_windows_amd64.zip"
 	]
 }
