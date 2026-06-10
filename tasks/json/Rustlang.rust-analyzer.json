@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "rust-lang", "repo": "rust-analyzer" },
+	"urls": [
+		"https://github.com/rust-lang/rust-analyzer/releases/download/{version}/rust-analyzer-i686-pc-windows-msvc.zip",
+		"https://github.com/rust-lang/rust-analyzer/releases/download/{version}/rust-analyzer-x86_64-pc-windows-msvc.zip",
+		"https://github.com/rust-lang/rust-analyzer/releases/download/{version}/rust-analyzer-aarch64-pc-windows-msvc.zip"
+	]
+}
