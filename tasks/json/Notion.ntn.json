@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://ntn.dev/latest.txt",
+		"regex": "^v?(\\d+(?:\\.\\d+)+)$"
+	},
+	"urls": ["https://ntn.dev/releases/v{version}/ntn-x86_64-pc-windows-msvc.zip"]
+}
