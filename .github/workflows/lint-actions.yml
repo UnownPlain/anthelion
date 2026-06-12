@@ -7,64 +7,50 @@ on:
 permissions: {}
 
 jobs:
-  detect-workflow-changes:
-    name: Detect Workflow Changes
-    runs-on: ubuntu-slim
-    timeout-minutes: 5
-    concurrency:
-      group: lint-actions-detect-workflow-changes-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
-    outputs:
-      workflows_changed: ${{ steps.changed-files.outputs.any_changed }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          persist-credentials: false
-
-      - name: Get Changed Workflow Files
-        id: changed-files
-        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
-        with:
-          files: .github/workflows/**
-
-  actionlint:
-    name: actionlint
-    needs: detect-workflow-changes
-    if: ${{ needs.detect-workflow-changes.outputs.workflows_changed == 'true' }}
+  lint-actions:
+    name: Lint Actions
     runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
-    concurrency:
-      group: lint-actions-actionlint-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          persist-credentials: false
-
-      - name: Run actionlint
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew install actionlint
-          actionlint -color -ignore 'label "ubuntu-26\.04-arm" is unknown'
-
-  zizmor:
-    name: zizmor
-    runs-on: ubuntu-26.04-arm
-    timeout-minutes: 5
-    concurrency:
-      group: lint-actions-zizmor-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
     permissions:
-      security-events: write # Required for upload-sarif (used by zizmor-action) to upload SARIF files.
+      security-events: write # Required for upload-sarif to upload SARIF files.
+    concurrency:
+      group: lint-actions-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
+
+      - name: Install Tools
+        uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        with:
+          version: 2026.6.3
+          mise_toml: |
+            [tools]
+            zizmor = "latest"
+            actionlint = "latest"
+            shellcheck = "latest"
 
       - name: Run zizmor 🌈
-        uses: zizmorcore/zizmor-action@5f14fd08f7cf1cb1609c1e344975f152c7ee938d # v0.5.6
+        run: |
+          zizmor . --pedantic --color=always --format=sarif > zizmor.sarif
+        env:
+          ZIZMOR_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run actionlint
+        continue-on-error: true
+        run: |
+          actionlint -format "$(cat .github/actionlint-sarif.txt)" -color -ignore 'label "ubuntu-26\.04-arm" is unknown' > actionlint.sarif
+
+      - name: Upload zizmor SARIF file
+        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
         with:
-          persona: pedantic
+          sarif_file: zizmor.sarif
+          category: zizmor
+
+      - name: Upload actionlint SARIF file
+        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
+        with:
+          sarif_file: actionlint.sarif
+          category: actionlint

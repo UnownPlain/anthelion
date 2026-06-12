@@ -30,7 +30,7 @@ jobs:
     name: Lint Actions
     uses: ./.github/workflows/lint-actions.yml
     permissions:
-      security-events: write # Required for upload-sarif (used by zizmor-action) to upload SARIF files.
+      security-events: write # Required for upload-sarif to upload SARIF files.
 
   all-checks-pass:
     name: All Checks Pass
