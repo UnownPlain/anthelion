@@ -18,7 +18,7 @@ defaults:
 jobs:
   update-packages:
     name: Remove Dead Versions
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     environment:
       name: Production (gh only)
       deployment: false

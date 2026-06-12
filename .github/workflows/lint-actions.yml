@@ -32,7 +32,7 @@ jobs:
     name: actionlint
     needs: detect-workflow-changes
     if: ${{ needs.detect-workflow-changes.outputs.workflows_changed == 'true' }}
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
     concurrency:
       group: lint-actions-actionlint-${{ github.event.pull_request.number || github.ref }}
@@ -47,11 +47,11 @@ jobs:
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           brew install actionlint
-          actionlint -color
+          actionlint -color -ignore 'label "ubuntu-26\.04-arm" is unknown'
 
   zizmor:
     name: zizmor
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
     concurrency:
       group: lint-actions-zizmor-${{ github.event.pull_request.number || github.ref }}

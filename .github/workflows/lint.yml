@@ -9,7 +9,7 @@ permissions: {}
 jobs:
   lint-project:
     name: Lint Project
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     timeout-minutes: 5
     concurrency:
       group: lint-project-${{ github.event.pull_request.number || github.ref }}
