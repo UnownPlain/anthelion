@@ -2,8 +2,8 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "page-match",
 	"pageMatch": {
-		"url": "https://ziglang.org/download/",
-		"regex": "href=.*?zig[._-]v?(\\d+(?:\\.\\d+)+)\\.t"
+		"url": "https://ziglang.org/download/index.json",
+		"regex": "\"(\\d+(?:\\.\\d+)+)\"\\s*:\\s*\\{"
 	},
 	"urls": [
 		"https://ziglang.org/download/{version}/zig-x86-windows-{version}.zip",
