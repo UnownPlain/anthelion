@@ -17,7 +17,7 @@ defaults:
 
 jobs:
   detect-changes:
-    name: Detect Changed Tasks
+    name: Detect Changed Shards
     if: ${{ !inputs.packages }}
     runs-on: ubuntu-slim
     timeout-minutes: 5
@@ -37,8 +37,8 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
-          files: tasks/**
-          files_ignore: tasks/auto-remove.json
+          files: shards/**
+          files_ignore: shards/auto-remove.json
 
   test:
     name: Test
@@ -76,7 +76,7 @@ jobs:
             PACKAGE_IDS="${PACKAGE_IDS% }"
           fi
 
-          bun pkgtest "$PACKAGE_IDS" --dry-run
+          bun shard-test "$PACKAGE_IDS" --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGED_FILES: ${{ needs.detect-changes.outputs.changed_files }}

@@ -75,7 +75,7 @@ const urlsSchema = z
 	.min(1)
 	.describe('Template or literal URLs with {version} placeholder.');
 
-const baseTaskFields = {
+const baseShardFields = {
 	$schema: z.url().describe('Optional JSON Schema reference URL.').optional(),
 	releaseNotes: releaseNotesSchema,
 	replace: z
@@ -91,20 +91,20 @@ const baseTaskFields = {
 
 const githubReleaseVariant = z
 	.object({
-		...baseTaskFields,
+		...baseShardFields,
 		strategy: z.literal(Strategy.GithubRelease),
 		github: githubSchema,
 		urls: urlsSchema.optional(),
 	})
-	.superRefine((task, ctx) => {
-		const fetchUrlsFromApi = task.github.fetchUrlsFromApi;
-		if (fetchUrlsFromApi && task.urls && task.urls.length > 0) {
+	.superRefine((shard, ctx) => {
+		const fetchUrlsFromApi = shard.github.fetchUrlsFromApi;
+		if (fetchUrlsFromApi && shard.urls && shard.urls.length > 0) {
 			ctx.addIssue({
 				code: 'custom',
 				message: 'Cannot provide URL templates when fetching from the GitHub Releases API.',
 				path: ['urls'],
 			});
-		} else if (!fetchUrlsFromApi && (!task.urls || task.urls.length === 0)) {
+		} else if (!fetchUrlsFromApi && (!shard.urls || shard.urls.length === 0)) {
 			ctx.addIssue({
 				code: 'custom',
 				message: 'At least one URL template is required unless fetchUrlsFromApi is enabled.',
@@ -114,55 +114,55 @@ const githubReleaseVariant = z
 	});
 
 const pageMatchVariant = z.object({
-	...baseTaskFields,
+	...baseShardFields,
 	strategy: z.literal(Strategy.PageMatch),
 	pageMatch: pageMatchSchema,
 	urls: urlsSchema,
 });
 
 const sortVersionsVariant = z.object({
-	...baseTaskFields,
+	...baseShardFields,
 	strategy: z.literal(Strategy.SortVersions),
 	sortVersions: sortVersionsSchema,
 	urls: urlsSchema,
 });
 
 const redirectMatchVariant = z.object({
-	...baseTaskFields,
+	...baseShardFields,
 	strategy: z.literal(Strategy.RedirectMatch),
 	redirectMatch: redirectMatchSchema,
 	urls: urlsSchema.optional(),
 });
 
 const sourceforgeVariant = z.object({
-	...baseTaskFields,
+	...baseShardFields,
 	strategy: z.literal(Strategy.SourceForge),
 	sourceforge: sourceforgeSchema,
 	urls: urlsSchema,
 });
 
 const electronBuilderVariant = z.object({
-	...baseTaskFields,
+	...baseShardFields,
 	strategy: z.literal(Strategy.ElectronBuilder),
 	electronBuilder: electronBuilderSchema,
 	urls: urlsSchema,
 });
 
 const jsonVariant = z.object({
-	...baseTaskFields,
+	...baseShardFields,
 	strategy: z.literal(Strategy.Json),
 	json: jsonStrategySchema,
 	urls: urlsSchema,
 });
 
 const yamlVariant = z.object({
-	...baseTaskFields,
+	...baseShardFields,
 	strategy: z.literal(Strategy.Yaml),
 	yaml: yamlStrategySchema,
 	urls: urlsSchema,
 });
 
-export const JsonTaskSchema = z
+export const JsonShardSchema = z
 	.discriminatedUnion('strategy', [
 		githubReleaseVariant,
 		pageMatchVariant,
@@ -173,16 +173,16 @@ export const JsonTaskSchema = z
 		jsonVariant,
 		yamlVariant,
 	])
-	.superRefine((task, ctx) => {
-		if (!task.releaseNotes || !('source' in task.releaseNotes)) {
+	.superRefine((shard, ctx) => {
+		if (!shard.releaseNotes || !('source' in shard.releaseNotes)) {
 			return;
 		}
 
-		if (task.releaseNotes.source !== ReleaseNotesSource.Github) {
+		if (shard.releaseNotes.source !== ReleaseNotesSource.Github) {
 			return;
 		}
 
-		if (task.strategy !== Strategy.GithubRelease && !task.releaseNotes.tag) {
+		if (shard.strategy !== Strategy.GithubRelease && !shard.releaseNotes.tag) {
 			ctx.addIssue({
 				code: 'custom',
 				message: 'releaseNotes.tag is required unless strategy is github-release.',
@@ -191,4 +191,4 @@ export const JsonTaskSchema = z
 		}
 	});
 
-export type JsonTask = z.infer<typeof JsonTaskSchema>;
+export type JsonShard = z.infer<typeof JsonShardSchema>;

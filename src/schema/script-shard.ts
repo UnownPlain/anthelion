@@ -18,7 +18,7 @@ const versionSchema = z.custom<Version>((value) => typeof value === 'function', 
 	message: 'Expected a function returning a version',
 });
 
-const scriptTaskCommonSchema = z.object({
+const scriptShardCommonSchema = z.object({
 	urls: urlsSchema,
 	releaseNotes: releaseNotesSchema,
 	replace: z.boolean().optional(),
@@ -26,12 +26,12 @@ const scriptTaskCommonSchema = z.object({
 	installerMatches: z.string().array().optional(),
 });
 
-export const ScriptTaskResult = z.union([
-	scriptTaskCommonSchema.extend({
+export const ScriptShardResult = z.union([
+	scriptShardCommonSchema.extend({
 		version: versionSchema,
 		state: z.string().min(1),
 	}),
-	scriptTaskCommonSchema.extend({
+	scriptShardCommonSchema.extend({
 		version: z.string(),
 		state: z.undefined().optional(),
 	}),

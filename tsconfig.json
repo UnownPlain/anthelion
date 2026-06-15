@@ -1,5 +1,5 @@
 {
-	"include": ["src", "tasks"],
+	"include": ["src", "shards"],
 
 	"compilerOptions": {
 		"paths": {

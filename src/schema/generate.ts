@@ -1,12 +1,12 @@
 import fs from '@rcompat/fs';
 import { z } from 'zod';
 
-import { JsonTaskSchema } from '@/schema/json-task';
+import { JsonShardSchema } from '@/schema/json-shard';
 
-export async function generateJsonTaskSchema() {
+export async function generateJsonShardSchema() {
 	const schemaFile = fs.ref('./src/schema/schema.json');
-	await schemaFile.write(JSON.stringify(z.toJSONSchema(JsonTaskSchema), null, 2));
+	await schemaFile.write(JSON.stringify(z.toJSONSchema(JsonShardSchema), null, 2));
 	console.log('Successfully generated JSON schema: src/schema/schema.json');
 }
 
-await generateJsonTaskSchema();
+await generateJsonShardSchema();

@@ -44,12 +44,12 @@ export class Logger {
 		this.logs = [];
 	}
 
-	run(task: string) {
-		this.log(`${blue('==>')} Running ${task}`);
+	run(shard: string) {
+		this.log(`${blue('==>')} Running ${shard}`);
 	}
 
-	duration(task: string, milliseconds: number) {
-		this.log(`${magenta('==>')} Completed ${task} in ${formatDuration(milliseconds)}`);
+	duration(shard: string, milliseconds: number) {
+		this.log(`${magenta('==>')} Completed ${shard} in ${formatDuration(milliseconds)}`);
 	}
 
 	present(version: string) {
@@ -67,8 +67,8 @@ export class Logger {
 		this.log(pr.pullRequestUrl);
 	}
 
-	error(task: string, error: unknown) {
-		this.log(bgRed`❌ Error running ${task}`);
+	error(shard: string, error: unknown) {
+		this.log(bgRed`❌ Error running ${shard}`);
 		this.log(redBright(formatError(error)));
 	}
 

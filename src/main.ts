@@ -19,9 +19,9 @@ import {
 	resolveDataBackedUrls,
 } from '@/helpers';
 import { resolveReleaseNotes } from '@/release-notes';
-import { JsonTaskSchema, Strategy, type JsonTask } from '@/schema/json-task';
+import { JsonShardSchema, Strategy, type JsonShard } from '@/schema/json-shard';
 import { normalizedReleaseNotesSchema } from '@/schema/release-notes';
-import { ScriptTaskResult, type Urls } from '@/schema/script-task';
+import { ScriptShardResult, type Urls } from '@/schema/script-shard';
 import {
 	electronBuilder,
 	pageMatch,
@@ -31,8 +31,8 @@ import {
 } from '@/strategies';
 
 const MAX_CONCURRENCY = 256;
-export const SCRIPTS_FOLDER = 'tasks/script';
-export const JSON_FOLDER = 'tasks/json';
+export const SCRIPTS_FOLDER = 'shards/script';
+export const JSON_FOLDER = 'shards/json';
 
 async function updatePackage(options: {
 	packageIdentifier: string;
@@ -82,10 +82,10 @@ async function updatePackage(options: {
 	return updateResult;
 }
 
-async function handleScriptTask(fileName: string, logger: Logger) {
-	const task = await import(`../${SCRIPTS_FOLDER}/${fileName}`);
+async function handleScriptShard(fileName: string, logger: Logger) {
+	const shard = await import(`../${SCRIPTS_FOLDER}/${fileName}`);
 	const { version, urls, releaseNotes, replace, skipPrCheck, state, installerMatches } =
-		ScriptTaskResult.parse(await task.default());
+		ScriptShardResult.parse(await shard.default());
 	const packageIdentifier = fileName.replace('.ts', '');
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
@@ -116,34 +116,34 @@ async function handleScriptTask(fileName: string, logger: Logger) {
 	return updateResult;
 }
 
-async function resolveJsonTask(task: JsonTask, initialUrls: string[]) {
-	switch (task.strategy) {
+async function resolveJsonShard(shard: JsonShard, initialUrls: string[]) {
+	switch (shard.strategy) {
 		case Strategy.GithubRelease: {
 			const needsApiData =
-				task.github.fetchUrlsFromApi ||
-				task.github.preRelease ||
-				task.github.tagFilter ||
-				task.github.fetchLatest;
+				shard.github.fetchUrlsFromApi ||
+				shard.github.preRelease ||
+				shard.github.tagFilter ||
+				shard.github.fetchLatest;
 			const latest = needsApiData
 				? await getLatestRelease({
-						owner: task.github.owner,
-						repo: task.github.repo,
-						kind: task.github.preRelease ? 'prerelease' : 'stable',
-						tagIncludes: task.github.tagFilter,
-						useLatestEndpoint: task.github.fetchLatest,
-						perPage: task.github.perPage,
+						owner: shard.github.owner,
+						repo: shard.github.repo,
+						kind: shard.github.preRelease ? 'prerelease' : 'stable',
+						tagIncludes: shard.github.tagFilter,
+						useLatestEndpoint: shard.github.fetchLatest,
+						perPage: shard.github.perPage,
 					})
 				: await getLatestReleaseFromRedirect({
-						owner: task.github.owner,
-						repo: task.github.repo,
+						owner: shard.github.owner,
+						repo: shard.github.repo,
 					});
 
 			return {
 				version: latest.version,
 				urls: () => {
-					const releaseUrls = task.github.fetchUrlsFromApi ? latest.urls() : [];
+					const releaseUrls = shard.github.fetchUrlsFromApi ? latest.urls() : [];
 
-					if (task.github.fetchUrlsFromApi && releaseUrls.length === 0) {
+					if (shard.github.fetchUrlsFromApi && releaseUrls.length === 0) {
 						throw new Error('No URLs found in GitHub release');
 					}
 
@@ -154,84 +154,84 @@ async function resolveJsonTask(task: JsonTask, initialUrls: string[]) {
 		}
 		case Strategy.ElectronBuilder:
 			return {
-				version: await electronBuilder(task.electronBuilder.url),
+				version: await electronBuilder(shard.electronBuilder.url),
 				urls: () => initialUrls,
 			};
 		case Strategy.PageMatch:
 			return {
-				version: await pageMatch(task.pageMatch.url, new RegExp(task.pageMatch.regex, 'i')),
+				version: await pageMatch(shard.pageMatch.url, new RegExp(shard.pageMatch.regex, 'i')),
 				urls: () => initialUrls,
 			};
 		case Strategy.SortVersions:
 			return {
 				version: await sortVersionsMatch(
-					task.sortVersions.url,
-					new RegExp(task.sortVersions.regex, 'i'),
+					shard.sortVersions.url,
+					new RegExp(shard.sortVersions.regex, 'i'),
 				),
 				urls: () => initialUrls,
 			};
 		case Strategy.Json: {
-			const response = await ky(task.json.url).json();
+			const response = await ky(shard.json.url).json();
 
 			return {
-				version: vs(get(response, task.json.path)),
+				version: vs(get(response, shard.json.path)),
 				urls: () => resolveDataBackedUrls(initialUrls, response),
 			};
 		}
 		case Strategy.RedirectMatch: {
 			const result = await redirectMatch(
-				task.redirectMatch.url,
-				new RegExp(task.redirectMatch.regex, 'i'),
+				shard.redirectMatch.url,
+				new RegExp(shard.redirectMatch.regex, 'i'),
 			);
 
 			return {
 				version: result.version,
-				urls: () => (task.urls ? initialUrls : initialUrls.concat(result.url)),
+				urls: () => (shard.urls ? initialUrls : initialUrls.concat(result.url)),
 			};
 		}
 		case Strategy.SourceForge:
 			return {
-				version: await sourceforge(task.sourceforge.project, task.sourceforge.file),
+				version: await sourceforge(shard.sourceforge.project, shard.sourceforge.file),
 				urls: () => initialUrls,
 			};
 		case Strategy.Yaml: {
-			const response = await ky(task.yaml.url).text();
+			const response = await ky(shard.yaml.url).text();
 			// This is set to failsafe so incorrectly quoted values aren't parsed as numbers
 			const yaml = parse(response, { schema: 'failsafe' });
 
 			return {
-				version: vs(get(yaml, task.yaml.path)),
+				version: vs(get(yaml, shard.yaml.path)),
 				urls: () => resolveDataBackedUrls(initialUrls, yaml),
 			};
 		}
 	}
 }
 
-async function handleJsonTask(fileName: string, logger: Logger) {
+async function handleJsonShard(fileName: string, logger: Logger) {
 	const file = await fs.ref(`./${JSON_FOLDER}/${fileName}`).json();
-	const task = JsonTaskSchema.parse(file);
+	const shard = JsonShardSchema.parse(file);
 	const packageIdentifier = fileName.replace('.json', '');
-	const resolvedTask = await resolveJsonTask(task, task.urls ?? []);
-	const version = normalizeVersion(resolvedTask.version, task.versionRemove);
+	const resolvedShard = await resolveJsonShard(shard, shard.urls ?? []);
+	const version = normalizeVersion(resolvedShard.version, shard.versionRemove);
 
 	if (await checkVersionInRepo(version, packageIdentifier, logger)) return null;
 
 	return updatePackage({
 		packageIdentifier,
 		version,
-		urls: resolvedTask.urls,
-		releaseNotes: task.releaseNotes,
-		replace: task.replace,
+		urls: resolvedShard.urls,
+		releaseNotes: shard.releaseNotes,
+		replace: shard.replace,
 		logger,
-		githubTag: resolvedTask.githubTag,
+		githubTag: resolvedShard.githubTag,
 		github:
-			task.strategy === Strategy.GithubRelease
-				? { owner: task.github.owner, repo: task.github.repo }
+			shard.strategy === Strategy.GithubRelease
+				? { owner: shard.github.owner, repo: shard.github.repo }
 				: undefined,
 	});
 }
 
-async function executeTask(file: FileRef) {
+async function executeShard(file: FileRef) {
 	const logger = new Logger();
 	const start = performance.now();
 
@@ -241,12 +241,12 @@ async function executeTask(file: FileRef) {
 		if (file.name.endsWith('ts')) {
 			return {
 				identifier: file.name,
-				updateResult: await handleScriptTask(file.name, logger),
+				updateResult: await handleScriptShard(file.name, logger),
 			};
 		} else {
 			return {
 				identifier: file.name,
-				updateResult: await handleJsonTask(file.name, logger),
+				updateResult: await handleJsonShard(file.name, logger),
 			};
 		}
 	} catch (e) {
@@ -259,31 +259,31 @@ async function executeTask(file: FileRef) {
 	}
 }
 
-export async function runAllTasks(testTasks?: string[]) {
+export async function runAllShards(testShards?: string[]) {
 	const scripts = await fs.ref(SCRIPTS_FOLDER).list();
 	const json = await fs.ref(JSON_FOLDER).list();
-	let tasks: FileRef[] = scripts.concat(json);
+	let shards: FileRef[] = scripts.concat(json);
 
-	if (testTasks) {
-		tasks = tasks.filter((task) => testTasks.includes(task.base));
+	if (testShards) {
+		shards = shards.filter((shard) => testShards.includes(shard.base));
 	}
 
-	if (tasks.length === 0) {
-		console.log(ansis.red`Error: No tasks found`);
+	if (shards.length === 0) {
+		console.log(ansis.red`Error: No shards found`);
 		process.exit(1);
 	}
 
-	console.log(`Found ${tasks.length} tasks to run\n`);
+	console.log(`Found ${shards.length} shards to run\n`);
 
-	const results = await Promise.allSettled(tasks.map(limitAsync(executeTask, MAX_CONCURRENCY)));
+	const results = await Promise.allSettled(shards.map(limitAsync(executeShard, MAX_CONCURRENCY)));
 
 	const failures = results.flatMap((result, i) => {
-		const file = tasks[i];
+		const file = shards[i];
 		if (result.status !== 'rejected' || !file) return [];
 		return [{ result, file }];
 	});
 
-	const completed = `✅ Run completed: ${tasks.length - failures.length}/${tasks.length} tasks successful`;
+	const completed = `✅ Run completed: ${shards.length - failures.length}/${shards.length} shards successful`;
 
 	if (process.env.GITHUB_STEP_SUMMARY) {
 		const generatedManifests = results.flatMap((result) => {
@@ -296,8 +296,8 @@ export async function runAllTasks(testTasks?: string[]) {
 
 		const runErrors = failures
 			.map(
-				(failedTask) =>
-					`### ❌ Error in ${failedTask.file.name}\n\`\`\`\n${ansis.strip(failedTask.result.reason.message)}\n\`\`\`\n`,
+				(failedShard) =>
+					`### ❌ Error in ${failedShard.file.name}\n\`\`\`\n${ansis.strip(failedShard.result.reason.message)}\n\`\`\`\n`,
 			)
 			.join('');
 
@@ -306,18 +306,18 @@ export async function runAllTasks(testTasks?: string[]) {
 		if (generatedManifests.length > 0) {
 			summarySections.push('', '## Generated Manifests', '');
 
-			for (const task of generatedManifests) {
+			for (const update of generatedManifests) {
 				summarySections.push(
-					`### ${task.packageIdentifier}`,
-					`Version: ${task.version}`,
-					`Pull Request: ${task.pullRequestUrl ?? 'Dry Run'}`,
+					`### ${update.packageIdentifier}`,
+					`Version: ${update.version}`,
+					`Pull Request: ${update.pullRequestUrl ?? 'Dry Run'}`,
 					'',
 					'<details>',
 					'<summary>Manifests</summary>',
 					'',
 				);
 
-				for (const manifest of task.changes) {
+				for (const manifest of update.changes) {
 					summarySections.push(
 						`#### ${manifest.path}`,
 						'',
@@ -347,5 +347,5 @@ export async function runAllTasks(testTasks?: string[]) {
 }
 
 if (import.meta.main) {
-	await runAllTasks();
+	await runAllShards();
 }

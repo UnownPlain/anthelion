@@ -2,17 +2,17 @@
 
 This project automatically updates packages in the Windows Package Manager (WinGet) Community Repository. It is written in TypeScript and uses Bun as its JavaScript runtime and package manager. The latest version of a package is automatically fetched and the manifest creator komac (written in Rust) is invoked under the hood to update the packages. The project is run on a schedule using GitHub Actions (`.github/workflows/update-packages.yml`).
 
-The source code is located in the `src` folder and the tasks (definitions on how to fetch the latest version for a package) are located in the `tasks` folder. Tasks are split into 2 types: script and JSON. Tasks are written in JSON whenever possible and scripts are used only if a package can't be updated declaratively.
+The source code is located in the `src` folder and the shards (definitions on how to fetch the latest version for a package) are located in the `shards` folder. Shards are split into 2 types: script and JSON. Shards are written in JSON whenever possible and scripts are used only if a package can't be updated declaratively.
 
 ## Testing Changes
 
-- To test a specific task, run:
+- To test a specific shard, run:
 
   ```bash
-  bun pkgtest {TASK_NAME} --dry-run
+  bun shard-test {SHARD_NAME} --dry-run
   ```
 
-- To perform a run for all tasks, use:
+- To perform a run for all shards, use:
 
   ```bash
   bun start
@@ -22,11 +22,11 @@ The source code is located in the `src` folder and the tasks (definitions on how
 
 ## Other Useful Commands
 
-| Command          | Description                                                        |
-| ---------------- | ------------------------------------------------------------------ |
-| `bun lint`       | Lint code AND type check with **oxlint**                           |
-| `bun format`     | Format code with **oxfmt**                                         |
-| `bun gen-schema` | Regenerate JSON schema after modifying `src/schema/task_schema.ts` |
+| Command          | Description                                                       |
+| ---------------- | ----------------------------------------------------------------- |
+| `bun lint`       | Lint code AND type check with **oxlint**                          |
+| `bun format`     | Format code with **oxfmt**                                        |
+| `bun gen-schema` | Regenerate JSON schema after modifying `src/schema/json-shard.ts` |
 
 ## Regex Guidelines
 
