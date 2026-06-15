@@ -11,7 +11,8 @@ export default async function () {
 	});
 
 	const [version] = match(release.title ?? '', /oxfmt v(\d+(?:\.\d+)+)/i);
-	const urls = () => release.urls().filter((url) => url.endsWith('pc-windows-msvc.zip'));
+	const urls = () =>
+		release.urls().filter((url) => url.includes('oxfmt') && url.endsWith('pc-windows-msvc.zip'));
 
 	return {
 		version,
