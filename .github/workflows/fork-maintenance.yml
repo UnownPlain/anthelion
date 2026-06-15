@@ -29,9 +29,9 @@ jobs:
           compression: zst
 
       - name: Sync Fork & Cleanup Branches
-        env:
-          KOMAC_FORK_OWNER: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
         run: |
           komac sync
           komac cleanup -a
+        env:
+          KOMAC_FORK_OWNER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}

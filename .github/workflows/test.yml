@@ -55,19 +55,16 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+      - name: Setup Environment
+        uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
         with:
-          no-cache: true
+          version: 2026.6.10
+          install_args: bun
 
       - name: Install Dependencies
         run: bun ci --production
 
       - name: Test Packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CHANGED_FILES: ${{ needs.detect-changes.outputs.changed_files }}
-          PACKAGES: ${{ inputs.packages }}
         run: |
           if [ -n "$PACKAGES" ]; then
             PACKAGE_IDS="$PACKAGES"
@@ -80,3 +77,7 @@ jobs:
           fi
 
           bun pkgtest "$PACKAGE_IDS" --dry-run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGED_FILES: ${{ needs.detect-changes.outputs.changed_files }}
+          PACKAGES: ${{ inputs.packages }}

@@ -38,9 +38,6 @@ jobs:
           compression: zst
 
       - name: Remove Dead Versions
-        env:
-          KOMAC_FORK_OWNER: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
         run: |
           jq -r '.vanity_url_packages[]' tasks/auto-remove.json | while read -r pkg_id; do
             komac list-versions "$pkg_id" --json |
@@ -53,3 +50,6 @@ jobs:
           jq -r '.remove_dead_versions[]' tasks/auto-remove.json | while read -r pkg_id; do
             komac remove-dead-versions "$pkg_id" --auto
           done
+        env:
+          KOMAC_FORK_OWNER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}

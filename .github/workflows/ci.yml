@@ -19,7 +19,7 @@ defaults:
 
 jobs:
   lint:
-    name: Lint
+    name: Lint Project
     uses: ./.github/workflows/lint.yml
 
   test:
@@ -43,12 +43,12 @@ jobs:
       - lint-actions
     steps:
       - name: Validate Required Checks
-        env:
-          FAILURES: ${{ contains(needs.*.result, 'failure') }}
-          CANCELLED: ${{ contains(needs.*.result, 'cancelled') }}
         run: |
           if [[ "${FAILURES}" == "true" || "${CANCELLED}" == "true" ]]; then
             echo "❌ One or more jobs failed or were cancelled."
             exit 1
           fi
           echo "✅ All checks passed!"
+        env:
+          FAILURES: ${{ contains(needs.*.result, 'failure') }}
+          CANCELLED: ${{ contains(needs.*.result, 'cancelled') }}
