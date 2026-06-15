@@ -5,5 +5,5 @@
 		"url": "https://sumo.dlr.de/docs/Downloads.php#windows",
 		"regex": "href=.[^\"' >]*?releases\\/v?(\\d+(?:\\.\\d+)+)\\/sumo-win64extra-\\1\\.msi"
 	},
-	"urls": ["https://sumo.dlr.de/releases/{version}/sumo-win64extra-{version}.msi"]
+	"urls": ["https://sumo.dlr.de/releases/{version}/sumo-win64extra-{version}.msi|x64"]
 }
