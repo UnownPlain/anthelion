@@ -4,7 +4,7 @@ import {
 	htmlToPlainText,
 	markdownToPlainText,
 } from '@unownplain/anthelion-komac';
-import { generateText, Output } from 'ai';
+import { generateText } from 'ai';
 import ky from 'ky';
 import { parse } from 'yaml';
 import { z } from 'zod';
@@ -16,15 +16,12 @@ import {
 	type NestedReleaseNotesSource,
 } from '@/schema/release-notes';
 
-const CleanupResultSchema = z.object({
-	releaseNotes: z.string(),
-	error: z.boolean(),
-});
-
 const CLEANUP_SYSTEM_PROMPT = dedent`
 	Your goal is to format release notes from HTML, markdown, XML, or unclean text into plain text suitable for viewing in terminals.
 
-	Unless the context exceeds 10000 characters, do not summarize the content and format the text verbatim. Place newlines between headers but not between bullet points.
+	Return only the cleaned plain text. Do not return JSON, markdown fences, commentary, or an explanation. Return an empty response if the input does not contain release notes for the requested package and version.
+
+	Do not summarize the content and format the text verbatim. Place newlines between headers but not between bullet points.
 
 	Remove any unnecessary info such as:
 	- Headers such as "Release Notes", "<app_name> Release Notes", "<app_name> Release", "<version>", "<app_name> version", etc.
@@ -47,10 +44,8 @@ async function cleanupReleaseNotes(
 		return undefined;
 	}
 
-	const model = groq('openai/gpt-oss-120b');
-	const { output } = await generateText({
-		model,
-		output: Output.object({ schema: CleanupResultSchema }),
+	const { text } = await generateText({
+		model: groq('openai/gpt-oss-120b'),
 		system: CLEANUP_SYSTEM_PROMPT.replaceAll('{version}', version).replaceAll(
 			'{packageIdentifier}',
 			packageIdentifier,
@@ -59,7 +54,7 @@ async function cleanupReleaseNotes(
 		temperature: 0,
 	});
 
-	return output.error ? undefined : output.releaseNotes;
+	return text.trim() || undefined;
 }
 
 type BrowserRenderingOptions = {
@@ -171,7 +166,10 @@ export async function resolveReleaseNotes(
 		repo: string;
 	},
 ) {
-	const manifest: { releaseNotes: string | undefined; releaseNotesUrl: string | undefined } = {
+	const manifest: {
+		releaseNotes: string | undefined;
+		releaseNotesUrl: string | undefined;
+	} = {
 		releaseNotes: undefined,
 		releaseNotesUrl: undefined,
 	};
