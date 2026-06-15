@@ -1,0 +1,4 @@
+[tools]
+zizmor = "1.25.2"
+actionlint = "1.7.12"
+shellcheck = "0.11.0"

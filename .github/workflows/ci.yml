@@ -19,7 +19,7 @@ defaults:
 
 jobs:
   lint:
-    name: Lint
+    name: Lint Project
     uses: ./.github/workflows/lint.yml
 
   test:
