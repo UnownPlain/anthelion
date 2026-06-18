@@ -38,7 +38,9 @@ jobs:
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
           files: shards/**
-          files_ignore: shards/auto-remove.json
+          files_ignore: |
+            shards/**/*.disabled
+            shards/auto-remove.json
 
   test:
     name: Test
