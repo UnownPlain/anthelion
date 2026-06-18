@@ -262,7 +262,7 @@ async function executeShard(file: FileRef) {
 export async function runAllShards(testShards?: string[]) {
 	const scripts = await fs.ref(SCRIPTS_FOLDER).list();
 	const json = await fs.ref(JSON_FOLDER).list();
-	let shards: FileRef[] = scripts.concat(json);
+	let shards: FileRef[] = scripts.concat(json).filter((file) => file.extension !== '.disabled');
 
 	if (testShards) {
 		shards = shards.filter((shard) => testShards.includes(shard.base));
