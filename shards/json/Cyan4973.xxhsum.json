@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "Cyan4973", "repo": "xxHash" },
+	"urls": [
+		"https://github.com/Cyan4973/xxHash/releases/download/v{version}/xxhsum_win64_v{version|.|_}.zip"
+	]
+}
