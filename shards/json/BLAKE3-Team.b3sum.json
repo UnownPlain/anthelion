@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "BLAKE3-team", "repo": "BLAKE3" },
+	"urls": [
+		"https://github.com/BLAKE3-team/BLAKE3/releases/download/{version}/b3sum_windows_x64_bin.exe"
+	]
+}
