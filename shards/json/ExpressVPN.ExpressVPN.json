@@ -3,7 +3,8 @@
 	"strategy": "json",
 	"json": {
 		"url": "https://main-kp-site-gateway-http.prodv2.pac.xvservice.net/api/v2/installers",
-		"path": "installers.win12.version"
+		"path": "installers.win_qt.version"
 	},
-	"urls": ["installers.win12.locations.default"]
+	"urls": ["installers.win_qt.locations.default"],
+	"versionRemove": "_release"
 }
