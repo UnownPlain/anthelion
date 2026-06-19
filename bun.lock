@@ -6,7 +6,7 @@
       "name": "anthelion",
       "dependencies": {
         "@ai-sdk/groq": "3.0.40",
-        "@rcompat/fs": "0.34.0",
+        "@rcompat/fs": "0.35.1",
         "@unownplain/anthelion-komac": "0.0.43",
         "ai": "6.0.202",
         "ansis": "4.3.1",
@@ -174,21 +174,21 @@
 
     "@oxlint/binding-win32-x64-msvc": ["@oxlint/binding-win32-x64-msvc@1.70.0", "", { "os": "win32", "cpu": "x64" }, "sha512-ptOlKwCz7n4AKs5VweMqG6DAg677FmKOK+vBkkL9DMNgFATIQ+upqUYBTOEwRQyRAx1ncGlPlXleV2hIcm3z4g=="],
 
-    "@rcompat/assert": ["@rcompat/assert@0.13.0", "", { "dependencies": { "@rcompat/error": "^0.8.0", "@rcompat/is": "^0.11.0", "@rcompat/type": "^0.17.0" } }, "sha512-uoKwxXwiEyx23bUW5ZqtXtL45+XGzr2UFbffTvbykbty9HCe4+LhiVvMu8v0j1smoEjjCOosTa2/NzD71T7DaQ=="],
+    "@rcompat/assert": ["@rcompat/assert@0.14.0", "", { "dependencies": { "@rcompat/error": "^0.9.0", "@rcompat/is": "^0.12.0", "@rcompat/type": "^0.18.0" } }, "sha512-ipicm2XS9VrnMy3gBghoLSiSrhM1XQmgEWQM/90XDKisdS7rPf0/tUWd61TkJ7/QP/4ADAMFcSmbJ/miCGf2qw=="],
 
-    "@rcompat/crypto": ["@rcompat/crypto@0.21.0", "", { "dependencies": { "@rcompat/assert": "^0.13.0" } }, "sha512-lh0dHtyqhgXaLk/i1V7KRtcpL2Y4AMm9rH7RhkxsuCUOJTHtiFuaxNH3xDF+WdVV14Ut9T59Gk+jmHY0WkQnKw=="],
+    "@rcompat/crypto": ["@rcompat/crypto@0.22.0", "", { "dependencies": { "@rcompat/assert": "^0.14.0" } }, "sha512-v4aDNtfAXtdNRXuQSBXd6jaH2S56x1CfsbwdVSRx9bnWjQ3THMsngP50o0HXQKhsJ9BZZ196hKlH7wrfWc9hmQ=="],
 
-    "@rcompat/dict": ["@rcompat/dict@0.10.0", "", { "dependencies": { "@rcompat/assert": "^0.13.0", "@rcompat/is": "^0.11.0" } }, "sha512-nwup8kH/oYoeiLyojmjGmjWei2v1VXCOGaVACwB9h1sR/kq2UYoXbI91/1s9/33E1tz1ApfGBA8yQRkZgIVuZQ=="],
+    "@rcompat/dict": ["@rcompat/dict@0.11.0", "", { "dependencies": { "@rcompat/assert": "^0.14.0", "@rcompat/is": "^0.12.0" } }, "sha512-6am3+RocAAVHntsqVYNA3um63pZyVhabC3FeVUIyg/sJDr0Bld9yDr69NBNH1MFME3LIHcX0JkSwBF/K/VcryA=="],
 
-    "@rcompat/error": ["@rcompat/error@0.8.0", "", { "dependencies": { "@rcompat/is": "^0.11.0", "@rcompat/type": "^0.17.0" } }, "sha512-WHEJYkudQFNdoJL2D0lOYL9x6ttTH9iXittUtEhYpM0PQGSsE0qc7KyTI+YB6lwiAK7rzLHzQM+LaUJtYPRuhA=="],
+    "@rcompat/error": ["@rcompat/error@0.9.0", "", { "dependencies": { "@rcompat/is": "^0.12.0", "@rcompat/type": "^0.18.0" } }, "sha512-AJSflZm2QrfSCyaYiLBYZo3X6PjIzNp2BwclX3rZhkuGVLhm+0JjkJYJ7t3YLw/T1vbTjn2ry4++DYQ1QFdYvA=="],
 
-    "@rcompat/fs": ["@rcompat/fs@0.34.0", "", { "dependencies": { "@rcompat/assert": "^0.13.0", "@rcompat/crypto": "^0.21.0", "@rcompat/dict": "^0.10.0", "@rcompat/error": "^0.8.0", "@rcompat/is": "^0.11.0", "@rcompat/symbol": "^0.2.0" } }, "sha512-POeY8+j1EagegsoLDk6KUYNELojWqmG233/uW94Pn8ZLXD5NiOdZErhBEzEX9ocKo2UTWaotVUVSpU1Z2L1QWw=="],
+    "@rcompat/fs": ["@rcompat/fs@0.35.1", "", { "dependencies": { "@rcompat/assert": "^0.14.0", "@rcompat/crypto": "^0.22.0", "@rcompat/dict": "^0.11.0", "@rcompat/error": "^0.9.0", "@rcompat/is": "^0.12.0", "@rcompat/symbol": "^0.3.0" } }, "sha512-etthpNx63PJVVghCxRpfyhrCaAGyjgQxqNjE+Kdq3YW2ZUmbgbBMzx1rTZ32xV8uh4NvqAa+Yu3ZS7iGEArTpg=="],
 
-    "@rcompat/is": ["@rcompat/is@0.11.0", "", {}, "sha512-IcmPYuGEjFlcRApvXk2fy048sfPau78JqAhnvY6ohb14ht6kB4NZNAs9fHIqgQPFOtfTg7yvmdKOrzzNbbfijg=="],
+    "@rcompat/is": ["@rcompat/is@0.12.0", "", {}, "sha512-xPdL+K0I1nekue9cV6FZJe48Xcyukvn+fvbL1emesgaNCSW9nHfwRzCQ8DYzusP0r9z95OMfFKFxHWSbZAzrIg=="],
 
-    "@rcompat/symbol": ["@rcompat/symbol@0.2.0", "", {}, "sha512-S+tR877M89GqLe7RGCdv+ZrSdhOXovHoohBfrCzsKUEWcrs4Ysh/1mfqYnnhov/7Zti35fbGiQfmyloRm/V/pg=="],
+    "@rcompat/symbol": ["@rcompat/symbol@0.3.0", "", {}, "sha512-XDXx1Yv4LnrGHCEiJQzOLodtXmyqysSIy9HeMciXVNd9hnq6pJqVr0BKlgVIWZ/oD9q3qsnWwZq2aYUsuwXtiw=="],
 
-    "@rcompat/type": ["@rcompat/type@0.17.0", "", {}, "sha512-eqwcRA0IkEZom8SIdZzaoagWDz12C2arekhm7FulPEhO7fP6KoMCubOHD1LAM4cHzeGokOowpiUz5uXw/Wtx1w=="],
+    "@rcompat/type": ["@rcompat/type@0.18.0", "", {}, "sha512-UTx9QXTWX32BhFhdYFRHh3xVrWovIfxYvbp+w3C2agcBXCRQod1/ne3LpSyXNM53jQPpLoxzXjcTjXGoQSzfIA=="],
 
     "@standard-schema/spec": ["@standard-schema/spec@1.1.0", "", {}, "sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w=="],
 
