@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "state",
+	"state": {
+		"url": "https://download.sysinternals.com/files/Autoruns.zip",
+		"header": "etag"
+	},
+	"version": "productVersion",
+	"installerMatches": ["Autoruns.exe"],
+	"urls": ["https://download.sysinternals.com/files/Autoruns.zip"],
+	"replace": true
+}

@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "state",
+	"state": {
+		"url": "https://download.sysinternals.com/files/SDelete.zip",
+		"header": "etag"
+	},
+	"version": "productVersion",
+	"installerMatches": ["sdelete.exe"],
+	"urls": ["https://download.sysinternals.com/files/SDelete.zip"],
+	"replace": true
+}

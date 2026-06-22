@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "state",
+	"state": {
+		"url": "https://download.sysinternals.com/files/Handle.zip",
+		"header": "etag"
+	},
+	"version": "productVersion",
+	"installerMatches": ["handle.exe"],
+	"urls": ["https://download.sysinternals.com/files/Handle.zip"],
+	"replace": true
+}

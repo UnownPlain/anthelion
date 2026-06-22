@@ -204,6 +204,20 @@ async function resolveJsonShard(shard: JsonShard, initialUrls: string[]) {
 				urls: () => resolveDataBackedUrls(initialUrls, yaml),
 			};
 		}
+		case Strategy.State: {
+			const response = await ky.head(shard.state.url);
+			const state = response.headers.get(shard.state.header);
+
+			if (!state) {
+				throw new Error(`No ${shard.state.header} header found`);
+			}
+
+			return {
+				version: shard.version,
+				urls: () => initialUrls,
+				state,
+			};
+		}
 	}
 }
 
@@ -212,16 +226,23 @@ async function handleJsonShard(fileName: string, logger: Logger) {
 	const shard = JsonShardSchema.parse(file);
 	const packageIdentifier = fileName.replace('.json', '');
 	const resolvedShard = await resolveJsonShard(shard, shard.urls ?? []);
+
+	if (resolvedShard.state && (await isStateMatching(packageIdentifier, resolvedShard.state))) {
+		logger.stateMatches();
+		return null;
+	}
+
 	const version = normalizeVersion(resolvedShard.version, shard.versionRemove);
 
 	if (await checkVersionInRepo(version, packageIdentifier, logger)) return null;
 
-	return updatePackage({
+	const updateResult = await updatePackage({
 		packageIdentifier,
 		version,
 		urls: resolvedShard.urls,
 		releaseNotes: shard.releaseNotes,
 		replace: shard.replace,
+		installerMatches: shard.installerMatches,
 		logger,
 		githubTag: resolvedShard.githubTag,
 		github:
@@ -229,6 +250,12 @@ async function handleJsonShard(fileName: string, logger: Logger) {
 				? { owner: shard.github.owner, repo: shard.github.repo }
 				: undefined,
 	});
+
+	if (resolvedShard.state) {
+		await updateVersionState(packageIdentifier, resolvedShard.state);
+	}
+
+	return updateResult;
 }
 
 async function executeShard(file: FileRef) {

@@ -11,6 +11,7 @@ export enum Strategy {
 	ElectronBuilder = 'electron-builder',
 	Yaml = 'yaml',
 	Json = 'json',
+	State = 'state',
 }
 
 const githubSchema = z.object({
@@ -70,6 +71,11 @@ const yamlStrategySchema = z.object({
 	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
 });
 
+const stateStrategySchema = z.object({
+	url: z.url().describe('URL whose response header is used as the persisted state.'),
+	header: z.string().min(1).describe('Response header containing the persisted state.'),
+});
+
 const urlsSchema = z
 	.array(z.string())
 	.min(1)
@@ -86,6 +92,11 @@ const baseShardFields = {
 	versionRemove: z
 		.string()
 		.describe("Substring(s) to strip after auto-leading 'v' removal.")
+		.optional(),
+	installerMatches: z
+		.array(z.string().min(1))
+		.min(1)
+		.describe('Executable names used to match installers inside an archive.')
 		.optional(),
 };
 
@@ -162,6 +173,14 @@ const yamlVariant = z.object({
 	urls: urlsSchema,
 });
 
+const stateVariant = z.object({
+	...baseShardFields,
+	strategy: z.literal(Strategy.State),
+	state: stateStrategySchema,
+	version: z.string().min(1),
+	urls: urlsSchema,
+});
+
 export const JsonShardSchema = z
 	.discriminatedUnion('strategy', [
 		githubReleaseVariant,
@@ -172,6 +191,7 @@ export const JsonShardSchema = z
 		electronBuilderVariant,
 		jsonVariant,
 		yamlVariant,
+		stateVariant,
 	])
 	.superRefine((shard, ctx) => {
 		if (!shard.releaseNotes || !('source' in shard.releaseNotes)) {

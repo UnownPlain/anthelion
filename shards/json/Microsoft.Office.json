@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "state",
+	"state": {
+		"url": "https://officecdn.microsoft.com/DSDownloadAPI/Download.ashx/dscdn/officecapes/wsus/setup.exe",
+		"header": "etag"
+	},
+	"version": "productVersion",
+	"urls": ["https://officecdn.microsoft.com/pr/wsus/setup.exe"]
+}

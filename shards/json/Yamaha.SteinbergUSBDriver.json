@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://o.steinberg.net/en/support/downloads_hardware/yamaha_steinberg_usb_driver.html",
+		"regex": "yamaha[._-]steinberg[._-]usb[._-]driver[/\\\\]win[/\\\\](\\d+(?:\\.\\d+)+)[/\\\\]"
+	},
+	"urls": [
+		"https://download.steinberg.net/downloads_hardware/Yamaha_Steinberg_USB_Driver/Win/{version}/YSUSB_V{version|.|}_Win.zip"
+	]
+}

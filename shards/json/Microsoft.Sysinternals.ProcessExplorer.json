@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "state",
+	"state": {
+		"url": "https://download.sysinternals.com/files/ProcessExplorer.zip",
+		"header": "etag"
+	},
+	"version": "productVersion",
+	"installerMatches": ["procexp.exe"],
+	"urls": ["https://download.sysinternals.com/files/ProcessExplorer.zip"],
+	"replace": true
+}

@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "state",
+	"state": {
+		"url": "https://download.sysinternals.com/files/RDCMan.zip",
+		"header": "etag"
+	},
+	"version": "productVersion",
+	"installerMatches": ["RDCMan.exe"],
+	"urls": ["https://download.sysinternals.com/files/RDCMan.zip"],
+	"replace": true
+}

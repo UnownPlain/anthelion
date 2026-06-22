@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "state",
+	"state": {
+		"url": "https://dsadata.intel.com/installer",
+		"header": "x-dsa-hash"
+	},
+	"version": "displayVersion",
+	"urls": ["https://dsadata.intel.com/installer"]
+}

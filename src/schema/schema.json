@@ -260,6 +260,15 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"installerMatches": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					},
+					"description": "Executable names used to match installers inside an archive."
+				},
 				"strategy": {
 					"type": "string",
 					"const": "github-release"
@@ -571,6 +580,15 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"installerMatches": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					},
+					"description": "Executable names used to match installers inside an archive."
+				},
 				"strategy": {
 					"type": "string",
 					"const": "page-match"
@@ -860,6 +878,15 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"installerMatches": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					},
+					"description": "Executable names used to match installers inside an archive."
+				},
 				"strategy": {
 					"type": "string",
 					"const": "sort-versions"
@@ -1148,6 +1175,15 @@
 				"versionRemove": {
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"installerMatches": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					},
+					"description": "Executable names used to match installers inside an archive."
 				},
 				"strategy": {
 					"type": "string",
@@ -1443,6 +1479,15 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"installerMatches": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					},
+					"description": "Executable names used to match installers inside an archive."
+				},
 				"strategy": {
 					"type": "string",
 					"const": "sourceforge"
@@ -1733,6 +1778,15 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"installerMatches": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					},
+					"description": "Executable names used to match installers inside an archive."
+				},
 				"strategy": {
 					"type": "string",
 					"const": "electron-builder"
@@ -2019,6 +2073,15 @@
 				"versionRemove": {
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"installerMatches": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					},
+					"description": "Executable names used to match installers inside an archive."
 				},
 				"strategy": {
 					"type": "string",
@@ -2311,6 +2374,15 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"installerMatches": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					},
+					"description": "Executable names used to match installers inside an archive."
+				},
 				"strategy": {
 					"type": "string",
 					"const": "yaml"
@@ -2341,6 +2413,311 @@
 				}
 			},
 			"required": ["strategy", "yaml", "urls"],
+			"additionalProperties": false
+		},
+		{
+			"type": "object",
+			"properties": {
+				"$schema": {
+					"type": "string",
+					"format": "uri",
+					"description": "Optional JSON Schema reference URL."
+				},
+				"releaseNotes": {
+					"anyOf": [
+						{
+							"oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "html"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed HTML release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for HTML sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "markdown"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch and parse markdown release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for markdown sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "plain-text"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch plain text release notes from. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for fetched plain text release notes."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Disabled by default for plain text sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "browser-rendering"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"description": "Source URL to fetch rendered markdown release notes from using Cloudflare Browser Rendering. Supports {version} placeholders in URL."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"characterLimit": {
+											"type": "integer",
+											"exclusiveMinimum": 0,
+											"maximum": 9007199254740991,
+											"description": "Optional max character limit for parsed markdown release notes."
+										},
+										"waitUntil": {
+											"type": "string",
+											"enum": ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+											"description": "Optional browser wait condition for navigation."
+										},
+										"waitForSelector": {
+											"type": "string",
+											"description": "Optional selector to wait for before capturing markdown."
+										},
+										"cleanup": {
+											"default": true,
+											"description": "Cleanup release notes with AI. Enabled by default for browser rendering sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source", "sourceUrl"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "github"
+										},
+										"owner": {
+											"type": "string",
+											"description": "GitHub repository owner. Optional when strategy is github-release (defaults to github.owner)."
+										},
+										"repo": {
+											"type": "string",
+											"description": "GitHub repository name. Optional when strategy is github-release (defaults to github.repo)."
+										},
+										"tag": {
+											"type": "string",
+											"description": "Tag template for the release notes lookup. Supports {version}. Optional when strategy is github-release (uses resolved release tag)."
+										},
+										"cleanup": {
+											"default": false,
+											"description": "Cleanup release notes with AI. Disabled by default for GitHub sources.",
+											"type": "boolean"
+										}
+									},
+									"required": ["source"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "json"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning JSON release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
+										"cleanup": {
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
+										}
+									},
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
+									"additionalProperties": false
+								},
+								{
+									"type": "object",
+									"properties": {
+										"source": {
+											"type": "string",
+											"const": "yaml"
+										},
+										"sourceUrl": {
+											"type": "string",
+											"format": "uri",
+											"description": "Endpoint returning YAML release notes content or URLs. Supports {version}."
+										},
+										"releaseNotesUrl": {
+											"type": "string",
+											"description": "Optional URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders in URL."
+										},
+										"path": {
+											"type": "string",
+											"description": "Dot-separated path to release notes content or URL."
+										},
+										"nestedSource": {
+											"type": "string",
+											"enum": ["html", "markdown", "plain-text"],
+											"description": "Source format for nested release notes content. Supports html, markdown, and plain-text."
+										},
+										"cleanup": {
+											"type": "boolean",
+											"description": "Cleanup release notes with AI. Defaults to the nestedSource cleanup behavior."
+										}
+									},
+									"required": ["source", "sourceUrl", "path", "nestedSource"],
+									"additionalProperties": false
+								}
+							]
+						},
+						{
+							"type": "object",
+							"properties": {
+								"releaseNotesUrl": {
+									"type": "string",
+									"description": "URL to set in the manifest ReleaseNotesUrl field. Supports {version} placeholders."
+								}
+							},
+							"required": ["releaseNotesUrl"],
+							"additionalProperties": false
+						}
+					]
+				},
+				"replace": {
+					"default": false,
+					"description": "Replace latest version with new version.",
+					"type": "boolean"
+				},
+				"versionRemove": {
+					"type": "string",
+					"description": "Substring(s) to strip after auto-leading 'v' removal."
+				},
+				"installerMatches": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string",
+						"minLength": 1
+					},
+					"description": "Executable names used to match installers inside an archive."
+				},
+				"strategy": {
+					"type": "string",
+					"const": "state"
+				},
+				"state": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"format": "uri",
+							"description": "URL whose response header is used as the persisted state."
+						},
+						"header": {
+							"type": "string",
+							"minLength": 1,
+							"description": "Response header containing the persisted state."
+						}
+					},
+					"required": ["url", "header"],
+					"additionalProperties": false
+				},
+				"version": {
+					"type": "string",
+					"minLength": 1
+				},
+				"urls": {
+					"minItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"description": "Template or literal URLs with {version} placeholder."
+				}
+			},
+			"required": ["strategy", "state", "version", "urls"],
 			"additionalProperties": false
 		}
 	]

@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "state",
+	"state": {
+		"url": "https://download.tidal.com/desktop/TIDALSetup.exe",
+		"header": "etag"
+	},
+	"version": "productVersion",
+	"urls": ["https://download.tidal.com/desktop/TIDALSetup.exe"],
+	"replace": true
+}
