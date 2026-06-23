@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-import { resolveVersionPlaceholders } from '@/helpers';
-
 export enum ReleaseNotesSource {
 	Html = 'html',
 	Markdown = 'markdown',
@@ -19,15 +17,6 @@ const releaseNotesNestedSourceSchema = z
 	);
 
 export type NestedReleaseNotesSource = z.infer<typeof releaseNotesNestedSourceSchema>;
-
-function getDefaultCleanupForSource(source: NestedReleaseNotesSource) {
-	switch (source) {
-		case ReleaseNotesSource.Html:
-		case ReleaseNotesSource.Markdown:
-		case ReleaseNotesSource.PlainText:
-			return true;
-	}
-}
 
 const releaseNotesHtmlSchema = z.object({
 	source: z.literal(ReleaseNotesSource.Html),
@@ -225,55 +214,3 @@ const releaseNotesSourceSchema = z.discriminatedUnion('source', [
 const releaseNotesUnionSchema = z.union([releaseNotesSourceSchema, releaseNotesUrlOnlySchema]);
 
 export const releaseNotesSchema = releaseNotesUnionSchema.optional();
-
-function normalizeSourceUrls<T extends { sourceUrl: string; releaseNotesUrl?: string }>(
-	value: T,
-	version: string,
-) {
-	const sourceUrl = resolveVersionPlaceholders(value.sourceUrl, version);
-	const releaseNotesUrl = value.releaseNotesUrl
-		? resolveVersionPlaceholders(value.releaseNotesUrl, version)
-		: sourceUrl;
-
-	return {
-		kind: 'source' as const,
-		...value,
-		sourceUrl,
-		releaseNotesUrl,
-	};
-}
-
-export function normalizedReleaseNotesSchema(version: string) {
-	return z.union([
-		releaseNotesUrlOnlySchema.transform((value) => ({
-			kind: 'url-only' as const,
-			releaseNotesUrl: resolveVersionPlaceholders(value.releaseNotesUrl, version),
-		})),
-		releaseNotesHtmlSchema.transform((value) => normalizeSourceUrls(value, version)),
-		releaseNotesMarkdownSchema.transform((value) => normalizeSourceUrls(value, version)),
-		releaseNotesPlainTextSchema.transform((value) => normalizeSourceUrls(value, version)),
-		releaseNotesBrowserRenderingSchema.transform((value) => normalizeSourceUrls(value, version)),
-		releaseNotesGithubSchema.transform((value) => ({
-			kind: 'source' as const,
-			...value,
-			tag: value.tag ? resolveVersionPlaceholders(value.tag, version) : undefined,
-			releaseNotesUrl: undefined,
-		})),
-		releaseNotesJsonSchema.transform((value) => {
-			const cleanup = value.cleanup ?? getDefaultCleanupForSource(value.nestedSource);
-
-			return {
-				...normalizeSourceUrls(value, version),
-				cleanup,
-			};
-		}),
-		releaseNotesYamlSchema.transform((value) => {
-			const cleanup = value.cleanup ?? getDefaultCleanupForSource(value.nestedSource);
-
-			return {
-				...normalizeSourceUrls(value, version),
-				cleanup,
-			};
-		}),
-	]);
-}

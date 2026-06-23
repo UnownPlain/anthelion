@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://aka.ms/ttd/download",
+		"regex": "MainBundle Name=\"Microsoft\\.TimeTravelDebugging\" Version=\"(?<version>[^\"]+)"
+	},
+	"urls": ["https://windbg.download.prss.microsoft.com/dbazure/prod/{version|.|-}/TTD.msixbundle"]
+}

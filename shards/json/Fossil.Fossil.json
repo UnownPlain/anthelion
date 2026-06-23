@@ -1,0 +1,16 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.fossil-scm.org/home/uv/download.js",
+		"regex": "\"title\":\\s*?\"Version (\\d+(?:\\.\\d+)+)\\s*?\\("
+	},
+	"urls": [
+		"https://fossil-scm.org/home/uv/fossil-w64-{version}.zip",
+		"https://fossil-scm.org/home/uv/fossil-w32-{version}.zip"
+	],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://fossil-scm.org/home/doc/trunk/www/changes.wiki#v{version|.|_}"
+	}
+}

@@ -12,7 +12,18 @@ export async function electronBuilder(url: string) {
 
 export async function pageMatch(url: string, regex: RegExp) {
 	const page = await ky(url).text();
-	return firstMatch(page, regex, 'Failed to extract version from page');
+	const match = regex.exec(page.trim());
+	const captures = match?.groups ?? {};
+	const version = captures.version ?? match?.[1];
+
+	if (!version) {
+		throw new Error('Failed to extract version from page');
+	}
+
+	return {
+		version: vs(version),
+		captures,
+	};
 }
 
 export async function redirectMatch(url: string, regex: RegExp) {

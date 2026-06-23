@@ -315,7 +315,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "Template or literal URLs with {version} placeholder."
+					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
 			"required": ["strategy", "github"],
@@ -601,7 +601,8 @@
 							"format": "uri"
 						},
 						"regex": {
-							"type": "string"
+							"type": "string",
+							"description": "Regex whose first capture or named \"version\" capture contains the version. Use {version} in templates; other named captures are available as {captures.name}."
 						}
 					},
 					"required": ["url", "regex"],
@@ -613,7 +614,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "Template or literal URLs with {version} placeholder."
+					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
 			"required": ["strategy", "pageMatch", "urls"],
@@ -911,7 +912,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "Template or literal URLs with {version} placeholder."
+					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
 			"required": ["strategy", "sortVersions", "urls"],
@@ -1214,7 +1215,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "Template or literal URLs with {version} placeholder."
+					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
 			"required": ["strategy", "redirectMatch"],
@@ -1513,7 +1514,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "Template or literal URLs with {version} placeholder."
+					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
 			"required": ["strategy", "sourceforge", "urls"],
@@ -1809,7 +1810,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "Template or literal URLs with {version} placeholder."
+					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
 			"required": ["strategy", "electronBuilder", "urls"],
@@ -2109,7 +2110,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "Template or literal URLs with {version} placeholder."
+					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
 			"required": ["strategy", "json", "urls"],
@@ -2409,7 +2410,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "Template or literal URLs with {version} placeholder."
+					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
 			"required": ["strategy", "yaml", "urls"],
@@ -2714,7 +2715,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "Template or literal URLs with {version} placeholder."
+					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
 			"required": ["strategy", "state", "version", "urls"],

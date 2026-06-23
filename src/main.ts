@@ -12,7 +12,7 @@ import {
 	get,
 	isStateMatching,
 	Logger,
-	resolveVersionPlaceholders,
+	resolveValuePlaceholders,
 	updateVersionState,
 	vs,
 	normalizeVersion,
@@ -20,7 +20,6 @@ import {
 } from '@/helpers';
 import { resolveReleaseNotes } from '@/release-notes';
 import { JsonShardSchema, Strategy, type JsonShard } from '@/schema/json-shard';
-import { normalizedReleaseNotesSchema } from '@/schema/release-notes';
 import { ScriptShardResult, type Urls } from '@/schema/script-shard';
 import {
 	electronBuilder,
@@ -47,16 +46,21 @@ async function updatePackage(options: {
 		owner: string;
 		repo: string;
 	};
+	templateValues?: Record<string, unknown>;
 }) {
 	const resolvedUrls = (await options.urls()).map((url) =>
-		resolveVersionPlaceholders(url, options.version),
+		resolveValuePlaceholders(url, {
+			...options.templateValues,
+			version: options.version,
+		}),
 	);
 	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
-		normalizedReleaseNotesSchema(options.version).safeParse(options.releaseNotes).data,
+		options.releaseNotes,
 		options.packageIdentifier,
 		options.version,
 		options.githubTag,
 		options.github,
+		options.templateValues,
 	);
 
 	options.logger.details(options.version, resolvedUrls);
@@ -157,11 +161,20 @@ async function resolveJsonShard(shard: JsonShard, initialUrls: string[]) {
 				version: await electronBuilder(shard.electronBuilder.url),
 				urls: () => initialUrls,
 			};
-		case Strategy.PageMatch:
+		case Strategy.PageMatch: {
+			const { version, captures } = await pageMatch(
+				shard.pageMatch.url,
+				new RegExp(shard.pageMatch.regex, 'i'),
+			);
+
 			return {
-				version: await pageMatch(shard.pageMatch.url, new RegExp(shard.pageMatch.regex, 'i')),
+				version,
 				urls: () => initialUrls,
+				templateValues: {
+					captures,
+				},
 			};
+		}
 		case Strategy.SortVersions:
 			return {
 				version: await sortVersionsMatch(
@@ -249,6 +262,7 @@ async function handleJsonShard(fileName: string, logger: Logger) {
 			shard.strategy === Strategy.GithubRelease
 				? { owner: shard.github.owner, repo: shard.github.repo }
 				: undefined,
+		templateValues: 'templateValues' in resolvedShard ? resolvedShard.templateValues : undefined,
 	});
 
 	if (resolvedShard.state) {

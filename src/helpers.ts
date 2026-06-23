@@ -135,15 +135,16 @@ export function isHttpUrl(value: string) {
 	return z.url().safeParse(value).success;
 }
 
-export function resolveVersionPlaceholders(template: string, version: string) {
-	const VERSION_PLACEHOLDER_REGEX = /\{version(?:\|([^|{}]*)\|([^{}]*))?\}/g;
+export function resolveValuePlaceholders(template: string, values: Record<string, unknown>) {
+	const VALUE_PLACEHOLDER_REGEX =
+		/\{([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)(?:\|([^|{}]*)\|([^{}]*))?\}/g;
 
-	return template.replaceAll(VERSION_PLACEHOLDER_REGEX, (_match, from, to) => {
-		if (from === undefined || from.length === 0) {
-			return version;
+	return template.replaceAll(VALUE_PLACEHOLDER_REGEX, (placeholder, path, from, to) => {
+		const value = get(values, path);
+		if (typeof value !== 'string') {
+			throw new Error(`Unable to resolve placeholder ${placeholder}`);
 		}
-
-		return version.split(from).join(to ?? '');
+		return from ? value.replaceAll(from, to ?? '') : value;
 	});
 }
 

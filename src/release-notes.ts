@@ -7,11 +7,10 @@ import {
 import { generateText } from 'ai';
 import ky from 'ky';
 import { parse } from 'yaml';
-import { z } from 'zod';
 
-import { dedent, get, isHttpUrl, vs } from '@/helpers.ts';
+import { dedent, get, isHttpUrl, resolveValuePlaceholders, vs } from '@/helpers.ts';
 import {
-	normalizedReleaseNotesSchema,
+	releaseNotesSchema,
 	ReleaseNotesSource,
 	type NestedReleaseNotesSource,
 } from '@/schema/release-notes';
@@ -32,8 +31,6 @@ const CLEANUP_SYSTEM_PROMPT = dedent`
 
 	The package identifier is {packageIdentifier} and current package version is {version}. Only include the release notes for this version and package. If the package or version is not specified, assume it is the correct version or package.
 `;
-
-type ReleaseNotesConfig = z.output<ReturnType<typeof normalizedReleaseNotesSchema>>;
 
 async function cleanupReleaseNotes(
 	releaseNotes: string,
@@ -157,7 +154,7 @@ async function resolveNestedReleaseNotes(
 }
 
 export async function resolveReleaseNotes(
-	releaseNotesConfig: ReleaseNotesConfig | undefined,
+	releaseNotes: unknown,
 	packageIdentifier: string,
 	version: string,
 	githubTag?: string,
@@ -165,7 +162,9 @@ export async function resolveReleaseNotes(
 		owner: string;
 		repo: string;
 	},
+	templateValues: Record<string, unknown> = {},
 ) {
+	const releaseNotesConfig = releaseNotesSchema.safeParse(releaseNotes).data;
 	const manifest: {
 		releaseNotes: string | undefined;
 		releaseNotesUrl: string | undefined;
@@ -178,29 +177,34 @@ export async function resolveReleaseNotes(
 		return manifest;
 	}
 
-	manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl;
+	const values = { ...templateValues, version };
 
-	if (releaseNotesConfig.kind === 'url-only') {
+	if (!('source' in releaseNotesConfig)) {
+		manifest.releaseNotesUrl = resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values);
 		return manifest;
 	}
 
 	switch (releaseNotesConfig.source) {
 		case ReleaseNotesSource.Html:
 		case ReleaseNotesSource.Markdown:
-		case ReleaseNotesSource.PlainText:
+		case ReleaseNotesSource.PlainText: {
+			const sourceUrl = resolveValuePlaceholders(releaseNotesConfig.sourceUrl, values);
+			manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl
+				? resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values)
+				: sourceUrl;
 			manifest.releaseNotes = limitLength(
-				await formatReleaseNotes(
-					await ky(releaseNotesConfig.sourceUrl).text(),
-					releaseNotesConfig.source,
-				),
+				await formatReleaseNotes(await ky(sourceUrl).text(), releaseNotesConfig.source),
 				releaseNotesConfig.characterLimit,
 			);
 
 			break;
+		}
 		case ReleaseNotesSource.Github: {
 			const owner = releaseNotesConfig.owner || github?.owner;
 			const repo = releaseNotesConfig.repo || github?.repo;
-			const tag = releaseNotesConfig.tag ?? githubTag;
+			const tag = releaseNotesConfig.tag
+				? resolveValuePlaceholders(releaseNotesConfig.tag, values)
+				: githubTag;
 
 			if (!owner || !repo) {
 				throw new Error(
@@ -221,8 +225,12 @@ export async function resolveReleaseNotes(
 			break;
 		}
 		case ReleaseNotesSource.Json: {
+			const sourceUrl = resolveValuePlaceholders(releaseNotesConfig.sourceUrl, values);
+			manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl
+				? resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values)
+				: sourceUrl;
 			const result = await resolveNestedReleaseNotes(
-				releaseNotesConfig.sourceUrl,
+				sourceUrl,
 				releaseNotesConfig.path,
 				releaseNotesConfig.nestedSource,
 				'json',
@@ -233,8 +241,12 @@ export async function resolveReleaseNotes(
 			break;
 		}
 		case ReleaseNotesSource.Yaml: {
+			const sourceUrl = resolveValuePlaceholders(releaseNotesConfig.sourceUrl, values);
+			manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl
+				? resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values)
+				: sourceUrl;
 			const result = await resolveNestedReleaseNotes(
-				releaseNotesConfig.sourceUrl,
+				sourceUrl,
 				releaseNotesConfig.path,
 				releaseNotesConfig.nestedSource,
 				'yaml',
@@ -245,8 +257,12 @@ export async function resolveReleaseNotes(
 			break;
 		}
 		case ReleaseNotesSource.BrowserRendering: {
+			const sourceUrl = resolveValuePlaceholders(releaseNotesConfig.sourceUrl, values);
+			manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl
+				? resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values)
+				: sourceUrl;
 			const renderedMarkdown = await fetchBrowserRenderedMarkdown({
-				url: releaseNotesConfig.sourceUrl,
+				url: sourceUrl,
 				waitUntil: releaseNotesConfig.waitUntil,
 				waitForSelector: releaseNotesConfig.waitForSelector,
 			});
@@ -266,7 +282,11 @@ export async function resolveReleaseNotes(
 		manifest.releaseNotesUrl = undefined;
 	}
 
-	if ('cleanup' in releaseNotesConfig && releaseNotesConfig.cleanup && manifest.releaseNotes) {
+	if (
+		'cleanup' in releaseNotesConfig &&
+		(releaseNotesConfig.cleanup ?? true) &&
+		manifest.releaseNotes
+	) {
 		manifest.releaseNotes = await cleanupReleaseNotes(
 			manifest.releaseNotes,
 			version,

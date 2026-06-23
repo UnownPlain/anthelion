@@ -38,7 +38,11 @@ const githubSchema = z.object({
 
 const pageMatchSchema = z.object({
 	url: z.url(),
-	regex: z.string(),
+	regex: z
+		.string()
+		.describe(
+			'Regex whose first capture or named "version" capture contains the version. Use {version} in templates; other named captures are available as {captures.name}.',
+		),
 });
 
 const sortVersionsSchema = z.object({
@@ -79,7 +83,9 @@ const stateStrategySchema = z.object({
 const urlsSchema = z
 	.array(z.string())
 	.min(1)
-	.describe('Template or literal URLs with {version} placeholder.');
+	.describe(
+		'Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement.',
+	);
 
 const baseShardFields = {
 	$schema: z.url().describe('Optional JSON Schema reference URL.').optional(),
