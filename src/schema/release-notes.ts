@@ -214,3 +214,4 @@ const releaseNotesSourceSchema = z.discriminatedUnion('source', [
 const releaseNotesUnionSchema = z.union([releaseNotesSourceSchema, releaseNotesUrlOnlySchema]);
 
 export const releaseNotesSchema = releaseNotesUnionSchema.optional();
+export type ReleaseNotesInput = z.input<typeof releaseNotesSchema>;

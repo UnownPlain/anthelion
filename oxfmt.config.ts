@@ -4,4 +4,5 @@ export default defineConfig({
 	useTabs: true,
 	singleQuote: true,
 	sortImports: {},
+	ignorePatterns: ['dist'],
 });

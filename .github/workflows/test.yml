@@ -78,7 +78,7 @@ jobs:
             PACKAGE_IDS="${PACKAGE_IDS% }"
           fi
 
-          bun shard-test "$PACKAGE_IDS" --dry-run
+          bun test:shard "$PACKAGE_IDS" --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGED_FILES: ${{ needs.detect-changes.outputs.changed_files }}

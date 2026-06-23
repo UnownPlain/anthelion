@@ -6,6 +6,56 @@
 Scripts and tools used to automatically update some packages in the
 [Windows Package Manager Community Repository](https://github.com/microsoft/winget-pkgs).
 
+# Using Anthelion from another repository
+
+Anthelion can be installed as a pinned Git dependency. Keep the consuming repository's shards in
+`shards/json` and `shards/script`; Anthelion resolves those paths from the current working directory.
+
+```json
+{
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"update": "anthelion",
+		"test:shard": "anthelion-test"
+	},
+	"dependencies": {
+		"anthelion": "github:UnownPlain/anthelion#<commit>"
+	}
+}
+```
+
+Install dependencies and test one or more shards without submitting a pull request:
+
+```sh
+bun install
+bun test:shard Package.Identifier
+bun test:shard Package.One Package.Two --dry-run
+```
+
+Set `ANTHELION_SHARDS_DIR` when shards are not under the current working directory. Set
+`KOMAC_GITHUB_OWNER` and `KOMAC_GITHUB_REPO` to update a repository other than
+`microsoft/winget-pkgs`.
+
+JSON shards use the published schema URL for completion and validation. TypeScript shards can import
+the public helpers and use `defineShard` for return-value IntelliSense:
+
+```ts
+import { defineShard } from 'anthelion';
+import { match } from 'anthelion/helpers';
+import ky from 'ky';
+
+export default defineShard(async () => {
+	const page = await ky('https://example.com/downloads').text();
+	const version = match(page, /example-(\d+(?:\.\d+)+)\.exe/i)[0]!;
+
+	return {
+		version,
+		urls: [`https://example.com/example-${version}.exe`],
+	};
+});
+```
+
 # License
 
 Licensed under [GPL-3.0-or-later][license-link].

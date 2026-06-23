@@ -31,7 +31,10 @@ jobs:
 
       - parallel:
           - name: Check Formatting
-            run: bun format --check
+            run: bun fmt --check
 
           - name: Lint & Type check
             run: bun lint --deny-warnings
+
+          - name: Build Package
+            run: bun build:ext

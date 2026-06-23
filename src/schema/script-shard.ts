@@ -36,3 +36,10 @@ export const ScriptShardResult = z.union([
 		state: z.undefined().optional(),
 	}),
 ]);
+
+export type ScriptShardResultInput = z.input<typeof ScriptShardResult>;
+export type ScriptShard = () => ScriptShardResultInput | Promise<ScriptShardResultInput>;
+
+export function defineShard(shard: ScriptShard): ScriptShard {
+	return shard;
+}

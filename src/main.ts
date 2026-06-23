@@ -1,3 +1,5 @@
+import { join } from 'node:path';
+
 import fs, { type FileRef } from '@rcompat/fs';
 import { updateVersion } from '@unownplain/anthelion-komac';
 import ansis from 'ansis';
@@ -5,6 +7,7 @@ import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 import { parse } from 'yaml';
 
+import { getShardsDirectory } from '@/config';
 import { getLatestRelease, getLatestReleaseFromRedirect } from '@/github';
 import {
 	closeAllButMostRecentPR,
@@ -30,8 +33,8 @@ import {
 } from '@/strategies';
 
 const MAX_CONCURRENCY = 256;
-export const SCRIPTS_FOLDER = 'shards/script';
-export const JSON_FOLDER = 'shards/json';
+export const SCRIPTS_FOLDER = 'script';
+export const JSON_FOLDER = 'json';
 
 async function updatePackage(options: {
 	packageIdentifier: string;
@@ -86,11 +89,11 @@ async function updatePackage(options: {
 	return updateResult;
 }
 
-async function handleScriptShard(fileName: string, logger: Logger) {
-	const shard = await import(`../${SCRIPTS_FOLDER}/${fileName}`);
+async function handleScriptShard(file: FileRef, logger: Logger) {
+	const shard = await file.import();
 	const { version, urls, releaseNotes, replace, skipPrCheck, state, installerMatches } =
 		ScriptShardResult.parse(await shard.default());
-	const packageIdentifier = fileName.replace('.ts', '');
+	const packageIdentifier = file.name.replace('.ts', '');
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
 		logger.stateMatches();
@@ -258,10 +261,9 @@ async function resolveJsonShardState(
 	}
 }
 
-async function handleJsonShard(fileName: string, logger: Logger) {
-	const file = await fs.ref(`./${JSON_FOLDER}/${fileName}`).json();
-	const shard = JsonShardSchema.parse(file);
-	const packageIdentifier = fileName.replace('.json', '');
+async function handleJsonShard(file: FileRef, logger: Logger) {
+	const shard = JsonShardSchema.parse(await file.json());
+	const packageIdentifier = file.name.replace('.json', '');
 	const resolvedShard = await resolveJsonShard(shard, shard.urls ?? []);
 	const version = normalizeVersion(shard.version ?? resolvedShard.version, shard.versionRemove);
 	const templateValues = {
@@ -310,12 +312,12 @@ async function executeShard(file: FileRef) {
 		if (file.name.endsWith('ts')) {
 			return {
 				identifier: file.name,
-				updateResult: await handleScriptShard(file.name, logger),
+				updateResult: await handleScriptShard(file, logger),
 			};
 		} else {
 			return {
 				identifier: file.name,
-				updateResult: await handleJsonShard(file.name, logger),
+				updateResult: await handleJsonShard(file, logger),
 			};
 		}
 	} catch (e) {
@@ -328,9 +330,14 @@ async function executeShard(file: FileRef) {
 	}
 }
 
-export async function runAllShards(testShards?: string[]) {
-	const scripts = await fs.ref(SCRIPTS_FOLDER).list();
-	const json = await fs.ref(JSON_FOLDER).list();
+export async function runAllShards(testShards?: string[], shardsDirectory = getShardsDirectory()) {
+	async function listShards(directory: string): Promise<FileRef[]> {
+		const ref = fs.ref(directory);
+		return (await ref.exists()) ? ref.list() : [];
+	}
+
+	const scripts = await listShards(join(shardsDirectory, SCRIPTS_FOLDER));
+	const json = await listShards(join(shardsDirectory, JSON_FOLDER));
 	let shards: FileRef[] = scripts.concat(json).filter((file) => file.extension !== '.disabled');
 
 	if (testShards) {

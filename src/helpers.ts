@@ -9,6 +9,7 @@ import { delay } from 'es-toolkit';
 import ky from 'ky';
 import { z, ZodError } from 'zod';
 
+import { getTargetRepository } from '@/config';
 import { githubClient, getRepositoryHeadSha } from '@/github.ts';
 
 export class Logger {
@@ -176,7 +177,9 @@ export async function checkVersionInRepo(
 ) {
 	if (process.env.DRY_RUN) return false;
 
-	const MANIFEST_URL = 'https://cdn.jsdelivr.net/gh/microsoft/winget-pkgs@master/manifests';
+	const { owner, repo, branch } = getTargetRepository();
+
+	const MANIFEST_URL = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/manifests`;
 	const manifestPath = `${MANIFEST_URL}/${packageIdentifier.charAt(0).toLowerCase()}/${packageIdentifier
 		.split('.')
 		.join('/')}/${version}/${packageIdentifier}.yaml`;
@@ -208,14 +211,17 @@ export async function closeAllButMostRecentPR(packageIdentifier: string) {
 	// Wait for GitHub API to update
 	await delay(10_000);
 
+	const { owner, repo } = getTargetRepository();
+	const { data: authenticatedUser } = await githubClient.rest.users.getAuthenticated();
+
 	const prSearch = await githubClient.rest.search.issuesAndPullRequests({
-		q: `${packageIdentifier}+is:pr+author:UnownBot+is:open+repo:microsoft/winget-pkgs+sort:created-desc`,
+		q: `${packageIdentifier} is:pr author:${authenticatedUser.login} is:open repo:${owner}/${repo} sort:created-desc`,
 	});
 
 	for (const pr of prSearch.data.items.slice(1)) {
 		await githubClient.rest.pulls.update({
-			owner: 'microsoft',
-			repo: 'winget-pkgs',
+			owner,
+			repo,
 			pull_number: pr.number,
 			state: 'closed',
 		});
