@@ -1,0 +1,17 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": {
+		"owner": "CXWorld",
+		"repo": "CapFrameX"
+	},
+	"version": "displayVersion",
+	"state": {
+		"source": "value",
+		"value": "{github.rawTag}"
+	},
+	"urls": [
+		"https://github.com/CXWorld/CapFrameX/releases/download/{github.rawTag}/release_{github.version}_installer.zip",
+		"https://github.com/CXWorld/CapFrameX/releases/download/{github.rawTag}/release_{github.version}_portable.zip|x64"
+	]
+}

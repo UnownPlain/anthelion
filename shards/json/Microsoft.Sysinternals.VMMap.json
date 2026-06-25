@@ -1,7 +1,8 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "state",
+	"strategy": "static",
 	"state": {
+		"source": "response-header",
 		"url": "https://download.sysinternals.com/files/VMMap.zip",
 		"header": "etag"
 	},

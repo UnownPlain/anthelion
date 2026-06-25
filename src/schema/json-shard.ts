@@ -11,7 +11,7 @@ export enum Strategy {
 	ElectronBuilder = 'electron-builder',
 	Yaml = 'yaml',
 	Json = 'json',
-	State = 'state',
+	Static = 'static',
 }
 
 const githubSchema = z.object({
@@ -75,10 +75,20 @@ const yamlStrategySchema = z.object({
 	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
 });
 
-const stateStrategySchema = z.object({
-	url: z.url().describe('URL whose response header is used as the persisted state.'),
+const responseHeaderStateSchema = z.object({
+	source: z.literal('response-header'),
+	url: z.string().describe('URL whose response header is used as the persisted state.'),
 	header: z.string().min(1).describe('Response header containing the persisted state.'),
+	method: z.enum(['head', 'get']).default('head').optional(),
 });
+
+const stateSchema = z.discriminatedUnion('source', [
+	responseHeaderStateSchema,
+	z.object({
+		source: z.literal('value'),
+		value: z.string().min(1).describe('Persisted state value. Supports resolved placeholders.'),
+	}),
+]);
 
 const urlsSchema = z
 	.array(z.string())
@@ -99,11 +109,17 @@ const baseShardFields = {
 		.string()
 		.describe("Substring(s) to strip after auto-leading 'v' removal.")
 		.optional(),
+	version: z
+		.string()
+		.min(1)
+		.describe('Optional override for the resolved package version.')
+		.optional(),
 	installerMatches: z
 		.array(z.string().min(1))
 		.min(1)
 		.describe('Executable names used to match installers inside an archive.')
 		.optional(),
+	state: stateSchema.describe('Optional state used to skip unchanged updates.').optional(),
 };
 
 const githubReleaseVariant = z
@@ -179,10 +195,9 @@ const yamlVariant = z.object({
 	urls: urlsSchema,
 });
 
-const stateVariant = z.object({
+const staticVariant = z.object({
 	...baseShardFields,
-	strategy: z.literal(Strategy.State),
-	state: stateStrategySchema,
+	strategy: z.literal(Strategy.Static),
 	version: z.string().min(1),
 	urls: urlsSchema,
 });
@@ -197,7 +212,7 @@ export const JsonShardSchema = z
 		electronBuilderVariant,
 		jsonVariant,
 		yamlVariant,
-		stateVariant,
+		staticVariant,
 	])
 	.superRefine((shard, ctx) => {
 		if (!shard.releaseNotes || !('source' in shard.releaseNotes)) {

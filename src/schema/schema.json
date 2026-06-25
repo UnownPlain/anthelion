@@ -260,6 +260,11 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"version": {
+					"type": "string",
+					"minLength": 1,
+					"description": "Optional override for the resolved package version."
+				},
 				"installerMatches": {
 					"minItems": 1,
 					"type": "array",
@@ -268,6 +273,52 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"state": {
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "response-header"
+								},
+								"url": {
+									"type": "string",
+									"description": "URL whose response header is used as the persisted state."
+								},
+								"header": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Response header containing the persisted state."
+								},
+								"method": {
+									"default": "head",
+									"type": "string",
+									"enum": ["head", "get"]
+								}
+							},
+							"required": ["source", "url", "header"],
+							"additionalProperties": false
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "value"
+								},
+								"value": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Persisted state value. Supports resolved placeholders."
+								}
+							},
+							"required": ["source", "value"],
+							"additionalProperties": false
+						}
+					],
+					"description": "Optional state used to skip unchanged updates."
 				},
 				"strategy": {
 					"type": "string",
@@ -580,6 +631,11 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"version": {
+					"type": "string",
+					"minLength": 1,
+					"description": "Optional override for the resolved package version."
+				},
 				"installerMatches": {
 					"minItems": 1,
 					"type": "array",
@@ -588,6 +644,52 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"state": {
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "response-header"
+								},
+								"url": {
+									"type": "string",
+									"description": "URL whose response header is used as the persisted state."
+								},
+								"header": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Response header containing the persisted state."
+								},
+								"method": {
+									"default": "head",
+									"type": "string",
+									"enum": ["head", "get"]
+								}
+							},
+							"required": ["source", "url", "header"],
+							"additionalProperties": false
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "value"
+								},
+								"value": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Persisted state value. Supports resolved placeholders."
+								}
+							},
+							"required": ["source", "value"],
+							"additionalProperties": false
+						}
+					],
+					"description": "Optional state used to skip unchanged updates."
 				},
 				"strategy": {
 					"type": "string",
@@ -879,6 +981,11 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"version": {
+					"type": "string",
+					"minLength": 1,
+					"description": "Optional override for the resolved package version."
+				},
 				"installerMatches": {
 					"minItems": 1,
 					"type": "array",
@@ -887,6 +994,52 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"state": {
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "response-header"
+								},
+								"url": {
+									"type": "string",
+									"description": "URL whose response header is used as the persisted state."
+								},
+								"header": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Response header containing the persisted state."
+								},
+								"method": {
+									"default": "head",
+									"type": "string",
+									"enum": ["head", "get"]
+								}
+							},
+							"required": ["source", "url", "header"],
+							"additionalProperties": false
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "value"
+								},
+								"value": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Persisted state value. Supports resolved placeholders."
+								}
+							},
+							"required": ["source", "value"],
+							"additionalProperties": false
+						}
+					],
+					"description": "Optional state used to skip unchanged updates."
 				},
 				"strategy": {
 					"type": "string",
@@ -1177,6 +1330,11 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"version": {
+					"type": "string",
+					"minLength": 1,
+					"description": "Optional override for the resolved package version."
+				},
 				"installerMatches": {
 					"minItems": 1,
 					"type": "array",
@@ -1185,6 +1343,52 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"state": {
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "response-header"
+								},
+								"url": {
+									"type": "string",
+									"description": "URL whose response header is used as the persisted state."
+								},
+								"header": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Response header containing the persisted state."
+								},
+								"method": {
+									"default": "head",
+									"type": "string",
+									"enum": ["head", "get"]
+								}
+							},
+							"required": ["source", "url", "header"],
+							"additionalProperties": false
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "value"
+								},
+								"value": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Persisted state value. Supports resolved placeholders."
+								}
+							},
+							"required": ["source", "value"],
+							"additionalProperties": false
+						}
+					],
+					"description": "Optional state used to skip unchanged updates."
 				},
 				"strategy": {
 					"type": "string",
@@ -1480,6 +1684,11 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"version": {
+					"type": "string",
+					"minLength": 1,
+					"description": "Optional override for the resolved package version."
+				},
 				"installerMatches": {
 					"minItems": 1,
 					"type": "array",
@@ -1488,6 +1697,52 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"state": {
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "response-header"
+								},
+								"url": {
+									"type": "string",
+									"description": "URL whose response header is used as the persisted state."
+								},
+								"header": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Response header containing the persisted state."
+								},
+								"method": {
+									"default": "head",
+									"type": "string",
+									"enum": ["head", "get"]
+								}
+							},
+							"required": ["source", "url", "header"],
+							"additionalProperties": false
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "value"
+								},
+								"value": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Persisted state value. Supports resolved placeholders."
+								}
+							},
+							"required": ["source", "value"],
+							"additionalProperties": false
+						}
+					],
+					"description": "Optional state used to skip unchanged updates."
 				},
 				"strategy": {
 					"type": "string",
@@ -1779,6 +2034,11 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"version": {
+					"type": "string",
+					"minLength": 1,
+					"description": "Optional override for the resolved package version."
+				},
 				"installerMatches": {
 					"minItems": 1,
 					"type": "array",
@@ -1787,6 +2047,52 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"state": {
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "response-header"
+								},
+								"url": {
+									"type": "string",
+									"description": "URL whose response header is used as the persisted state."
+								},
+								"header": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Response header containing the persisted state."
+								},
+								"method": {
+									"default": "head",
+									"type": "string",
+									"enum": ["head", "get"]
+								}
+							},
+							"required": ["source", "url", "header"],
+							"additionalProperties": false
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "value"
+								},
+								"value": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Persisted state value. Supports resolved placeholders."
+								}
+							},
+							"required": ["source", "value"],
+							"additionalProperties": false
+						}
+					],
+					"description": "Optional state used to skip unchanged updates."
 				},
 				"strategy": {
 					"type": "string",
@@ -2075,6 +2381,11 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"version": {
+					"type": "string",
+					"minLength": 1,
+					"description": "Optional override for the resolved package version."
+				},
 				"installerMatches": {
 					"minItems": 1,
 					"type": "array",
@@ -2083,6 +2394,52 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"state": {
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "response-header"
+								},
+								"url": {
+									"type": "string",
+									"description": "URL whose response header is used as the persisted state."
+								},
+								"header": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Response header containing the persisted state."
+								},
+								"method": {
+									"default": "head",
+									"type": "string",
+									"enum": ["head", "get"]
+								}
+							},
+							"required": ["source", "url", "header"],
+							"additionalProperties": false
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "value"
+								},
+								"value": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Persisted state value. Supports resolved placeholders."
+								}
+							},
+							"required": ["source", "value"],
+							"additionalProperties": false
+						}
+					],
+					"description": "Optional state used to skip unchanged updates."
 				},
 				"strategy": {
 					"type": "string",
@@ -2375,6 +2732,11 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"version": {
+					"type": "string",
+					"minLength": 1,
+					"description": "Optional override for the resolved package version."
+				},
 				"installerMatches": {
 					"minItems": 1,
 					"type": "array",
@@ -2383,6 +2745,52 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"state": {
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "response-header"
+								},
+								"url": {
+									"type": "string",
+									"description": "URL whose response header is used as the persisted state."
+								},
+								"header": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Response header containing the persisted state."
+								},
+								"method": {
+									"default": "head",
+									"type": "string",
+									"enum": ["head", "get"]
+								}
+							},
+							"required": ["source", "url", "header"],
+							"additionalProperties": false
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "value"
+								},
+								"value": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Persisted state value. Supports resolved placeholders."
+								}
+							},
+							"required": ["source", "value"],
+							"additionalProperties": false
+						}
+					],
+					"description": "Optional state used to skip unchanged updates."
 				},
 				"strategy": {
 					"type": "string",
@@ -2675,6 +3083,10 @@
 					"type": "string",
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
+				"version": {
+					"type": "string",
+					"minLength": 1
+				},
 				"installerMatches": {
 					"minItems": 1,
 					"type": "array",
@@ -2684,30 +3096,55 @@
 					},
 					"description": "Executable names used to match installers inside an archive."
 				},
+				"state": {
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "response-header"
+								},
+								"url": {
+									"type": "string",
+									"description": "URL whose response header is used as the persisted state."
+								},
+								"header": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Response header containing the persisted state."
+								},
+								"method": {
+									"default": "head",
+									"type": "string",
+									"enum": ["head", "get"]
+								}
+							},
+							"required": ["source", "url", "header"],
+							"additionalProperties": false
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"const": "value"
+								},
+								"value": {
+									"type": "string",
+									"minLength": 1,
+									"description": "Persisted state value. Supports resolved placeholders."
+								}
+							},
+							"required": ["source", "value"],
+							"additionalProperties": false
+						}
+					],
+					"description": "Optional state used to skip unchanged updates."
+				},
 				"strategy": {
 					"type": "string",
-					"const": "state"
-				},
-				"state": {
-					"type": "object",
-					"properties": {
-						"url": {
-							"type": "string",
-							"format": "uri",
-							"description": "URL whose response header is used as the persisted state."
-						},
-						"header": {
-							"type": "string",
-							"minLength": 1,
-							"description": "Response header containing the persisted state."
-						}
-					},
-					"required": ["url", "header"],
-					"additionalProperties": false
-				},
-				"version": {
-					"type": "string",
-					"minLength": 1
+					"const": "static"
 				},
 				"urls": {
 					"minItems": 1,
@@ -2718,7 +3155,7 @@
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
 			},
-			"required": ["strategy", "state", "version", "urls"],
+			"required": ["version", "strategy", "urls"],
 			"additionalProperties": false
 		}
 	]

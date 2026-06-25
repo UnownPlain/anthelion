@@ -154,6 +154,14 @@ async function resolveJsonShard(shard: JsonShard, initialUrls: string[]) {
 					return initialUrls.concat(releaseUrls);
 				},
 				githubTag: latest.rawTag,
+				templateValues: {
+					github: {
+						version: latest.version,
+						tag: latest.tag,
+						rawTag: latest.rawTag,
+						title: latest.title,
+					},
+				},
 			};
 		}
 		case Strategy.ElectronBuilder:
@@ -217,19 +225,35 @@ async function resolveJsonShard(shard: JsonShard, initialUrls: string[]) {
 				urls: () => resolveDataBackedUrls(initialUrls, yaml),
 			};
 		}
-		case Strategy.State: {
-			const response = await ky.head(shard.state.url);
-			const state = response.headers.get(shard.state.header);
-
-			if (!state) {
-				throw new Error(`No ${shard.state.header} header found`);
-			}
-
+		case Strategy.Static:
 			return {
 				version: shard.version,
 				urls: () => initialUrls,
-				state,
 			};
+	}
+}
+
+async function resolveJsonShardState(
+	state: JsonShard['state'],
+	templateValues: Record<string, unknown>,
+) {
+	if (!state) return;
+
+	switch (state.source) {
+		case 'value':
+			return resolveValuePlaceholders(state.value, templateValues);
+		case 'response-header': {
+			const url = resolveValuePlaceholders(state.url, templateValues);
+			const response = await ky(url, {
+				method: state.method ?? 'head',
+			});
+			const value = response.headers.get(state.header);
+
+			if (!value) {
+				throw new Error(`No ${state.header} header found`);
+			}
+
+			return value;
 		}
 	}
 }
@@ -239,13 +263,17 @@ async function handleJsonShard(fileName: string, logger: Logger) {
 	const shard = JsonShardSchema.parse(file);
 	const packageIdentifier = fileName.replace('.json', '');
 	const resolvedShard = await resolveJsonShard(shard, shard.urls ?? []);
+	const version = normalizeVersion(shard.version ?? resolvedShard.version, shard.versionRemove);
+	const templateValues = {
+		...('templateValues' in resolvedShard ? resolvedShard.templateValues : undefined),
+		version,
+	};
+	const state = await resolveJsonShardState(shard.state, templateValues);
 
-	if (resolvedShard.state && (await isStateMatching(packageIdentifier, resolvedShard.state))) {
+	if (state && (await isStateMatching(packageIdentifier, state))) {
 		logger.stateMatches();
 		return null;
 	}
-
-	const version = normalizeVersion(resolvedShard.version, shard.versionRemove);
 
 	if (await checkVersionInRepo(version, packageIdentifier, logger)) return null;
 
@@ -262,11 +290,11 @@ async function handleJsonShard(fileName: string, logger: Logger) {
 			shard.strategy === Strategy.GithubRelease
 				? { owner: shard.github.owner, repo: shard.github.repo }
 				: undefined,
-		templateValues: 'templateValues' in resolvedShard ? resolvedShard.templateValues : undefined,
+		templateValues,
 	});
 
-	if (resolvedShard.state) {
-		await updateVersionState(packageIdentifier, resolvedShard.state);
+	if (state) {
+		await updateVersionState(packageIdentifier, state);
 	}
 
 	return updateResult;
