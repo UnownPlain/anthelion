@@ -1,6 +1,11 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended", ":disableDependencyDashboard", "security:minimumReleaseAgeNpm"],
+	"extends": [
+		"config:recommended",
+		":disableDependencyDashboard",
+		"security:minimumReleaseAgeNpm",
+		"helpers:pinGitHubActionDigestsToSemver"
+	],
 	"rangeStrategy": "bump",
 	"packageRules": [
 		{
@@ -12,8 +17,18 @@
 			"minimumReleaseAge": "3 days"
 		},
 		{
+			"matchPackageNames": ["jdx/mise"],
+			"minimumReleaseAge": "3 days"
+		},
+		{
 			"matchManagers": "github-actions",
 			"minimumReleaseAge": "7 days"
+		},
+		{
+			"description": "Do not pin install-komac to a commit digest",
+			"matchManagers": ["github-actions"],
+			"matchPackageNames": ["UnownPlain/install-komac"],
+			"pinDigests": false
 		},
 		{
 			"description": "Only update AI-SDK packages on Sunday",
