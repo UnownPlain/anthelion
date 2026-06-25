@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Install komac
-        uses: UnownPlain/install-komac@main
+        uses: UnownPlain/install-komac@6749d7a2887abebe4effde5332b8585e9f328702 # main
         with:
           version: nightly
           repo: unpn-org/Komac
