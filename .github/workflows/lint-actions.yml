@@ -28,25 +28,30 @@ jobs:
           version: 2026.6.14
           install_args: zizmor actionlint shellcheck
 
-      - name: Run zizmor 🌈
-        run: |
-          zizmor . --pedantic --color=always --format=sarif > zizmor.sarif
-        env:
-          ZIZMOR_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - parallel:
+          - name: Run zizmor 🌈
+            run: |
+              zizmor . --pedantic --color=always --format=sarif > zizmor.sarif
+            env:
+              ZIZMOR_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run actionlint
-        continue-on-error: true
-        run: |
-          actionlint -format "$(cat .github/actionlint-sarif.txt)" -color -ignore 'label "ubuntu-26\.04-arm" is unknown' > actionlint.sarif
+          - name: Run actionlint
+            continue-on-error: true
+            run: |
+              actionlint -format "$(cat .github/actionlint-sarif.txt)" -color \
+                -ignore 'label "ubuntu-26\.04-arm" is unknown' \
+                -ignore 'step must run script with "run" section or run action with "uses" section' \
+                > actionlint.sarif
 
-      - name: Upload zizmor SARIF file
-        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
-        with:
-          sarif_file: zizmor.sarif
-          category: zizmor
+      - parallel:
+          - name: Upload zizmor SARIF file
+            uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
+            with:
+              sarif_file: zizmor.sarif
+              category: zizmor
 
-      - name: Upload actionlint SARIF file
-        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
-        with:
-          sarif_file: actionlint.sarif
-          category: actionlint
+          - name: Upload actionlint SARIF file
+            uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
+            with:
+              sarif_file: actionlint.sarif
+              category: actionlint

@@ -29,8 +29,9 @@ jobs:
       - name: Install Dependencies
         run: bun ci
 
-      - name: Check Formatting
-        run: bun format --check
+      - parallel:
+          - name: Check Formatting
+            run: bun format --check
 
-      - name: Lint & Type check
-        run: bun lint --deny-warnings
+          - name: Lint & Type check
+            run: bun lint --deny-warnings
