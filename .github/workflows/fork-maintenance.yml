@@ -27,11 +27,14 @@ jobs:
           repo: unpn-org/Komac
           linux_libc: musl
           compression: zst
-
-      - name: Sync Fork & Cleanup Branches
-        run: |
-          komac sync
-          komac cleanup -a
-        env:
-          KOMAC_FORK_OWNER: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+      - parallel:
+          - name: Sync Fork
+            run: komac sync
+            env:
+              KOMAC_FORK_OWNER: ${{ github.repository_owner }}
+              GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+          - name: Cleanup Branches
+            run: komac cleanup -a
+            env:
+              KOMAC_FORK_OWNER: ${{ github.repository_owner }}
+              GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
