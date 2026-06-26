@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v{version}/Heroic-{version}-Setup-x64.exe",
+		"https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v{version}/Heroic-{version}-Setup-arm64.exe",
+		"https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v{version}/Heroic-{version}-Portable-x64.exe",
+		"https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v{version}/Heroic-{version}-Portable-arm64.exe"
+	]
+}
