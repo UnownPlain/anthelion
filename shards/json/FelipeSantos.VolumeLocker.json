@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "felipecrs", "repo": "volume-locker" },
+	"urls": [
+		"https://github.com/felipecrs/volume-locker/releases/download/v{version}/VolumeLocker.exe"
+	]
+}
