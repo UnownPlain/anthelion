@@ -2,8 +2,8 @@
 	"name": "anthelion",
 	"version": "0.0.0",
 	"private": "true",
-	"description": "Scripts and tools used to automatically update some packages in the Windows Package Manager Community Repository",
-	"license": "MIT",
+	"description": "Monitors software releases and submits updated manifests to the Windows Package Manager Community Repository",
+	"license": "GPL-3.0-or-later AND MIT",
 	"author": "UnownPlain",
 	"bin": {
 		"anthelion": "./dist/bin/main.js",

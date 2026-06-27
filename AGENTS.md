@@ -8,13 +8,13 @@ The source code is located in the `src` folder and the shards (definitions on ho
 
 - To test a specific shard, run:
 
-  ```bash
-  bun shard-test {SHARD_NAME} --dry-run
+  ```sh
+  bun test:shard {SHARD_NAME} --dry-run
   ```
 
 - To perform a run for all shards, use:
 
-  ```bash
+  ```sh
   bun start
   ```
 
@@ -25,8 +25,8 @@ The source code is located in the `src` folder and the shards (definitions on ho
 | Command          | Description                                                       |
 | ---------------- | ----------------------------------------------------------------- |
 | `bun lint`       | Lint code AND type check with **oxlint**                          |
-| `bun format`     | Format code with **oxfmt**                                        |
-| `bun gen-schema` | Regenerate JSON schema after modifying `src/schema/json-shard.ts` |
+| `bun fmt`        | Format code with **oxfmt**                                        |
+| `bun gen:schema` | Regenerate JSON schema after modifying `src/schema/json-shard.ts` |
 
 ## Regex Guidelines
 
@@ -77,3 +77,4 @@ Taken from https://docs.brew.sh/Brew-Livecheck
 ## Tips
 
 - Always use `rg` over `grep` whenever possible.
+- If a package uses a vanity URL (URL doesn't change between versions), set `replace` to true.
