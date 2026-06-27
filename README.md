@@ -9,6 +9,8 @@ Monitors selected software projects for new releases, generates
 updated WinGet manifests, and submits them to the
 [Windows Package Manager Community Repository](https://github.com/microsoft/winget-pkgs).
 
+See the [Shard Guide](CONTRIBUTING.md) to add or modify a package shard.
+
 ## Using Anthelion from another repository
 
 Anthelion can be installed as a pinned Git dependency. Keep the consuming repository's shards in
@@ -45,16 +47,24 @@ the public helpers and use `defineShard` for return-value IntelliSense:
 
 ```ts
 import { defineShard } from 'anthelion';
+import { getLatestReleaseFromRedirect } from 'anthelion/github';
 import { match } from 'anthelion/helpers';
-import ky from 'ky';
 
 export default defineShard(async () => {
-	const page = await ky('https://example.com/downloads').text();
-	const version = match(page, /example-(\d+(?:\.\d+)+)\.exe/i)[0]!;
+	const release = await getLatestReleaseFromRedirect({
+		owner: 'git-for-windows',
+		repo: 'git',
+	});
+	const [baseVersion, buildNumber] = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
+	const version = buildNumber === '1' ? baseVersion : `${baseVersion}.${buildNumber}`;
 
 	return {
 		version,
-		urls: [`https://example.com/example-${version}.exe`],
+		urls: [
+			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-32-bit.zip`,
+			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-64-bit.zip`,
+			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-arm64.zip`,
+		],
 	};
 });
 ```
