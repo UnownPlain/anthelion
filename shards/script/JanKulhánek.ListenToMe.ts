@@ -1,7 +1,9 @@
 import { analyzeInstaller } from '@unownplain/anthelion-komac';
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const { productVersion: version } = await analyzeInstaller(
 		'https://github.com/jank2/ListenToMe/releases/latest/download/ListenToMe_Setup.exe',
 	);
@@ -13,10 +15,8 @@ export default async function () {
 		},
 	);
 
-	const urls = () => [response.headers.get('location')];
-
 	return {
 		version,
-		urls,
+		urls: () => [response.headers.get('location')],
 	};
-}
+});

@@ -1,6 +1,7 @@
 import { getLatestRelease } from '@/github.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const release = await getLatestRelease({
 		owner: 'duplicati',
 		repo: 'duplicati',
@@ -18,4 +19,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

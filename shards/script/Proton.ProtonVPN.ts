@@ -1,6 +1,8 @@
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const releases = await ky('https://protonvpn.com/download/windows/x64/v1/version.json').json<{
 		Releases: Array<{ Version: string; CategoryName: string }>;
 	}>();
@@ -16,4 +18,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

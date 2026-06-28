@@ -1,7 +1,9 @@
 import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers';
+import { ReleaseNotesSource } from '@/schema/release-notes.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const owner = 'Azure';
 	const repo = 'azure-powershell';
 	const release = await getLatestRelease({ owner, repo, useLatestEndpoint: true });
@@ -13,11 +15,11 @@ export default async function () {
 		version,
 		urls,
 		releaseNotes: {
-			source: 'github',
+			source: ReleaseNotesSource.Github,
 			owner,
 			repo,
 			tag: release.rawTag,
 			cleanup: true,
 		},
 	};
-}
+});

@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky('https://www.virtualbox.org/wiki/Downloads').text();
 	const regex = /href=.*?VirtualBox[._-]v?(\d+(?:\.\d+)*[a-z]?)[._-](\d+)[._-]Win\.exe/i;
 
@@ -15,4 +16,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

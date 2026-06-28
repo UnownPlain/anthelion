@@ -1,6 +1,8 @@
+import { ReleaseNotesSource } from '@/schema/release-notes.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 import { pageMatch } from '@/strategies.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const releases = (
 		await pageMatch('https://download.cpuid.com/cpuid.ver', /cpuz=(\d+(?:\.\d+){3})/i)
 	).version.split('.');
@@ -15,8 +17,8 @@ export default async function () {
 		version,
 		urls,
 		releaseNotes: {
-			source: 'html',
+			source: ReleaseNotesSource.Html,
 			sourceUrl: `https://www.cpuid.com/softwares/cpu-z.html#version-history`,
 		},
 	};
-}
+});

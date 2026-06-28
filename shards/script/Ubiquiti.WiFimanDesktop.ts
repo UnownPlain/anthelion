@@ -1,6 +1,8 @@
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const releases = await ky
 		.post('https://community.svc.ui.com/', {
 			body: JSON.stringify({
@@ -23,4 +25,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

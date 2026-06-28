@@ -1,7 +1,8 @@
 import { getLatestReleaseFromRedirect } from '@/github.ts';
 import { match } from '@/helpers';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const release = await getLatestReleaseFromRedirect({
 		owner: 'git-for-windows',
 		repo: 'git',
@@ -22,4 +23,4 @@ export default async function () {
 		version: finalVersion,
 		urls,
 	};
-}
+});

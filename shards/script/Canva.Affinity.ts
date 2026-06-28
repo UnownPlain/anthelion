@@ -1,6 +1,8 @@
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const release = await ky(
 		'https://things.seriflabs.com/affinity-update-windows-retail-studiopro-x64-packaged',
 	).json<{
@@ -15,4 +17,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

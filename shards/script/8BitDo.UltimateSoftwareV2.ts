@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky('https://app.8bitdo.com/').text();
 	const [url, version] = match(
 		response,
@@ -13,4 +14,4 @@ export default async function () {
 		version,
 		urls: () => [`${url}|x64`],
 	};
-}
+});

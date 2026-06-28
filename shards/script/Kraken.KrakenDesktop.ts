@@ -1,6 +1,8 @@
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const release = await ky('https://desktop-downloads.kraken.com/latest.json').json<{
 		version: string;
 		revision: string;
@@ -15,4 +17,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

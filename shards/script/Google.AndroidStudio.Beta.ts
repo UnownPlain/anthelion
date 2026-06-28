@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky('https://developer.android.com/studio/preview/').text();
 	const [url, version] = match(
 		response,
@@ -16,4 +17,4 @@ export default async function () {
 			releaseNotesUrl: 'https://androidstudio.googleblog.com/',
 		},
 	};
-}
+});

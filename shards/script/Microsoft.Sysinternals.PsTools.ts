@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky.head('https://download.sysinternals.com/files/PSTools.zip');
 	const state = response.headers.get('last-modified') || '';
 
@@ -33,4 +34,4 @@ export default async function () {
 		replace: true,
 		state,
 	};
-}
+});

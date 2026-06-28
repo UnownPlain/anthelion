@@ -1,7 +1,8 @@
 import { getReleaseByTag } from '@/github.ts';
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const release = await getReleaseByTag({
 		owner: 'zen-browser',
 		repo: 'desktop',
@@ -21,4 +22,4 @@ export default async function () {
 		skipPrCheck: true,
 		state,
 	};
-}
+});

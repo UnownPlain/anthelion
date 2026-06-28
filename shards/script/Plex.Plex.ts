@@ -1,6 +1,8 @@
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const releases = await ky('https://plex.tv/api/downloads/6.json').json<{
 		computer: {
 			Windows: {
@@ -21,4 +23,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

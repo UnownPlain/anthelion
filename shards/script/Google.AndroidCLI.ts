@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky(
 		'https://dl.google.com/android/cli/latest/windows_x86_64/android.exe',
 	).arrayBuffer();
@@ -16,4 +17,4 @@ export default async function () {
 			releaseNotesUrl: 'https://developer.android.com/tools/agents/android-cli/release-notes',
 		},
 	};
-}
+});

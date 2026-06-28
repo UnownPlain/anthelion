@@ -2,8 +2,9 @@ import { Temporal } from 'temporal-polyfill';
 
 import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const date = Temporal.Now.plainDateISO().add({ days: 1 }).with({ day: 1 }).subtract({ days: 1 });
 	const release = await getLatestRelease({
 		owner: 'yt-dlp',
@@ -27,4 +28,4 @@ export default async function () {
 		version: `N-${version}-${date.toString().replaceAll('-', '')}`,
 		urls,
 	};
-}
+});

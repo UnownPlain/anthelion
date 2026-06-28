@@ -1,7 +1,9 @@
 import { analyzeInstaller } from '@unownplain/anthelion-komac';
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const response = await ky.head(
 		'https://media.steampowered.com/steamlink/windows/latest/SteamLink.zip',
 	);
@@ -28,4 +30,4 @@ export default async function () {
 		installerMatches: ['SteamLink.msi'],
 		state,
 	};
-}
+});

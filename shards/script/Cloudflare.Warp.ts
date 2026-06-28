@@ -1,8 +1,9 @@
 import ky from 'ky';
 
-import { vs } from '@/helpers.ts';
+import { ReleaseNotesSource } from '@/schema/release-notes.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky(
 		'https://downloads.cloudflareclient.com/v1/update/json/windows/ga',
 	).json<{
@@ -21,11 +22,11 @@ export default async function () {
 		version: version?.substring(2),
 		urls,
 		releaseNotes: {
-			source: 'json',
-			nestedSource: 'markdown',
+			source: ReleaseNotesSource.Json,
+			nestedSource: ReleaseNotesSource.Markdown,
 			sourceUrl: `https://downloads.cloudflareclient.com/v1/update/json/windows/ga`,
 			path: 'items.0.releaseNotes',
-			releaseNotesUrl: `https://developers.cloudflare.com/cloudflare-one/changelog/warp/#${vs(response.items[0]?.releaseDate.split('T')[0])}`,
+			releaseNotesUrl: `https://developers.cloudflare.com/cloudflare-one/changelog/warp/#${response.items[0]?.releaseDate.split('T')[0]}`,
 		},
 	};
-}
+});

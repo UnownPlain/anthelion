@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { compareVersions } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky('https://api.articulate.com/product-artifacts', {
 		headers: {
 			accept: 'application/vnd.articulate+json;version=2',
@@ -32,4 +33,4 @@ export default async function () {
 				'https://www.articulatesupport.com/article/Articulate-360-Desktop-App-Version-History',
 		},
 	};
-}
+});

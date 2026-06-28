@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky('https://www.microsoft.com/download/details.aspx?id=49117').text();
 
 	const [url, version] = match(
@@ -14,4 +15,4 @@ export default async function () {
 		version,
 		urls: () => [url],
 	};
-}
+});

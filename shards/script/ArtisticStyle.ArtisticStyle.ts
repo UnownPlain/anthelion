@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky('https://sourceforge.net/projects/astyle/rss?path=/astyle').text();
 	const [version] = match(response, /astyle[._-]v?(\d+(?:\.\d+)+)[._-]/);
 	const pathVersion = version?.split('.').slice(0, -1).join('.');
@@ -16,4 +17,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

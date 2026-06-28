@@ -1,6 +1,7 @@
 import { getLatestRelease } from '@/github.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const { version, urls } = await getLatestRelease({
 		owner: 'YACReader',
 		repo: 'yacreader',
@@ -10,4 +11,4 @@ export default async function () {
 		version,
 		urls: () => urls().filter((url) => url.includes('qt')),
 	};
-}
+});

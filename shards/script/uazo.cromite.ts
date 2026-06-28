@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky(
 		'https://github.com/uazo/cromite/releases/latest/download/updateurl.txt',
 	).text();
@@ -17,4 +18,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

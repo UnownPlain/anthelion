@@ -1,6 +1,8 @@
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const response = await ky('https://www.microsoft.com/download/details.aspx?id=108685').text();
 
 	const installers = Array.from(
@@ -16,4 +18,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

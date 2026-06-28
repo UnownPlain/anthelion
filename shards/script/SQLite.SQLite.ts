@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky('https://www.sqlite.org/download.html').text();
 	const regex =
 		/DLL for Windows x64, SQLite version ([\d.]+)\..*?(\d+)\/sqlite-tools-win-x64-(\d+)/ms;
@@ -17,4 +18,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

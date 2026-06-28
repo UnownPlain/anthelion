@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const releases = await ky('https://downloads.zohocdn.com/arattai-desktop/artifacts.json').json<{
 		windows: { '32bit': string; '64bit': string };
 	}>();
@@ -16,4 +17,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

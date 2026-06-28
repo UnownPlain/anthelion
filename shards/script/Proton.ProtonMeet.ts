@@ -1,6 +1,8 @@
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const releases = await ky('https://proton.me/download/meet/windows/version.json').json<{
 		Releases: Array<{ CategoryName: string; Version: string }>;
 	}>();
@@ -13,4 +15,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

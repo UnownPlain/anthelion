@@ -1,6 +1,8 @@
 import { getLatestReleaseFromRedirect } from '@/github.ts';
+import { ReleaseNotesSource } from '@/schema/release-notes.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const { tag } = await getLatestReleaseFromRedirect({
 		owner: 'xbmc',
 		repo: 'xbmc',
@@ -16,8 +18,8 @@ export default async function () {
 		version: `${version}.0.0`,
 		urls,
 		releaseNotes: {
-			source: 'html',
+			source: ReleaseNotesSource.Html,
 			sourceUrl: `https://kodi.tv/article/kodi-${tag?.replaceAll('.', '-').toLowerCase()}-release/`,
 		},
 	};
-}
+});

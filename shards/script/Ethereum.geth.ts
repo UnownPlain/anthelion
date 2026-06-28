@@ -1,6 +1,7 @@
+import { defineShard } from '@/schema/script-shard.ts';
 import { pageMatch } from '@/strategies.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const { version } = await pageMatch(
 		'https://geth.ethereum.org/downloads',
 		/ href=.[^"' >]*geth-windows-amd64-(\d+\.\d+\.\d+-[0-9a-f]{8})\.exe/i,
@@ -13,4 +14,4 @@ export default async function () {
 		version: version.slice(0, -9),
 		urls,
 	};
-}
+});

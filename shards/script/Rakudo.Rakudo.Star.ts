@@ -1,6 +1,8 @@
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const releases = await ky('https://rakudo.org/dl/star/').json<
 		Array<{
 			latest: number;
@@ -30,4 +32,4 @@ export default async function () {
 		version,
 		urls: () => [latestWindowsMsi.url],
 	};
-}
+});

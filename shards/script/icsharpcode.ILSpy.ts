@@ -1,8 +1,9 @@
 import ky from 'ky';
 
 import { match } from '@/helpers';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const response = await ky('https://ilspy.net/updates.xml').text();
 	const [version, releaseTag] = match(
 		response,
@@ -18,4 +19,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

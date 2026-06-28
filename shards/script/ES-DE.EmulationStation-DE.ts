@@ -1,6 +1,8 @@
 import ky from 'ky';
 
-export default async function () {
+import { defineShard } from '@/schema/script-shard.ts';
+
+export default defineShard(async () => {
 	const releases = await ky(
 		'https://gitlab.com/api/v4/projects/es-de%2Femulationstation-de/releases',
 	).json<
@@ -18,4 +20,4 @@ export default async function () {
 		version,
 		urls,
 	};
-}
+});

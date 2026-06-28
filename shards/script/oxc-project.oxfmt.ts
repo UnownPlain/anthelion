@@ -1,7 +1,9 @@
 import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers.ts';
+import { ReleaseNotesSource } from '@/schema/release-notes.ts';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const owner = 'oxc-project';
 	const repo = 'oxc';
 	const release = await getLatestRelease({
@@ -18,11 +20,11 @@ export default async function () {
 		version,
 		urls,
 		releaseNotes: {
-			source: 'github',
+			source: ReleaseNotesSource.Github,
 			owner,
 			repo,
 			tag: release.tag,
 			cleanup: true,
 		},
 	};
-}
+});
