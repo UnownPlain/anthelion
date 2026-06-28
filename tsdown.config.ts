@@ -30,6 +30,28 @@ export default defineConfig([
 	{
 		entry: {
 			main: 'src/main.ts',
+		},
+		format: 'esm',
+		dts: false,
+		clean: false,
+		outDir: 'dist/bin',
+		platform: 'node',
+		target: 'esnext',
+		fixedExtension: false,
+		hash: false,
+		alias: {
+			'@': './src',
+		},
+		banner: '#!/usr/bin/env bun',
+		outputOptions: {
+			codeSplitting: false,
+		},
+		deps: {
+			neverBundle: [/^(?!@\/)[^./]/],
+		},
+	},
+	{
+		entry: {
 			test: 'src/test.ts',
 		},
 		format: 'esm',
