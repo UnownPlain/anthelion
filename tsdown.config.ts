@@ -65,6 +65,9 @@ export default defineConfig([
 		alias: {
 			'@': './src',
 		},
+		define: {
+			'import.meta.main': 'false',
+		},
 		banner: '#!/usr/bin/env bun',
 		deps: {
 			neverBundle: [/^(?!@\/)[^./]/],
