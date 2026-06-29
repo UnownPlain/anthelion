@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://canvas.livestreaming.tools/updates/latest.json",
+		"path": "version"
+	},
+	"urls": ["https://canvas.livestreaming.tools/updates/Crntly_{version}_x64-setup.exe"]
+}
