@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "casey", "repo": "just" },
+	"urls": [
+		"https://github.com/casey/just/releases/download/{version}/just-{version}-x86_64-pc-windows-msvc.zip",
+		"https://github.com/casey/just/releases/download/{version}/just-{version}-aarch64-pc-windows-msvc.zip"
+	]
+}
