@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "sourceforge",
+	"sourceforge": {
+		"project": "dos2unix",
+		"file": "dos2unix-{version}-win64-nls.zip"
+	},
+	"urls": [
+		"https://waterlander.net/dos2unix/files/dos2unix-{version}-win32-nls.zip|x86",
+		"https://waterlander.net/dos2unix/files/dos2unix-{version}-win64-nls.zip|x64"
+	]
+}
