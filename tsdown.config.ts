@@ -14,10 +14,6 @@ export default defineConfig([
 		dts: {
 			tsgo: true,
 		},
-		clean: true,
-		outDir: 'dist',
-		platform: 'node',
-		target: 'esnext',
 		fixedExtension: false,
 		hash: false,
 		alias: {
@@ -26,51 +22,29 @@ export default defineConfig([
 		deps: {
 			neverBundle: [/^(?!@\/)[^./]/],
 		},
+		minify: true,
 	},
 	{
 		entry: {
 			main: 'src/main.ts',
-		},
-		format: 'esm',
-		dts: false,
-		clean: false,
-		outDir: 'dist/bin',
-		platform: 'node',
-		target: 'esnext',
-		fixedExtension: false,
-		hash: false,
-		alias: {
-			'@': './src',
-		},
-		banner: '#!/usr/bin/env bun',
-		outputOptions: {
-			codeSplitting: false,
-		},
-		deps: {
-			neverBundle: [/^(?!@\/)[^./]/],
-		},
-	},
-	{
-		entry: {
 			test: 'src/test.ts',
 		},
-		format: 'esm',
 		dts: false,
 		clean: false,
 		outDir: 'dist/bin',
-		platform: 'node',
-		target: 'esnext',
 		fixedExtension: false,
 		hash: false,
 		alias: {
 			'@': './src',
 		},
-		define: {
-			'import.meta.main': 'false',
-		},
-		banner: '#!/usr/bin/env bun',
 		deps: {
 			neverBundle: [/^(?!@\/)[^./]/],
+		},
+		minify: true,
+		outputOptions: {
+			banner: (chunk) =>
+				chunk.fileName === 'main.js' || chunk.fileName === 'test.js' ? '#!/usr/bin/env bun' : '',
+			chunkFileNames: 'chunks/[name].js',
 		},
 	},
 ]);

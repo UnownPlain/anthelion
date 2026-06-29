@@ -1,7 +1,7 @@
 {
 	"name": "anthelion",
 	"version": "0.0.0",
-	"private": "true",
+	"private": true,
 	"description": "Monitors software releases and submits updated manifests to the Windows Package Manager Community Repository",
 	"license": "GPL-3.0-or-later AND MIT",
 	"author": "UnownPlain",
@@ -10,10 +10,11 @@
 		"anthelion-test": "./dist/bin/test.js"
 	},
 	"files": [
-		"dist",
-		"src/schema/schema.json"
+		"dist"
 	],
 	"type": "module",
+	"main": "./dist/schema/script-shard.js",
+	"types": "./dist/script-shard.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/script-shard.d.ts",
@@ -39,7 +40,6 @@
 			"types": "./dist/release-notes.d.ts",
 			"default": "./dist/schema/release-notes.js"
 		},
-		"./schema.json": "./src/schema/schema.json",
 		"./package.json": "./package.json"
 	},
 	"scripts": {
