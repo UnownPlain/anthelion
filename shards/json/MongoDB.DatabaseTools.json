@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://downloads.mongodb.org/tools/db/release.json",
+		"path": "versions.0.version"
+	},
+	"urls": [
+		"https://fastdl.mongodb.org/tools/db/mongodb-database-tools-windows-x86_64-{version}.msi"
+	]
+}
