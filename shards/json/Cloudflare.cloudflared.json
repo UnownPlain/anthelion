@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "cloudflare", "repo": "cloudflared" },
+	"urls": [
+		"https://github.com/cloudflare/cloudflared/releases/download/{version}/cloudflared-windows-386.msi",
+		"https://github.com/cloudflare/cloudflared/releases/download/{version}/cloudflared-windows-amd64.msi",
+		"https://github.com/cloudflare/cloudflared/releases/download/{version}/cloudflared-windows-386.exe",
+		"https://github.com/cloudflare/cloudflared/releases/download/{version}/cloudflared-windows-amd64.exe"
+	]
+}
