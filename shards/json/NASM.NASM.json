@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "sort-versions",
+	"sortVersions": {
+		"url": "https://www.nasm.us/pub/nasm/releasebuilds/",
+		"regex": "href=\"(\\d+(?:\\.\\d+)+)/\""
+	},
+	"urls": [
+		"https://www.nasm.us/pub/nasm/releasebuilds/{version}/win32/nasm-{version}-installer-x86.exe",
+		"https://www.nasm.us/pub/nasm/releasebuilds/{version}/win64/nasm-{version}-installer-x64.exe"
+	]
+}
