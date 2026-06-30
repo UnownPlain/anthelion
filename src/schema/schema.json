@@ -263,7 +263,7 @@
 				"version": {
 					"type": "string",
 					"minLength": 1,
-					"description": "Optional override for the resolved package version."
+					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
 				},
 				"installerMatches": {
 					"minItems": 1,
@@ -634,7 +634,7 @@
 				"version": {
 					"type": "string",
 					"minLength": 1,
-					"description": "Optional override for the resolved package version."
+					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
 				},
 				"installerMatches": {
 					"minItems": 1,
@@ -984,7 +984,7 @@
 				"version": {
 					"type": "string",
 					"minLength": 1,
-					"description": "Optional override for the resolved package version."
+					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
 				},
 				"installerMatches": {
 					"minItems": 1,
@@ -1333,7 +1333,7 @@
 				"version": {
 					"type": "string",
 					"minLength": 1,
-					"description": "Optional override for the resolved package version."
+					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
 				},
 				"installerMatches": {
 					"minItems": 1,
@@ -1687,7 +1687,7 @@
 				"version": {
 					"type": "string",
 					"minLength": 1,
-					"description": "Optional override for the resolved package version."
+					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
 				},
 				"installerMatches": {
 					"minItems": 1,
@@ -2037,7 +2037,7 @@
 				"version": {
 					"type": "string",
 					"minLength": 1,
-					"description": "Optional override for the resolved package version."
+					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
 				},
 				"installerMatches": {
 					"minItems": 1,
@@ -2384,7 +2384,7 @@
 				"version": {
 					"type": "string",
 					"minLength": 1,
-					"description": "Optional override for the resolved package version."
+					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
 				},
 				"installerMatches": {
 					"minItems": 1,
@@ -2735,7 +2735,7 @@
 				"version": {
 					"type": "string",
 					"minLength": 1,
-					"description": "Optional override for the resolved package version."
+					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
 				},
 				"installerMatches": {
 					"minItems": 1,

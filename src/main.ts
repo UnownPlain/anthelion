@@ -51,11 +51,13 @@ async function updatePackage(options: {
 	};
 	templateValues?: Record<string, unknown>;
 }) {
+	const templateValues = {
+		version: options.version,
+		...options.templateValues,
+		packageVersion: options.version,
+	};
 	const resolvedUrls = (await options.urls()).map((url) =>
-		resolveValuePlaceholders(url, {
-			...options.templateValues,
-			version: options.version,
-		}),
+		resolveValuePlaceholders(url, templateValues),
 	);
 	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
 		options.releaseNotes,
@@ -63,7 +65,7 @@ async function updatePackage(options: {
 		options.version,
 		options.githubTag,
 		options.github,
-		options.templateValues,
+		templateValues,
 	);
 
 	options.logger.details(options.version, resolvedUrls);
@@ -265,10 +267,19 @@ async function handleJsonShard(file: FileRef, logger: Logger) {
 	const shard = JsonShardSchema.parse(await file.json());
 	const packageIdentifier = file.name.replace('.json', '');
 	const resolvedShard = await resolveJsonShard(shard, shard.urls ?? []);
-	const version = normalizeVersion(shard.version ?? resolvedShard.version, shard.versionRemove);
-	const templateValues = {
+	const resolvedTemplateValues = {
 		...('templateValues' in resolvedShard ? resolvedShard.templateValues : undefined),
-		version,
+		version: normalizeVersion(resolvedShard.version, shard.versionRemove),
+	};
+	const version = normalizeVersion(
+		shard.version
+			? resolveValuePlaceholders(shard.version, resolvedTemplateValues)
+			: resolvedTemplateValues.version,
+		shard.versionRemove,
+	);
+	const templateValues = {
+		...resolvedTemplateValues,
+		packageVersion: version,
 	};
 	const state = await resolveJsonShardState(shard.state, templateValues);
 

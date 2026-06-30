@@ -112,7 +112,9 @@ const baseShardFields = {
 	version: z
 		.string()
 		.min(1)
-		.describe('Optional override for the resolved package version.')
+		.describe(
+			'Optional override for the resolved package version. Supports resolved placeholders such as {version}.',
+		)
 		.optional(),
 	installerMatches: z
 		.array(z.string().min(1))
