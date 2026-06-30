@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "static",
+	"state": {
+		"source": "response-header",
+		"url": "https://www.havysoft.cl/download/IE-Install.zip",
+		"header": "etag"
+	},
+	"version": "displayVersion",
+	"urls": ["https://www.havysoft.cl/download/IE-Install.zip"],
+	"replace": true
+}
