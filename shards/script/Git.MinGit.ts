@@ -1,12 +1,12 @@
 import { getLatestReleaseFromRedirect } from '@/github.ts';
 import { match } from '@/helpers';
+import { ReleaseNotesSource } from '@/schema/release-notes';
 import { defineShard } from '@/schema/script-shard.ts';
 
 export default defineShard(async () => {
-	const release = await getLatestReleaseFromRedirect({
-		owner: 'git-for-windows',
-		repo: 'git',
-	});
+	const owner = 'git-for-windows';
+	const repo = 'git';
+	const release = await getLatestReleaseFromRedirect({ owner, repo });
 
 	const version = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
 	const baseVersion = version[0];
@@ -22,5 +22,12 @@ export default defineShard(async () => {
 	return {
 		version: finalVersion,
 		urls,
+		releaseNotes: {
+			source: ReleaseNotesSource.Github,
+			cleanup: true,
+			owner,
+			repo,
+			tag: release.rawTag,
+		},
 	};
 });
