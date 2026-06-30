@@ -7,5 +7,11 @@
 		"https://github.com/cloudflare/cloudflared/releases/download/{version}/cloudflared-windows-amd64.msi",
 		"https://github.com/cloudflare/cloudflared/releases/download/{version}/cloudflared-windows-386.exe",
 		"https://github.com/cloudflare/cloudflared/releases/download/{version}/cloudflared-windows-amd64.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "plain-text",
+		"sourceUrl": "https://raw.githubusercontent.com/cloudflare/cloudflared/refs/heads/master/RELEASE_NOTES",
+		"releaseNotesUrl": "https://github.com/cloudflare/cloudflared/blob/{version}/RELEASE_NOTES",
+		"characterLimit": 500
+	}
 }
