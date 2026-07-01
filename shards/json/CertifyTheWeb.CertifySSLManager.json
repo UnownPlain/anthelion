@@ -5,5 +5,7 @@
 		"url": "https://certifytheweb.com/",
 		"regex": "certifythewebsetup[._-]v?(\\d+(?:\\.\\d+)+)\\.exe"
 	},
-	"urls": ["https://downloads.certifytheweb.com/CertifyTheWebSetup_V{version}.exe"]
+	"urls": [
+		"https://downloads.certifytheweb.com/release/{version}.0/certify-ccm-windows-x64-{version}.0.exe"
+	]
 }
