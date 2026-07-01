@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://app.8bitdo.com/",
+		"regex": "href=\"https://support\\.8bitdo\\.com/bd-uploads/files/ultimate_soft/8BitDo[._-]Ultimate[._-]Software[._-]V2[._-]Windows[._-]V(\\d+(?:\\.\\d+)+)\\.zip\""
+	},
+	"urls": [
+		"https://support.8bitdo.com/bd-uploads/files/ultimate_soft/8BitDo_Ultimate_Software_V2_Windows_V{version}.zip|x64"
+	]
+}
