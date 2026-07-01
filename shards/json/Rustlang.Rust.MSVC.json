@@ -1,7 +1,10 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "github-release",
-	"github": { "owner": "rust-lang", "repo": "rust" },
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://static.rust-lang.org/dist/channel-rust-stable.toml",
+		"regex": "\\[pkg\\.rust\\]\\s+version\\s*=\\s*\"(\\d+(?:\\.\\d+)+)"
+	},
 	"urls": [
 		"https://static.rust-lang.org/dist/rust-{version}-aarch64-pc-windows-msvc.msi",
 		"https://static.rust-lang.org/dist/rust-{version}-i686-pc-windows-msvc.msi",
@@ -9,6 +12,8 @@
 	],
 	"releaseNotes": {
 		"source": "github",
+		"owner": "rust-lang",
+		"repo": "rust",
 		"tag": "{version}"
 	}
 }
