@@ -88,6 +88,14 @@ Name the file after the exact WinGet package identifier:
 shards/json/Publisher.Package.json
 ```
 
+For a package in the WinGet font repository, append `.Font` to the package identifier:
+
+```text
+shards/json/Publisher.FontFamily.Font.json
+```
+
+The `.Font` suffix marks the shard as a font and is not part of the package identifier.
+
 The schema provides editor completion and validates the fields allowed by each strategy.
 `{version}` is replaced with the detected, normalized version.
 

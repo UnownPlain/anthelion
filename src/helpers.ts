@@ -125,6 +125,15 @@ export function vs(str: unknown) {
 	return z.string().parse(str).trim();
 }
 
+export function getShardTarget(shardName: string) {
+	const font = shardName.endsWith('.Font');
+
+	return {
+		packageIdentifier: font ? shardName.slice(0, -'.Font'.length) : shardName,
+		font,
+	};
+}
+
 export function get(obj: unknown, path: string, defaultValue?: unknown): unknown {
 	return (
 		path.split('.').reduce((acc, key) => (acc as Record<string, unknown>)?.[key], obj) ??
@@ -174,12 +183,14 @@ export async function checkVersionInRepo(
 	version: string,
 	packageIdentifier: string,
 	logger = new Logger(),
+	font = false,
 ) {
 	if (process.env.DRY_RUN) return false;
 
 	const { owner, repo, branch } = getTargetRepository();
 
-	const MANIFEST_URL = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/manifests`;
+	const manifestDirectory = font ? 'fonts' : 'manifests';
+	const MANIFEST_URL = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/${manifestDirectory}`;
 	const manifestPath = `${MANIFEST_URL}/${packageIdentifier.charAt(0).toLowerCase()}/${packageIdentifier
 		.split('.')
 		.join('/')}/${version}/${packageIdentifier}.yaml`;

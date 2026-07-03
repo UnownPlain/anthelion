@@ -13,6 +13,7 @@ import {
 	closeAllButMostRecentPR,
 	checkVersionInRepo,
 	get,
+	getShardTarget,
 	isStateMatching,
 	Logger,
 	resolveValuePlaceholders,
@@ -43,6 +44,7 @@ async function updatePackage(options: {
 	releaseNotes: unknown;
 	replace?: boolean;
 	installerMatches?: string[];
+	font?: boolean;
 	logger: Logger;
 	githubTag?: string;
 	github?: {
@@ -78,6 +80,7 @@ async function updatePackage(options: {
 		releaseNotes: manifestReleaseNotes,
 		releaseNotesUrl: releaseNotesUrl,
 		installerMatches: options.installerMatches,
+		font: options.font,
 	});
 
 	options.logger.logUpdateResult(updateResult);
@@ -93,7 +96,7 @@ async function handleScriptShard(file: FileRef, logger: Logger) {
 	const shard = await file.import();
 	const { version, urls, releaseNotes, replace, skipPrCheck, state, installerMatches } =
 		ScriptShardResult.parse(await shard.default());
-	const packageIdentifier = file.name.replace('.ts', '');
+	const { packageIdentifier, font } = getShardTarget(file.base);
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
 		logger.stateMatches();
@@ -102,7 +105,10 @@ async function handleScriptShard(file: FileRef, logger: Logger) {
 
 	const resolvedVersion = vs(typeof version === 'function' ? version() : version);
 
-	if (!skipPrCheck && (await checkVersionInRepo(resolvedVersion, packageIdentifier, logger))) {
+	if (
+		!skipPrCheck &&
+		(await checkVersionInRepo(resolvedVersion, packageIdentifier, logger, font))
+	) {
 		return null;
 	}
 
@@ -112,6 +118,7 @@ async function handleScriptShard(file: FileRef, logger: Logger) {
 		urls,
 		releaseNotes,
 		installerMatches,
+		font,
 		replace,
 		logger,
 	});
@@ -236,34 +243,9 @@ async function resolveJsonShard(shard: JsonShard, initialUrls: string[]) {
 	}
 }
 
-async function resolveJsonShardState(
-	state: JsonShard['state'],
-	templateValues: Record<string, unknown>,
-) {
-	if (!state) return;
-
-	switch (state.source) {
-		case 'value':
-			return resolveValuePlaceholders(state.value, templateValues);
-		case 'response-header': {
-			const url = resolveValuePlaceholders(state.url, templateValues);
-			const response = await ky(url, {
-				method: state.method ?? 'head',
-			});
-			const value = response.headers.get(state.header);
-
-			if (!value) {
-				throw new Error(`No ${state.header} header found`);
-			}
-
-			return value;
-		}
-	}
-}
-
 async function handleJsonShard(file: FileRef, logger: Logger) {
 	const shard = JsonShardSchema.parse(await file.json());
-	const packageIdentifier = file.name.replace('.json', '');
+	const { packageIdentifier, font } = getShardTarget(file.base);
 	const resolvedShard = await resolveJsonShard(shard, shard.urls ?? []);
 	const resolvedTemplateValues = {
 		...('templateValues' in resolvedShard ? resolvedShard.templateValues : undefined),
@@ -279,14 +261,36 @@ async function handleJsonShard(file: FileRef, logger: Logger) {
 		...resolvedTemplateValues,
 		packageVersion: version,
 	};
-	const state = await resolveJsonShardState(shard.state, templateValues);
+	let state: string | undefined;
+
+	if (shard.state) {
+		switch (shard.state.source) {
+			case 'value':
+				state = resolveValuePlaceholders(shard.state.value, templateValues);
+				break;
+			case 'response-header': {
+				const url = resolveValuePlaceholders(shard.state.url, templateValues);
+				const response = await ky(url, {
+					method: shard.state.method ?? 'head',
+				});
+				const value = response.headers.get(shard.state.header);
+
+				if (!value) {
+					throw new Error(`No ${shard.state.header} header found`);
+				}
+
+				state = value;
+				break;
+			}
+		}
+	}
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
 		logger.stateMatches();
 		return null;
 	}
 
-	if (await checkVersionInRepo(version, packageIdentifier, logger)) return null;
+	if (await checkVersionInRepo(version, packageIdentifier, logger, font)) return null;
 
 	const updateResult = await updatePackage({
 		packageIdentifier,
@@ -295,6 +299,7 @@ async function handleJsonShard(file: FileRef, logger: Logger) {
 		releaseNotes: shard.releaseNotes,
 		replace: shard.replace,
 		installerMatches: shard.installerMatches,
+		font,
 		logger,
 		githubTag: resolvedShard.githubTag,
 		github:
