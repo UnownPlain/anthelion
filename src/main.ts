@@ -78,8 +78,6 @@ async function updatePackage(options: {
 		releaseNotes: manifestReleaseNotes,
 		releaseNotesUrl: releaseNotesUrl,
 		installerMatches: options.installerMatches,
-		dryRun: Boolean(process.env.DRY_RUN),
-		token: process.env.GITHUB_TOKEN!,
 	});
 
 	options.logger.logUpdateResult(updateResult);

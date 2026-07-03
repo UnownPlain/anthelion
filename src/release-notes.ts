@@ -218,9 +218,7 @@ export async function resolveReleaseNotes(
 			}
 
 			manifest.releaseNotesUrl = `https://github.com/${owner}/${repo}/releases/tag/${tag}`;
-			manifest.releaseNotes =
-				(await getFormattedGithubReleaseNotes(owner, repo, tag, process.env.GITHUB_TOKEN)) ??
-				undefined;
+			manifest.releaseNotes = (await getFormattedGithubReleaseNotes(owner, repo, tag)) ?? undefined;
 
 			break;
 		}
