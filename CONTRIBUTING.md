@@ -105,6 +105,14 @@ Test the shard without opening a pull request:
 bun test:shard Publisher.Package --dry-run
 ```
 
+For a font shard, either the package identifier or the shard name with its `.Font` suffix is
+accepted:
+
+```sh
+bun test:shard Publisher.FontFamily --dry-run
+bun test:shard Publisher.FontFamily.Font --dry-run
+```
+
 Inspect the generated manifests and confirm:
 
 - The detected version matches the latest stable upstream release.

@@ -355,7 +355,10 @@ export async function runAllShards(testShards?: string[], shardsDirectory = getS
 	let shards: FileRef[] = scripts.concat(json).filter((file) => file.extension !== '.disabled');
 
 	if (testShards) {
-		shards = shards.filter((shard) => testShards.includes(shard.base));
+		shards = shards.filter((shard) => {
+			const { packageIdentifier } = getShardTarget(shard.base);
+			return testShards.includes(shard.base) || testShards.includes(packageIdentifier);
+		});
 	}
 
 	if (shards.length === 0) {

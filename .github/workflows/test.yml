@@ -73,7 +73,8 @@ jobs:
           else
             PACKAGE_IDS=""
             for file in $CHANGED_FILES; do
-              PACKAGE_IDS+="$(basename "${file%.*}") "
+              SHARD_NAME="$(basename "${file%.*}")"
+              PACKAGE_IDS+="${SHARD_NAME%.Font} "
             done
             PACKAGE_IDS="${PACKAGE_IDS% }"
           fi
