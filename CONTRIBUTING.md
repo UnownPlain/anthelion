@@ -337,6 +337,19 @@ https://example.com/{version|.|-}/example.exe
 
 This replaces every `.` in the version with `-`.
 
+Append `|architecture` to an installer URL to override the architecture detected by komac:
+
+```json
+"urls": [
+	"https://example.com/example-{version}-i686-win32.zip|x86",
+	"https://example.com/example-{version}-amd64-win32.zip|x64"
+]
+```
+
+The suffix is metadata passed to komac and is not part of the download URL. Supported values are
+`x86`, `x64`, `arm`, `arm64`, and `neutral`. Use an override when the installer metadata does not
+identify the correct architecture.
+
 Use `versionRemove` when upstream decorates a version with a fixed prefix or suffix:
 
 ```json
@@ -347,6 +360,17 @@ Anthelion already removes a leading `v`; do not use `versionRemove` solely for t
 
 Set `version` only when the strategy's detected value must be overridden. For a normal versioned
 release, fixing the source or regex is preferable to hard-coding a version.
+
+The `version` field supports templates. Within this field, `{version}` is the normalized version
+detected by the strategy:
+
+```json
+"version": "{version}.0"
+```
+
+For example, if the strategy detects `1.2`, the package version becomes `1.2.0`. In subsequent
+templates, `{version}` remains the detected version and `{packageVersion}` is the final overridden
+package version.
 
 ## Selecting installer metadata inside archives
 
