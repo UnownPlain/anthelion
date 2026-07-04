@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://basecamp.com/desktop/latest.yml"
+	},
+	"urls": ["https://basecamp.com/desktop/Basecamp-{version}-setup.exe"]
+}
