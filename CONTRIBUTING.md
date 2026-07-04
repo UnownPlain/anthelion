@@ -49,7 +49,7 @@ repository, push to the komac fork, and open pull requests against the target re
 Find the package identifier in the WinGet repository or with:
 
 ```sh
-winget search <package>
+winget search {PACKAGE_NAME}
 ```
 
 Before adding a shard, check that:
@@ -85,13 +85,13 @@ Use a JSON shard whenever the latest version and installer URLs can be described
 Name the file after the exact WinGet package identifier:
 
 ```text
-shards/json/Publisher.Package.json
+shards/json/{PACKAGE_IDENTIFIER}.json
 ```
 
 For a package in the WinGet font repository, append `.Font` to the package identifier:
 
 ```text
-shards/json/Publisher.FontFamily.Font.json
+shards/json/{PACKAGE_IDENTIFIER}.Font.json
 ```
 
 The `.Font` suffix marks the shard as a font and is not part of the package identifier.
@@ -102,15 +102,15 @@ The schema provides editor completion and validates the fields allowed by each s
 Test the shard without opening a pull request:
 
 ```sh
-bun test:shard Publisher.Package --dry-run
+bun test:shard {PACKAGE_IDENTIFIER} --dry-run
 ```
 
 For a font shard, either the package identifier or the shard name with its `.Font` suffix is
 accepted:
 
 ```sh
-bun test:shard Publisher.FontFamily --dry-run
-bun test:shard Publisher.FontFamily.Font --dry-run
+bun test:shard {PACKAGE_IDENTIFIER} --dry-run
+bun test:shard {PACKAGE_IDENTIFIER}.Font --dry-run
 ```
 
 Inspect the generated manifests and confirm:
@@ -301,7 +301,7 @@ token to avoid analyzing the same file on every scheduled run:
 }
 ```
 
-Anthelion compares the header with `version-state/<Package.Identifier>`. A match skips the update.
+Anthelion compares the header with `version-state/{PACKAGE_IDENTIFIER}`. A match skips the update.
 After a successful update, Anthelion writes the new value to that file. Dry runs intentionally
 ignore stored state so the shard can still be tested.
 
@@ -467,7 +467,7 @@ Use a TypeScript shard only when the declarative strategies cannot express the u
 Name it after the exact package identifier:
 
 ```text
-shards/script/Publisher.Package.ts
+shards/script/{PACKAGE_IDENTIFIER}.ts
 ```
 
 For example, Git for Windows tags releases as `2.50.1.windows.1`, but the MinGit package version is
@@ -524,7 +524,7 @@ bun lint
 Then run the focused shard test again:
 
 ```sh
-bun test:shard Publisher.Package --dry-run
+bun test:shard {PACKAGE_IDENTIFIER} --dry-run
 ```
 
 Do not run `bun start` merely to validate one contribution; it runs every shard.

@@ -25,7 +25,7 @@ Anthelion can be installed as a pinned Git dependency. Keep the consuming reposi
 		"test:shard": "anthelion-test"
 	},
 	"dependencies": {
-		"anthelion": "github:UnownPlain/anthelion-external#<commit>"
+		"anthelion": "github:UnownPlain/anthelion-external#{COMMIT}"
 	}
 }
 ```
@@ -34,8 +34,8 @@ Install dependencies and test one or more shards:
 
 ```sh
 bun install
-bun test:shard Package.Identifier # Simulates a real run
-bun test:shard Package.One Package.Two --dry-run # Generates a manifest without opening a PR
+bun test:shard {PACKAGE_IDENTIFIER} # Simulates a real run
+bun test:shard {PACKAGE_IDENTIFIER_ONE} {PACKAGE_IDENTIFIER_TWO} --dry-run # Generates manifests without opening PRs
 ```
 
 Set `ANTHELION_SHARDS_DIR` when shards are not under the current working directory. Set
