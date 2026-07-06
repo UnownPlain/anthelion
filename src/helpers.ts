@@ -184,6 +184,7 @@ export async function checkVersionInRepo(
 	packageIdentifier: string,
 	logger = new Logger(),
 	font = false,
+	ignoreOtherPrs = false,
 ) {
 	if (process.env.DRY_RUN) return false;
 
@@ -195,11 +196,20 @@ export async function checkVersionInRepo(
 		.split('.')
 		.join('/')}/${version}/${packageIdentifier}.yaml`;
 
-	const response = await ky.head(manifestPath, {
-		throwHttpErrors: false,
-	});
+	const response = ignoreOtherPrs
+		? await ky.get(manifestPath, {
+				throwHttpErrors: false,
+			})
+		: await ky.head(manifestPath, {
+				throwHttpErrors: false,
+			});
 
-	if (response.ok && !process.env.DRY_RUN) {
+	if (response.ok && !process.env.DRY_RUN && !ignoreOtherPrs) {
+		logger.present(version);
+		return true;
+	}
+
+	if (response.ok && ignoreOtherPrs && (await response.text()).includes('# Created by Anthelion')) {
 		logger.present(version);
 		return true;
 	}
@@ -207,13 +217,18 @@ export async function checkVersionInRepo(
 	const existingPR = await getExistingPullRequest({
 		packageIdentifier,
 		version,
-		token: process.env.GITHUB_TOKEN!,
+		ignorePullRequestsCreatedByOtherUsers: ignoreOtherPrs,
 	});
 
+	if (ignoreOtherPrs && existingPR && existingPR.state === 'closed') {
+		return false;
+	}
 	if (existingPR) {
 		logger.prExists(existingPR);
 		return true;
 	}
+
+	return false;
 }
 
 export async function closeAllButMostRecentPR(packageIdentifier: string) {

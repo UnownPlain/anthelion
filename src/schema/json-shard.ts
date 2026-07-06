@@ -121,6 +121,11 @@ const baseShardFields = {
 		.min(1)
 		.describe('Executable names used to match installers inside an archive.')
 		.optional(),
+	ignoreOtherPrs: z
+		.boolean()
+		.describe('Ignore pull requests created by other users when checking for an existing update.')
+		.default(false)
+		.optional(),
 	state: stateSchema.describe('Optional state used to skip unchanged updates.').optional(),
 };
 

@@ -508,6 +508,7 @@ The return value supports:
 - `state`: a persisted value used to skip unchanged downloads.
 - `skipPrCheck`: skip checking whether the version or pull request already exists; use this only
   when the normal check cannot represent the update.
+- `ignoreOtherPrs`: ignore matching pull requests created by other users.
 
 Keep network requests and parsing inside the default function. Reuse helpers from `src/helpers.ts`
 and `src/strategies.ts` instead of duplicating version matching or comparison code.

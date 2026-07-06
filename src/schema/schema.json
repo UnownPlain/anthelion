@@ -274,6 +274,11 @@
 					},
 					"description": "Executable names used to match installers inside an archive."
 				},
+				"ignoreOtherPrs": {
+					"default": false,
+					"type": "boolean",
+					"description": "Ignore pull requests created by other users when checking for an existing update."
+				},
 				"state": {
 					"oneOf": [
 						{
@@ -645,6 +650,11 @@
 					},
 					"description": "Executable names used to match installers inside an archive."
 				},
+				"ignoreOtherPrs": {
+					"default": false,
+					"type": "boolean",
+					"description": "Ignore pull requests created by other users when checking for an existing update."
+				},
 				"state": {
 					"oneOf": [
 						{
@@ -995,6 +1005,11 @@
 					},
 					"description": "Executable names used to match installers inside an archive."
 				},
+				"ignoreOtherPrs": {
+					"default": false,
+					"type": "boolean",
+					"description": "Ignore pull requests created by other users when checking for an existing update."
+				},
 				"state": {
 					"oneOf": [
 						{
@@ -1343,6 +1358,11 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"ignoreOtherPrs": {
+					"default": false,
+					"type": "boolean",
+					"description": "Ignore pull requests created by other users when checking for an existing update."
 				},
 				"state": {
 					"oneOf": [
@@ -1698,6 +1718,11 @@
 					},
 					"description": "Executable names used to match installers inside an archive."
 				},
+				"ignoreOtherPrs": {
+					"default": false,
+					"type": "boolean",
+					"description": "Ignore pull requests created by other users when checking for an existing update."
+				},
 				"state": {
 					"oneOf": [
 						{
@@ -2048,6 +2073,11 @@
 					},
 					"description": "Executable names used to match installers inside an archive."
 				},
+				"ignoreOtherPrs": {
+					"default": false,
+					"type": "boolean",
+					"description": "Ignore pull requests created by other users when checking for an existing update."
+				},
 				"state": {
 					"oneOf": [
 						{
@@ -2394,6 +2424,11 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"ignoreOtherPrs": {
+					"default": false,
+					"type": "boolean",
+					"description": "Ignore pull requests created by other users when checking for an existing update."
 				},
 				"state": {
 					"oneOf": [
@@ -2746,6 +2781,11 @@
 					},
 					"description": "Executable names used to match installers inside an archive."
 				},
+				"ignoreOtherPrs": {
+					"default": false,
+					"type": "boolean",
+					"description": "Ignore pull requests created by other users when checking for an existing update."
+				},
 				"state": {
 					"oneOf": [
 						{
@@ -3095,6 +3135,11 @@
 						"minLength": 1
 					},
 					"description": "Executable names used to match installers inside an archive."
+				},
+				"ignoreOtherPrs": {
+					"default": false,
+					"type": "boolean",
+					"description": "Ignore pull requests created by other users when checking for an existing update."
 				},
 				"state": {
 					"oneOf": [

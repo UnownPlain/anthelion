@@ -94,8 +94,16 @@ async function updatePackage(options: {
 
 async function handleScriptShard(file: FileRef, logger: Logger) {
 	const shard = await file.import();
-	const { version, urls, releaseNotes, replace, skipPrCheck, state, installerMatches } =
-		ScriptShardResult.parse(await shard.default());
+	const {
+		version,
+		urls,
+		releaseNotes,
+		replace,
+		skipPrCheck,
+		ignoreOtherPrs,
+		state,
+		installerMatches,
+	} = ScriptShardResult.parse(await shard.default());
 	const { packageIdentifier, font } = getShardTarget(file.base);
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
@@ -107,7 +115,7 @@ async function handleScriptShard(file: FileRef, logger: Logger) {
 
 	if (
 		!skipPrCheck &&
-		(await checkVersionInRepo(resolvedVersion, packageIdentifier, logger, font))
+		(await checkVersionInRepo(resolvedVersion, packageIdentifier, logger, font, ignoreOtherPrs))
 	) {
 		return null;
 	}
@@ -290,7 +298,8 @@ async function handleJsonShard(file: FileRef, logger: Logger) {
 		return null;
 	}
 
-	if (await checkVersionInRepo(version, packageIdentifier, logger, font)) return null;
+	if (await checkVersionInRepo(version, packageIdentifier, logger, font, shard.ignoreOtherPrs))
+		return null;
 
 	const updateResult = await updatePackage({
 		packageIdentifier,

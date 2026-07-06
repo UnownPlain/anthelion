@@ -40,6 +40,7 @@ const scriptShardCommonSchema = z.object({
 	releaseNotes: releaseNotesSchema,
 	replace: z.boolean().optional(),
 	skipPrCheck: z.boolean().default(false),
+	ignoreOtherPrs: z.boolean().default(false),
 	installerMatches: z.string().array().optional(),
 });
 
