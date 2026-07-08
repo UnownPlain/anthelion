@@ -9,9 +9,7 @@ export default defineShard(async () => {
 	const versions = releases.Releases.filter((version) => version.CategoryName === 'Stable');
 
 	const version = versions[0]?.Version;
-	const urls = () => [
-		`https://proton.me/download/pass/windows/ProtonPass_Setup_${version}.exe|x64`,
-	];
+	const urls = () => [`https://proton.me/download/pass/windows/ProtonPass_${version}.msix`];
 
 	return {
 		version,
