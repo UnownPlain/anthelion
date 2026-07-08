@@ -124,18 +124,27 @@ Omitting `--dry-run` while developing a shard can submit a pull request to the c
 ## Choosing a strategy
 
 Choose the most specific strategy that fits the upstream source. Prefer a JSON shard even when its
-configuration is slightly longer than a script.
+configuration is slightly longer than a script. When multiple strategies can work, prefer them in
+this order:
+
+1. `electron-builder`, `json`, or `yaml`
+2. `github-release`
+3. `redirect-match`
+4. `sourceforge`
+5. `page-match` or `sort-versions`
+6. `static`
+7. Script shard
 
 | Strategy           | Use it when                                                                                                |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
-| `github-release`   | The package publishes versioned GitHub releases.                                                           |
 | `electron-builder` | The app publishes an Electron Builder `latest.yml` or equivalent channel file.                             |
 | `json`             | An API or metadata file contains the version.                                                              |
 | `yaml`             | A YAML document contains the version.                                                                      |
+| `github-release`   | The package publishes versioned GitHub releases.                                                           |
+| `sourceforge`      | Releases are hosted in a SourceForge project.                                                              |
+| `redirect-match`   | A stable URL redirects to a versioned installer URL.                                                       |
 | `page-match`       | One contextual regular-expression match on a page contains the version.                                    |
 | `sort-versions`    | A page lists several versions and the greatest version must be selected.                                   |
-| `redirect-match`   | A stable URL redirects to a versioned installer URL.                                                       |
-| `sourceforge`      | Releases are hosted in a SourceForge project.                                                              |
 | `static`           | No upstream version lookup is needed; pass a fixed value or installer metadata selector directly to komac. |
 
 ### GitHub Releases
@@ -357,6 +366,9 @@ Append `|architecture` to an installer URL to override the architecture detected
 The suffix is metadata passed to komac and is not part of the download URL. Supported values are
 `x86`, `x64`, `arm`, `arm64`, and `neutral`. Use an override when the installer metadata does not
 identify the correct architecture.
+
+Do not add architecture overrides preemptively. Leave URLs unannotated when komac can detect the
+installer architecture correctly.
 
 Use `versionRemove` when upstream decorates a version with a fixed prefix or suffix:
 
