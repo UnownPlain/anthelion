@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "electron-builder",
+	"electronBuilder": {
+		"url": "https://github.com/ente/photos-desktop/releases/latest/download/latest.yml"
+	},
+	"urls": [
+		"https://github.com/ente/photos-desktop/releases/download/v{version}/ente-{version}.exe|x86",
+		"https://github.com/ente/photos-desktop/releases/download/v{version}/ente-{version}-x64.exe",
+		"https://github.com/ente/photos-desktop/releases/download/v{version}/ente-{version}-arm64.exe"
+	]
+}
