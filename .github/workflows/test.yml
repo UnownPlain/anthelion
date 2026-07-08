@@ -37,6 +37,8 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
+          json: true
+          escape_json: false
           files: shards/**
           files_ignore: |
             shards/**/*.disabled
@@ -72,10 +74,10 @@ jobs:
             PACKAGE_IDS="$PACKAGES"
           else
             PACKAGE_IDS=""
-            for file in $CHANGED_FILES; do
+            while IFS= read -r file; do
               SHARD_NAME="$(basename "${file%.*}")"
               PACKAGE_IDS+="${SHARD_NAME%.Font} "
-            done
+            done < <(jq -r '.[]' <<< "$CHANGED_FILES")
             PACKAGE_IDS="${PACKAGE_IDS% }"
           fi
 
