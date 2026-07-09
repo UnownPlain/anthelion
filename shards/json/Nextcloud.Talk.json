@@ -5,5 +5,6 @@
 	"urls": [
 		"https://github.com/nextcloud-releases/talk-desktop/releases/download/v{version}/Nextcloud.Talk-windows-x64.msi",
 		"https://github.com/nextcloud-releases/talk-desktop/releases/download/v{version}/Nextcloud.Talk-windows-x64.exe"
-	]
+	],
+	"ignoreOtherPrs": true
 }
