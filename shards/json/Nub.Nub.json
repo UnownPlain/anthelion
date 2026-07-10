@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "nubjs", "repo": "nub" },
+	"urls": [
+		"https://github.com/nubjs/nub/releases/download/v{version}/nub-win32-x64.zip",
+		"https://github.com/nubjs/nub/releases/download/v{version}/nub-win32-arm64.zip"
+	]
+}
