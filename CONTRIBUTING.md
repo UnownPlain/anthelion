@@ -358,17 +358,19 @@ Append `|architecture` to an installer URL to override the architecture detected
 
 ```json
 "urls": [
-	"https://example.com/example-{version}-i686-win32.zip|x86",
-	"https://example.com/example-{version}-amd64-win32.zip|x64"
+	"https://example.com/download/windows-32.zip|x86",
+	"https://example.com/download/windows-64.zip|x64"
 ]
 ```
 
 The suffix is metadata passed to komac and is not part of the download URL. Supported values are
-`x86`, `x64`, `arm`, `arm64`, and `neutral`. Use an override when the installer metadata does not
-identify the correct architecture.
+`x86`, `x64`, `arm`, `arm64`, and `neutral`. Komac normally infers the architecture from the
+installer and common filename markers such as `x86`, `x64`, `amd64`, and `arm64`. Use an override
+only when a dry run shows that this inference is missing or incorrect, such as when upstream uses
+ambiguous filenames like `windows-32` and `windows-64`.
 
-Do not add architecture overrides preemptively. Leave URLs unannotated when komac can detect the
-installer architecture correctly.
+Do not add architecture overrides preemptively, even when multiple architectures are listed. Leave
+URLs unannotated when the dry run detects each installer architecture correctly.
 
 Use `versionRemove` when upstream decorates a version with a fixed prefix or suffix:
 
