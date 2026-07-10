@@ -413,6 +413,7 @@ export async function runAllShards(testShards?: string[], shardsDirectory = getS
 					`### ${update.packageIdentifier}`,
 					`Version: ${update.version}`,
 					`Pull Request: ${update.pullRequestUrl ?? 'Dry Run'}`,
+					`Diff View: ${update.pullRequestUrl?.replace('github.com', 'winget-diff.unownplain.dev') ?? 'Dry Run'}`,
 					'',
 					'<details>',
 					'<summary>Manifests</summary>',
