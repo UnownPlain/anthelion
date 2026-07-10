@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "libjxl", "repo": "libjxl" },
+	"urls": [
+		"https://github.com/libjxl/libjxl/releases/download/v{version}/jxl-x86-windows-static.zip",
+		"https://github.com/libjxl/libjxl/releases/download/v{version}/jxl-x64-windows-static.zip"
+	]
+}
