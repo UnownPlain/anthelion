@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://www.stremio.com/updater/check?product=stremio-shell-ng&arch=x64",
+		"path": "version"
+	},
+	"urls": [
+		"https://dl.strem.io/stremio-shell-ng/v{version}/StremioSetup-v{version}_x64.exe",
+		"https://dl.strem.io/stremio-shell-ng/v{version}/StremioSetup-v{version}_arm64.exe"
+	]
+}
