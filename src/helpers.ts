@@ -191,16 +191,19 @@ export async function checkVersionInRepo(
 	const { owner, repo, branch } = getTargetRepository();
 
 	const manifestDirectory = font ? 'fonts' : 'manifests';
-	const MANIFEST_URL = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/${manifestDirectory}`;
-	const manifestPath = `${MANIFEST_URL}/${packageIdentifier.charAt(0).toLowerCase()}/${packageIdentifier
+	const JSDELIVR_MANIFEST_ROOT = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/${manifestDirectory}`;
+	const GITHUB_MANIFEST_ROOT = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${manifestDirectory}`;
+	const MANIFEST_PATH = `${packageIdentifier.charAt(0).toLowerCase()}/${packageIdentifier
 		.split('.')
 		.join('/')}/${version}/${packageIdentifier}.yaml`;
+	const jsdelivrUrl = `${JSDELIVR_MANIFEST_ROOT}/${MANIFEST_PATH}`;
+	const githubUrl = `${GITHUB_MANIFEST_ROOT}/${MANIFEST_PATH}`;
 
 	const response = ignoreOtherPrs
-		? await ky.get(manifestPath, {
+		? await ky.get(githubUrl, {
 				throwHttpErrors: false,
 			})
-		: await ky.head(manifestPath, {
+		: await ky.head(jsdelivrUrl, {
 				throwHttpErrors: false,
 			});
 
