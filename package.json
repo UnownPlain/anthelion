@@ -65,11 +65,11 @@
 	},
 	"devDependencies": {
 		"@types/bun": "1.3.14",
-		"@typescript/native-preview": "7.0.0-dev.20260702.3",
 		"oxfmt": "0.58.0",
 		"oxlint": "1.73.0",
 		"oxlint-tsgolint": "0.24.0",
-		"tsdown": "0.22.4"
+		"tsdown": "0.22.5",
+		"typescript": "7.0.2"
 	},
 	"packageManager": "bun@1.3.14"
 }

@@ -11,9 +11,7 @@ export default defineConfig([
 			'schema/release-notes': 'src/schema/release-notes.ts',
 		},
 		format: 'esm',
-		dts: {
-			tsgo: true,
-		},
+		dts: true,
 		fixedExtension: false,
 		hash: false,
 		alias: {
