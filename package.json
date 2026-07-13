@@ -54,7 +54,7 @@
 		"@ai-sdk/groq": "4.0.5",
 		"@rcompat/fs": "0.35.1",
 		"@unownplain/anthelion-komac": "0.0.48",
-		"ai": "7.0.14",
+		"ai": "7.0.19",
 		"ansis": "4.3.1",
 		"es-toolkit": "1.49.0",
 		"ky": "2.0.2",
