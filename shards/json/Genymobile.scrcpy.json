@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "Genymobile", "repo": "scrcpy" },
+	"urls": [
+		"https://github.com/Genymobile/scrcpy/releases/download/v{version}/scrcpy-win32-v{version}.zip",
+		"https://github.com/Genymobile/scrcpy/releases/download/v{version}/scrcpy-win64-v{version}.zip"
+	]
+}
