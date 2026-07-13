@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "godotengine", "repo": "godot", "fetchLatest": true },
+	"urls": [
+		"https://github.com/godotengine/godot/releases/download/{version}-stable/Godot_v{version}-stable_mono_win32.zip",
+		"https://github.com/godotengine/godot/releases/download/{version}-stable/Godot_v{version}-stable_mono_win64.zip",
+		"https://github.com/godotengine/godot/releases/download/{version}-stable/Godot_v{version}-stable_mono_windows_arm64.zip"
+	],
+	"versionRemove": "-stable"
+}
