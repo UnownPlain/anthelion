@@ -1,0 +1,15 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "hrydgard", "repo": "ppsspp" },
+	"urls": [
+		"https://www.ppsspp.org/files/{version|.|_}/PPSSPPSetup.exe",
+		"https://www.ppsspp.org/files/{version|.|_}/ppsspp_win.zip",
+		"https://github.com/hrydgard/ppsspp/releases/download/v{version}/PPSSPP-v{version}-Windows-x64.zip",
+		"https://github.com/hrydgard/ppsspp/releases/download/v{version}/PPSSPP-v{version}-Windows-ARM64.zip"
+	],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://www.ppsspp.org/news/release-{version}/"
+	}
+}
