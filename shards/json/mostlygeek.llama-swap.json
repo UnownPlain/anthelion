@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "mostlygeek", "repo": "llama-swap" },
+	"urls": [
+		"https://github.com/mostlygeek/llama-swap/releases/download/v{version}/llama-swap_{version}_windows_amd64.zip"
+	]
+}
