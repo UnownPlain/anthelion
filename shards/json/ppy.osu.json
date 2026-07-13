@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://github.com/ppy/osu/releases/latest/download/releases.win.json",
+		"path": "Assets.0.Version"
+	},
+	"urls": ["https://github.com/ppy/osu/releases/download/{version}/install.exe|x64"]
+}
