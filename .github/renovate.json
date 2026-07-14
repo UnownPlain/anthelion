@@ -32,7 +32,7 @@
 		},
 		{
 			"description": "Throttle fast updating dependencies",
-			"matchPackageNames": ["ai", "@ai-sdk/*", "@typescript/native-preview"],
+			"matchPackageNames": ["ai", "@ai-sdk/*"],
 			"schedule": ["* 0-23 * * 0"]
 		},
 		{
