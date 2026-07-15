@@ -1,15 +1,16 @@
 import ky from 'ky';
 
-import { match } from '@/helpers.ts';
+import { firstMatch, get } from '@/helpers.ts';
 import { defineShard } from '@/schema/script-shard.ts';
 
 export default defineShard(async () => {
 	const response = await ky('https://www.microsoft.com/download/details.aspx?id=49117').text();
 
-	const [url, version] = match(
-		response,
-		/"url":"(https:\/\/download\.microsoft\.com\/download\/[^"]*?officedeploymenttool[^"]*?\.exe)","size":"[^"]+","version":"(\d+(?:\.\d+)+)"/i,
+	const details = JSON.parse(
+		firstMatch(response, /<script>window\.__DLCDetails__=(\{.+?\})<\/script>/is),
 	);
+	const version = get(details, 'dlcDetailsView.downloadFile.0.version');
+	const url = get(details, 'dlcDetailsView.downloadFile.0.url');
 
 	return {
 		version,
