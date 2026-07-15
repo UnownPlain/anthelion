@@ -302,7 +302,7 @@ export function resolveDataBackedUrls(urls: string[], data: unknown) {
 	return urls.map((url) => (isHttpUrl(url) ? url : vs(get(data, url))));
 }
 
-export function firstMatch(str: string, regex: RegExp, errorMessage: string) {
+export function firstMatch(str: string, regex: RegExp, errorMessage?: string) {
 	const version = match(str, regex)[0];
 	if (!version) {
 		throw new Error(errorMessage);
