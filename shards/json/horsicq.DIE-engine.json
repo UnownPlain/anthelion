@@ -1,0 +1,16 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "horsicq", "repo": "DIE-engine" },
+	"urls": [
+		"https://github.com/horsicq/DIE-engine/releases/download/{github.tag}/die_win64_portable_{version}_x64.zip",
+		"https://github.com/horsicq/DIE-engine/releases/download/{github.tag}/die_win32_portable_{version}_x86.zip"
+	],
+	"releaseNotes": {
+		"source": "plain-text",
+		"sourceUrl": "https://raw.githubusercontent.com/horsicq/Detect-It-Easy/refs/heads/master/changelog.txt",
+		"releaseNotesUrl": "https://github.com/horsicq/Detect-It-Easy/blob/master/changelog.txt",
+		"characterLimit": 5000,
+		"cleanup": true
+	}
+}
