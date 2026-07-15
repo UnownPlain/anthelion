@@ -10,7 +10,6 @@
 		"source": "plain-text",
 		"sourceUrl": "https://raw.githubusercontent.com/horsicq/Detect-It-Easy/refs/heads/master/changelog.txt",
 		"releaseNotesUrl": "https://github.com/horsicq/Detect-It-Easy/blob/master/changelog.txt",
-		"characterLimit": 5000,
-		"cleanup": true
+		"characterLimit": 5000
 	}
 }

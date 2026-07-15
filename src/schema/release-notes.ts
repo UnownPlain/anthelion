@@ -34,7 +34,7 @@ const releaseNotesHtmlSchema = z.object({
 	characterLimit: z
 		.int()
 		.positive()
-		.describe('Optional max character limit for parsed HTML release notes.')
+		.describe('Optional max character limit for release notes sent to AI cleanup.')
 		.optional(),
 	cleanup: z
 		.boolean()
@@ -59,7 +59,7 @@ const releaseNotesMarkdownSchema = z.object({
 	characterLimit: z
 		.int()
 		.positive()
-		.describe('Optional max character limit for parsed markdown release notes.')
+		.describe('Optional max character limit for release notes sent to AI cleanup.')
 		.optional(),
 	cleanup: z
 		.boolean()
@@ -84,12 +84,12 @@ const releaseNotesPlainTextSchema = z.object({
 	characterLimit: z
 		.int()
 		.positive()
-		.describe('Optional max character limit for fetched plain text release notes.')
+		.describe('Optional max character limit for release notes sent to AI cleanup.')
 		.optional(),
 	cleanup: z
 		.boolean()
 		.default(true)
-		.describe('Cleanup release notes with AI. Disabled by default for plain text sources.')
+		.describe('Cleanup release notes with AI. Enabled by default for plain text sources.')
 		.optional(),
 });
 
@@ -109,7 +109,7 @@ const releaseNotesBrowserRenderingSchema = z.object({
 	characterLimit: z
 		.int()
 		.positive()
-		.describe('Optional max character limit for parsed markdown release notes.')
+		.describe('Optional max character limit for release notes sent to AI cleanup.')
 		.optional(),
 	waitUntil: z
 		.enum(['load', 'domcontentloaded', 'networkidle0', 'networkidle2'])
@@ -215,3 +215,4 @@ const releaseNotesUnionSchema = z.union([releaseNotesSourceSchema, releaseNotesU
 
 export const releaseNotesSchema = releaseNotesUnionSchema.optional();
 export type ReleaseNotesInput = z.input<typeof releaseNotesSchema>;
+export type ReleaseNotesConfig = z.output<typeof releaseNotesSchema>;

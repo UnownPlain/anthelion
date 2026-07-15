@@ -10,9 +10,15 @@ import { parse } from 'yaml';
 
 import { dedent, get, isHttpUrl, resolveValuePlaceholders, vs } from '@/helpers.ts';
 import {
+	browserRenderingOptionsSchema,
+	browserRenderingResponseSchema,
+	type BrowserRenderingOptions,
+} from '@/schema/browser-rendering';
+import {
 	releaseNotesSchema,
 	ReleaseNotesSource,
 	type NestedReleaseNotesSource,
+	type ReleaseNotesConfig,
 } from '@/schema/release-notes';
 
 const CLEANUP_SYSTEM_PROMPT = dedent`
@@ -32,13 +38,25 @@ const CLEANUP_SYSTEM_PROMPT = dedent`
 	The package identifier is {packageIdentifier} and current package version is {version}. Only include the release notes for this version and package. If the package or version is not specified, assume it is the correct version or package.
 `;
 
+type ResolvedReleaseNotes = {
+	releaseNotes: string | undefined;
+	releaseNotesUrl: string | undefined;
+};
+
+type SourceConfig = Extract<NonNullable<ReleaseNotesConfig>, { source: ReleaseNotesSource }>;
+type DataSourceConfig = Extract<
+	SourceConfig,
+	{ source: ReleaseNotesSource.Json | ReleaseNotesSource.Yaml }
+>;
+
 async function cleanupReleaseNotes(
 	releaseNotes: string,
 	version: string,
 	packageIdentifier: string,
+	characterLimit?: number,
 ) {
 	if (!process.env.GROQ_API_KEY) {
-		return undefined;
+		return;
 	}
 
 	const { text } = await generateText({
@@ -47,24 +65,19 @@ async function cleanupReleaseNotes(
 			'{packageIdentifier}',
 			packageIdentifier,
 		),
-		prompt: releaseNotes,
+		prompt: limitLength(releaseNotes, characterLimit),
 		temperature: 0,
 	});
 
 	return text.trim() || undefined;
 }
 
-type BrowserRenderingOptions = {
-	url: string;
-	waitUntil?: 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
-	waitForSelector?: string;
-};
-
-type BrowserRenderingMarkdownEnvelope = {
-	success: boolean;
-	errors?: Array<{ code: number; message: string }>;
-	result?: string;
-};
+function emptyReleaseNotes(): ResolvedReleaseNotes {
+	return {
+		releaseNotes: undefined,
+		releaseNotesUrl: undefined,
+	};
+}
 
 function limitLength(releaseNotes: string, characterLimit?: number) {
 	return characterLimit && releaseNotes.length > characterLimit
@@ -84,47 +97,36 @@ async function formatReleaseNotes(content: string, source: NestedReleaseNotesSou
 }
 
 async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
+	const parsedOptions = browserRenderingOptionsSchema.parse(options);
 	const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN } = process.env;
 
 	if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_API_TOKEN) {
-		return undefined;
+		return;
 	}
 
 	const endpoint = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/browser-rendering/markdown`;
-	const requestBody: {
-		gotoOptions?: {
-			waitUntil?: BrowserRenderingOptions['waitUntil'];
-		};
-		url: string;
-		waitForSelector?: string;
-	} = {
-		url: options.url,
+	const requestBody = {
+		url: parsedOptions.url,
+		...(parsedOptions.waitUntil && {
+			gotoOptions: { waitUntil: parsedOptions.waitUntil },
+		}),
+		...(parsedOptions.waitForSelector && {
+			waitForSelector: parsedOptions.waitForSelector,
+		}),
 	};
-
-	if (options.waitUntil) {
-		requestBody.gotoOptions = {
-			waitUntil: options.waitUntil,
-		};
-	}
-
-	if (options.waitForSelector) {
-		requestBody.waitForSelector = options.waitForSelector;
-	}
 
 	const response = await ky.post(endpoint, {
 		headers: {
 			authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
 		},
-		json: {
-			...requestBody,
-		},
+		json: requestBody,
 		throwHttpErrors: false,
 	});
 
-	const data = (await response.json()) as BrowserRenderingMarkdownEnvelope;
-	if (!response.ok || !data.success || typeof data.result !== 'string') {
+	const data = browserRenderingResponseSchema.safeParse(await response.json()).data;
+	if (!response.ok || !data?.success || typeof data.result !== 'string') {
 		const errorMessage =
-			data.errors?.[0]?.message ?? 'Unknown error from Cloudflare Browser Rendering';
+			data?.errors?.[0]?.message ?? 'Unknown error from Cloudflare Browser Rendering';
 		throw new Error(`Cloudflare Browser Rendering failed: ${errorMessage}`);
 	}
 
@@ -133,13 +135,13 @@ async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
 
 async function resolveNestedReleaseNotes(
 	sourceUrl: string,
-	path: string,
-	source: NestedReleaseNotesSource,
-	format: 'json' | 'yaml',
+	config: Pick<DataSourceConfig, 'path' | 'nestedSource' | 'source'>,
 ) {
 	const response =
-		format === 'json' ? await ky(sourceUrl).json() : parse(await ky(sourceUrl).text());
-	let rawReleaseNotes = vs(get(response, path));
+		config.source === ReleaseNotesSource.Json
+			? await ky(sourceUrl).json()
+			: parse(await ky(sourceUrl).text());
+	let rawReleaseNotes = vs(get(response, config.path));
 	let releaseNotesUrl: string | undefined;
 
 	if (isHttpUrl(rawReleaseNotes)) {
@@ -148,9 +150,89 @@ async function resolveNestedReleaseNotes(
 	}
 
 	return {
-		releaseNotes: await formatReleaseNotes(rawReleaseNotes, source),
+		releaseNotes: await formatReleaseNotes(rawReleaseNotes, config.nestedSource),
 		releaseNotesUrl,
 	};
+}
+
+function resolveSourceUrls(
+	config: { sourceUrl: string; releaseNotesUrl?: string },
+	values: Record<string, unknown>,
+) {
+	const sourceUrl = resolveValuePlaceholders(config.sourceUrl, values);
+	const releaseNotesUrl = config.releaseNotesUrl
+		? resolveValuePlaceholders(config.releaseNotesUrl, values)
+		: sourceUrl;
+
+	return { sourceUrl, releaseNotesUrl };
+}
+
+async function resolveFromSource(
+	config: SourceConfig,
+	values: Record<string, unknown>,
+	githubTag?: string,
+	github?: { owner: string; repo: string },
+): Promise<ResolvedReleaseNotes> {
+	switch (config.source) {
+		case ReleaseNotesSource.Html:
+		case ReleaseNotesSource.Markdown:
+		case ReleaseNotesSource.PlainText: {
+			const { sourceUrl, releaseNotesUrl } = resolveSourceUrls(config, values);
+			const releaseNotes = await formatReleaseNotes(await ky(sourceUrl).text(), config.source);
+
+			return {
+				releaseNotes,
+				releaseNotesUrl,
+			};
+		}
+		case ReleaseNotesSource.Github: {
+			const owner = config.owner || github?.owner;
+			const repo = config.repo || github?.repo;
+			const tag = config.tag ? resolveValuePlaceholders(config.tag, values) : githubTag;
+
+			if (!owner || !repo) {
+				throw new Error(
+					'releaseNotes.github owner and repo are required unless strategy is github-release',
+				);
+			}
+			if (!tag) {
+				throw new Error(
+					'releaseNotes.tag is required unless strategy is github-release and a GitHub release tag was resolved',
+				);
+			}
+
+			return {
+				releaseNotes: (await getFormattedGithubReleaseNotes(owner, repo, tag)) ?? undefined,
+				releaseNotesUrl: `https://github.com/${owner}/${repo}/releases/tag/${tag}`,
+			};
+		}
+		case ReleaseNotesSource.Json:
+		case ReleaseNotesSource.Yaml: {
+			const { sourceUrl, releaseNotesUrl } = resolveSourceUrls(config, values);
+			const nested = await resolveNestedReleaseNotes(sourceUrl, config);
+
+			return {
+				releaseNotes: nested.releaseNotes,
+				releaseNotesUrl: nested.releaseNotesUrl ?? releaseNotesUrl,
+			};
+		}
+		case ReleaseNotesSource.BrowserRendering: {
+			const { sourceUrl, releaseNotesUrl } = resolveSourceUrls(config, values);
+			const renderedMarkdown = await fetchBrowserRenderedMarkdown({
+				url: sourceUrl,
+				waitUntil: config.waitUntil,
+				waitForSelector: config.waitForSelector,
+			});
+
+			return {
+				releaseNotes:
+					renderedMarkdown === undefined
+						? undefined
+						: await formatReleaseNotes(renderedMarkdown, ReleaseNotesSource.Markdown),
+				releaseNotesUrl,
+			};
+		}
+	}
 }
 
 export async function resolveReleaseNotes(
@@ -164,132 +246,38 @@ export async function resolveReleaseNotes(
 	},
 	templateValues: Record<string, unknown> = {},
 ) {
-	const releaseNotesConfig = releaseNotesSchema.safeParse(releaseNotes).data;
-	const manifest: {
-		releaseNotes: string | undefined;
-		releaseNotesUrl: string | undefined;
-	} = {
-		releaseNotes: undefined,
-		releaseNotesUrl: undefined,
-	};
+	const releaseNotesConfig = releaseNotesSchema.parse(releaseNotes);
 
 	if (!releaseNotesConfig) {
-		return manifest;
+		return emptyReleaseNotes();
 	}
 
 	const values = { ...templateValues, version };
 
 	if (!('source' in releaseNotesConfig)) {
-		manifest.releaseNotesUrl = resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values);
-		return manifest;
+		return {
+			releaseNotes: undefined,
+			releaseNotesUrl: resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values),
+		};
 	}
 
-	switch (releaseNotesConfig.source) {
-		case ReleaseNotesSource.Html:
-		case ReleaseNotesSource.Markdown:
-		case ReleaseNotesSource.PlainText: {
-			const sourceUrl = resolveValuePlaceholders(releaseNotesConfig.sourceUrl, values);
-			manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl
-				? resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values)
-				: sourceUrl;
-			manifest.releaseNotes = limitLength(
-				await formatReleaseNotes(await ky(sourceUrl).text(), releaseNotesConfig.source),
-				releaseNotesConfig.characterLimit,
-			);
-
-			break;
-		}
-		case ReleaseNotesSource.Github: {
-			const owner = releaseNotesConfig.owner || github?.owner;
-			const repo = releaseNotesConfig.repo || github?.repo;
-			const tag = releaseNotesConfig.tag
-				? resolveValuePlaceholders(releaseNotesConfig.tag, values)
-				: githubTag;
-
-			if (!owner || !repo) {
-				throw new Error(
-					'releaseNotes.github owner and repo are required unless strategy is github-release',
-				);
-			}
-			if (!tag) {
-				throw new Error(
-					'releaseNotes.tag is required unless strategy is github-release and a GitHub release tag was resolved',
-				);
-			}
-
-			manifest.releaseNotesUrl = `https://github.com/${owner}/${repo}/releases/tag/${tag}`;
-			manifest.releaseNotes = (await getFormattedGithubReleaseNotes(owner, repo, tag)) ?? undefined;
-
-			break;
-		}
-		case ReleaseNotesSource.Json: {
-			const sourceUrl = resolveValuePlaceholders(releaseNotesConfig.sourceUrl, values);
-			manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl
-				? resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values)
-				: sourceUrl;
-			const result = await resolveNestedReleaseNotes(
-				sourceUrl,
-				releaseNotesConfig.path,
-				releaseNotesConfig.nestedSource,
-				'json',
-			);
-			manifest.releaseNotes = result.releaseNotes;
-			manifest.releaseNotesUrl = result.releaseNotesUrl ?? manifest.releaseNotesUrl;
-
-			break;
-		}
-		case ReleaseNotesSource.Yaml: {
-			const sourceUrl = resolveValuePlaceholders(releaseNotesConfig.sourceUrl, values);
-			manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl
-				? resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values)
-				: sourceUrl;
-			const result = await resolveNestedReleaseNotes(
-				sourceUrl,
-				releaseNotesConfig.path,
-				releaseNotesConfig.nestedSource,
-				'yaml',
-			);
-			manifest.releaseNotes = result.releaseNotes;
-			manifest.releaseNotesUrl = result.releaseNotesUrl ?? manifest.releaseNotesUrl;
-
-			break;
-		}
-		case ReleaseNotesSource.BrowserRendering: {
-			const sourceUrl = resolveValuePlaceholders(releaseNotesConfig.sourceUrl, values);
-			manifest.releaseNotesUrl = releaseNotesConfig.releaseNotesUrl
-				? resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values)
-				: sourceUrl;
-			const renderedMarkdown = await fetchBrowserRenderedMarkdown({
-				url: sourceUrl,
-				waitUntil: releaseNotesConfig.waitUntil,
-				waitForSelector: releaseNotesConfig.waitForSelector,
-			});
-
-			if (renderedMarkdown !== undefined) {
-				manifest.releaseNotes = limitLength(
-					await formatReleaseNotes(renderedMarkdown, ReleaseNotesSource.Markdown),
-					releaseNotesConfig.characterLimit,
-				);
-			}
-
-			break;
-		}
-	}
+	const manifest = await resolveFromSource(releaseNotesConfig, values, githubTag, github);
 
 	if (!manifest.releaseNotes) {
-		manifest.releaseNotesUrl = undefined;
+		return emptyReleaseNotes();
 	}
 
-	if (
-		'cleanup' in releaseNotesConfig &&
-		(releaseNotesConfig.cleanup ?? true) &&
-		manifest.releaseNotes
-	) {
-		manifest.releaseNotes = await cleanupReleaseNotes(
+	if (releaseNotesConfig.cleanup ?? true) {
+		const cleanedReleaseNotes = await cleanupReleaseNotes(
 			manifest.releaseNotes,
 			version,
 			packageIdentifier,
+			'characterLimit' in releaseNotesConfig ? releaseNotesConfig.characterLimit : undefined,
 		);
+
+		return cleanedReleaseNotes
+			? { ...manifest, releaseNotes: cleanedReleaseNotes }
+			: emptyReleaseNotes();
 	}
 
 	return manifest;

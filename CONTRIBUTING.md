@@ -451,8 +451,21 @@ For a non-GitHub changelog or release page, choose its source format:
 Supported sources are `github`, `html`, `markdown`, `plain-text`, `json`, `yaml`, and
 `browser-rendering`. If only a link is useful, provide just `releaseNotesUrl`.
 
-Use `cleanup` only when the fetched content needs cleanup. Avoid browser rendering if a direct
-HTML, Markdown, JSON, or YAML source exists.
+AI cleanup is enabled by default for `html`, `markdown`, `plain-text`, `json`, `yaml`, and
+`browser-rendering` sources. Set `cleanup` to `false` when formatting the source as plain text is
+sufficient. GitHub release notes are the exception: cleanup is disabled by default because GitHub
+already provides per-release content. Set `cleanup` to `true` only when those notes need further
+cleanup.
+
+`characterLimit` truncates the formatted release notes before they are sent to AI cleanup. It does
+not directly truncate the cleanup result and has no effect when cleanup is disabled. Use it for
+large changelogs so the cleanup request contains only the relevant leading content.
+
+When cleanup is enabled, `GROQ_API_KEY` must be available. If fetching or cleanup produces no
+release notes, Anthelion omits both `ReleaseNotes` and `ReleaseNotesUrl`. A configuration containing
+only `releaseNotesUrl` is not fetched or cleaned and always supplies that manifest field.
+
+Avoid browser rendering if a direct HTML, Markdown, JSON, or YAML source exists.
 
 ## Regular expressions
 

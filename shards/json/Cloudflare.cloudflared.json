@@ -12,6 +12,6 @@
 		"source": "plain-text",
 		"sourceUrl": "https://raw.githubusercontent.com/cloudflare/cloudflared/refs/heads/master/RELEASE_NOTES",
 		"releaseNotesUrl": "https://github.com/cloudflare/cloudflared/blob/{version}/RELEASE_NOTES",
-		"characterLimit": 500
+		"characterLimit": 5000
 	}
 }
