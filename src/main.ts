@@ -61,16 +61,18 @@ async function updatePackage(options: {
 	const resolvedUrls = (await options.urls()).map((url) =>
 		resolveValuePlaceholders(url, templateValues),
 	);
+
+	options.logger.details(options.version, resolvedUrls);
+
 	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
 		options.releaseNotes,
 		options.packageIdentifier,
 		options.version,
+		resolvedUrls,
 		options.githubTag,
 		options.github,
 		templateValues,
 	);
-
-	options.logger.details(options.version, resolvedUrls);
 
 	const updateResult = await updateVersion({
 		packageIdentifier: options.packageIdentifier,

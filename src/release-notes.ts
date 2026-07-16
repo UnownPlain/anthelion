@@ -38,6 +38,8 @@ const CLEANUP_SYSTEM_PROMPT = dedent`
 	The package identifier is {packageIdentifier} and current package version is {version}. Only include the release notes for this version and package. If the package or version is not specified, assume it is the correct version or package.
 `;
 
+const ARCHITECTURE_OVERRIDE = /\|(?:arm|arm64|neutral|x64|x86)$/;
+
 type ResolvedReleaseNotes = {
 	releaseNotes: string | undefined;
 	releaseNotesUrl: string | undefined;
@@ -239,6 +241,7 @@ export async function resolveReleaseNotes(
 	releaseNotes: unknown,
 	packageIdentifier: string,
 	version: string,
+	installerUrls: string[],
 	githubTag?: string,
 	github?: {
 		owner: string;
@@ -260,6 +263,22 @@ export async function resolveReleaseNotes(
 			releaseNotesUrl: resolveValuePlaceholders(releaseNotesConfig.releaseNotesUrl, values),
 		};
 	}
+
+	const urlsToValidate = new Set(
+		installerUrls.map((url) => url.replace(ARCHITECTURE_OVERRIDE, '')),
+	);
+	if (urlsToValidate.size === 0) {
+		throw new Error('No installer URLs were resolved');
+	}
+
+	await Promise.all(
+		urlsToValidate.values().map(async (url) => {
+			const response = await ky.head(url, { throwHttpErrors: false });
+			if (!response.ok) {
+				throw new Error(`Installer URL returned HTTP ${response.status}: ${url}`);
+			}
+		}),
+	);
 
 	const manifest = await resolveFromSource(releaseNotesConfig, values, githubTag, github);
 
