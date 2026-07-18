@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://docs.cyberhive.com/connect/release-notes/",
+		"regex": "href=[\"']https://pkgs\\.cyberhive\\.com/windows/stable/cyberhive-connect_(?<version>\\d+(?:\\.\\d+)+)-(?<build>[0-9a-f]+)\\.exe[\"']"
+	},
+	"urls": [
+		"https://pkgs.cyberhive.com/windows/stable/cyberhive-connect_{version}-{captures.build}.exe|x64"
+	],
+	"releaseNotes": {
+		"releaseNotesUrl": "https://docs.cyberhive.com/connect/release-notes/#{version|.|}"
+	}
+}
