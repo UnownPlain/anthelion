@@ -4,7 +4,7 @@
 	"github": { "owner": "hrydgard", "repo": "ppsspp" },
 	"urls": [
 		"https://www.ppsspp.org/files/{version|.|_}/PPSSPPSetup.exe",
-		"https://www.ppsspp.org/files/{version|.|_}/ppsspp_win.zip",
+		"https://www.ppsspp.org/files/{version|.|_}/ppsspp_win.zip|x86",
 		"https://github.com/hrydgard/ppsspp/releases/download/v{version}/PPSSPP-v{version}-Windows-x64.zip",
 		"https://github.com/hrydgard/ppsspp/releases/download/v{version}/PPSSPP-v{version}-Windows-ARM64.zip"
 	],
