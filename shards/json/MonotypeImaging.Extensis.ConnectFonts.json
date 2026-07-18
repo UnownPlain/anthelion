@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "redirect-match",
+	"redirectMatch": {
+		"url": "https://links.extensis.com/extensis_connect/ec_latest?language=en&platform=win",
+		"regex": "ExtensisConnect-W-(\\d+(?:-\\d+)+)\\.zip"
+	},
+	"version": "{version|-|.}",
+	"urls": ["https://bin.extensis.com/ExtensisConnect-W-{version}.zip|x64"],
+	"releaseNotes": {
+		"releaseNotesUrl": "https://www.extensis.com/support/connect/release-notes"
+	}
+}
