@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.ocbase.com/download",
+		"regex": "\"revision\":(?<revision>\\d+),\"versionId\":\\d+,\"type\":\"Stable\",\"versionStr\":\"(?<version>\\d+(?:\\.\\d+)+)\"\\},\"edition\":\"Personal\",\"checksum\":\"[0-9a-f]{64}\",\"filename\":\"OCCT\\d+(?:\\.\\d+)+\\.exe\""
+	},
+	"version": "{version}.{captures.revision}",
+	"urls": ["https://www.ocbase.com/download/edition:Personal/version:{version}/os:Windows"]
+}
