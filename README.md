@@ -5,7 +5,7 @@
 [gpl-license]: https://github.com/UnownPlain/anthelion/blob/HEAD/LICENSE.md
 [mit-license]: https://github.com/UnownPlain/anthelion/blob/HEAD/LICENSE-MIT.md
 
-Monitors selected software projects for new releases, generates
+Anthelion monitors selected software projects for new releases, generates
 updated WinGet manifests, and submits them to the
 [Windows Package Manager Community Repository](https://github.com/microsoft/winget-pkgs).
 

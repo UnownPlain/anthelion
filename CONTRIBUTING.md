@@ -62,7 +62,7 @@ Before adding a shard, check that:
 
 ## Researching how a package updates
 
-Check other package repositories update the package before building version detection from scratch:
+Check how other package repositories update the package before building version detection from scratch:
 
 - [Homebrew](https://brew.sh)'s Livecheck
 - [Scoop](https://scoop.sh)'s checkver
