@@ -8,9 +8,8 @@ import ky from 'ky';
 import { parse } from 'yaml';
 
 import { getShardsDirectory } from '@/config';
-import { getLatestRelease, getLatestReleaseFromRedirect } from '@/github';
+import { closeAllButMostRecentPR, getLatestRelease, getLatestReleaseFromRedirect } from '@/github';
 import {
-	closeAllButMostRecentPR,
 	checkVersionInRepo,
 	get,
 	getShardTarget,

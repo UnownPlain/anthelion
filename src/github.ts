@@ -1,7 +1,10 @@
 import { extname } from 'node:path';
 
+import { delay } from 'es-toolkit';
 import ky from 'ky';
 import { Octokit } from 'octokit';
+
+import { getTargetRepository } from '@/config';
 
 export const githubClient = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
@@ -140,4 +143,33 @@ export async function getRepositoryHeadSha() {
 	});
 
 	return data.sha;
+}
+
+export async function closeAllButMostRecentPR(packageIdentifier: string) {
+	if (process.env.DRY_RUN) return;
+
+	// Wait for GitHub API to update
+	await delay(10_000);
+
+	const { owner, repo } = getTargetRepository();
+	const { viewer } = await githubClient.graphql<{ viewer: { login: string } }>(`
+		query {
+			viewer {
+				login
+			}
+		}
+	`);
+
+	const prSearch = await githubClient.rest.search.issuesAndPullRequests({
+		q: `${packageIdentifier} in:title is:pr author:${viewer.login} is:open repo:${owner}/${repo} sort:created-desc`,
+	});
+
+	for (const pr of prSearch.data.items.slice(1)) {
+		await githubClient.rest.pulls.update({
+			owner,
+			repo,
+			pull_number: pr.number,
+			state: 'closed',
+		});
+	}
 }

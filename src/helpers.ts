@@ -5,7 +5,6 @@ import {
 	type UpdateVersionResult,
 } from '@unownplain/anthelion-komac';
 import { bgRed, blue, green, magenta, redBright, yellow } from 'ansis';
-import { delay } from 'es-toolkit';
 import ky from 'ky';
 import { z, ZodError } from 'zod';
 
@@ -232,29 +231,6 @@ export async function checkVersionInRepo(
 	}
 
 	return false;
-}
-
-export async function closeAllButMostRecentPR(packageIdentifier: string) {
-	if (process.env.DRY_RUN) return;
-
-	// Wait for GitHub API to update
-	await delay(10_000);
-
-	const { owner, repo } = getTargetRepository();
-	const { data: authenticatedUser } = await githubClient.rest.users.getAuthenticated();
-
-	const prSearch = await githubClient.rest.search.issuesAndPullRequests({
-		q: `${packageIdentifier} is:pr author:${authenticatedUser.login} is:open repo:${owner}/${repo} sort:created-desc`,
-	});
-
-	for (const pr of prSearch.data.items.slice(1)) {
-		await githubClient.rest.pulls.update({
-			owner,
-			repo,
-			pull_number: pr.number,
-			state: 'closed',
-		});
-	}
 }
 
 export async function updateVersionState(packageIdentifier: string, latestVersion: string) {
