@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "dpaulat", "repo": "supercell-wx" },
+	"urls": [
+		"https://github.com/dpaulat/supercell-wx/releases/download/v{version}-release/supercell-wx-v{version}-windows-x64.msi",
+		"https://github.com/dpaulat/supercell-wx/releases/download/v{version}-release/supercell-wx-v{version}-windows-x64.zip"
+	],
+	"versionRemove": "-release"
+}
