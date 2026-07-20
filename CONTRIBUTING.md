@@ -504,8 +504,9 @@ conditional transformation while retaining the original tag for the download URL
 ```ts
 import { getLatestReleaseFromRedirect } from '@/github.ts';
 import { match } from '@/helpers';
+import { defineShard } from '@/schema/script-shard.ts';
 
-export default async function () {
+export default defineShard(async () => {
 	const release = await getLatestReleaseFromRedirect({
 		owner: 'git-for-windows',
 		repo: 'git',
@@ -521,7 +522,7 @@ export default async function () {
 			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-arm64.zip`,
 		],
 	};
-}
+});
 ```
 
 Within this repository, existing shards may use the equivalent `@/helpers` and `@/strategies`
