@@ -8,6 +8,6 @@ export function getTargetRepository() {
 	return {
 		owner: process.env.KOMAC_GITHUB_OWNER || 'microsoft',
 		repo: process.env.KOMAC_GITHUB_REPO || 'winget-pkgs',
-		branch: process.env.ANTHELION_GITHUB_BRANCH || 'master',
+		branch: process.env.KOMAC_GITHUB_REF || 'master',
 	};
 }
