@@ -294,7 +294,10 @@ async function handleJsonShard(file: FileRef, logger: Logger) {
 		}
 	}
 
-	if (state && (await isStateMatching(packageIdentifier, state))) {
+	const ignoreStateQuotes =
+		shard.state?.source === 'response-header' && shard.state.header.toLowerCase() === 'etag';
+
+	if (state && (await isStateMatching(packageIdentifier, state, ignoreStateQuotes))) {
 		logger.stateMatches();
 		return null;
 	}

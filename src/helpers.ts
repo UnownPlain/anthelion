@@ -170,10 +170,18 @@ export function match(str: string | undefined, regex: RegExp) {
 	return validated;
 }
 
-export async function isStateMatching(packageIdentifier: string, newState: string) {
+export async function isStateMatching(
+	packageIdentifier: string,
+	newState: string,
+	ignoreQuotes = false,
+) {
 	if (process.env.DRY_RUN) return;
 	const versionStatePath = `version-state/${packageIdentifier}`;
 	const storedVersion = (await fs.ref(versionStatePath).text()).trim();
+
+	if (ignoreQuotes) {
+		return newState.replaceAll(/["']/g, '') === storedVersion.replaceAll(/["']/g, '');
+	}
 
 	return newState === storedVersion;
 }
