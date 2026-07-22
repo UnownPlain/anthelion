@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://wsv3.com/download.html",
+		"regex": "<strong>V(\\d+(?:\\.\\d+)+) Release Version:</strong>"
+	},
+	"urls": ["https://wsv3-static.s3.amazonaws.com/WSV3Installer32.exe"],
+	"replace": true
+}
