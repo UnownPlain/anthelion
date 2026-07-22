@@ -314,6 +314,14 @@ Anthelion compares the header with `version-state/{PACKAGE_IDENTIFIER}`. A match
 After a successful update, Anthelion writes the new value to that file. Dry runs intentionally
 ignore stored state so the shard can still be tested.
 
+When adding a shard that declares `state`, also add its initial
+`version-state/{PACKAGE_IDENTIFIER}` file if the current upstream installer is already represented
+by the latest WinGet manifest. Store the state value resolved during testing: use the configured
+response header exactly as returned for `response-header`, or the resolved token for `value`. Do not
+initialize the file when upstream is newer than WinGet, because matching state would suppress the
+update that the shard needs to submit. An absent state file is expected in that case and will be
+created after the successful update.
+
 Use an `etag`, content hash, or `last-modified` value that changes whenever the installer changes.
 The state URL may differ from the installer URL, as with a metadata or CDN endpoint. Use
 `"method": "get"` only when the server does not support `HEAD`.
