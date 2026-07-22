@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "openbao", "repo": "openbao" },
+	"urls": [
+		"https://github.com/openbao/openbao/releases/download/v{version}/openbao_{version}_windows_amd64.zip",
+		"https://github.com/openbao/openbao/releases/download/v{version}/openbao_{version}_windows_arm64.zip"
+	]
+}
