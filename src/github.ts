@@ -38,13 +38,15 @@ export async function getLatestReleaseFromRedirect({
 	}
 
 	const releaseUrl = new URL(location, 'https://github.com');
-	const tag = releaseUrl.pathname.split('/').at(-1);
+	const pathParts = releaseUrl.pathname.split('/').filter(Boolean);
+	const releasesIndex = pathParts.indexOf('releases');
+	const tag = pathParts.slice(releasesIndex + 2).join('/');
 
-	if (!tag) {
-		throw new Error(`Unexpected GitHub release redirect: ${releaseUrl.href}`);
-	}
-	if (tag === 'latest') {
+	if (pathParts.at(-1) === 'latest') {
 		throw new Error(`GitHub repository has moved: ${releaseUrl.href}`);
+	}
+	if (releasesIndex === -1 || pathParts[releasesIndex + 1] !== 'tag' || !tag) {
+		throw new Error(`Unexpected GitHub release redirect: ${releaseUrl.href}`);
 	}
 
 	return {
