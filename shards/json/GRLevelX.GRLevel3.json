@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "static",
+	"state": {
+		"source": "response-header",
+		"url": "https://www.grlevelx.com/downloads/grlevel3_3_setup.exe",
+		"header": "etag"
+	},
+	"version": "productVersion",
+	"urls": ["https://www.grlevelx.com/downloads/grlevel3_3_setup.exe"],
+	"replace": true
+}
