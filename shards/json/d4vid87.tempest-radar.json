@@ -1,0 +1,6 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "d4vid87", "repo": "tempest-radar" },
+	"urls": ["https://github.com/d4vid87/tempest-radar/releases/download/v{version}/TempestRadar.exe"]
+}
