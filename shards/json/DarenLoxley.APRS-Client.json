@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "2E0LXY", "repo": "APRS-Client" },
+	"urls": [
+		"https://github.com/2E0LXY/APRS-Client/releases/download/v{version}/APRSNET.Desktop.Setup.{version}.exe"
+	]
+}
