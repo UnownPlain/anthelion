@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "nwws-rs" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/nwws-rs/releases/download/v{version}/nwws-x86_64-pc-windows-msvc.zip"
+	]
+}
