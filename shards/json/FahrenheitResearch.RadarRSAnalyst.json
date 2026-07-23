@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "radar-rs-analyst" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/radar-rs-analyst/releases/download/v{version}/radar-rs-analyst-windows-x64.zip",
+		"https://github.com/FahrenheitResearch/radar-rs-analyst/releases/download/v{version}/radar-rs-analyst-windows-arm64.zip"
+	]
+}
