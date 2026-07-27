@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "rustdar" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/rustdar/releases/download/v{version}/RustDar-Windows-x64.zip"
+	]
+}
