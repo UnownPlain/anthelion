@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "static",
+	"state": {
+		"source": "response-header",
+		"url": "https://www.pc-wetterstation.de/ws32_en.exe",
+		"header": "etag"
+	},
+	"version": { "source": "product" },
+	"urls": ["https://www.pc-wetterstation.de/ws32_en.exe"]
+}
