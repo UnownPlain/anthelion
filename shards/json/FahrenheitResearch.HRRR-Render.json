@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "hrrr-render" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/hrrr-render/releases/download/v{version}/hrrr-render-windows-x86_64.zip"
+	]
+}
