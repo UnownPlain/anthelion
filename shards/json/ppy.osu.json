@@ -5,5 +5,10 @@
 		"url": "https://github.com/ppy/osu/releases/latest/download/releases.win.json",
 		"path": "Assets.0.Version"
 	},
-	"urls": ["https://github.com/ppy/osu/releases/download/{version}/install.exe|x64"]
+	"urls": [
+		{
+			"url": "https://github.com/ppy/osu/releases/download/{version}/install.exe",
+			"architecture": "x64"
+		}
+	]
 }

@@ -2,31 +2,38 @@ import { z } from 'zod';
 
 import { releaseNotesSchema } from '@/schema/release-notes';
 
-const urlArrayInputSchema = z.array(z.unknown()).pipe(z.array(z.string()));
+const installerSourceSchema = z.union([
+	z.string(),
+	z.object({
+		url: z.string(),
+		architecture: z.enum(['x86', 'x64', 'arm', 'arm64', 'neutral']).optional(),
+		nestedInstallerMatches: z.array(z.string().min(1)).min(1).optional(),
+	}),
+]);
+
+const urlArrayInputSchema = z.array(z.unknown()).pipe(z.array(installerSourceSchema));
 
 export const urlsSchema = z
-	.union([
-		urlArrayInputSchema,
-		z.custom<() => unknown[] | Promise<unknown[]> | undefined>(
-			(value) => typeof value === 'function',
-			{
-				message: 'Expected an array of URLs or a function returning URLs',
-			},
-		),
-	])
-	.transform((urls) =>
-		typeof urls === 'function' ? async () => urlArrayInputSchema.parse(await urls()) : () => urls,
-	);
+	.function({
+		input: [],
+		output: z.unknown(),
+	})
+	.transform((urls) => async () => urlArrayInputSchema.parse(await urls()));
 
 export type Urls = z.output<typeof urlsSchema>;
 
-const versionSchema = z
-	.custom<() => unknown>((value) => typeof value === 'function', {
-		message: 'Expected a function returning a version',
-	})
-	.transform((version) => () => z.string().parse(version()));
-
-const versionInputSchema = z.unknown().transform((version) => z.string().parse(version));
+const versionInputSchema = z.unknown().pipe(
+	z.union([
+		z.string(),
+		z.object({
+			source: z.literal('explicit'),
+			value: z.string(),
+		}),
+		z.object({
+			source: z.enum(['display', 'product', 'file']),
+		}),
+	]),
+);
 
 const scriptShardCommonSchema = z.object({
 	urls: urlsSchema,
@@ -34,23 +41,22 @@ const scriptShardCommonSchema = z.object({
 	replace: z.boolean().optional(),
 	skipPrCheck: z.boolean().default(false),
 	ignoreOtherPrs: z.boolean().default(false),
-	installerMatches: z.string().array().optional(),
 });
 
-export const ScriptShardResult = z.union([
-	scriptShardCommonSchema.extend({
-		version: versionSchema,
-		state: z.string().min(1),
-	}),
-	scriptShardCommonSchema.extend({
-		version: versionInputSchema,
-		state: z.undefined().optional(),
-	}),
-]);
+export const ScriptShardResult = scriptShardCommonSchema.extend({
+	version: versionInputSchema,
+	state: z.unknown().pipe(z.string().min(1)).optional(),
+});
 
 export type ScriptShardResultInput = z.input<typeof ScriptShardResult>;
-export type ScriptShard = () => ScriptShardResultInput | Promise<ScriptShardResultInput>;
+export type ScriptShard = () => Promise<ScriptShardResultInput>;
 
-export function defineShard<const T extends ScriptShard>(shard: T): T {
+type Exact<Actual, Expected> = Actual extends Expected
+	? Actual & Record<Exclude<keyof Actual, keyof Expected>, never>
+	: never;
+
+export function defineShard<const Result extends ScriptShardResultInput>(
+	shard: () => Promise<Exact<Result, ScriptShardResultInput>>,
+): typeof shard {
 	return shard;
 }

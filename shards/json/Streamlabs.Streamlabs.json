@@ -4,5 +4,10 @@
 	"electronBuilder": {
 		"url": "https://slobs-cdn.streamlabs.com/latest.yml"
 	},
-	"urls": ["https://slobs-cdn.streamlabs.com/Streamlabs+Desktop+Setup+{version}.exe|x64"]
+	"urls": [
+		{
+			"url": "https://slobs-cdn.streamlabs.com/Streamlabs+Desktop+Setup+{version}.exe",
+			"architecture": "x64"
+		}
+	]
 }

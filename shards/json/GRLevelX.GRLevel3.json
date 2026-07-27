@@ -6,7 +6,7 @@
 		"url": "https://www.grlevelx.com/downloads/grlevel3_3_setup.exe",
 		"header": "etag"
 	},
-	"version": "productVersion",
+	"version": { "source": "product" },
 	"urls": ["https://www.grlevelx.com/downloads/grlevel3_3_setup.exe"],
 	"replace": true
 }

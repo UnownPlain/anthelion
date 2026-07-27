@@ -1,14 +1,9 @@
 import { groq } from '@ai-sdk/groq';
-import {
-	getFormattedGithubReleaseNotes,
-	htmlToPlainText,
-	markdownToPlainText,
-} from '@unownplain/anthelion-komac';
+import { parseYaml, releaseNotesToPlainText } from '@unownplain/anthelion-komac';
 import { generateText } from 'ai';
 import ky from 'ky';
-import { parse } from 'yaml';
 
-import { dedent, get, isHttpUrl, resolveValuePlaceholders, vs } from '@/helpers.ts';
+import { dedent, get, isHttpUrl, komac, resolveValuePlaceholders, vs } from '@/helpers.ts';
 import {
 	browserRenderingOptionsSchema,
 	browserRenderingResponseSchema,
@@ -90,9 +85,9 @@ function limitLength(releaseNotes: string, characterLimit?: number) {
 async function formatReleaseNotes(content: string, source: NestedReleaseNotesSource) {
 	switch (source) {
 		case ReleaseNotesSource.Markdown:
-			return (await markdownToPlainText(content)) ?? content;
+			return (await releaseNotesToPlainText(content, 'markdown')) ?? content;
 		case ReleaseNotesSource.Html:
-			return (await htmlToPlainText(content)) ?? content;
+			return (await releaseNotesToPlainText(content, 'html')) ?? content;
 		case ReleaseNotesSource.PlainText:
 			return content;
 	}
@@ -142,7 +137,7 @@ async function resolveNestedReleaseNotes(
 	const response =
 		config.source === ReleaseNotesSource.Json
 			? await ky(sourceUrl).json()
-			: parse(await ky(sourceUrl).text());
+			: parseYaml(await ky(sourceUrl).text());
 	let rawReleaseNotes = vs(get(response, config.path));
 	let releaseNotesUrl: string | undefined;
 
@@ -204,7 +199,8 @@ async function resolveFromSource(
 			}
 
 			return {
-				releaseNotes: (await getFormattedGithubReleaseNotes(owner, repo, tag)) ?? undefined,
+				releaseNotes:
+					(await komac.getGithubReleaseNotes({ owner, repository: repo, tag })) ?? undefined,
 				releaseNotesUrl: `https://github.com/${owner}/${repo}/releases/tag/${tag}`,
 			};
 		}

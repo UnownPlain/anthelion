@@ -15,11 +15,11 @@ export default defineShard(async () => {
 		}>;
 	}>();
 
-	const version = response.items[0]?.version;
+	const version = response.items[0]?.version?.substring(2);
 	const urls = () => [response.items[0]?.packageURL];
 
 	return {
-		version: version?.substring(2),
+		version,
 		urls,
 		releaseNotes: {
 			source: ReleaseNotesSource.Json,

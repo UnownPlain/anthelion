@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/ProcessMonitor.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["Procmon.exe"],
-	"urls": ["https://download.sysinternals.com/files/ProcessMonitor.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/ProcessMonitor.zip",
+			"nestedInstallerMatches": ["Procmon.exe"]
+		}
+	],
 	"replace": true
 }

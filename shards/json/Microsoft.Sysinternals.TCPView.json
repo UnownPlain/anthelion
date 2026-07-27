@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/TCPView.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["tcpview.exe"],
-	"urls": ["https://download.sysinternals.com/files/TCPView.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/TCPView.zip",
+			"nestedInstallerMatches": ["tcpview.exe"]
+		}
+	],
 	"replace": true
 }

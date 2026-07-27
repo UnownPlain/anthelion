@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/AutoLogon.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["Autologon.exe"],
-	"urls": ["https://download.sysinternals.com/files/AutoLogon.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/AutoLogon.zip",
+			"nestedInstallerMatches": ["Autologon.exe"]
+		}
+	],
 	"replace": true
 }

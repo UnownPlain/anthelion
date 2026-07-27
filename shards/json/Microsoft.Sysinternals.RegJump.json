@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/RegJump.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["regjump.exe"],
-	"urls": ["https://download.sysinternals.com/files/RegJump.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/RegJump.zip",
+			"nestedInstallerMatches": ["regjump.exe"]
+		}
+	],
 	"replace": true
 }

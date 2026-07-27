@@ -8,14 +8,14 @@ export default defineShard(async () => {
 		repo: 'xbmc',
 	});
 
-	const version = tag.split('-')[0];
+	const version = `${tag.split('-')[0]}.0.0`;
 	const urls = () => [
 		`https://mirrors.kodi.tv/releases/windows/win64/kodi-${tag}-x64.exe`,
 		`https://mirrors.kodi.tv/releases/windows/win32/kodi-${tag}-x86.exe`,
 	];
 
 	return {
-		version: `${version}.0.0`,
+		version,
 		urls,
 		releaseNotes: {
 			source: ReleaseNotesSource.Html,

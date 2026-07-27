@@ -1,6 +1,6 @@
-import { analyzeInstaller } from '@unownplain/anthelion-komac';
 import ky from 'ky';
 
+import { komac } from '@/helpers';
 import { defineShard } from '@/schema/script-shard.ts';
 
 export default defineShard(async () => {
@@ -13,21 +13,26 @@ export default defineShard(async () => {
 		throw new Error('No ETag found');
 	}
 
-	const version = () => 'displayVersion';
+	const version = { source: 'display' } as const;
 	const urls = async () => {
-		const result = await analyzeInstaller(
-			'https://media.steampowered.com/steamlink/windows/latest/SteamLink.zip',
-			['SteamLink.msi'],
-		);
+		const result = await komac.analyzeInstaller({
+			installer: {
+				url: 'https://media.steampowered.com/steamlink/windows/latest/SteamLink.zip',
+				nestedInstallerMatches: ['SteamLink.msi'],
+			},
+		});
 		return [
-			`https://media.steampowered.com/steamlink/windows/SteamLink-${result.analysis[0]?.appsAndFeaturesEntries[0]?.displayVersion}.zip|x86`,
+			{
+				url: `https://media.steampowered.com/steamlink/windows/SteamLink-${result.installers[0]?.appsAndFeaturesEntries[0]?.displayVersion}.zip`,
+				architecture: 'x86',
+				nestedInstallerMatches: ['SteamLink.msi'],
+			},
 		];
 	};
 
 	return {
 		version,
 		urls,
-		installerMatches: ['SteamLink.msi'],
 		state,
 	};
 });

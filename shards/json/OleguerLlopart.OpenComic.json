@@ -3,6 +3,9 @@
 	"strategy": "github-release",
 	"github": { "owner": "ollm", "repo": "OpenComic" },
 	"urls": [
-		"https://github.com/ollm/OpenComic/releases/download/v{version}/OpenComic.Setup.{version}.exe|x64"
+		{
+			"url": "https://github.com/ollm/OpenComic/releases/download/v{version}/OpenComic.Setup.{version}.exe",
+			"architecture": "x64"
+		}
 	]
 }

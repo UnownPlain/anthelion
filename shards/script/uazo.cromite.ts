@@ -9,9 +9,11 @@ export default defineShard(async () => {
 	).text();
 
 	const [version, commit] = match(response, /version=([\d.]+).*?commit=([a-f0-9]+)/);
-
 	const urls = () => [
-		`https://github.com/uazo/cromite/releases/download/v${version}-${commit}/chrome-win.zip|x64`,
+		{
+			url: `https://github.com/uazo/cromite/releases/download/v${version}-${commit}/chrome-win.zip`,
+			architecture: 'x64',
+		},
 	];
 
 	return {

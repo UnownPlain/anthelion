@@ -6,7 +6,13 @@
 		"regex": "(.*)"
 	},
 	"urls": [
-		"https://oliverbetz.de/cms/files/Artikel/ExifTool-for-Windows/ExifTool_install_{version}_32.exe|x86",
-		"https://oliverbetz.de/cms/files/Artikel/ExifTool-for-Windows/ExifTool_install_{version}_64.exe|x64"
+		{
+			"url": "https://oliverbetz.de/cms/files/Artikel/ExifTool-for-Windows/ExifTool_install_{version}_32.exe",
+			"architecture": "x86"
+		},
+		{
+			"url": "https://oliverbetz.de/cms/files/Artikel/ExifTool-for-Windows/ExifTool_install_{version}_64.exe",
+			"architecture": "x64"
+		}
 	]
 }

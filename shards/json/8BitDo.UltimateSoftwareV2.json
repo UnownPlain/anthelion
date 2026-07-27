@@ -6,6 +6,9 @@
 		"regex": "href=\"https://support\\.8bitdo\\.com/bd-uploads/files/ultimate_soft/8BitDo[._-]Ultimate[._-]Software[._-]V2[._-]Windows[._-]V(\\d+(?:\\.\\d+)+)\\.zip\""
 	},
 	"urls": [
-		"https://support.8bitdo.com/bd-uploads/files/ultimate_soft/8BitDo_Ultimate_Software_V2_Windows_V{version}.zip|x64"
+		{
+			"url": "https://support.8bitdo.com/bd-uploads/files/ultimate_soft/8BitDo_Ultimate_Software_V2_Windows_V{version}.zip",
+			"architecture": "x64"
+		}
 	]
 }

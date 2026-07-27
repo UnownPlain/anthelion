@@ -22,16 +22,17 @@ export default defineShard(async () => {
 		Nov: '11',
 		Dec: '12',
 	};
-
 	const month = months[monthStr!];
+
 	const version = `${year}-${month}-${day}`;
+	const urls = () => [
+		'https://download.sysinternals.com/files/SysinternalsSuite.zip',
+		'https://download.sysinternals.com/files/SysinternalsSuite-ARM64.zip',
+	];
 
 	return {
 		version,
-		urls: () => [
-			'https://download.sysinternals.com/files/SysinternalsSuite.zip',
-			'https://download.sysinternals.com/files/SysinternalsSuite-ARM64.zip',
-		],
+		urls,
 		replace: true,
 	};
 });

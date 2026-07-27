@@ -1,11 +1,10 @@
 import { join } from 'node:path';
 
 import fs, { type FileRef } from '@rcompat/fs';
-import { updateVersion } from '@unownplain/anthelion-komac';
+import { parseYaml, type UpdatePackageRequest } from '@unownplain/anthelion-komac';
 import ansis from 'ansis';
 import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
-import { parse } from 'yaml';
 
 import { getShardsDirectory } from '@/config';
 import { closeAllButMostRecentPR, getLatestRelease, getLatestReleaseFromRedirect } from '@/github';
@@ -14,6 +13,7 @@ import {
 	get,
 	getShardTarget,
 	isStateMatching,
+	komac,
 	Logger,
 	resolveValuePlaceholders,
 	updateVersionState,
@@ -23,7 +23,7 @@ import {
 } from '@/helpers';
 import { resolveReleaseNotes } from '@/release-notes';
 import { JsonShardSchema, Strategy, type JsonShard } from '@/schema/json-shard';
-import { ScriptShardResult, type Urls } from '@/schema/script-shard';
+import { ScriptShardResult } from '@/schema/script-shard';
 import {
 	electronBuilder,
 	pageMatch,
@@ -38,11 +38,11 @@ export const JSON_FOLDER = 'json';
 
 async function updatePackage(options: {
 	packageIdentifier: string;
-	version: string;
-	urls: Urls;
+	version: UpdatePackageRequest['version'];
+	templateVersion: string;
+	urls: () => UpdatePackageRequest['installers'] | Promise<UpdatePackageRequest['installers']>;
 	releaseNotes: unknown;
 	replace?: boolean;
-	installerMatches?: string[];
 	font?: boolean;
 	logger: Logger;
 	githubTag?: string;
@@ -53,35 +53,46 @@ async function updatePackage(options: {
 	templateValues?: Record<string, unknown>;
 }) {
 	const templateValues = {
-		version: options.version,
+		version: options.templateVersion,
 		...options.templateValues,
-		packageVersion: options.version,
+		packageVersion: options.templateVersion,
 	};
-	const resolvedUrls = (await options.urls()).map((url) =>
-		resolveValuePlaceholders(url, templateValues),
+	const resolvedInstallers = (await options.urls()).map((installer) =>
+		typeof installer === 'string'
+			? resolveValuePlaceholders(installer, templateValues)
+			: { ...installer, url: resolveValuePlaceholders(installer.url, templateValues) },
 	);
 
-	options.logger.details(options.version, resolvedUrls);
+	options.logger.details(
+		options.templateVersion,
+		resolvedInstallers.map((installer) =>
+			typeof installer === 'string' ? installer : installer.url,
+		),
+	);
 
 	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
 		options.releaseNotes,
 		options.packageIdentifier,
-		options.version,
-		resolvedUrls,
+		options.templateVersion,
+		resolvedInstallers.map((installer) =>
+			typeof installer === 'string' ? installer : installer.url,
+		),
 		options.githubTag,
 		options.github,
 		templateValues,
 	);
 
-	const updateResult = await updateVersion({
+	const updateResult = await komac.updatePackage({
 		packageIdentifier: options.packageIdentifier,
 		version: options.version,
-		urls: resolvedUrls,
-		replace: options.replace ? 'latest' : undefined,
-		releaseNotes: manifestReleaseNotes,
-		releaseNotesUrl: releaseNotesUrl,
-		installerMatches: options.installerMatches,
-		font: options.font,
+		installers: resolvedInstallers,
+		replace: options.replace ? { target: 'latest' } : undefined,
+		releaseNotes:
+			manifestReleaseNotes || releaseNotesUrl
+				? { text: manifestReleaseNotes, url: releaseNotesUrl }
+				: undefined,
+		packageKind: options.font ? 'font' : 'auto',
+		mode: process.env.DRY_RUN ? 'generate' : 'submit',
 	});
 
 	options.logger.logUpdateResult(updateResult);
@@ -95,16 +106,8 @@ async function updatePackage(options: {
 
 async function handleScriptShard(file: FileRef, logger: Logger) {
 	const shard = await file.import();
-	const {
-		version,
-		urls,
-		releaseNotes,
-		replace,
-		skipPrCheck,
-		ignoreOtherPrs,
-		state,
-		installerMatches,
-	} = ScriptShardResult.parse(await shard.default());
+	const { version, urls, releaseNotes, replace, skipPrCheck, ignoreOtherPrs, state } =
+		ScriptShardResult.parse(await shard.default());
 	const { packageIdentifier, font } = getShardTarget(file.base);
 
 	if (state && (await isStateMatching(packageIdentifier, state))) {
@@ -112,10 +115,17 @@ async function handleScriptShard(file: FileRef, logger: Logger) {
 		return null;
 	}
 
-	const resolvedVersion = vs(typeof version === 'function' ? version() : version);
+	const resolvedVersion = version;
+	const versionForDisplay =
+		typeof resolvedVersion === 'string'
+			? vs(resolvedVersion)
+			: resolvedVersion.source === 'explicit'
+				? resolvedVersion.value
+				: resolvedVersion.source;
 
 	if (
 		!skipPrCheck &&
+		typeof resolvedVersion === 'string' &&
 		(await checkVersionInRepo(resolvedVersion, packageIdentifier, logger, font, ignoreOtherPrs))
 	) {
 		return null;
@@ -124,9 +134,9 @@ async function handleScriptShard(file: FileRef, logger: Logger) {
 	const updateResult = await updatePackage({
 		packageIdentifier,
 		version: resolvedVersion,
+		templateVersion: versionForDisplay,
 		urls,
 		releaseNotes,
-		installerMatches,
 		font,
 		replace,
 		logger,
@@ -139,7 +149,7 @@ async function handleScriptShard(file: FileRef, logger: Logger) {
 	return updateResult;
 }
 
-async function resolveJsonShard(shard: JsonShard, initialUrls: string[]) {
+async function resolveJsonShard(shard: JsonShard, initialUrls: UpdatePackageRequest['installers']) {
 	switch (shard.strategy) {
 		case Strategy.GithubRelease: {
 			const needsApiData =
@@ -237,7 +247,7 @@ async function resolveJsonShard(shard: JsonShard, initialUrls: string[]) {
 		case Strategy.Yaml: {
 			const response = await ky(shard.yaml.url).text();
 			// This is set to failsafe so incorrectly quoted values aren't parsed as numbers
-			const yaml = parse(response, { schema: 'failsafe' });
+			const yaml = parseYaml(response, 'failsafe');
 
 			return {
 				version: vs(get(yaml, shard.yaml.path)),
@@ -256,13 +266,18 @@ async function handleJsonShard(file: FileRef, logger: Logger) {
 	const shard = JsonShardSchema.parse(await file.json());
 	const { packageIdentifier, font } = getShardTarget(file.base);
 	const resolvedShard = await resolveJsonShard(shard, shard.urls ?? []);
+	const detectedTemplateVersion =
+		typeof resolvedShard.version === 'string'
+			? normalizeVersion(resolvedShard.version, shard.versionRemove)
+			: resolvedShard.version.source;
 	const resolvedTemplateValues = {
 		...('templateValues' in resolvedShard ? resolvedShard.templateValues : undefined),
-		version: normalizeVersion(resolvedShard.version, shard.versionRemove),
+		version: detectedTemplateVersion,
 	};
+	const versionOverride = shard.version;
 	const version = normalizeVersion(
-		shard.version
-			? resolveValuePlaceholders(shard.version, resolvedTemplateValues)
+		typeof versionOverride === 'string'
+			? resolveValuePlaceholders(versionOverride, resolvedTemplateValues)
 			: resolvedTemplateValues.version,
 		shard.versionRemove,
 	);
@@ -307,11 +322,11 @@ async function handleJsonShard(file: FileRef, logger: Logger) {
 
 	const updateResult = await updatePackage({
 		packageIdentifier,
-		version,
+		version: typeof versionOverride === 'object' ? versionOverride : version,
+		templateVersion: version,
 		urls: resolvedShard.urls,
 		releaseNotes: shard.releaseNotes,
 		replace: shard.replace,
-		installerMatches: shard.installerMatches,
 		font,
 		logger,
 		githubTag: resolvedShard.githubTag,
@@ -395,7 +410,7 @@ export async function runAllShards(testShards?: string[], shardsDirectory = getS
 		const generatedManifests = results.flatMap((result) => {
 			if (result.status !== 'fulfilled') return [];
 			const updateResult = result.value.updateResult;
-			if (!updateResult || updateResult.changes.length === 0) return [];
+			if (!updateResult || updateResult.manifests.length === 0) return [];
 
 			return [updateResult];
 		});
@@ -414,22 +429,22 @@ export async function runAllShards(testShards?: string[], shardsDirectory = getS
 
 			for (const update of generatedManifests) {
 				summarySections.push(
-					`### ${update.packageIdentifier}`,
-					`Version: ${update.version}`,
-					`Pull Request: ${update.pullRequestUrl ?? 'Dry Run'}`,
-					`Diff View: ${update.pullRequestUrl?.replace('github.com', 'winget-diff.unownplain.dev') ?? 'Dry Run'}`,
+					`### ${update.package.identifier}`,
+					`Version: ${update.package.version}`,
+					`Pull Request: ${update.pullRequest?.url ?? 'Dry Run'}`,
+					`Diff View: ${update.pullRequest?.diffUrl ?? 'Dry Run'}`,
 					'',
 					'<details>',
 					'<summary>Manifests</summary>',
 					'',
 				);
 
-				for (const manifest of update.changes) {
+				for (const manifest of update.manifests) {
 					summarySections.push(
 						`#### ${manifest.path}`,
 						'',
 						'```yaml',
-						manifest.content.trimEnd(),
+						manifest.yaml.trimEnd(),
 						'```',
 						'',
 					);

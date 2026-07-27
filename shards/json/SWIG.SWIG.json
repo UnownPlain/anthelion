@@ -5,5 +5,10 @@
 		"project": "swig",
 		"file": "swigwin-{version}.zip"
 	},
-	"urls": ["https://prdownloads.sourceforge.net/swig/swigwin-{version}.zip|x64"]
+	"urls": [
+		{
+			"url": "https://prdownloads.sourceforge.net/swig/swigwin-{version}.zip",
+			"architecture": "x64"
+		}
+	]
 }

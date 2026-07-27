@@ -4,6 +4,9 @@
 	"github": { "owner": "azahar-emu", "repo": "azahar" },
 	"urls": [
 		"https://github.com/azahar-emu/azahar/releases/download/{version}/azahar-windows-msys2-{version}-installer.exe",
-		"https://github.com/azahar-emu/azahar/releases/download/{version}/azahar-windows-msys2-{version}.zip|x64"
+		{
+			"url": "https://github.com/azahar-emu/azahar/releases/download/{version}/azahar-windows-msys2-{version}.zip",
+			"architecture": "x64"
+		}
 	]
 }

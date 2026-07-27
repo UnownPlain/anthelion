@@ -13,9 +13,10 @@ export default defineShard(async () => {
 	);
 
 	const version = upstreamVersion?.replace(/\+security-(\d+)$/i, '.$1');
+	const urls = () => [url];
 
 	return {
 		version,
-		urls: () => [url],
+		urls,
 	};
 });

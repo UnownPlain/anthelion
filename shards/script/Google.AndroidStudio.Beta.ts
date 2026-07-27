@@ -13,11 +13,18 @@ export default defineShard(async () => {
 		};
 	}>();
 	const release = releases.content.item.find(({ channel }) => channel === 'RC');
-	const url = release?.download.find(({ link }) => link.endsWith('-windows.exe'))?.link;
+
+	const version = release?.version;
+	const urls = () => [
+		{
+			url: release?.download.find(({ link }) => link.endsWith('-windows.exe'))?.link,
+			architecture: 'x64',
+		},
+	];
 
 	return {
-		version: release?.version,
-		urls: () => [`${url}|x64`],
+		version,
+		urls,
 		releaseNotes: {
 			releaseNotesUrl: 'https://androidstudio.googleblog.com/',
 		},

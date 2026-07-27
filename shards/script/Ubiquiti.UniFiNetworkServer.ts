@@ -12,7 +12,9 @@ export default defineShard(async () => {
 	);
 
 	const version = versions[0]?.version;
-	const urls = () => [`https://dl.ui.com/unifi/${version}/UniFi-installer.exe|x64`];
+	const urls = () => [
+		{ url: `https://dl.ui.com/unifi/${version}/UniFi-installer.exe`, architecture: 'x64' },
+	];
 
 	return {
 		version,

@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/SDelete.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["sdelete.exe"],
-	"urls": ["https://download.sysinternals.com/files/SDelete.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/SDelete.zip",
+			"nestedInstallerMatches": ["sdelete.exe"]
+		}
+	],
 	"replace": true
 }

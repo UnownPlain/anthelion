@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/Sysmon.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["Sysmon.exe"],
-	"urls": ["https://download.sysinternals.com/files/Sysmon.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/Sysmon.zip",
+			"nestedInstallerMatches": ["Sysmon.exe"]
+		}
+	],
 	"replace": true
 }

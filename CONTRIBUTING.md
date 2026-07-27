@@ -287,16 +287,16 @@ derive the real version during installer analysis:
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "static",
-	"version": "productVersion",
+	"version": { "source": "product" },
 	"urls": ["https://example.com/download/latest.exe"],
 	"replace": true
 }
 ```
 
-The installer metadata selectors are `displayVersion`, `productVersion`, and `fileVersion`.
-`installerMatches` determines which executable supplies that metadata when the download is an
-archive. A concrete version may also be supplied, although another strategy should normally
-discover versions that upstream publishes.
+The installer metadata sources are `{ "source": "display" }`, `{ "source": "product" }`, and
+`{ "source": "file" }`. A concrete version may also be supplied, although another strategy should
+normally discover versions that upstream publishes. When the download is an archive, put
+`nestedInstallerMatches` on that installer URL to select the executable that supplies the metadata.
 
 Because an installer-derived version is unknown until komac downloads and analyzes the file,
 Anthelion cannot perform its normal version check first. Add `state` as a cheap upstream change
@@ -362,20 +362,19 @@ https://example.com/{version|.|-}/example.exe
 
 This replaces every `.` in the version with `-`.
 
-Append `|architecture` to an installer URL to override the architecture detected by komac:
+Use an installer object to override the architecture detected by komac:
 
 ```json
 "urls": [
-	"https://example.com/download/windows-32.zip|x86",
-	"https://example.com/download/windows-64.zip|x64"
+	{ "url": "https://example.com/download/windows-32.zip", "architecture": "x86" },
+	{ "url": "https://example.com/download/windows-64.zip", "architecture": "x64" }
 ]
 ```
 
-The suffix is metadata passed to komac and is not part of the download URL. Supported values are
-`x86`, `x64`, `arm`, `arm64`, and `neutral`. Komac normally infers the architecture from the
-installer and common filename markers such as `x86`, `x64`, `amd64`, and `arm64`. Use an override
-only when a dry run shows that this inference is missing or incorrect, such as when upstream uses
-ambiguous filenames like `windows-32` and `windows-64`.
+Supported values are `x86`, `x64`, `arm`, `arm64`, and `neutral`. Komac normally infers the
+architecture from the installer and common filename markers such as `x86`, `x64`, `amd64`, and
+`arm64`. Use an override only when a dry run shows that this inference is missing or incorrect,
+such as when upstream uses ambiguous filenames like `windows-32` and `windows-64`.
 
 Do not add architecture overrides preemptively, even when multiple architectures are listed. Leave
 URLs unannotated when the dry run detects each installer architecture correctly.
@@ -404,19 +403,25 @@ package version.
 
 ## Selecting installer metadata inside archives
 
-`installerMatches` is primarily useful for `static` shards that use `displayVersion`,
-`productVersion`, or `fileVersion`. When an archive contains multiple executables, it restricts
-komac's nested-installer analysis to the executable that supplies the package version:
+`nestedInstallerMatches` is primarily useful for `static` shards that derive their version from
+`display`, `product`, or `file` metadata. It belongs to an individual installer source, so archives
+in the same shard can use different match rules. When an archive contains multiple executables, it
+restricts komac's analysis to the executable that supplies the package version:
 
 ```json
-"installerMatches": ["example.exe"]
+"urls": [
+	{
+		"url": "https://example.com/download/latest.zip",
+		"nestedInstallerMatches": ["example.exe"]
+	}
+]
 ```
 
 Plain values are case-insensitive substring matches. Values containing glob metacharacters are
 treated as glob patterns. Match as narrowly as necessary to select the intended installer.
 
-Do not add `installerMatches` to an ordinary version-discovery shard just because its download is
-an archive. It is unnecessary unless komac must select a particular nested installer for analysis.
+Do not add `nestedInstallerMatches` to an ordinary version-discovery shard just because its download
+is an archive. It is unnecessary unless komac must select a particular nested installer for analysis.
 
 ## Adding release notes
 
@@ -524,7 +529,7 @@ export default defineShard(async () => {
 
 	return {
 		version,
-		urls: [
+		urls: () => [
 			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-32-bit.zip`,
 			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-64-bit.zip`,
 			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-arm64.zip`,
@@ -538,16 +543,24 @@ imports. `defineShard` validates the returned shape at type-check time.
 
 The return value supports:
 
-- `version`: a string, or a function when `state` is also returned.
-- `urls`: an array or a function returning an array.
-- `releaseNotes`, `replace`, and `installerMatches`: the same concepts as JSON shards.
-- `state`: a persisted value used to skip unchanged downloads.
+- `version`: a version string, `{ source: 'explicit', value: string }`, or a derived
+  `{ source: 'display' | 'product' | 'file' }` selection. Return the value directly; the shard is
+  already asynchronous.
+- `urls`: a required zero-argument function returning installer URLs, either immediately or as a
+  promise. Each installer is a URL string or an object with `url`, optional `architecture`, and
+  optional `nestedInstallerMatches`.
+- `releaseNotes` and `replace`: the same concepts as JSON shards.
+- `state`: an optional non-empty string persisted after a successful update. It is validated at
+  runtime and used to skip unchanged downloads.
 - `skipPrCheck`: skip checking whether the version or pull request already exists; use this only
   when the normal check cannot represent the update.
 - `ignoreOtherPrs`: ignore matching pull requests created by other users.
 
 Keep network requests and parsing inside the default function. Reuse helpers from `src/helpers.ts`
 and `src/strategies.ts` instead of duplicating version matching or comparison code.
+
+`defineShard` requires an async function and rejects unknown return properties. Do not add wrapper
+functions that defer `version`; resolve it inside the shard and return the selection or string.
 
 ## Testing and submitting
 
@@ -593,8 +606,8 @@ to `json` and `yaml`; named captures apply only to `page-match`; GitHub metadata
 
 ### komac derived the version from the wrong executable
 
-For a `static` shard using an installer metadata selector, add `installerMatches` to select the
-intended executable inside the archive.
+For a `static` shard using an installer metadata source, add `nestedInstallerMatches` to that
+installer object to select the intended executable inside the archive.
 
 ### An unversioned installer is analyzed repeatedly
 

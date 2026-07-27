@@ -6,7 +6,13 @@
 		"file": "dos2unix-{version}-win64-nls.zip"
 	},
 	"urls": [
-		"https://waterlander.net/dos2unix/files/dos2unix-{version}-win32-nls.zip|x86",
-		"https://waterlander.net/dos2unix/files/dos2unix-{version}-win64-nls.zip|x64"
+		{
+			"url": "https://waterlander.net/dos2unix/files/dos2unix-{version}-win32-nls.zip",
+			"architecture": "x86"
+		},
+		{
+			"url": "https://waterlander.net/dos2unix/files/dos2unix-{version}-win64-nls.zip",
+			"architecture": "x64"
+		}
 	]
 }

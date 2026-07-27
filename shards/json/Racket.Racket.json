@@ -6,7 +6,13 @@
 		"regex": "href=[\"']?[^\"']*?racket[._-]v?(\\d+(?:\\.\\d+)+)\\.html"
 	},
 	"urls": [
-		"https://download.racket-lang.org/releases/{version}/installers/racket-{version}-x86_64-win32-cs.exe|x64",
-		"https://download.racket-lang.org/releases/{version}/installers/racket-{version}-arm64-win32-cs.exe|arm64"
+		{
+			"url": "https://download.racket-lang.org/releases/{version}/installers/racket-{version}-x86_64-win32-cs.exe",
+			"architecture": "x64"
+		},
+		{
+			"url": "https://download.racket-lang.org/releases/{version}/installers/racket-{version}-arm64-win32-cs.exe",
+			"architecture": "arm64"
+		}
 	]
 }

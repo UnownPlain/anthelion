@@ -261,18 +261,24 @@
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
 				"version": {
-					"type": "string",
-					"minLength": 1,
+					"anyOf": [
+						{
+							"type": "string",
+							"minLength": 1
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"enum": ["display", "product", "file"]
+								}
+							},
+							"required": ["source"],
+							"additionalProperties": false
+						}
+					],
 					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
-				},
-				"installerMatches": {
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string",
-						"minLength": 1
-					},
-					"description": "Executable names used to match installers inside an archive."
 				},
 				"ignoreOtherPrs": {
 					"default": false,
@@ -369,7 +375,33 @@
 					"minItems": 1,
 					"type": "array",
 					"items": {
-						"type": "string"
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"url": {
+										"type": "string"
+									},
+									"architecture": {
+										"type": "string",
+										"enum": ["x86", "x64", "arm", "arm64", "neutral"]
+									},
+									"nestedInstallerMatches": {
+										"minItems": 1,
+										"type": "array",
+										"items": {
+											"type": "string",
+											"minLength": 1
+										}
+									}
+								},
+								"required": ["url"],
+								"additionalProperties": false
+							}
+						]
 					},
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
@@ -637,18 +669,24 @@
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
 				"version": {
-					"type": "string",
-					"minLength": 1,
+					"anyOf": [
+						{
+							"type": "string",
+							"minLength": 1
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"enum": ["display", "product", "file"]
+								}
+							},
+							"required": ["source"],
+							"additionalProperties": false
+						}
+					],
 					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
-				},
-				"installerMatches": {
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string",
-						"minLength": 1
-					},
-					"description": "Executable names used to match installers inside an archive."
 				},
 				"ignoreOtherPrs": {
 					"default": false,
@@ -724,7 +762,33 @@
 					"minItems": 1,
 					"type": "array",
 					"items": {
-						"type": "string"
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"url": {
+										"type": "string"
+									},
+									"architecture": {
+										"type": "string",
+										"enum": ["x86", "x64", "arm", "arm64", "neutral"]
+									},
+									"nestedInstallerMatches": {
+										"minItems": 1,
+										"type": "array",
+										"items": {
+											"type": "string",
+											"minLength": 1
+										}
+									}
+								},
+								"required": ["url"],
+								"additionalProperties": false
+							}
+						]
 					},
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
@@ -992,18 +1056,24 @@
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
 				"version": {
-					"type": "string",
-					"minLength": 1,
+					"anyOf": [
+						{
+							"type": "string",
+							"minLength": 1
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"enum": ["display", "product", "file"]
+								}
+							},
+							"required": ["source"],
+							"additionalProperties": false
+						}
+					],
 					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
-				},
-				"installerMatches": {
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string",
-						"minLength": 1
-					},
-					"description": "Executable names used to match installers inside an archive."
 				},
 				"ignoreOtherPrs": {
 					"default": false,
@@ -1078,7 +1148,33 @@
 					"minItems": 1,
 					"type": "array",
 					"items": {
-						"type": "string"
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"url": {
+										"type": "string"
+									},
+									"architecture": {
+										"type": "string",
+										"enum": ["x86", "x64", "arm", "arm64", "neutral"]
+									},
+									"nestedInstallerMatches": {
+										"minItems": 1,
+										"type": "array",
+										"items": {
+											"type": "string",
+											"minLength": 1
+										}
+									}
+								},
+								"required": ["url"],
+								"additionalProperties": false
+							}
+						]
 					},
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
@@ -1346,18 +1442,24 @@
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
 				"version": {
-					"type": "string",
-					"minLength": 1,
+					"anyOf": [
+						{
+							"type": "string",
+							"minLength": 1
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"enum": ["display", "product", "file"]
+								}
+							},
+							"required": ["source"],
+							"additionalProperties": false
+						}
+					],
 					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
-				},
-				"installerMatches": {
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string",
-						"minLength": 1
-					},
-					"description": "Executable names used to match installers inside an archive."
 				},
 				"ignoreOtherPrs": {
 					"default": false,
@@ -1437,7 +1539,33 @@
 					"minItems": 1,
 					"type": "array",
 					"items": {
-						"type": "string"
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"url": {
+										"type": "string"
+									},
+									"architecture": {
+										"type": "string",
+										"enum": ["x86", "x64", "arm", "arm64", "neutral"]
+									},
+									"nestedInstallerMatches": {
+										"minItems": 1,
+										"type": "array",
+										"items": {
+											"type": "string",
+											"minLength": 1
+										}
+									}
+								},
+								"required": ["url"],
+								"additionalProperties": false
+							}
+						]
 					},
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
@@ -1705,18 +1833,24 @@
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
 				"version": {
-					"type": "string",
-					"minLength": 1,
+					"anyOf": [
+						{
+							"type": "string",
+							"minLength": 1
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"enum": ["display", "product", "file"]
+								}
+							},
+							"required": ["source"],
+							"additionalProperties": false
+						}
+					],
 					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
-				},
-				"installerMatches": {
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string",
-						"minLength": 1
-					},
-					"description": "Executable names used to match installers inside an archive."
 				},
 				"ignoreOtherPrs": {
 					"default": false,
@@ -1792,7 +1926,33 @@
 					"minItems": 1,
 					"type": "array",
 					"items": {
-						"type": "string"
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"url": {
+										"type": "string"
+									},
+									"architecture": {
+										"type": "string",
+										"enum": ["x86", "x64", "arm", "arm64", "neutral"]
+									},
+									"nestedInstallerMatches": {
+										"minItems": 1,
+										"type": "array",
+										"items": {
+											"type": "string",
+											"minLength": 1
+										}
+									}
+								},
+								"required": ["url"],
+								"additionalProperties": false
+							}
+						]
 					},
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
@@ -2060,18 +2220,24 @@
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
 				"version": {
-					"type": "string",
-					"minLength": 1,
+					"anyOf": [
+						{
+							"type": "string",
+							"minLength": 1
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"enum": ["display", "product", "file"]
+								}
+							},
+							"required": ["source"],
+							"additionalProperties": false
+						}
+					],
 					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
-				},
-				"installerMatches": {
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string",
-						"minLength": 1
-					},
-					"description": "Executable names used to match installers inside an archive."
 				},
 				"ignoreOtherPrs": {
 					"default": false,
@@ -2144,7 +2310,33 @@
 					"minItems": 1,
 					"type": "array",
 					"items": {
-						"type": "string"
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"url": {
+										"type": "string"
+									},
+									"architecture": {
+										"type": "string",
+										"enum": ["x86", "x64", "arm", "arm64", "neutral"]
+									},
+									"nestedInstallerMatches": {
+										"minItems": 1,
+										"type": "array",
+										"items": {
+											"type": "string",
+											"minLength": 1
+										}
+									}
+								},
+								"required": ["url"],
+								"additionalProperties": false
+							}
+						]
 					},
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
@@ -2412,18 +2604,24 @@
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
 				"version": {
-					"type": "string",
-					"minLength": 1,
+					"anyOf": [
+						{
+							"type": "string",
+							"minLength": 1
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"enum": ["display", "product", "file"]
+								}
+							},
+							"required": ["source"],
+							"additionalProperties": false
+						}
+					],
 					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
-				},
-				"installerMatches": {
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string",
-						"minLength": 1
-					},
-					"description": "Executable names used to match installers inside an archive."
 				},
 				"ignoreOtherPrs": {
 					"default": false,
@@ -2500,7 +2698,33 @@
 					"minItems": 1,
 					"type": "array",
 					"items": {
-						"type": "string"
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"url": {
+										"type": "string"
+									},
+									"architecture": {
+										"type": "string",
+										"enum": ["x86", "x64", "arm", "arm64", "neutral"]
+									},
+									"nestedInstallerMatches": {
+										"minItems": 1,
+										"type": "array",
+										"items": {
+											"type": "string",
+											"minLength": 1
+										}
+									}
+								},
+								"required": ["url"],
+								"additionalProperties": false
+							}
+						]
 					},
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
@@ -2768,18 +2992,24 @@
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
 				"version": {
-					"type": "string",
-					"minLength": 1,
+					"anyOf": [
+						{
+							"type": "string",
+							"minLength": 1
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"enum": ["display", "product", "file"]
+								}
+							},
+							"required": ["source"],
+							"additionalProperties": false
+						}
+					],
 					"description": "Optional override for the resolved package version. Supports resolved placeholders such as {version}."
-				},
-				"installerMatches": {
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string",
-						"minLength": 1
-					},
-					"description": "Executable names used to match installers inside an archive."
 				},
 				"ignoreOtherPrs": {
 					"default": false,
@@ -2856,7 +3086,33 @@
 					"minItems": 1,
 					"type": "array",
 					"items": {
-						"type": "string"
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"url": {
+										"type": "string"
+									},
+									"architecture": {
+										"type": "string",
+										"enum": ["x86", "x64", "arm", "arm64", "neutral"]
+									},
+									"nestedInstallerMatches": {
+										"minItems": 1,
+										"type": "array",
+										"items": {
+											"type": "string",
+											"minLength": 1
+										}
+									}
+								},
+								"required": ["url"],
+								"additionalProperties": false
+							}
+						]
 					},
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}
@@ -3124,17 +3380,23 @@
 					"description": "Substring(s) to strip after auto-leading 'v' removal."
 				},
 				"version": {
-					"type": "string",
-					"minLength": 1
-				},
-				"installerMatches": {
-					"minItems": 1,
-					"type": "array",
-					"items": {
-						"type": "string",
-						"minLength": 1
-					},
-					"description": "Executable names used to match installers inside an archive."
+					"anyOf": [
+						{
+							"type": "string",
+							"minLength": 1
+						},
+						{
+							"type": "object",
+							"properties": {
+								"source": {
+									"type": "string",
+									"enum": ["display", "product", "file"]
+								}
+							},
+							"required": ["source"],
+							"additionalProperties": false
+						}
+					]
 				},
 				"ignoreOtherPrs": {
 					"default": false,
@@ -3195,7 +3457,33 @@
 					"minItems": 1,
 					"type": "array",
 					"items": {
-						"type": "string"
+						"anyOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"url": {
+										"type": "string"
+									},
+									"architecture": {
+										"type": "string",
+										"enum": ["x86", "x64", "arm", "arm64", "neutral"]
+									},
+									"nestedInstallerMatches": {
+										"minItems": 1,
+										"type": "array",
+										"items": {
+											"type": "string",
+											"minLength": 1
+										}
+									}
+								},
+								"required": ["url"],
+								"additionalProperties": false
+							}
+						]
 					},
 					"description": "Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement."
 				}

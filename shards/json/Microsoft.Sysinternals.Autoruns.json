@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/Autoruns.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["Autoruns.exe"],
-	"urls": ["https://download.sysinternals.com/files/Autoruns.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/Autoruns.zip",
+			"nestedInstallerMatches": ["Autoruns.exe"]
+		}
+	],
 	"replace": true
 }

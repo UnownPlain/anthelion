@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/WhoIs.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["whois.exe"],
-	"urls": ["https://download.sysinternals.com/files/WhoIs.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/WhoIs.zip",
+			"nestedInstallerMatches": ["whois.exe"]
+		}
+	],
 	"replace": true
 }

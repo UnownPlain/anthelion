@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/DebugView.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["Dbgview.exe"],
-	"urls": ["https://download.sysinternals.com/files/DebugView.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/DebugView.zip",
+			"nestedInstallerMatches": ["Dbgview.exe"]
+		}
+	],
 	"replace": true
 }

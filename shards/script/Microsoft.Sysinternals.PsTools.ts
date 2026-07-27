@@ -23,14 +23,19 @@ export default defineShard(async () => {
 		Nov: '11',
 		Dec: '12',
 	};
-
 	const month = months[monthStr!];
+
 	const version = `${year}-${month}-${day}`;
+	const urls = () => [
+		{
+			url: 'https://download.sysinternals.com/files/PSTools.zip',
+			nestedInstallerMatches: ['PsExec.exe'],
+		},
+	];
 
 	return {
-		version: () => version,
-		installerMatches: ['PsExec.exe'],
-		urls: () => ['https://download.sysinternals.com/files/PSTools.zip'],
+		version,
+		urls,
 		replace: true,
 		state,
 	};

@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/Handle.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["handle.exe"],
-	"urls": ["https://download.sysinternals.com/files/Handle.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/Handle.zip",
+			"nestedInstallerMatches": ["handle.exe"]
+		}
+	],
 	"replace": true
 }

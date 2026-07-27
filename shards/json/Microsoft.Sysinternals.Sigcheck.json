@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/Sigcheck.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["sigcheck.exe"],
-	"urls": ["https://download.sysinternals.com/files/Sigcheck.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/Sigcheck.zip",
+			"nestedInstallerMatches": ["sigcheck.exe"]
+		}
+	],
 	"replace": true
 }
