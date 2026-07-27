@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "ffw-bot" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/ffw-bot/releases/download/v{version}/FireWeatherBot.exe"
+	]
+}
