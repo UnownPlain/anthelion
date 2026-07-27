@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "ShianMike", "repo": "SHARPpy-Reimagined" },
+	"urls": [
+		"https://github.com/ShianMike/SHARPpy-Reimagined/releases/download/v{version}/SHARPpy-Reimagined-v{version}-windows-x64.exe"
+	]
+}
