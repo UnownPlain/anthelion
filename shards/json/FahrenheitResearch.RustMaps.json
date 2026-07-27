@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "rustmaps" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/rustmaps/releases/download/v{version}/rustmaps-Windows-x64.zip"
+	]
+}
