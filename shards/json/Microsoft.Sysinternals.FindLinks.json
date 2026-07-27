@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/FindLinks.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["FindLinks.exe"],
-	"urls": ["https://download.sysinternals.com/files/FindLinks.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/FindLinks.zip",
+			"nestedInstallerMatches": ["FindLinks.exe"]
+		}
+	],
 	"replace": true
 }

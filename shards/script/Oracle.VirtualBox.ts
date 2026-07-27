@@ -9,7 +9,10 @@ export default defineShard(async () => {
 
 	const [version, version2] = match(response, regex);
 	const urls = () => [
-		`https://download.virtualbox.org/virtualbox/${version}/VirtualBox-${version}-${version2}-Win.exe|x64`,
+		{
+			url: `https://download.virtualbox.org/virtualbox/${version}/VirtualBox-${version}-${version2}-Win.exe`,
+			architecture: 'x64',
+		},
 	];
 
 	return {

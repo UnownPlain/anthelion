@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/BGInfo.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["Bginfo.exe"],
-	"urls": ["https://download.sysinternals.com/files/BGInfo.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/BGInfo.zip",
+			"nestedInstallerMatches": ["Bginfo.exe"]
+		}
+	],
 	"replace": true
 }

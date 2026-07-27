@@ -8,15 +8,16 @@ export default defineShard(async () => {
 			latest_desktop: number;
 		};
 	}>();
-
 	const buildVersion = config.app.latest_desktop.toString().padStart(5, '0');
+
 	const version = `${buildVersion.slice(0, -4)}.${Number(buildVersion.slice(-4, -2))}.${Number(buildVersion.slice(-2))}`;
+	const urls = () => [
+		`https://static.olvid.io/windows/Olvid-${version}.msi`,
+		`https://static.olvid.io/windows/Olvid-${version}.msix`,
+	];
 
 	return {
 		version,
-		urls: () => [
-			`https://static.olvid.io/windows/Olvid-${version}.msi`,
-			`https://static.olvid.io/windows/Olvid-${version}.msix`,
-		],
+		urls,
 	};
 });

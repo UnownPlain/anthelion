@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/Strings.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["strings.exe"],
-	"urls": ["https://download.sysinternals.com/files/Strings.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/Strings.zip",
+			"nestedInstallerMatches": ["strings.exe"]
+		}
+	],
 	"replace": true
 }

@@ -5,7 +5,10 @@
 		"url": "https://github.com/ente/photos-desktop/releases/latest/download/latest.yml"
 	},
 	"urls": [
-		"https://github.com/ente/photos-desktop/releases/download/v{version}/ente-{version}.exe|x86",
+		{
+			"url": "https://github.com/ente/photos-desktop/releases/download/v{version}/ente-{version}.exe",
+			"architecture": "x86"
+		},
 		"https://github.com/ente/photos-desktop/releases/download/v{version}/ente-{version}-x64.exe",
 		"https://github.com/ente/photos-desktop/releases/download/v{version}/ente-{version}-arm64.exe"
 	]

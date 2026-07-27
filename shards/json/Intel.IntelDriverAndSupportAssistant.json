@@ -6,6 +6,6 @@
 		"url": "https://dsadata.intel.com/installer",
 		"header": "x-dsa-hash"
 	},
-	"version": "displayVersion",
+	"version": { "source": "display" },
 	"urls": ["https://dsadata.intel.com/installer"]
 }

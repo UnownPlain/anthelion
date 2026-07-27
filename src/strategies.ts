@@ -1,13 +1,13 @@
+import { parseYaml } from '@unownplain/anthelion-komac';
 import ky from 'ky';
-import { parse } from 'yaml';
 
-import { compareVersions, firstMatch, vs } from '@/helpers.ts';
+import { compareVersions, firstMatch, get, vs } from '@/helpers.ts';
 
 export async function electronBuilder(url: string) {
 	const response = await ky(url).text();
 	// This is set to failsafe so incorrectly quoted values aren't parsed as numbers
-	const data = parse(response, { schema: 'failsafe' });
-	return vs(data.version);
+	const data = parseYaml(response, 'failsafe');
+	return vs(get(data, 'version'));
 }
 
 export async function pageMatch(url: string, regex: RegExp) {

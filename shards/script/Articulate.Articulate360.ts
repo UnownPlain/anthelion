@@ -21,13 +21,12 @@ export default defineShard(async () => {
 		.filter((product) => product.product_family === 'articulate_360')
 		.sort((a, b) => compareVersions(b.version, a.version))[0];
 
-	if (!product) {
-		throw new Error('Failed to find Articulate 360');
-	}
+	const version = product?.version;
+	const urls = () => [{ url: product?.package.url, architecture: 'x64' }];
 
 	return {
-		version: product.version,
-		urls: () => [`${product.package.url}|x64`],
+		version,
+		urls,
 		releaseNotes: {
 			releaseNotesUrl:
 				'https://www.articulatesupport.com/article/Articulate-360-Desktop-App-Version-History',

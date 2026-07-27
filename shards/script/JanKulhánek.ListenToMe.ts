@@ -1,12 +1,14 @@
-import { analyzeInstaller } from '@unownplain/anthelion-komac';
 import ky from 'ky';
 
+import { komac } from '@/helpers';
 import { defineShard } from '@/schema/script-shard.ts';
 
 export default defineShard(async () => {
-	const { productVersion: version } = await analyzeInstaller(
-		'https://github.com/jank2/ListenToMe/releases/latest/download/ListenToMe_Setup.exe',
-	);
+	const { versions } = await komac.analyzeInstaller({
+		installer: {
+			url: 'https://github.com/jank2/ListenToMe/releases/latest/download/ListenToMe_Setup.exe',
+		},
+	});
 	const response = await ky(
 		'https://github.com/jank2/ListenToMe/releases/latest/download/ListenToMe.exe',
 		{
@@ -16,7 +18,7 @@ export default defineShard(async () => {
 	);
 
 	return {
-		version,
+		version: versions.product,
 		urls: () => [response.headers.get('location')],
 	};
 });

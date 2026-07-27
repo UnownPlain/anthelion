@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/RDCMan.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["RDCMan.exe"],
-	"urls": ["https://download.sysinternals.com/files/RDCMan.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/RDCMan.zip",
+			"nestedInstallerMatches": ["RDCMan.exe"]
+		}
+	],
 	"replace": true
 }

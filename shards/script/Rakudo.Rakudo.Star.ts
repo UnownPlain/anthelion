@@ -27,9 +27,10 @@ export default defineShard(async () => {
 			return String(Number.parseInt(part, 10));
 		})
 		.join('.');
+	const urls = () => [latestWindowsMsi.url];
 
 	return {
 		version,
-		urls: () => [latestWindowsMsi.url],
+		urls,
 	};
 });

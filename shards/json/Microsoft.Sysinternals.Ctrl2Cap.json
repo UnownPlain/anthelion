@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/Ctrl2Cap.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["ctrl2cap.exe"],
-	"urls": ["https://download.sysinternals.com/files/Ctrl2Cap.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/Ctrl2Cap.zip",
+			"nestedInstallerMatches": ["ctrl2cap.exe"]
+		}
+	],
 	"replace": true
 }

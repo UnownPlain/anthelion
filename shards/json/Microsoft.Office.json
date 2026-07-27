@@ -6,6 +6,6 @@
 		"url": "https://officecdn.microsoft.com/DSDownloadAPI/Download.ashx/dscdn/officecapes/wsus/setup.exe",
 		"header": "etag"
 	},
-	"version": "productVersion",
+	"version": { "source": "product" },
 	"urls": ["https://officecdn.microsoft.com/pr/wsus/setup.exe"]
 }

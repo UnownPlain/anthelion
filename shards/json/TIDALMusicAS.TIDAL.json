@@ -6,7 +6,7 @@
 		"url": "https://download.tidal.com/desktop/TIDALSetup.exe",
 		"header": "etag"
 	},
-	"version": "productVersion",
+	"version": { "source": "product" },
 	"urls": ["https://download.tidal.com/desktop/TIDALSetup.exe"],
 	"replace": true
 }

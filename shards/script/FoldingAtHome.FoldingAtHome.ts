@@ -22,14 +22,13 @@ export default defineShard(async () => {
 			item.package.endsWith('_AMD64.exe'),
 	);
 
-	if (!release) {
-		throw new Error('Failed to find Windows x64 release in Folding@home metadata');
-	}
-
-	const version = release.version.join('.');
+	const version = release?.version.join('.');
+	const urls = () => [
+		`https://download.foldingathome.org/releases/public/fah-client/${release?.package}`,
+	];
 
 	return {
 		version,
-		urls: [`https://download.foldingathome.org/releases/public/fah-client/${release.package}`],
+		urls,
 	};
 });

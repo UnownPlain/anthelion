@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/Desktops.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["Desktops.exe"],
-	"urls": ["https://download.sysinternals.com/files/Desktops.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/Desktops.zip",
+			"nestedInstallerMatches": ["Desktops.exe"]
+		}
+	],
 	"replace": true
 }

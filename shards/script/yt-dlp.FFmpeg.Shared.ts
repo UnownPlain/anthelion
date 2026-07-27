@@ -17,15 +17,16 @@ export default defineShard(async () => {
 			.urls()
 			.filter((url) => url.includes('win') && url.includes('shared') && url.includes('ffmpeg-N'))
 			.map((url) => {
-				return url.includes('arm64') ? `${url}|arm64` : url;
+				return url.includes('arm64') ? { url: `${url}`, architecture: 'arm64' } : url;
 			});
 	const asset = release
 		.assetNames()
 		.find((name) => name.includes('win') && name.includes('shared') && name.includes('ffmpeg-N'));
-	const [version] = match(asset, /ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i);
+	const [build] = match(asset, /ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i);
+	const version = `N-${build}-${date.toString().replaceAll('-', '')}`;
 
 	return {
-		version: `N-${version}-${date.toString().replaceAll('-', '')}`,
+		version,
 		urls,
 	};
 });

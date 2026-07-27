@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/ZoomIt.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["ZoomIt.exe"],
-	"urls": ["https://download.sysinternals.com/files/ZoomIt.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/ZoomIt.zip",
+			"nestedInstallerMatches": ["ZoomIt.exe"]
+		}
+	],
 	"replace": true
 }

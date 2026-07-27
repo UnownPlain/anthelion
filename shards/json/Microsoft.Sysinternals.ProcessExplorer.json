@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/ProcessExplorer.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["procexp.exe"],
-	"urls": ["https://download.sysinternals.com/files/ProcessExplorer.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/ProcessExplorer.zip",
+			"nestedInstallerMatches": ["procexp.exe"]
+		}
+	],
 	"replace": true
 }

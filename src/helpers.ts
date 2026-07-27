@@ -1,8 +1,9 @@
 import fs from '@rcompat/fs';
 import {
-	getExistingPullRequest,
-	type ExistingPullRequestResult,
-	type UpdateVersionResult,
+	Komac,
+	type PullRequest,
+	type UpdatePackageRequest,
+	type UpdatePackageResult,
 } from '@unownplain/anthelion-komac';
 import { bgRed, blue, green, magenta, redBright, yellow } from 'ansis';
 import ky from 'ky';
@@ -10,6 +11,8 @@ import { z, ZodError } from 'zod';
 
 import { getTargetRepository } from '@/config';
 import { githubClient, getRepositoryHeadSha } from '@/github.ts';
+
+export const komac = new Komac();
 
 export class Logger {
 	private logs: string[] = [];
@@ -24,13 +27,11 @@ export class Logger {
 		}
 	}
 
-	logUpdateResult(result: UpdateVersionResult) {
-		for (const file of result.changes) {
-			this.logs.push(file.content);
+	logUpdateResult(result: UpdatePackageResult) {
+		for (const file of result.manifests) {
+			this.logs.push(file.yaml);
 		}
-		this.logs.push(
-			`Pull request URL: ${result.pullRequestUrl ? result.pullRequestUrl : 'Dry Run'}`,
-		);
+		this.logs.push(`Pull request URL: ${result.pullRequest?.url ?? 'Dry Run'}`);
 	}
 
 	stateMatches() {
@@ -56,15 +57,15 @@ export class Logger {
 		this.log(green`Package is up-to-date! (${version})`);
 	}
 
-	prExists(pr: ExistingPullRequestResult) {
-		if (pr.createdByAuthenticatedUser) {
+	prExists(pr: PullRequest) {
+		if (pr.authoredByCurrentUser) {
 			this.log(green`PR with state ${pr.state} was created at ${pr.createdAt}.`);
 		} else {
 			this.log(
-				yellow`PR created by ${pr.createdBy} with state ${pr.state} created at ${pr.createdAt}.`,
+				yellow`PR created by ${pr.author} with state ${pr.state} created at ${pr.createdAt}.`,
 			);
 		}
-		this.log(pr.pullRequestUrl);
+		this.log(pr.url);
 	}
 
 	error(shard: string, error: unknown) {
@@ -157,7 +158,7 @@ export function resolveValuePlaceholders(template: string, values: Record<string
 	});
 }
 
-export function match(str: string | undefined, regex: RegExp) {
+export function match(str: unknown, regex: RegExp) {
 	const globalRegex = regex.global ? regex : new RegExp(regex.source, `${regex.flags}g`);
 	const matches = Array.from(vs(str).matchAll(globalRegex));
 	const groups = matches.flatMap((match) => match.slice(1));
@@ -224,10 +225,10 @@ export async function checkVersionInRepo(
 		return true;
 	}
 
-	const existingPR = await getExistingPullRequest({
+	const existingPR = await komac.findPullRequest({
 		packageIdentifier,
 		version,
-		ignorePullRequestsCreatedByOtherUsers: ignoreOtherPrs,
+		authoredByCurrentUserOnly: ignoreOtherPrs,
 	});
 
 	if (ignoreOtherPrs && existingPR && existingPR.state === 'closed') {
@@ -282,8 +283,20 @@ export function normalizeVersion(version: string, remove?: string) {
 	return remove ? normalized.replaceAll(remove, '') : normalized;
 }
 
-export function resolveDataBackedUrls(urls: string[], data: unknown) {
-	return urls.map((url) => (isHttpUrl(url) ? url : vs(get(data, url))));
+export function resolveDataBackedUrls(
+	installers: UpdatePackageRequest['installers'],
+	data: unknown,
+) {
+	return installers.map((installer) => {
+		if (typeof installer === 'string') {
+			return isHttpUrl(installer) ? installer : vs(get(data, installer));
+		}
+
+		return {
+			...installer,
+			url: isHttpUrl(installer.url) ? installer.url : vs(get(data, installer.url)),
+		};
+	});
 }
 
 export function firstMatch(str: string, regex: RegExp, errorMessage?: string) {

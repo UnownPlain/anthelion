@@ -6,7 +6,7 @@
 		"url": "https://www.havysoft.cl/download/IE-Install.zip",
 		"header": "etag"
 	},
-	"version": "displayVersion",
+	"version": { "source": "display" },
 	"urls": ["https://www.havysoft.cl/download/IE-Install.zip"],
 	"replace": true
 }

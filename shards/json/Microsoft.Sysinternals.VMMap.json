@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/VMMap.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["vmmap.exe"],
-	"urls": ["https://download.sysinternals.com/files/VMMap.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/VMMap.zip",
+			"nestedInstallerMatches": ["vmmap.exe"]
+		}
+	],
 	"replace": true
 }

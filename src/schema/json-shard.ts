@@ -91,11 +91,27 @@ const stateSchema = z.discriminatedUnion('source', [
 ]);
 
 const urlsSchema = z
-	.array(z.string())
+	.array(
+		z.union([
+			z.string(),
+			z.object({
+				url: z.string(),
+				architecture: z.enum(['x86', 'x64', 'arm', 'arm64', 'neutral']).optional(),
+				nestedInstallerMatches: z.array(z.string().min(1)).min(1).optional(),
+			}),
+		]),
+	)
 	.min(1)
 	.describe(
 		'Template or literal URLs. Supports {version}, named values such as {captures.name}, and {value|from|to} replacement.',
 	);
+
+const versionSchema = z.union([
+	z.string().min(1),
+	z.object({
+		source: z.enum(['display', 'product', 'file']),
+	}),
+]);
 
 const baseShardFields = {
 	$schema: z.url().describe('Optional JSON Schema reference URL.').optional(),
@@ -109,17 +125,10 @@ const baseShardFields = {
 		.string()
 		.describe("Substring(s) to strip after auto-leading 'v' removal.")
 		.optional(),
-	version: z
-		.string()
-		.min(1)
+	version: versionSchema
 		.describe(
 			'Optional override for the resolved package version. Supports resolved placeholders such as {version}.',
 		)
-		.optional(),
-	installerMatches: z
-		.array(z.string().min(1))
-		.min(1)
-		.describe('Executable names used to match installers inside an archive.')
 		.optional(),
 	ignoreOtherPrs: z
 		.boolean()
@@ -205,7 +214,7 @@ const yamlVariant = z.object({
 const staticVariant = z.object({
 	...baseShardFields,
 	strategy: z.literal(Strategy.Static),
-	version: z.string().min(1),
+	version: versionSchema,
 	urls: urlsSchema,
 });
 

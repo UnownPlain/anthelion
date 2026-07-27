@@ -13,6 +13,7 @@ export default defineShard(async () => {
 		releases.windows['64bit'],
 		/Arattai[._-]v?(\d+(?:\.\d+)+)(?:[._-]x\d+)?\.exe/i,
 	);
+
 	return {
 		version,
 		urls,

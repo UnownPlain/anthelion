@@ -6,8 +6,14 @@
 		"url": "https://download.sysinternals.com/files/RAMMap.zip",
 		"header": "etag"
 	},
-	"version": "productVersion",
-	"installerMatches": ["RAMMap.exe"],
-	"urls": ["https://download.sysinternals.com/files/RAMMap.zip"],
+	"version": {
+		"source": "product"
+	},
+	"urls": [
+		{
+			"url": "https://download.sysinternals.com/files/RAMMap.zip",
+			"nestedInstallerMatches": ["RAMMap.exe"]
+		}
+	],
 	"replace": true
 }
