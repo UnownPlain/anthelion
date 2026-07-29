@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "pkgconf", "repo": "pkgconf" },
+	"urls": [
+		"https://github.com/pkgconf/pkgconf/releases/download/pkgconf-{version}/pkgconf-x86-{version}.msi",
+		"https://github.com/pkgconf/pkgconf/releases/download/pkgconf-{version}/pkgconf-x64-{version}.msi",
+		"https://github.com/pkgconf/pkgconf/releases/download/pkgconf-{version}/pkgconf-arm64-{version}.msi"
+	],
+	"versionRemove": "pkgconf-"
+}
