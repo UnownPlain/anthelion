@@ -293,10 +293,11 @@ derive the real version during installer analysis:
 }
 ```
 
-The installer metadata sources are `{ "source": "display" }`, `{ "source": "product" }`, and
-`{ "source": "file" }`. A concrete version may also be supplied, although another strategy should
-normally discover versions that upstream publishes. When the download is an archive, put
-`nestedInstallerMatches` on that installer URL to select the executable that supplies the metadata.
+The installer metadata sources are `{ "source": "display" }`, `{ "source": "product" }`,
+`{ "source": "file" }`, and `{ "source": "fontVersion" }`. A concrete version may also be supplied,
+although another strategy should normally discover versions that upstream publishes. When the
+download is an archive, put `nestedInstallerMatches` on that installer URL to select the executable
+that supplies the metadata.
 
 Because an installer-derived version is unknown until komac downloads and analyzes the file,
 Anthelion cannot perform its normal version check first. Add `state` as a cheap upstream change
@@ -543,9 +544,9 @@ imports. `defineShard` validates the returned shape at type-check time.
 
 The return value supports:
 
-- `version`: a version string, `{ source: 'explicit', value: string }`, or a derived
-  `{ source: 'display' | 'product' | 'file' }` selection. Return the value directly; the shard is
-  already asynchronous.
+- `version`: a version string or a derived
+  `{ source: 'display' | 'product' | 'file' | 'fontVersion' }` selection. Return the value directly;
+  the shard is already asynchronous.
 - `urls`: a required zero-argument function returning installer URLs, either immediately or as a
   promise. Each installer is a URL string or an object with `url`, optional `architecture`, and
   optional `nestedInstallerMatches`.

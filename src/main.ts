@@ -117,11 +117,7 @@ async function handleScriptShard(file: FileRef, logger: Logger) {
 
 	const resolvedVersion = version;
 	const versionForDisplay =
-		typeof resolvedVersion === 'string'
-			? vs(resolvedVersion)
-			: resolvedVersion.source === 'explicit'
-				? resolvedVersion.value
-				: resolvedVersion.source;
+		typeof resolvedVersion === 'string' ? vs(resolvedVersion) : resolvedVersion.source;
 
 	if (
 		!skipPrCheck &&

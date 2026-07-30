@@ -26,11 +26,7 @@ const versionInputSchema = z.unknown().pipe(
 	z.union([
 		z.string(),
 		z.object({
-			source: z.literal('explicit'),
-			value: z.string(),
-		}),
-		z.object({
-			source: z.enum(['display', 'product', 'file']),
+			source: z.enum(['display', 'product', 'file', 'fontVersion']),
 		}),
 	]),
 );
