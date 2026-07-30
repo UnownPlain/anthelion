@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "M2Team", "repo": "NanaBox" },
+	"urls": [
+		"https://github.com/M2Team/NanaBox/releases/download/{version}/NanaBox_{version}.msixbundle",
+		"https://github.com/M2Team/NanaBox/releases/download/{version}/NanaBox_{version}_Binaries.zip"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
+}
