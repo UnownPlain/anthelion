@@ -17,7 +17,7 @@
 			"minimumReleaseAge": "3 days"
 		},
 		{
-			"matchPackageNames": ["jdx/mise"],
+			"matchPackageNames": ["mise"],
 			"minimumReleaseAge": "3 days"
 		},
 		{
@@ -53,18 +53,6 @@
 			"datasourceTemplate": "npm",
 			"versioningTemplate": "npm",
 			"matchStrings": ["\"packageManager\":\\s+\"bun@(?<currentValue>\\d+\\.\\d+\\.\\d+)\""]
-		},
-		{
-			"customType": "regex",
-			"managerFilePatterns": ["/(^|/)\\.github/workflows/[^/]+\\.ya?ml$/"],
-			"depNameTemplate": "mise",
-			"packageNameTemplate": "jdx/mise",
-			"datasourceTemplate": "github-releases",
-			"versioningTemplate": "semver",
-			"extractVersionTemplate": "^v(?<version>.*)$",
-			"matchStrings": [
-				"uses:\\s+jdx/mise-action@[^\\s#]+(?:\\s+#[^\\r\\n]*)?\\r?\\n\\s+with:\\r?\\n\\s+version:\\s*(?<currentValue>\\d+\\.\\d+\\.\\d+)"
-			]
 		}
 	]
 }
