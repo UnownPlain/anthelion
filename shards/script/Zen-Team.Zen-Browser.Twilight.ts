@@ -10,7 +10,7 @@ export default defineShard(async () => {
 	});
 	const state = release.name;
 
-	const version = match(state || '', /Twilight build - (\S+)/)[0];
+	const version = match(state || '', /Twilight build - (\S+)/).groups[0];
 	const urls = () => [
 		{
 			url: 'https://github.com/zen-browser/desktop/releases/download/twilight-1/zen.installer.exe',

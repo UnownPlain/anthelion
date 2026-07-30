@@ -554,7 +554,9 @@ export default defineShard(async () => {
 		owner: 'git-for-windows',
 		repo: 'git',
 	});
-	const [baseVersion, buildNumber] = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
+	const {
+		groups: [baseVersion, buildNumber],
+	} = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
 	const version = buildNumber === '1' ? baseVersion : `${baseVersion}.${buildNumber}`;
 
 	return {
@@ -570,6 +572,18 @@ export default defineShard(async () => {
 
 Within this repository, existing shards may use the equivalent `@/helpers` and `@/strategies`
 imports. `defineShard` validates the returned shape at type-check time.
+
+Strategy helpers accept the same named options as their JSON equivalents. `pageMatch` returns the
+resolved `version`, all positional `groups`, and named `captures`:
+
+```ts
+import { pageMatch } from '@/strategies.ts';
+
+const { version, groups, captures } = await pageMatch({
+	url: 'https://example.com/downloads',
+	regex: /example[._-]v?(?<version>\d+(?:\.\d+)+)/i,
+});
+```
 
 The return value supports:
 

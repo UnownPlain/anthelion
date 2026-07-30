@@ -55,7 +55,9 @@ export default defineShard(async () => {
 		owner: 'git-for-windows',
 		repo: 'git',
 	});
-	const [baseVersion, buildNumber] = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
+	const {
+		groups: [baseVersion, buildNumber],
+	} = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
 	const version = buildNumber === '1' ? baseVersion : `${baseVersion}.${buildNumber}`;
 
 	return {

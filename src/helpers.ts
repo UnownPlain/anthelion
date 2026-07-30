@@ -121,8 +121,8 @@ export function compareVersions(a: string, b: string) {
 	return 0;
 }
 
-export function vs(str: unknown) {
-	return z.string().parse(str).trim();
+export function parseString(value: unknown) {
+	return z.string().parse(value).trim();
 }
 
 export function getShardTarget(shardName: string) {
@@ -134,9 +134,9 @@ export function getShardTarget(shardName: string) {
 	};
 }
 
-export function get(obj: unknown, path: string, defaultValue?: unknown): unknown {
+export function getPath(value: unknown, path: string, defaultValue?: unknown): unknown {
 	return (
-		path.split('.').reduce((acc, key) => (acc as Record<string, unknown>)?.[key], obj) ??
+		path.split('.').reduce((acc, key) => (acc as Record<string, unknown>)?.[key], value) ??
 		defaultValue
 	);
 }
@@ -150,7 +150,7 @@ export function resolveValuePlaceholders(template: string, values: Record<string
 		/\{([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)(?:\|([^|{}]*)\|([^{}]*))?\}/g;
 
 	return template.replaceAll(VALUE_PLACEHOLDER_REGEX, (placeholder, path, from, to) => {
-		const value = get(values, path);
+		const value = getPath(values, path);
 		if (typeof value !== 'string') {
 			throw new Error(`Unable to resolve placeholder ${placeholder}`);
 		}
@@ -158,56 +158,60 @@ export function resolveValuePlaceholders(template: string, values: Record<string
 	});
 }
 
-export function match(str: unknown, regex: RegExp) {
+export function match(value: unknown, regex: RegExp, errorMessage = 'Regex match not found') {
 	const globalRegex = regex.global ? regex : new RegExp(regex.source, `${regex.flags}g`);
-	const matches = Array.from(vs(str).matchAll(globalRegex));
+	const matches = Array.from(parseString(value).matchAll(globalRegex));
 	const groups = matches.flatMap((match) => match.slice(1));
 	const validated = z.array(z.string()).parse(groups);
 
 	if (validated.length === 0) {
-		throw new Error('Regex match not found');
+		throw new Error(errorMessage);
 	}
 
-	return validated;
+	return {
+		groups: validated as [string, ...string[]],
+		captures: matches[0]?.groups ?? {},
+	};
 }
 
-export async function isStateMatching(
-	packageIdentifier: string,
-	newState: string,
-	ignoreQuotes = false,
-) {
+export async function isStateMatching(options: {
+	packageIdentifier: string;
+	state: string;
+	ignoreQuotes?: boolean;
+}) {
 	if (process.env.DRY_RUN) return;
-	const versionStatePath = `version-state/${packageIdentifier}`;
+	const versionStatePath = `version-state/${options.packageIdentifier}`;
 	const storedVersion = (await fs.ref(versionStatePath).text()).trim();
 
-	if (ignoreQuotes) {
-		return newState.replaceAll(/["']/g, '') === storedVersion.replaceAll(/["']/g, '');
+	if (options.ignoreQuotes) {
+		return options.state.replaceAll(/["']/g, '') === storedVersion.replaceAll(/["']/g, '');
 	}
 
-	return newState === storedVersion;
+	return options.state === storedVersion;
 }
 
-export async function checkVersionInRepo(
-	version: string,
-	packageIdentifier: string,
-	logger = new Logger(),
-	font = false,
-	ignoreOtherPrs = false,
-) {
+export async function checkVersionInRepo(options: {
+	version: string;
+	packageIdentifier: string;
+	logger?: Logger;
+	font?: boolean;
+	ignoreOtherPrs?: boolean;
+}) {
 	if (process.env.DRY_RUN) return false;
+	const logger = options.logger ?? new Logger();
 
 	const { owner, repo, branch } = getTargetRepository();
 
-	const manifestDirectory = font ? 'fonts' : 'manifests';
+	const manifestDirectory = options.font ? 'fonts' : 'manifests';
 	const JSDELIVR_MANIFEST_ROOT = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/${manifestDirectory}`;
 	const GITHUB_MANIFEST_ROOT = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${manifestDirectory}`;
-	const MANIFEST_PATH = `${packageIdentifier.charAt(0).toLowerCase()}/${packageIdentifier
+	const MANIFEST_PATH = `${options.packageIdentifier.charAt(0).toLowerCase()}/${options.packageIdentifier
 		.split('.')
-		.join('/')}/${version}/${packageIdentifier}.yaml`;
+		.join('/')}/${options.version}/${options.packageIdentifier}.yaml`;
 	const jsdelivrUrl = `${JSDELIVR_MANIFEST_ROOT}/${MANIFEST_PATH}`;
 	const githubUrl = `${GITHUB_MANIFEST_ROOT}/${MANIFEST_PATH}`;
 
-	const response = ignoreOtherPrs
+	const response = options.ignoreOtherPrs
 		? await ky.get(githubUrl, {
 				cache: 'no-store',
 				throwHttpErrors: false,
@@ -217,23 +221,27 @@ export async function checkVersionInRepo(
 				throwHttpErrors: false,
 			});
 
-	if (response.ok && !process.env.DRY_RUN && !ignoreOtherPrs) {
-		logger.present(version);
+	if (response.ok && !process.env.DRY_RUN && !options.ignoreOtherPrs) {
+		logger.present(options.version);
 		return true;
 	}
 
-	if (response.ok && ignoreOtherPrs && (await response.text()).includes('# Created by Anthelion')) {
-		logger.present(version);
+	if (
+		response.ok &&
+		options.ignoreOtherPrs &&
+		(await response.text()).includes('# Created by Anthelion')
+	) {
+		logger.present(options.version);
 		return true;
 	}
 
 	const existingPR = await komac.findPullRequest({
-		packageIdentifier,
-		version,
-		authoredByCurrentUserOnly: ignoreOtherPrs,
+		packageIdentifier: options.packageIdentifier,
+		version: options.version,
+		authoredByCurrentUserOnly: options.ignoreOtherPrs,
 	});
 
-	if (ignoreOtherPrs && existingPR && existingPR.state === 'closed') {
+	if (options.ignoreOtherPrs && existingPR && existingPR.state === 'closed') {
 		return false;
 	}
 	if (existingPR) {
@@ -244,10 +252,10 @@ export async function checkVersionInRepo(
 	return false;
 }
 
-export async function updateVersionState(packageIdentifier: string, latestVersion: string) {
+export async function updateVersionState(options: { packageIdentifier: string; state: string }) {
 	if (process.env.DRY_RUN) return;
 
-	const versionStatePath = `version-state/${packageIdentifier}`;
+	const versionStatePath = `version-state/${options.packageIdentifier}`;
 	const mutation = `
 		mutation UpdateFile($input: CreateCommitOnBranchInput!) {
 			createCommitOnBranch(input: $input) {
@@ -265,13 +273,13 @@ export async function updateVersionState(packageIdentifier: string, latestVersio
 				branchName: process.env.GITHUB_REF_NAME,
 			},
 			message: {
-				headline: `[ci skip] Update ${packageIdentifier} version state`,
+				headline: `[ci skip] Update ${options.packageIdentifier} version state`,
 			},
 			fileChanges: {
 				additions: [
 					{
 						path: versionStatePath,
-						contents: btoa(latestVersion),
+						contents: btoa(options.state),
 					},
 				],
 			},
@@ -285,29 +293,22 @@ export function normalizeVersion(version: string, remove?: string) {
 	return remove ? normalized.replaceAll(remove, '') : normalized;
 }
 
-export function resolveDataBackedUrls(
-	installers: UpdatePackageRequest['installers'],
-	data: unknown,
-) {
-	return installers.map((installer) => {
+export function resolveDataBackedUrls(options: {
+	installers: UpdatePackageRequest['installers'];
+	data: unknown;
+}) {
+	return options.installers.map((installer) => {
 		if (typeof installer === 'string') {
-			return isHttpUrl(installer) ? installer : vs(get(data, installer));
+			return isHttpUrl(installer) ? installer : parseString(getPath(options.data, installer));
 		}
 
 		return {
 			...installer,
-			url: isHttpUrl(installer.url) ? installer.url : vs(get(data, installer.url)),
+			url: isHttpUrl(installer.url)
+				? installer.url
+				: parseString(getPath(options.data, installer.url)),
 		};
 	});
-}
-
-export function firstMatch(str: string, regex: RegExp, errorMessage?: string) {
-	const version = match(str, regex)[0];
-	if (!version) {
-		throw new Error(errorMessage);
-	}
-
-	return version;
 }
 
 type TemplateValue = string | number | bigint | boolean | null | undefined;

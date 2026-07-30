@@ -8,7 +8,7 @@ export default defineShard(async () => {
 	const repo = 'git';
 	const release = await getLatestReleaseFromRedirect({ owner, repo });
 
-	const version = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
+	const { groups: version } = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
 	const baseVersion = version[0];
 	const buildNumber = version[1];
 	const finalVersion = buildNumber === '1' ? baseVersion : `${baseVersion}.${buildNumber}`;

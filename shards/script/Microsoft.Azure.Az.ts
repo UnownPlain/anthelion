@@ -9,7 +9,9 @@ export default defineShard(async () => {
 	const release = await getLatestRelease({ owner, repo, useLatestEndpoint: true });
 
 	const urls = () => release.urls().filter((url) => url.includes('x64'));
-	const [version] = match(urls()[0], /Az-Cmdlets-(\d+(?:\.\d+)+)-(?:x64|x86)\.msi/i);
+	const {
+		groups: [version],
+	} = match(urls()[0], /Az-Cmdlets-(\d+(?:\.\d+)+)-(?:x64|x86)\.msi/i);
 
 	return {
 		version,

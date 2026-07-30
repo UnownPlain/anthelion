@@ -4,7 +4,10 @@ import { pageMatch } from '@/strategies.ts';
 
 export default defineShard(async () => {
 	const releases = (
-		await pageMatch('https://download.cpuid.com/cpuid.ver', /cpuz=(\d+(?:\.\d+){3})/i)
+		await pageMatch({
+			url: 'https://download.cpuid.com/cpuid.ver',
+			regex: /cpuz=(\d+(?:\.\d+){3})/i,
+		})
 	).version.split('.');
 
 	const version = `${releases[0]}.${releases[1]}${releases[2]}`;

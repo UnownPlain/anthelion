@@ -12,10 +12,9 @@ export default defineShard(async () => {
 
 	const urls = () => release.urls().filter((url) => url.endsWith('.msi'));
 	const asset = release.assetNames().find((name) => name.endsWith('.msi'));
-	const [version] = match(
-		asset,
-		/ILSpy_Installer_(\d+(?:\.\d+){3}-preview\d+)-(?:x64|arm64)\.msi$/i,
-	);
+	const {
+		groups: [version],
+	} = match(asset, /ILSpy_Installer_(\d+(?:\.\d+){3}-preview\d+)-(?:x64|arm64)\.msi$/i);
 
 	return {
 		version,

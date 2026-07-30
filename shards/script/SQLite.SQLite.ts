@@ -1,14 +1,13 @@
-import ky from 'ky';
-
-import { match } from '@/helpers.ts';
 import { defineShard } from '@/schema/script-shard.ts';
+import { pageMatch } from '@/strategies.ts';
 
 export default defineShard(async () => {
-	const response = await ky('https://www.sqlite.org/download.html').text();
-	const regex =
-		/DLL for Windows x64, SQLite version ([\d.]+)\..*?(\d+)\/sqlite-tools-win-x64-(\d+)/ms;
-
-	const [version, year, encodedVersion] = match(response, regex);
+	const {
+		groups: [version, year, encodedVersion],
+	} = await pageMatch({
+		url: 'https://www.sqlite.org/download.html',
+		regex: /DLL for Windows x64, SQLite version ([\d.]+)\..*?(\d+)\/sqlite-tools-win-x64-(\d+)/ms,
+	});
 	const urls = () => [
 		`https://www.sqlite.org/${year}/sqlite-tools-win-x64-${encodedVersion}.zip`,
 		`https://www.sqlite.org/${year}/sqlite-tools-win-arm64-${encodedVersion}.zip`,

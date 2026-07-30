@@ -1,12 +1,11 @@
-import ky from 'ky';
-
-import { match } from '@/helpers';
 import { defineShard } from '@/schema/script-shard.ts';
+import { pageMatch } from '@/strategies.ts';
 
 export default defineShard(async () => {
-	const response = await ky('https://sourceforge.net/projects/astyle/rss?path=/astyle').text();
-
-	const [version] = match(response, /astyle[._-]v?(\d+(?:\.\d+)+)[._-]/);
+	const { version } = await pageMatch({
+		url: 'https://sourceforge.net/projects/astyle/rss?path=/astyle',
+		regex: /astyle[._-]v?(\d+(?:\.\d+)+)[._-]/,
+	});
 	const urls = () => {
 		const pathVersion = version?.split('.').slice(0, -1).join('.');
 		return [

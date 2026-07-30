@@ -3,7 +3,14 @@ import { parseYaml, releaseNotesToPlainText } from '@unownplain/anthelion-komac'
 import { generateText } from 'ai';
 import ky from 'ky';
 
-import { dedent, get, isHttpUrl, komac, resolveValuePlaceholders, vs } from '@/helpers.ts';
+import {
+	dedent,
+	getPath,
+	isHttpUrl,
+	komac,
+	parseString,
+	resolveValuePlaceholders,
+} from '@/helpers.ts';
 import {
 	browserRenderingOptionsSchema,
 	browserRenderingResponseSchema,
@@ -138,12 +145,12 @@ async function resolveNestedReleaseNotes(
 		config.source === ReleaseNotesSource.Json
 			? await ky(sourceUrl).json()
 			: parseYaml(await ky(sourceUrl).text());
-	let rawReleaseNotes = vs(get(response, config.path));
+	let rawReleaseNotes = parseString(getPath(response, config.path));
 	let releaseNotesUrl: string | undefined;
 
 	if (isHttpUrl(rawReleaseNotes)) {
 		releaseNotesUrl = rawReleaseNotes;
-		rawReleaseNotes = vs(await ky(rawReleaseNotes).text());
+		rawReleaseNotes = parseString(await ky(rawReleaseNotes).text());
 	}
 
 	return {

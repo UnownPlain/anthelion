@@ -5,7 +5,9 @@ import { defineShard } from '@/schema/script-shard.ts';
 export default defineShard(async () => {
 	const release = await getLatestRelease({ owner: 'cumulusmx', repo: 'CumulusMX' });
 
-	const [version] = match(
+	const {
+		groups: [version],
+	} = match(
 		release.title ?? '',
 		/(?:Version\s+)?(\d+(?:\.\d+)+)(?=\s*(?:-\s*(?:Build\s+\d+|b\d+)|$))/i,
 	);

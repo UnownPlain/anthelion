@@ -9,7 +9,9 @@ export default defineShard(async () => {
 	).arrayBuffer();
 	const binary = Buffer.from(response).toString('latin1');
 
-	const [version] = match(binary, /version=(\d+(?:\.\d+)+)\b/i);
+	const {
+		groups: [version],
+	} = match(binary, /version=(\d+(?:\.\d+)+)\b/i);
 	const urls = () => [
 		{
 			url: `https://dl.google.com/android/cli/${version}/windows_x86_64/android.exe`,

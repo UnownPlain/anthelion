@@ -12,7 +12,9 @@ export default defineShard(async () => {
 		tagIncludes: 'apps_v',
 	});
 
-	const [version] = match(release.title ?? '', /oxfmt v(\d+(?:\.\d+)+)/i);
+	const {
+		groups: [version],
+	} = match(release.title ?? '', /oxfmt v(\d+(?:\.\d+)+)/i);
 	const urls = () =>
 		release.urls().filter((url) => url.includes('oxfmt') && url.endsWith('pc-windows-msvc.zip'));
 

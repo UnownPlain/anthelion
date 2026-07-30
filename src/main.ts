@@ -16,27 +16,21 @@ import {
 } from '@/github';
 import {
 	checkVersionInRepo,
-	get,
+	getPath,
 	getShardTarget,
 	isStateMatching,
 	komac,
 	Logger,
+	normalizeVersion,
+	parseString,
+	resolveDataBackedUrls,
 	resolveValuePlaceholders,
 	updateVersionState,
-	vs,
-	normalizeVersion,
-	resolveDataBackedUrls,
 } from '@/helpers';
 import { resolveReleaseNotes } from '@/release-notes';
-import { JsonShardSchema, Strategy, type JsonShard } from '@/schema/json-shard';
+import { JsonShardSchema, Strategy } from '@/schema/json-shard';
 import { ScriptShardResult } from '@/schema/script-shard';
-import {
-	electronBuilder,
-	pageMatch,
-	redirectMatch,
-	sortVersionsMatch,
-	sourceforge,
-} from '@/strategies';
+import { electronBuilder, pageMatch, redirectMatch, sortVersions, sourceforge } from '@/strategies';
 
 installFetchCache();
 
@@ -44,322 +38,30 @@ const MAX_CONCURRENCY = 256;
 export const SCRIPTS_FOLDER = 'script';
 export const JSON_FOLDER = 'json';
 
-async function updatePackage(options: {
-	packageIdentifier: string;
+type ResolvedShard = {
 	version: UpdatePackageRequest['version'];
 	templateVersion: string;
 	urls: () => UpdatePackageRequest['installers'] | Promise<UpdatePackageRequest['installers']>;
 	releaseNotes: unknown;
 	replace?: boolean;
-	font?: boolean;
-	logger: Logger;
+	versionToCheck?: string;
+	ignoreOtherPrs?: boolean;
+	state?: {
+		value: string;
+		ignoreQuotes?: boolean;
+	};
 	githubTag?: string;
 	github?: {
 		owner: string;
 		repo: string;
 	};
 	templateValues?: Record<string, unknown>;
-}) {
-	const templateValues = {
-		version: options.templateVersion,
-		...options.templateValues,
-		packageVersion: options.templateVersion,
-	};
-	const resolvedInstallers = (await options.urls()).map((installer) =>
-		typeof installer === 'string'
-			? resolveValuePlaceholders(installer, templateValues)
-			: { ...installer, url: resolveValuePlaceholders(installer.url, templateValues) },
-	);
+};
 
-	options.logger.details(
-		options.templateVersion,
-		resolvedInstallers.map((installer) =>
-			typeof installer === 'string' ? installer : installer.url,
-		),
-	);
-
-	const { releaseNotes: manifestReleaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
-		options.releaseNotes,
-		options.packageIdentifier,
-		options.templateVersion,
-		resolvedInstallers.map((installer) =>
-			typeof installer === 'string' ? installer : installer.url,
-		),
-		options.githubTag,
-		options.github,
-		templateValues,
-	);
-
-	const updateResult = await komac.updatePackage({
-		packageIdentifier: options.packageIdentifier,
-		version: options.version,
-		installers: resolvedInstallers,
-		replace: options.replace ? { target: 'latest' } : undefined,
-		releaseNotes:
-			manifestReleaseNotes || releaseNotesUrl
-				? { text: manifestReleaseNotes, url: releaseNotesUrl }
-				: undefined,
-		packageKind: options.font ? 'font' : 'auto',
-		mode: process.env.DRY_RUN ? 'generate' : 'submit',
-	});
-
-	options.logger.logUpdateResult(updateResult);
-
-	if (options.replace) {
-		await closeAllButMostRecentPR(options.packageIdentifier);
-	}
-
-	return updateResult;
-}
-
-async function handleScriptShard(file: FileRef, logger: Logger) {
-	const shard = await file.import();
-	const { version, urls, releaseNotes, replace, skipPrCheck, ignoreOtherPrs, state } =
-		ScriptShardResult.parse(await shard.default());
-	const { packageIdentifier, font } = getShardTarget(file.base);
-
-	if (state && (await isStateMatching(packageIdentifier, state))) {
-		logger.stateMatches();
-		return null;
-	}
-
-	const resolvedVersion = version;
-	const versionForDisplay =
-		typeof resolvedVersion === 'string' ? vs(resolvedVersion) : resolvedVersion.source;
-
-	if (
-		!skipPrCheck &&
-		typeof resolvedVersion === 'string' &&
-		(await checkVersionInRepo(resolvedVersion, packageIdentifier, logger, font, ignoreOtherPrs))
-	) {
-		return null;
-	}
-
-	const updateResult = await updatePackage({
-		packageIdentifier,
-		version: resolvedVersion,
-		templateVersion: versionForDisplay,
-		urls,
-		releaseNotes,
-		font,
-		replace,
-		logger,
-	});
-
-	if (state) {
-		await updateVersionState(packageIdentifier, state);
-	}
-
-	return updateResult;
-}
-
-async function resolveJsonShard(shard: JsonShard, initialUrls: UpdatePackageRequest['installers']) {
-	switch (shard.strategy) {
-		case Strategy.GithubRelease: {
-			const needsApiData =
-				shard.github.fetchUrlsFromApi ||
-				shard.github.preRelease ||
-				shard.github.tagFilter ||
-				shard.github.fetchLatest;
-			const latest = needsApiData
-				? await getLatestRelease({
-						owner: shard.github.owner,
-						repo: shard.github.repo,
-						kind: shard.github.preRelease ? 'prerelease' : 'stable',
-						tagIncludes: shard.github.tagFilter,
-						useLatestEndpoint: shard.github.fetchLatest,
-						perPage: shard.github.perPage,
-					})
-				: await getLatestReleaseFromRedirect({
-						owner: shard.github.owner,
-						repo: shard.github.repo,
-					});
-
-			return {
-				version: latest.version,
-				urls: () => {
-					const releaseUrls = shard.github.fetchUrlsFromApi ? latest.urls() : [];
-
-					if (shard.github.fetchUrlsFromApi && releaseUrls.length === 0) {
-						throw new Error('No URLs found in GitHub release');
-					}
-
-					return initialUrls.concat(releaseUrls);
-				},
-				githubTag: latest.rawTag,
-				templateValues: {
-					github: {
-						version: latest.version,
-						tag: latest.tag,
-						rawTag: latest.rawTag,
-						title: latest.title,
-					},
-				},
-			};
-		}
-		case Strategy.GithubCommit: {
-			const commit = await getLatestFileCommit(shard.github);
-
-			return {
-				version: commit,
-				urls: () => initialUrls,
-				templateValues: {
-					github: {
-						commit,
-					},
-				},
-			};
-		}
-		case Strategy.ElectronBuilder:
-			return {
-				version: await electronBuilder(shard.electronBuilder.url),
-				urls: () => initialUrls,
-			};
-		case Strategy.PageMatch: {
-			const { version, captures } = await pageMatch(
-				shard.pageMatch.url,
-				new RegExp(shard.pageMatch.regex, 'i'),
-			);
-
-			return {
-				version,
-				urls: () => initialUrls,
-				templateValues: {
-					captures,
-				},
-			};
-		}
-		case Strategy.SortVersions:
-			return {
-				version: await sortVersionsMatch(
-					shard.sortVersions.url,
-					new RegExp(shard.sortVersions.regex, 'i'),
-				),
-				urls: () => initialUrls,
-			};
-		case Strategy.Json: {
-			const response = await ky(shard.json.url).json();
-
-			return {
-				version: vs(get(response, shard.json.path)),
-				urls: () => resolveDataBackedUrls(initialUrls, response),
-			};
-		}
-		case Strategy.RedirectMatch: {
-			const result = await redirectMatch(
-				shard.redirectMatch.url,
-				new RegExp(shard.redirectMatch.regex, 'i'),
-			);
-
-			return {
-				version: result.version,
-				urls: () => (shard.urls ? initialUrls : initialUrls.concat(result.url)),
-			};
-		}
-		case Strategy.SourceForge:
-			return {
-				version: await sourceforge(shard.sourceforge.project, shard.sourceforge.file),
-				urls: () => initialUrls,
-			};
-		case Strategy.Yaml: {
-			const response = await ky(shard.yaml.url).text();
-			// This is set to failsafe so incorrectly quoted values aren't parsed as numbers
-			const yaml = parseYaml(response, 'failsafe');
-
-			return {
-				version: vs(get(yaml, shard.yaml.path)),
-				urls: () => resolveDataBackedUrls(initialUrls, yaml),
-			};
-		}
-		case Strategy.Static:
-			return {
-				version: shard.version,
-				urls: () => initialUrls,
-			};
-	}
-}
-
-async function handleJsonShard(file: FileRef, logger: Logger) {
-	const shard = JsonShardSchema.parse(await file.json());
-	const { packageIdentifier, font } = getShardTarget(file.base);
-	const resolvedShard = await resolveJsonShard(shard, shard.urls ?? []);
-	const detectedTemplateVersion =
-		typeof resolvedShard.version === 'string'
-			? normalizeVersion(resolvedShard.version, shard.versionRemove)
-			: resolvedShard.version.source;
-	const resolvedTemplateValues = {
-		...('templateValues' in resolvedShard ? resolvedShard.templateValues : undefined),
-		version: detectedTemplateVersion,
-	};
-	const versionOverride = shard.version;
-	const version = normalizeVersion(
-		typeof versionOverride === 'string'
-			? resolveValuePlaceholders(versionOverride, resolvedTemplateValues)
-			: resolvedTemplateValues.version,
-		shard.versionRemove,
-	);
-	const templateValues = {
-		...resolvedTemplateValues,
-		packageVersion: version,
-	};
-	let state: string | undefined;
-
-	if (shard.state) {
-		switch (shard.state.source) {
-			case 'value':
-				state = resolveValuePlaceholders(shard.state.value, templateValues);
-				break;
-			case 'response-header': {
-				const url = resolveValuePlaceholders(shard.state.url, templateValues);
-				const response = await ky(url, {
-					method: shard.state.method ?? 'head',
-				});
-				const value = response.headers.get(shard.state.header);
-
-				if (!value) {
-					throw new Error(`No ${shard.state.header} header found`);
-				}
-
-				state = value;
-				break;
-			}
-		}
-	}
-
-	const ignoreStateQuotes =
-		shard.state?.source === 'response-header' && shard.state.header.toLowerCase() === 'etag';
-
-	if (state && (await isStateMatching(packageIdentifier, state, ignoreStateQuotes))) {
-		logger.stateMatches();
-		return null;
-	}
-
-	if (await checkVersionInRepo(version, packageIdentifier, logger, font, shard.ignoreOtherPrs))
-		return null;
-
-	const updateResult = await updatePackage({
-		packageIdentifier,
-		version: typeof versionOverride === 'object' ? versionOverride : version,
-		templateVersion: version,
-		urls: resolvedShard.urls,
-		releaseNotes: shard.releaseNotes,
-		replace: shard.replace,
-		font,
-		logger,
-		githubTag: resolvedShard.githubTag,
-		github:
-			shard.strategy === Strategy.GithubRelease
-				? { owner: shard.github.owner, repo: shard.github.repo }
-				: undefined,
-		templateValues,
-	});
-
-	if (state) {
-		await updateVersionState(packageIdentifier, state);
-	}
-
-	return updateResult;
-}
+type ResolvedJsonStrategy = Pick<ResolvedShard, 'version' | 'urls'> & {
+	githubTag?: string;
+	templateValues?: Record<string, unknown>;
+};
 
 async function executeShard(file: FileRef) {
 	const logger = new Logger();
@@ -368,17 +70,295 @@ async function executeShard(file: FileRef) {
 	logger.run(file.name);
 
 	try {
+		const { packageIdentifier, font } = getShardTarget(file.base);
+		let shard: ResolvedShard;
+
 		if (file.name.endsWith('ts')) {
-			return {
-				identifier: file.name,
-				updateResult: await handleScriptShard(file, logger),
+			const module = await file.import();
+			const { version, urls, releaseNotes, replace, skipPrCheck, ignoreOtherPrs, state } =
+				ScriptShardResult.parse(await module.default());
+			const templateVersion = typeof version === 'string' ? parseString(version) : version.source;
+
+			shard = {
+				version,
+				templateVersion,
+				urls,
+				releaseNotes,
+				replace,
+				versionToCheck: !skipPrCheck && typeof version === 'string' ? version : undefined,
+				ignoreOtherPrs,
+				state: state ? { value: state } : undefined,
 			};
 		} else {
-			return {
-				identifier: file.name,
-				updateResult: await handleJsonShard(file, logger),
+			const jsonShard = JsonShardSchema.parse(await file.json());
+			const initialUrls = jsonShard.urls ?? [];
+			let resolvedStrategy: ResolvedJsonStrategy;
+
+			switch (jsonShard.strategy) {
+				case Strategy.GithubRelease: {
+					const needsApiData =
+						jsonShard.github.fetchUrlsFromApi ||
+						jsonShard.github.preRelease ||
+						jsonShard.github.tagFilter ||
+						jsonShard.github.fetchLatest;
+					const latest = needsApiData
+						? await getLatestRelease({
+								owner: jsonShard.github.owner,
+								repo: jsonShard.github.repo,
+								kind: jsonShard.github.preRelease ? 'prerelease' : 'stable',
+								tagIncludes: jsonShard.github.tagFilter,
+								useLatestEndpoint: jsonShard.github.fetchLatest,
+								perPage: jsonShard.github.perPage,
+							})
+						: await getLatestReleaseFromRedirect({
+								owner: jsonShard.github.owner,
+								repo: jsonShard.github.repo,
+							});
+
+					resolvedStrategy = {
+						version: latest.version,
+						urls: () => {
+							const releaseUrls = jsonShard.github.fetchUrlsFromApi ? latest.urls() : [];
+
+							if (jsonShard.github.fetchUrlsFromApi && releaseUrls.length === 0) {
+								throw new Error('No URLs found in GitHub release');
+							}
+
+							return initialUrls.concat(releaseUrls);
+						},
+						githubTag: latest.rawTag,
+						templateValues: {
+							github: {
+								version: latest.version,
+								tag: latest.tag,
+								rawTag: latest.rawTag,
+								title: latest.title,
+							},
+						},
+					};
+					break;
+				}
+				case Strategy.GithubCommit: {
+					const commit = await getLatestFileCommit(jsonShard.github);
+
+					resolvedStrategy = {
+						version: commit,
+						urls: () => initialUrls,
+						templateValues: {
+							github: {
+								commit,
+							},
+						},
+					};
+					break;
+				}
+				case Strategy.ElectronBuilder:
+					resolvedStrategy = {
+						version: (await electronBuilder(jsonShard.electronBuilder)).version,
+						urls: () => initialUrls,
+					};
+					break;
+				case Strategy.PageMatch: {
+					const { version, captures } = await pageMatch(jsonShard.pageMatch);
+
+					resolvedStrategy = {
+						version,
+						urls: () => initialUrls,
+						templateValues: {
+							captures,
+						},
+					};
+					break;
+				}
+				case Strategy.SortVersions:
+					resolvedStrategy = {
+						version: (await sortVersions(jsonShard.sortVersions)).version,
+						urls: () => initialUrls,
+					};
+					break;
+				case Strategy.Json: {
+					const response = await ky(jsonShard.json.url).json();
+
+					resolvedStrategy = {
+						version: parseString(getPath(response, jsonShard.json.path)),
+						urls: () => resolveDataBackedUrls({ installers: initialUrls, data: response }),
+					};
+					break;
+				}
+				case Strategy.RedirectMatch: {
+					const result = await redirectMatch(jsonShard.redirectMatch);
+
+					resolvedStrategy = {
+						version: result.version,
+						urls: () => (jsonShard.urls ? initialUrls : initialUrls.concat(result.url)),
+					};
+					break;
+				}
+				case Strategy.SourceForge:
+					resolvedStrategy = {
+						version: (await sourceforge(jsonShard.sourceforge)).version,
+						urls: () => initialUrls,
+					};
+					break;
+				case Strategy.Yaml: {
+					const response = await ky(jsonShard.yaml.url).text();
+					// This is set to failsafe so incorrectly quoted values aren't parsed as numbers
+					const yaml = parseYaml(response, 'failsafe');
+
+					resolvedStrategy = {
+						version: parseString(getPath(yaml, jsonShard.yaml.path)),
+						urls: () => resolveDataBackedUrls({ installers: initialUrls, data: yaml }),
+					};
+					break;
+				}
+				case Strategy.Static:
+					resolvedStrategy = {
+						version: jsonShard.version,
+						urls: () => initialUrls,
+					};
+					break;
+			}
+
+			const detectedTemplateVersion =
+				typeof resolvedStrategy.version === 'string'
+					? normalizeVersion(resolvedStrategy.version, jsonShard.versionRemove)
+					: resolvedStrategy.version.source;
+			const resolvedTemplateValues = {
+				...('templateValues' in resolvedStrategy ? resolvedStrategy.templateValues : undefined),
+				version: detectedTemplateVersion,
+			};
+			const versionOverride = jsonShard.version;
+			const version = normalizeVersion(
+				typeof versionOverride === 'string'
+					? resolveValuePlaceholders(versionOverride, resolvedTemplateValues)
+					: resolvedTemplateValues.version,
+				jsonShard.versionRemove,
+			);
+			const templateValues = {
+				...resolvedTemplateValues,
+				packageVersion: version,
+			};
+			let state: string | undefined;
+
+			if (jsonShard.state) {
+				switch (jsonShard.state.source) {
+					case 'value':
+						state = resolveValuePlaceholders(jsonShard.state.value, templateValues);
+						break;
+					case 'response-header': {
+						const url = resolveValuePlaceholders(jsonShard.state.url, templateValues);
+						const response = await ky(url, {
+							method: jsonShard.state.method ?? 'head',
+						});
+						const value = response.headers.get(jsonShard.state.header);
+
+						if (!value) {
+							throw new Error(`No ${jsonShard.state.header} header found`);
+						}
+
+						state = value;
+						break;
+					}
+				}
+			}
+
+			const ignoreStateQuotes =
+				jsonShard.state?.source === 'response-header' &&
+				jsonShard.state.header.toLowerCase() === 'etag';
+
+			shard = {
+				version: typeof versionOverride === 'object' ? versionOverride : version,
+				templateVersion: version,
+				urls: resolvedStrategy.urls,
+				releaseNotes: jsonShard.releaseNotes,
+				replace: jsonShard.replace,
+				versionToCheck: version,
+				ignoreOtherPrs: jsonShard.ignoreOtherPrs,
+				state: state ? { value: state, ignoreQuotes: ignoreStateQuotes } : undefined,
+				githubTag: 'githubTag' in resolvedStrategy ? resolvedStrategy.githubTag : undefined,
+				github:
+					jsonShard.strategy === Strategy.GithubRelease
+						? { owner: jsonShard.github.owner, repo: jsonShard.github.repo }
+						: undefined,
+				templateValues,
 			};
 		}
+
+		if (
+			shard.state &&
+			(await isStateMatching({
+				packageIdentifier,
+				state: shard.state.value,
+				ignoreQuotes: shard.state.ignoreQuotes,
+			}))
+		) {
+			logger.stateMatches();
+			return { identifier: file.name, updateResult: null };
+		}
+
+		if (
+			shard.versionToCheck !== undefined &&
+			(await checkVersionInRepo({
+				version: shard.versionToCheck,
+				packageIdentifier,
+				logger,
+				font,
+				ignoreOtherPrs: shard.ignoreOtherPrs,
+			}))
+		) {
+			return { identifier: file.name, updateResult: null };
+		}
+
+		const templateValues = {
+			version: shard.templateVersion,
+			...shard.templateValues,
+			packageVersion: shard.templateVersion,
+		};
+		const resolvedInstallers = (await shard.urls()).map((installer) =>
+			typeof installer === 'string'
+				? resolveValuePlaceholders(installer, templateValues)
+				: { ...installer, url: resolveValuePlaceholders(installer.url, templateValues) },
+		);
+		const installerUrls = resolvedInstallers.map((installer) =>
+			typeof installer === 'string' ? installer : installer.url,
+		);
+
+		logger.details(shard.templateVersion, installerUrls);
+
+		const { releaseNotes, releaseNotesUrl } = await resolveReleaseNotes(
+			shard.releaseNotes,
+			packageIdentifier,
+			shard.templateVersion,
+			installerUrls,
+			shard.githubTag,
+			shard.github,
+			templateValues,
+		);
+		const updateResult = await komac.updatePackage({
+			packageIdentifier,
+			version: shard.version,
+			installers: resolvedInstallers,
+			replace: shard.replace ? { target: 'latest' } : undefined,
+			releaseNotes:
+				releaseNotes || releaseNotesUrl ? { text: releaseNotes, url: releaseNotesUrl } : undefined,
+			packageKind: font ? 'font' : 'auto',
+			mode: process.env.DRY_RUN ? 'generate' : 'submit',
+		});
+
+		logger.logUpdateResult(updateResult);
+
+		if (shard.replace) {
+			await closeAllButMostRecentPR(packageIdentifier);
+		}
+
+		if (shard.state) {
+			await updateVersionState({ packageIdentifier, state: shard.state.value });
+		}
+
+		return {
+			identifier: file.name,
+			updateResult,
+		};
 	} catch (e) {
 		logger.error(file.name, e);
 		throw e;

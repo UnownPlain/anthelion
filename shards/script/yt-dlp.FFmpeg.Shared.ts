@@ -22,7 +22,9 @@ export default defineShard(async () => {
 	const asset = release
 		.assetNames()
 		.find((name) => name.includes('win') && name.includes('shared') && name.includes('ffmpeg-N'));
-	const [build] = match(asset, /ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i);
+	const {
+		groups: [build],
+	} = match(asset, /ffmpeg-N-(\d+-g[a-f0-9]+)-win\d*-gpl(?:-shared)?\.zip/i);
 	const version = `N-${build}-${date.toString().replaceAll('-', '')}`;
 
 	return {

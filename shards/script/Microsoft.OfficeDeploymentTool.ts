@@ -1,16 +1,16 @@
-import ky from 'ky';
-
-import { firstMatch, get } from '@/helpers.ts';
+import { getPath } from '@/helpers.ts';
 import { defineShard } from '@/schema/script-shard.ts';
+import { pageMatch } from '@/strategies.ts';
 
 export default defineShard(async () => {
-	const response = await ky('https://www.microsoft.com/download/details.aspx?id=49117').text();
-	const details = JSON.parse(
-		firstMatch(response, /<script>window\.__DLCDetails__=(\{.+?\})<\/script>/is),
-	);
+	const { groups } = await pageMatch({
+		url: 'https://www.microsoft.com/download/details.aspx?id=49117',
+		regex: /<script>window\.__DLCDetails__=(\{.+?\})<\/script>/is,
+	});
+	const details = JSON.parse(groups[0]);
 
-	const version = get(details, 'dlcDetailsView.downloadFile.0.version');
-	const url = get(details, 'dlcDetailsView.downloadFile.0.url');
+	const version = getPath(details, 'dlcDetailsView.downloadFile.0.version');
+	const url = getPath(details, 'dlcDetailsView.downloadFile.0.url');
 
 	return {
 		version,
