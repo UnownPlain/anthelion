@@ -209,9 +209,11 @@ export async function checkVersionInRepo(
 
 	const response = ignoreOtherPrs
 		? await ky.get(githubUrl, {
+				cache: 'no-store',
 				throwHttpErrors: false,
 			})
 		: await ky.head(jsdelivrUrl, {
+				cache: 'no-store',
 				throwHttpErrors: false,
 			});
 

@@ -1,5 +1,5 @@
 {
-	"include": ["src", "shards", "tsdown.config.ts"],
+	"include": ["src", "shards", "tests", "tsdown.config.ts"],
 
 	"compilerOptions": {
 		"paths": {

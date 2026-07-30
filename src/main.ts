@@ -7,6 +7,7 @@ import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 
 import { getShardsDirectory } from '@/config';
+import { installFetchCache } from '@/fetch-cache';
 import {
 	closeAllButMostRecentPR,
 	getLatestFileCommit,
@@ -36,6 +37,8 @@ import {
 	sortVersionsMatch,
 	sourceforge,
 } from '@/strategies';
+
+installFetchCache();
 
 const MAX_CONCURRENCY = 256;
 export const SCRIPTS_FOLDER = 'script';

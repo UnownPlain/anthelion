@@ -36,5 +36,8 @@ jobs:
           - name: Lint & Type check
             run: bun lint --deny-warnings
 
+          - name: Run Tests
+            run: bun test:unit
+
           - name: Build Package
             run: bun build:ext
