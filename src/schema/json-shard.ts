@@ -109,7 +109,7 @@ const urlsSchema = z
 const versionSchema = z.union([
 	z.string().min(1),
 	z.object({
-		source: z.enum(['display', 'product', 'file']),
+		source: z.enum(['display', 'product', 'file', 'fontVersion']),
 	}),
 ]);
 

@@ -271,7 +271,7 @@
 							"properties": {
 								"source": {
 									"type": "string",
-									"enum": ["display", "product", "file"]
+									"enum": ["display", "product", "file", "fontVersion"]
 								}
 							},
 							"required": ["source"],
@@ -679,7 +679,7 @@
 							"properties": {
 								"source": {
 									"type": "string",
-									"enum": ["display", "product", "file"]
+									"enum": ["display", "product", "file", "fontVersion"]
 								}
 							},
 							"required": ["source"],
@@ -1066,7 +1066,7 @@
 							"properties": {
 								"source": {
 									"type": "string",
-									"enum": ["display", "product", "file"]
+									"enum": ["display", "product", "file", "fontVersion"]
 								}
 							},
 							"required": ["source"],
@@ -1452,7 +1452,7 @@
 							"properties": {
 								"source": {
 									"type": "string",
-									"enum": ["display", "product", "file"]
+									"enum": ["display", "product", "file", "fontVersion"]
 								}
 							},
 							"required": ["source"],
@@ -1843,7 +1843,7 @@
 							"properties": {
 								"source": {
 									"type": "string",
-									"enum": ["display", "product", "file"]
+									"enum": ["display", "product", "file", "fontVersion"]
 								}
 							},
 							"required": ["source"],
@@ -2230,7 +2230,7 @@
 							"properties": {
 								"source": {
 									"type": "string",
-									"enum": ["display", "product", "file"]
+									"enum": ["display", "product", "file", "fontVersion"]
 								}
 							},
 							"required": ["source"],
@@ -2614,7 +2614,7 @@
 							"properties": {
 								"source": {
 									"type": "string",
-									"enum": ["display", "product", "file"]
+									"enum": ["display", "product", "file", "fontVersion"]
 								}
 							},
 							"required": ["source"],
@@ -3002,7 +3002,7 @@
 							"properties": {
 								"source": {
 									"type": "string",
-									"enum": ["display", "product", "file"]
+									"enum": ["display", "product", "file", "fontVersion"]
 								}
 							},
 							"required": ["source"],
@@ -3390,7 +3390,7 @@
 							"properties": {
 								"source": {
 									"type": "string",
-									"enum": ["display", "product", "file"]
+									"enum": ["display", "product", "file", "fontVersion"]
 								}
 							},
 							"required": ["source"],
