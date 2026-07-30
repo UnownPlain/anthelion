@@ -9,6 +9,7 @@ import { getTargetRepository } from '@/config';
 export const githubClient = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
 const INSTALLER_EXTENSIONS = new Set(['.exe', '.msi', '.msix', '.msixbundle', '.appx', '.zip']);
+const COMMIT_FEED_REGEX = /Grit::Commit\/([0-9a-f]{40})/;
 
 type GitHubRepository = {
 	owner: string;
@@ -21,6 +22,38 @@ type LatestReleaseOptions = GitHubRepository & {
 	useLatestEndpoint?: boolean;
 	perPage?: number;
 };
+
+type LatestFileCommitOptions = GitHubRepository & {
+	branch?: string;
+	path: string;
+};
+
+export async function getLatestFileCommit({
+	owner,
+	repo,
+	branch = 'HEAD',
+	path,
+}: LatestFileCommitOptions) {
+	const feedUrl = `https://github.com/${owner}/${repo}/commits/${branch}/${path}.atom`;
+	const response = await ky(feedUrl, {
+		headers: {
+			range: 'bytes=0-4095',
+		},
+	});
+	let feed = await response.text();
+	let commit = COMMIT_FEED_REGEX.exec(feed)?.[1];
+
+	if (!commit && response.status === 206) {
+		feed = await ky(feedUrl).text();
+		commit = COMMIT_FEED_REGEX.exec(feed)?.[1];
+	}
+
+	if (!commit) {
+		throw new Error('Failed to extract latest file commit from GitHub feed');
+	}
+
+	return commit;
+}
 
 export async function getLatestReleaseFromRedirect({
 	owner,

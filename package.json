@@ -48,7 +48,7 @@
 		"build:ext": "tsdown",
 		"fmt": "bun --bun oxfmt",
 		"lint": "bun --bun oxlint --type-check --type-aware",
-		"gen:schema": "bun run src/schema/generate.ts && bun format"
+		"gen:schema": "bun run src/schema/generate.ts && bun fmt"
 	},
 	"dependencies": {
 		"@ai-sdk/groq": "4.0.13",

@@ -7,7 +7,12 @@ import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 
 import { getShardsDirectory } from '@/config';
-import { closeAllButMostRecentPR, getLatestRelease, getLatestReleaseFromRedirect } from '@/github';
+import {
+	closeAllButMostRecentPR,
+	getLatestFileCommit,
+	getLatestRelease,
+	getLatestReleaseFromRedirect,
+} from '@/github';
 import {
 	checkVersionInRepo,
 	get,
@@ -185,6 +190,19 @@ async function resolveJsonShard(shard: JsonShard, initialUrls: UpdatePackageRequ
 						tag: latest.tag,
 						rawTag: latest.rawTag,
 						title: latest.title,
+					},
+				},
+			};
+		}
+		case Strategy.GithubCommit: {
+			const commit = await getLatestFileCommit(shard.github);
+
+			return {
+				version: commit,
+				urls: () => initialUrls,
+				templateValues: {
+					github: {
+						commit,
 					},
 				},
 			};

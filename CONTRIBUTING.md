@@ -129,11 +129,12 @@ this order:
 
 1. `electron-builder`, `json`, or `yaml`
 2. `github-release`
-3. `redirect-match`
-4. `sourceforge`
-5. `page-match` or `sort-versions`
-6. `static`
-7. Script shard
+3. `github-commit`
+4. `redirect-match`
+5. `sourceforge`
+6. `page-match` or `sort-versions`
+7. `static`
+8. Script shard
 
 | Strategy           | Use it when                                                                                                |
 | ------------------ | ---------------------------------------------------------------------------------------------------------- |
@@ -141,6 +142,7 @@ this order:
 | `json`             | An API or metadata file contains the version.                                                              |
 | `yaml`             | A YAML document contains the version.                                                                      |
 | `github-release`   | The package publishes versioned GitHub releases.                                                           |
+| `github-commit`    | A file's latest commit on a public GitHub repository identifies the current build.                         |
 | `sourceforge`      | Releases are hosted in a SourceForge project.                                                              |
 | `redirect-match`   | A stable URL redirects to a versioned installer URL.                                                       |
 | `page-match`       | One contextual regular-expression match on a page contains the version.                                    |
@@ -174,6 +176,33 @@ Useful `github` options are:
 
 GitHub templates can also use `{github.version}`, `{github.tag}`, `{github.rawTag}`, and
 `{github.title}`.
+
+### GitHub file commits
+
+Use `github-commit` when the latest commit that changed a file identifies a rolling build. It reads
+the file's public Atom feed without using the GitHub API. `branch` defaults to `HEAD`.
+
+```json
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-commit",
+	"github": {
+		"owner": "example",
+		"repo": "example",
+		"branch": "main",
+		"path": "path/to/version-file"
+	},
+	"urls": ["https://example.com/builds/{github.commit}/example.exe"]
+}
+```
+
+The full commit hash is available as both `{version}` and `{github.commit}`. If the package version
+comes from installer metadata, override `version` and use the commit as update state:
+
+```json
+"version": { "source": "product" },
+"state": { "source": "value", "value": "{github.commit}" }
+```
 
 ### Electron Builder
 

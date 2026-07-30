@@ -4,6 +4,7 @@ import { releaseNotesSchema, ReleaseNotesSource } from '@/schema/release-notes';
 
 export enum Strategy {
 	GithubRelease = 'github-release',
+	GithubCommit = 'github-commit',
 	PageMatch = 'page-match',
 	SortVersions = 'sort-versions',
 	RedirectMatch = 'redirect-match',
@@ -34,6 +35,13 @@ const githubSchema = z.object({
 		.describe('Number of releases to fetch from the GitHub Releases API.')
 		.default(25)
 		.optional(),
+});
+
+const githubCommitSchema = z.object({
+	owner: z.string(),
+	repo: z.string(),
+	branch: z.string().min(1).default('HEAD').optional(),
+	path: z.string().min(1).describe('Repository-relative path to the tracked file.'),
 });
 
 const pageMatchSchema = z.object({
@@ -162,6 +170,13 @@ const githubReleaseVariant = z
 		}
 	});
 
+const githubCommitVariant = z.object({
+	...baseShardFields,
+	strategy: z.literal(Strategy.GithubCommit),
+	github: githubCommitSchema,
+	urls: urlsSchema,
+});
+
 const pageMatchVariant = z.object({
 	...baseShardFields,
 	strategy: z.literal(Strategy.PageMatch),
@@ -221,6 +236,7 @@ const staticVariant = z.object({
 export const JsonShardSchema = z
 	.discriminatedUnion('strategy', [
 		githubReleaseVariant,
+		githubCommitVariant,
 		pageMatchVariant,
 		sortVersionsVariant,
 		redirectMatchVariant,
