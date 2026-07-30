@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "stuncloud", "repo": "UWSCR" },
+	"urls": [
+		"https://github.com/stuncloud/UWSCR/releases/download/{version}/UWSCRx86.zip",
+		"https://github.com/stuncloud/UWSCR/releases/download/{version}/UWSCRx64.zip"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	},
+	"ignoreOtherPrs": true
+}
