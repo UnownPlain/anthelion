@@ -11,11 +11,12 @@ Prefer a JSON shard whenever the update can be expressed declaratively.
 ## Commands
 
 - Test one shard: `bun test:shard {SHARD_NAME} --dry-run`
-- Fetch a package's latest WinGet manifest: `komac show {PACKAGE_IDENTIFIER}`
-- Fetch it from WSL: `GITHUB_TOKEN=$(gh auth token) komac show {PACKAGE_IDENTIFIER}`
 - Lint and type-check: `bun lint`
 - Format: `bun fmt`
 - Regenerate the JSON schema after changing `src/schema/json-shard.ts`: `bun gen:schema`
+- Run unit tests: `bun test:unit`
+- Fetch a package's latest WinGet manifest: `komac show {PACKAGE_IDENTIFIER}`
+- Fetch it from WSL: `GITHUB_TOKEN=$(gh auth token) komac show {PACKAGE_IDENTIFIER}`
 
 ## Misc
 
@@ -23,5 +24,3 @@ Run `bun start` only when a full shard run is necessary.
 
 Changes to GitHub Actions must pass `actionlint` and `zizmor` as configured in
 `.github/workflows/lint-actions.yml`.
-
-Use `rg` instead of `grep` when possible.
