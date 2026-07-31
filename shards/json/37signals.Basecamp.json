@@ -4,5 +4,6 @@
 	"electronBuilder": {
 		"url": "https://basecamp.com/desktop/latest.yml"
 	},
-	"urls": ["https://basecamp.com/desktop/Basecamp-{version}-setup.exe"]
+	"urls": ["https://basecamp.com/desktop/Basecamp-{version}-setup.exe"],
+	"ignoreOtherPrs": true
 }
