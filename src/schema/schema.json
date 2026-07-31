@@ -1922,7 +1922,7 @@
 							"type": "string"
 						},
 						"method": {
-							"default": "head",
+							"default": "get",
 							"type": "string",
 							"enum": ["head", "get"]
 						}

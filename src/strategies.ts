@@ -41,7 +41,7 @@ export async function pageMatch(options: MatchStrategyOptions) {
 
 export async function redirectMatch(options: MatchStrategyOptions & { method?: 'head' | 'get' }) {
 	const response = await ky(options.url, {
-		method: options.method ?? 'head',
+		method: options.method ?? 'get',
 		redirect: 'manual',
 		throwHttpErrors: false,
 	});
