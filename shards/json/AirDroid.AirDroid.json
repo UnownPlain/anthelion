@@ -2,7 +2,7 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "redirect-match",
 	"redirectMatch": {
-		"url": "https://srv3.airdroid.com/p20/web/getbinaryredirect?type=exe&channel=&version=",
+		"url": ["https://srv3.airdroid.com/p20/web/getbinaryredirect?type=exe&channel=&version="],
 		"regex": "AirDroid_Desktop_Client_(\\d+(?:\\.\\d+)+)\\.exe"
 	}
 }

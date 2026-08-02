@@ -59,8 +59,12 @@ const sortVersionsSchema = z.object({
 });
 
 const redirectMatchSchema = z.object({
-	url: z.url(),
-	regex: z.string(),
+	url: z.array(z.url()).min(1),
+	regex: z
+		.string()
+		.describe(
+			'Regex whose first capture or named "version" capture contains the version. Use {version} in templates; other named captures from the first redirect are available as {captures.name}.',
+		),
 	method: z.enum(['head', 'get']).default('get').optional(),
 });
 

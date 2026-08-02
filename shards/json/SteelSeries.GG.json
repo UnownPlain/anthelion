@@ -2,7 +2,7 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "redirect-match",
 	"redirectMatch": {
-		"url": "https://steelseries.com/gg/downloads/gg/latest/windows",
+		"url": ["https://steelseries.com/gg/downloads/gg/latest/windows"],
 		"regex": "SteelSeriesGG(\\d+(?:\\.\\d+)+)Setup\\.exe"
 	},
 	"urls": [

@@ -2,7 +2,7 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "redirect-match",
 	"redirectMatch": {
-		"url": "https://definitionupdates.microsoft.com/packages?package=scanner&arch=x64",
+		"url": ["https://definitionupdates.microsoft.com/packages?package=scanner&arch=x64"],
 		"regex": "packageVersion=(\\d+(?:\\.\\d+)+)"
 	},
 	"urls": [

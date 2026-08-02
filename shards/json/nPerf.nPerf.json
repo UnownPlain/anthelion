@@ -2,7 +2,7 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "redirect-match",
 	"redirectMatch": {
-		"url": "https://app.nperf.com/en/getWindowsApp",
+		"url": ["https://app.nperf.com/en/getWindowsApp"],
 		"regex": "windows/nperf/nPerf[._-]v?(\\d+(?:\\.\\d+)+)\\.exe"
 	}
 }

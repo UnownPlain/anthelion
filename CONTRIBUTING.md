@@ -282,13 +282,29 @@ Use `redirect-match` when a stable download link redirects to a URL containing t
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "redirect-match",
 	"redirectMatch": {
-		"url": "https://example.com/download/windows",
+		"url": ["https://example.com/download/windows"],
 		"regex": "releases/(\\d+(?:\\.\\d+)+)/example\\.msi"
 	}
 }
 ```
 
-If `urls` is omitted, Anthelion passes the redirect destination to komac.
+`redirectMatch.url` must be a non-empty array, and every redirect must resolve to the same version.
+If the top-level `urls` field is omitted, Anthelion passes all redirect destinations to komac.
+As with `page-match`, the first capture group or named `version` group supplies the version. Other
+named groups from the first redirect are available in templates as `{captures.name}`.
+
+For packages with multiple stable download links, such as separate architecture installers, list
+each link in `redirectMatch.url`:
+
+```json
+"redirectMatch": {
+	"url": [
+		"https://example.com/download/windows-x64",
+		"https://example.com/download/windows-arm64"
+	],
+	"regex": "releases/(\\d+(?:\\.\\d+)+)/example-[^.]+\\.msi"
+}
+```
 
 ### SourceForge
 
@@ -645,8 +661,8 @@ well-defined upstream conventions.
 ### A URL placeholder cannot be resolved
 
 Check that the placeholder is available for the chosen strategy. Data-backed URL paths apply only
-to `json` and `yaml`; named captures apply only to `page-match`; GitHub metadata applies only to
-`github-release`.
+to `json` and `yaml`; named captures apply only to `page-match` and `redirect-match`; GitHub
+metadata applies only to `github-release`.
 
 ### komac derived the version from the wrong executable
 

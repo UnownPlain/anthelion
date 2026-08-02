@@ -2,7 +2,7 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "redirect-match",
 	"redirectMatch": {
-		"url": "https://cdn.localwp.com/stable/latest/windows",
+		"url": ["https://cdn.localwp.com/stable/latest/windows"],
 		"regex": "local[._-]v?(\\d+(?:\\.\\d+)+)[._-]windows\\.exe"
 	},
 	"releaseNotes": {

@@ -190,7 +190,10 @@ async function executeShard(file: FileRef) {
 
 					resolvedStrategy = {
 						version: result.version,
-						urls: () => (jsonShard.urls ? initialUrls : initialUrls.concat(result.url)),
+						urls: () => (jsonShard.urls ? initialUrls : initialUrls.concat(result.urls)),
+						templateValues: {
+							captures: result.captures,
+						},
 					};
 					break;
 				}

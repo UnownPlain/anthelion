@@ -39,23 +39,47 @@ export async function pageMatch(options: MatchStrategyOptions) {
 	};
 }
 
-export async function redirectMatch(options: MatchStrategyOptions & { method?: 'head' | 'get' }) {
-	const response = await ky(options.url, {
-		method: options.method ?? 'get',
-		redirect: 'manual',
-		throwHttpErrors: false,
-	});
+export async function redirectMatch(
+	options: Omit<MatchStrategyOptions, 'url'> & {
+		url: string[];
+		method?: 'head' | 'get';
+	},
+) {
+	const results = await Promise.all(
+		options.url.map(async (url) => {
+			const response = await ky(url, {
+				method: options.method ?? 'get',
+				redirect: 'manual',
+				throwHttpErrors: false,
+			});
 
-	const redirect = response.headers.get('location');
-	if (!redirect) {
-		throw new Error('No redirect location found');
+			const redirect = response.headers.get('location');
+			if (!redirect) {
+				throw new Error(`No redirect location found for ${url}`);
+			}
+
+			const { groups, captures } = match(
+				redirect,
+				toRegExp(options.regex),
+				'Failed to extract version from URL',
+			);
+			const version = captures.version ?? groups[0];
+			return { version: parseString(version), url: redirect, captures };
+		}),
+	);
+	const firstResult = results[0];
+	if (!firstResult) {
+		throw new Error('At least one redirect URL is required');
 	}
-	const version = match(redirect, toRegExp(options.regex), 'Failed to extract version from URL')
-		.groups[0];
+
+	if (results.some((result) => result.version !== firstResult.version)) {
+		throw new Error('Redirect URLs resolved to different versions');
+	}
 
 	return {
-		version,
-		url: redirect,
+		version: firstResult.version,
+		urls: results.map((result) => result.url),
+		captures: firstResult.captures,
 	};
 }
 

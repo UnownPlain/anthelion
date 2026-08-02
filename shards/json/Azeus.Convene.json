@@ -2,7 +2,7 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "redirect-match",
 	"redirectMatch": {
-		"url": "https://www.azeusconvene.com/s/installconvenewindows64bit",
+		"url": ["https://www.azeusconvene.com/s/installconvenewindows64bit"],
 		"regex": "convene_setup\\.(\\d+(?:\\.\\d+)+)-64bit\\.exe"
 	},
 	"urls": [

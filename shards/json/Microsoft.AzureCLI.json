@@ -2,7 +2,7 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "redirect-match",
 	"redirectMatch": {
-		"url": "https://aka.ms/installazurecliwindowsx64",
+		"url": ["https://aka.ms/installazurecliwindowsx64"],
 		"regex": "azure-cli-(\\d+(?:\\.\\d+)+)-x64\\.msi"
 	},
 	"urls": [

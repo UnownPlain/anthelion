@@ -1915,11 +1915,16 @@
 					"type": "object",
 					"properties": {
 						"url": {
-							"type": "string",
-							"format": "uri"
+							"minItems": 1,
+							"type": "array",
+							"items": {
+								"type": "string",
+								"format": "uri"
+							}
 						},
 						"regex": {
-							"type": "string"
+							"type": "string",
+							"description": "Regex whose first capture or named \"version\" capture contains the version. Use {version} in templates; other named captures from the first redirect are available as {captures.name}."
 						},
 						"method": {
 							"default": "get",
