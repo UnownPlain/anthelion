@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "jgm", "repo": "pandoc" },
+	"urls": [
+		"https://github.com/jgm/pandoc/releases/download/{version}/pandoc-{version}-windows-x86_64.msi",
+		"https://github.com/jgm/pandoc/releases/download/{version}/pandoc-{version}-windows-x86_64.zip"
+	]
+}
