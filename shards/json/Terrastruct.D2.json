@@ -1,8 +1,8 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
-	"github": { "owner": "terrastruct", "repo": "d2" },
+	"github": { "owner": "d2lang", "repo": "d2" },
 	"urls": [
-		"https://github.com/terrastruct/d2/releases/download/v{version}/d2-v{version}-windows-amd64.msi"
+		"https://github.com/d2lang/d2/releases/download/v{version}/d2-v{version}-windows-amd64.msi"
 	]
 }
