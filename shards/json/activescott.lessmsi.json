@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "activescott", "repo": "lessmsi" },
+	"urls": [
+		{
+			"url": "https://github.com/activescott/lessmsi/releases/download/v{version}/lessmsi-v{version}.zip",
+			"architecture": "x86"
+		}
+	]
+}
