@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "mcuee", "repo": "libusbk" },
+	"urls": [
+		{
+			"url": "https://github.com/mcuee/libusbk/releases/download/V{version}/libusbK-{version}-setup.exe",
+			"architecture": "x86"
+		}
+	],
+	"versionRemove": "V"
+}
