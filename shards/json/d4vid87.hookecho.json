@@ -1,0 +1,17 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "static",
+	"state": {
+		"source": "response-header",
+		"url": "https://github.com/d4vid87/hookecho/releases/download/latest/hookecho-windows-x86_64.zip",
+		"header": "etag"
+	},
+	"version": { "source": "product" },
+	"urls": [
+		{
+			"url": "https://github.com/d4vid87/hookecho/releases/download/latest/hookecho-windows-x86_64.zip",
+			"nestedInstallerMatches": ["hookecho.exe"]
+		}
+	],
+	"replace": true
+}
