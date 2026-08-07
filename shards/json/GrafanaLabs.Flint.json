@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "grafana", "repo": "flint" },
+	"urls": [
+		"https://github.com/grafana/flint/releases/download/v{version}/flint-x86_64-pc-windows-msvc.zip"
+	]
+}
