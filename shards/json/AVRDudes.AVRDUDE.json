@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "avrdudes", "repo": "avrdude" },
+	"urls": [
+		"https://github.com/avrdudes/avrdude/releases/download/v{version}/avrdude-v{version}-windows-x86.zip",
+		"https://github.com/avrdudes/avrdude/releases/download/v{version}/avrdude-v{version}-windows-x64.zip",
+		"https://github.com/avrdudes/avrdude/releases/download/v{version}/avrdude-v{version}-windows-arm64.zip"
+	]
+}
