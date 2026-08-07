@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "rusty-weather" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/rusty-weather/releases/download/v{version}/rusty-weather-windows-x64.zip",
+		"https://github.com/FahrenheitResearch/rusty-weather/releases/download/v{version}/rusty-weather-windows-arm64.zip"
+	]
+}
