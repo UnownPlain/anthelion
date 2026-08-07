@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "SHARPpy-Reimagined-vRust" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/SHARPpy-Reimagined-vRust/releases/download/v{version}/SHARPpy-Reimagined-vRust-v{version}-windows-x64.exe"
+	]
+}
