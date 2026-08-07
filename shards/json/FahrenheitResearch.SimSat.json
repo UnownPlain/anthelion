@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "simsat" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/simsat/releases/download/v{version}/simsat-studio-v{version}-windows-x86_64.exe"
+	]
+}
