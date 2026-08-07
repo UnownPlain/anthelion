@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://proton.me/download/drive/cli/version.json",
+		"path": "Releases.0.Version"
+	},
+	"urls": [
+		"https://proton.me/download/drive/cli/{version}/windows-x64/proton-drive.exe",
+		"https://proton.me/download/drive/cli/{version}/windows-arm64/proton-drive.exe"
+	]
+}
