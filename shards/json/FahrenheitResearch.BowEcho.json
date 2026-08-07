@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "FahrenheitResearch", "repo": "bowecho" },
+	"urls": [
+		"https://github.com/FahrenheitResearch/bowecho/releases/download/v{version}/bowecho-windows-x64.exe",
+		"https://github.com/FahrenheitResearch/bowecho/releases/download/v{version}/bowecho-windows-arm64.exe"
+	]
+}
