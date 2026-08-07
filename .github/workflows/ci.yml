@@ -36,7 +36,7 @@ jobs:
     name: All Checks Pass
     if: always()
     runs-on: ubuntu-slim
-    timeout-minutes: 5
+    timeout-minutes: 1
     needs:
       - lint
       - test

@@ -22,7 +22,7 @@ jobs:
     environment:
       name: Production (gh only)
       deployment: false
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - parallel:
           - name: Checkout
