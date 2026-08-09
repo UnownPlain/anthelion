@@ -2,45 +2,57 @@ import { z } from 'zod';
 
 import { releaseNotesSchema } from '@/schema/release-notes';
 
-const installerSourceSchema = z.union([
-	z.string(),
-	z.object({
-		url: z.string(),
-		architecture: z.enum(['x86', 'x64', 'arm', 'arm64', 'neutral']).optional(),
-		nestedInstallerMatches: z.array(z.string().min(1)).min(1).optional(),
-	}),
-]);
+type UrlsReturnInput =
+	| unknown[]
+	| {
+			url: unknown;
+			architecture?: unknown;
+			nestedInstallerMatches?: unknown;
+	  };
 
-const urlArrayInputSchema = z.array(z.unknown()).pipe(z.array(installerSourceSchema));
-
-export const urlsSchema = z
-	.function({
-		input: [],
-		output: z.unknown(),
-	})
-	.transform((urls) => async () => urlArrayInputSchema.parse(await urls()));
-
-export type Urls = z.output<typeof urlsSchema>;
-
-const versionInputSchema = z.unknown().pipe(
+const urlArrayInputSchema = z.array(
 	z.union([
 		z.string(),
 		z.object({
-			source: z.enum(['display', 'product', 'file', 'fontVersion']),
+			url: z.string(),
+			architecture: z.enum(['x86', 'x64', 'arm', 'arm64', 'neutral']).optional(),
+			nestedInstallerMatches: z.array(z.string().min(1)).min(1).optional(),
 		}),
 	]),
 );
 
-const scriptShardCommonSchema = z.object({
+export const urlsSchema = z
+	.function({
+		input: [],
+		output: z.custom<UrlsReturnInput | PromiseLike<UrlsReturnInput>>(
+			(value) =>
+				Array.isArray(value) ||
+				(typeof value === 'object' &&
+					value !== null &&
+					('url' in value || typeof Reflect.get(value, 'then') === 'function')),
+		),
+	})
+	.transform((urls) => async () => {
+		const sources = await urls();
+		return urlArrayInputSchema.parse(Array.isArray(sources) ? sources : [sources]);
+	});
+
+export type Urls = z.output<typeof urlsSchema>;
+
+export const ScriptShardResult = z.object({
 	urls: urlsSchema,
 	releaseNotes: releaseNotesSchema,
 	replace: z.boolean().optional(),
 	skipPrCheck: z.boolean().default(false),
 	ignoreOtherPrs: z.boolean().default(false),
-});
-
-export const ScriptShardResult = scriptShardCommonSchema.extend({
-	version: versionInputSchema,
+	version: z.unknown().pipe(
+		z.union([
+			z.string(),
+			z.object({
+				source: z.enum(['display', 'product', 'file', 'fontVersion']),
+			}),
+		]),
+	),
 	state: z.unknown().pipe(z.string().min(1)).optional(),
 });
 

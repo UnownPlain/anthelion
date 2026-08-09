@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsdown';
+import zodCompiler from 'zod-compiler/rolldown';
 
 export default defineConfig([
 	{
@@ -11,6 +12,7 @@ export default defineConfig([
 			'schema/release-notes': 'src/schema/release-notes.ts',
 		},
 		format: 'esm',
+		plugins: [zodCompiler({ codegenMode: 'inline' })],
 		dts: true,
 		fixedExtension: false,
 		hash: false,
@@ -27,6 +29,7 @@ export default defineConfig([
 			main: 'src/main.ts',
 			test: 'src/test.ts',
 		},
+		plugins: [zodCompiler({ codegenMode: 'inline' })],
 		dts: false,
 		clean: false,
 		outDir: 'dist/bin',

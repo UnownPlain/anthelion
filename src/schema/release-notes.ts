@@ -201,18 +201,19 @@ const releaseNotesUrlOnlySchema = z
 	})
 	.strict();
 
-const releaseNotesSourceSchema = z.discriminatedUnion('source', [
-	releaseNotesHtmlSchema,
-	releaseNotesMarkdownSchema,
-	releaseNotesPlainTextSchema,
-	releaseNotesBrowserRenderingSchema,
-	releaseNotesGithubSchema,
-	releaseNotesJsonSchema,
-	releaseNotesYamlSchema,
-]);
-
-const releaseNotesUnionSchema = z.union([releaseNotesSourceSchema, releaseNotesUrlOnlySchema]);
-
-export const releaseNotesSchema = releaseNotesUnionSchema.optional();
+export const releaseNotesSchema = z
+	.union([
+		z.discriminatedUnion('source', [
+			releaseNotesHtmlSchema,
+			releaseNotesMarkdownSchema,
+			releaseNotesPlainTextSchema,
+			releaseNotesBrowserRenderingSchema,
+			releaseNotesGithubSchema,
+			releaseNotesJsonSchema,
+			releaseNotesYamlSchema,
+		]),
+		releaseNotesUrlOnlySchema,
+	])
+	.optional();
 export type ReleaseNotesInput = z.input<typeof releaseNotesSchema>;
 export type ReleaseNotesConfig = z.output<typeof releaseNotesSchema>;

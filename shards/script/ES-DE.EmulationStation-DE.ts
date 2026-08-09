@@ -12,9 +12,14 @@ export default defineShard(async () => {
 		}>
 	>();
 
-	const version = releases[0]?.tag_name.substring(1);
+	const release = releases[0];
+	if (!release) {
+		throw new Error('No GitLab release found');
+	}
+
+	const version = release.tag_name.substring(1);
 	const urls = () =>
-		releases[0]?.assets.links.filter((link) => link.name.includes('.exe'))?.map((link) => link.url);
+		release.assets.links.filter((link) => link.name.includes('.exe')).map((link) => link.url);
 
 	return {
 		version,

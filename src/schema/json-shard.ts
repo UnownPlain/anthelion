@@ -87,15 +87,13 @@ const yamlStrategySchema = z.object({
 	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
 });
 
-const responseHeaderStateSchema = z.object({
-	source: z.literal('response-header'),
-	url: z.string().describe('URL whose response header is used as the persisted state.'),
-	header: z.string().min(1).describe('Response header containing the persisted state.'),
-	method: z.enum(['head', 'get']).default('head').optional(),
-});
-
 const stateSchema = z.discriminatedUnion('source', [
-	responseHeaderStateSchema,
+	z.object({
+		source: z.literal('response-header'),
+		url: z.string().describe('URL whose response header is used as the persisted state.'),
+		header: z.string().min(1).describe('Response header containing the persisted state.'),
+		method: z.enum(['head', 'get']).default('head').optional(),
+	}),
 	z.object({
 		source: z.literal('value'),
 		value: z.string().min(1).describe('Persisted state value. Supports resolved placeholders.'),
