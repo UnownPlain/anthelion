@@ -16,10 +16,8 @@ export default defineShard(async () => {
 	const version = { source: 'display' } as const;
 	const urls = async () => {
 		const result = await komac.analyzeInstaller({
-			installer: {
-				url: 'https://media.steampowered.com/steamlink/windows/latest/SteamLink.zip',
-				nestedInstallerMatches: ['SteamLink.msi'],
-			},
+			url: 'https://media.steampowered.com/steamlink/windows/latest/SteamLink.zip',
+			nestedInstallerMatches: ['SteamLink.msi'],
 		});
 		return [
 			{

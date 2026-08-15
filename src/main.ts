@@ -58,7 +58,10 @@ type ResolvedShard = {
 	templateValues?: Record<string, unknown>;
 };
 
-type ResolvedJsonStrategy = Pick<ResolvedShard, 'version' | 'urls'> & {
+type ShardVersion = ReturnType<typeof ScriptShardResult.parse>['version'];
+
+type ResolvedJsonStrategy = Pick<ResolvedShard, 'urls'> & {
+	version: ShardVersion;
 	githubTag?: string;
 	templateValues?: Record<string, unknown>;
 };
@@ -80,7 +83,7 @@ async function executeShard(file: FileRef) {
 			const templateVersion = typeof version === 'string' ? parseString(version) : version.source;
 
 			shard = {
-				version,
+				version: typeof version === 'string' ? version : version.source,
 				templateVersion,
 				urls,
 				releaseNotes,
@@ -270,7 +273,7 @@ async function executeShard(file: FileRef) {
 				jsonShard.state.header.toLowerCase() === 'etag';
 
 			shard = {
-				version: typeof versionOverride === 'object' ? versionOverride : version,
+				version: typeof versionOverride === 'object' ? versionOverride.source : version,
 				templateVersion: version,
 				urls: resolvedStrategy.urls,
 				releaseNotes: jsonShard.releaseNotes,
