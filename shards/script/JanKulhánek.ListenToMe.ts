@@ -5,9 +5,7 @@ import { defineShard } from '@/schema/script-shard.ts';
 
 export default defineShard(async () => {
 	const { versions } = await komac.analyzeInstaller({
-		installer: {
-			url: 'https://github.com/jank2/ListenToMe/releases/latest/download/ListenToMe_Setup.exe',
-		},
+		url: 'https://github.com/jank2/ListenToMe/releases/latest/download/ListenToMe_Setup.exe',
 	});
 	const response = await ky(
 		'https://github.com/jank2/ListenToMe/releases/latest/download/ListenToMe.exe',
