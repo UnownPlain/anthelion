@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "SwiftList", "repo": "SwiftList" },
+	"urls": [
+		"https://github.com/SwiftList/SwiftList/releases/download/v{version}/SwiftList-Setup.exe",
+		"https://github.com/SwiftList/SwiftList/releases/download/v{version}/SwiftList-Setup_arm64.exe"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
+}
