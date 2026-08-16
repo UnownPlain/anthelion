@@ -60,7 +60,7 @@
 		"es-toolkit": "1.50.0",
 		"ky": "2.0.2",
 		"octokit": "5.0.5",
-		"temporal-polyfill": "1.0.3",
+		"temporal-polyfill": "1.0.4",
 		"zod": "4.4.3"
 	},
 	"devDependencies": {
