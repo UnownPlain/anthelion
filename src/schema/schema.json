@@ -970,7 +970,7 @@
 											"type": "boolean"
 										}
 									},
-									"required": ["source"],
+									"required": ["source", "owner", "repo"],
 									"additionalProperties": false
 								},
 								{
@@ -1357,7 +1357,7 @@
 											"type": "boolean"
 										}
 									},
-									"required": ["source"],
+									"required": ["source", "owner", "repo"],
 									"additionalProperties": false
 								},
 								{
@@ -1743,7 +1743,7 @@
 											"type": "boolean"
 										}
 									},
-									"required": ["source"],
+									"required": ["source", "owner", "repo"],
 									"additionalProperties": false
 								},
 								{
@@ -2139,7 +2139,7 @@
 											"type": "boolean"
 										}
 									},
-									"required": ["source"],
+									"required": ["source", "owner", "repo"],
 									"additionalProperties": false
 								},
 								{
@@ -2526,7 +2526,7 @@
 											"type": "boolean"
 										}
 									},
-									"required": ["source"],
+									"required": ["source", "owner", "repo"],
 									"additionalProperties": false
 								},
 								{
@@ -2910,7 +2910,7 @@
 											"type": "boolean"
 										}
 									},
-									"required": ["source"],
+									"required": ["source", "owner", "repo"],
 									"additionalProperties": false
 								},
 								{
@@ -3298,7 +3298,7 @@
 											"type": "boolean"
 										}
 									},
-									"required": ["source"],
+									"required": ["source", "owner", "repo"],
 									"additionalProperties": false
 								},
 								{
@@ -3686,7 +3686,7 @@
 											"type": "boolean"
 										}
 									},
-									"required": ["source"],
+									"required": ["source", "owner", "repo"],
 									"additionalProperties": false
 								},
 								{

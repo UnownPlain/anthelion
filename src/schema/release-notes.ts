@@ -153,6 +153,11 @@ const releaseNotesGithubSchema = z.object({
 		.optional(),
 });
 
+const releaseNotesGithubWithRequiredRepositorySchema = releaseNotesGithubSchema.required({
+	owner: true,
+	repo: true,
+});
+
 const releaseNotesJsonSchema = z.object({
 	source: z.literal(ReleaseNotesSource.Json),
 	sourceUrl: z
@@ -209,6 +214,21 @@ export const releaseNotesSchema = z
 			releaseNotesPlainTextSchema,
 			releaseNotesBrowserRenderingSchema,
 			releaseNotesGithubSchema,
+			releaseNotesJsonSchema,
+			releaseNotesYamlSchema,
+		]),
+		releaseNotesUrlOnlySchema,
+	])
+	.optional();
+
+export const releaseNotesWithRequiredGithubRepositorySchema = z
+	.union([
+		z.discriminatedUnion('source', [
+			releaseNotesHtmlSchema,
+			releaseNotesMarkdownSchema,
+			releaseNotesPlainTextSchema,
+			releaseNotesBrowserRenderingSchema,
+			releaseNotesGithubWithRequiredRepositorySchema,
 			releaseNotesJsonSchema,
 			releaseNotesYamlSchema,
 		]),

@@ -1,6 +1,10 @@
 import { z } from 'zod';
 
-import { releaseNotesSchema, ReleaseNotesSource } from '@/schema/release-notes';
+import {
+	releaseNotesSchema,
+	releaseNotesWithRequiredGithubRepositorySchema,
+	ReleaseNotesSource,
+} from '@/schema/release-notes';
 
 export enum Strategy {
 	GithubRelease = 'github-release',
@@ -148,6 +152,11 @@ const baseShardFields = {
 	state: stateSchema.describe('Optional state used to skip unchanged updates.').optional(),
 };
 
+const baseShardFieldsWithoutGithub = {
+	...baseShardFields,
+	releaseNotes: releaseNotesWithRequiredGithubRepositorySchema,
+};
+
 const githubReleaseVariant = z
 	.object({
 		...baseShardFields,
@@ -180,56 +189,56 @@ const githubCommitVariant = z.object({
 });
 
 const pageMatchVariant = z.object({
-	...baseShardFields,
+	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.PageMatch),
 	pageMatch: pageMatchSchema,
 	urls: urlsSchema,
 });
 
 const sortVersionsVariant = z.object({
-	...baseShardFields,
+	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.SortVersions),
 	sortVersions: sortVersionsSchema,
 	urls: urlsSchema,
 });
 
 const redirectMatchVariant = z.object({
-	...baseShardFields,
+	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.RedirectMatch),
 	redirectMatch: redirectMatchSchema,
 	urls: urlsSchema.optional(),
 });
 
 const sourceforgeVariant = z.object({
-	...baseShardFields,
+	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.SourceForge),
 	sourceforge: sourceforgeSchema,
 	urls: urlsSchema,
 });
 
 const electronBuilderVariant = z.object({
-	...baseShardFields,
+	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.ElectronBuilder),
 	electronBuilder: electronBuilderSchema,
 	urls: urlsSchema,
 });
 
 const jsonVariant = z.object({
-	...baseShardFields,
+	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.Json),
 	json: jsonStrategySchema,
 	urls: urlsSchema,
 });
 
 const yamlVariant = z.object({
-	...baseShardFields,
+	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.Yaml),
 	yaml: yamlStrategySchema,
 	urls: urlsSchema,
 });
 
 const staticVariant = z.object({
-	...baseShardFields,
+	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.Static),
 	version: versionSchema,
 	urls: urlsSchema,
