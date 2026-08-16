@@ -7,5 +7,12 @@
 			"url": "https://github.com/tutao/tutanota/releases/download/tutanota-desktop-release-{version}/tutanota-desktop-win.exe",
 			"architecture": "x64"
 		}
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"owner": "tutao",
+		"repo": "tutanota",
+		"tag": "tutanota-desktop-release-{version}",
+		"cleanup": true
+	}
 }
