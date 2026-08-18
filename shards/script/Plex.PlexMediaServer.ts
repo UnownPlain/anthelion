@@ -13,10 +13,7 @@ export default defineShard(async () => {
 	}>();
 
 	const version = releases.computer.Windows.version.split('-')[0];
-	const urls = () => [
-		releases.computer.Windows.releases[0]?.url,
-		releases.computer.Windows.releases[1]?.url,
-	];
+	const urls = () => [releases.computer.Windows.releases[1]?.url];
 
 	return {
 		version,
