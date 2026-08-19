@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "mcuee", "repo": "libusb-win32" },
+	"urls": [
+		{
+			"url": "https://github.com/mcuee/libusb-win32/releases/download/release_{version}/libusb-win32-devel-filter-{version}.exe",
+			"architecture": "x64"
+		}
+	],
+	"versionRemove": "release_"
+}
