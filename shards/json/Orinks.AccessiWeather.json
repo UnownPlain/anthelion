@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "Orinks", "repo": "AccessiWeather" },
+	"urls": [
+		"https://github.com/Orinks/AccessiWeather/releases/download/v{version}/AccessiWeather-{version}-windows-setup.exe"
+	]
+}
