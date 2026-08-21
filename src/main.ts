@@ -185,6 +185,9 @@ async function executeShard(file: FileRef) {
 					resolvedStrategy = {
 						version: parseString(getPath(response, jsonShard.json.path)),
 						urls: () => resolveDataBackedUrls({ installers: initialUrls, data: response }),
+						templateValues: {
+							data: response,
+						},
 					};
 					break;
 				}

@@ -236,6 +236,21 @@ Installer entries may be paths into the same response instead of literal URLs:
 }
 ```
 
+The JSON response is also available to templates under `{data.*}`. This can be used in the
+`version` override, installer URLs, state, and release-note templates:
+
+```json
+{
+	"strategy": "json",
+	"json": {
+		"url": "https://example.com/latest.json",
+		"path": "version"
+	},
+	"version": "{version}+{data.build}",
+	"urls": ["https://example.com/{version}-{data.build}/example.exe"]
+}
+```
+
 The `yaml` strategy has the same shape, using a `yaml` object instead of `json`.
 
 ### Matching a web page

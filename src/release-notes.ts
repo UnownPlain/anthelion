@@ -258,7 +258,7 @@ export async function resolveReleaseNotes(
 		return emptyReleaseNotes();
 	}
 
-	const values = { ...templateValues, version };
+	const values = { version, ...templateValues };
 
 	if (!('source' in releaseNotesConfig)) {
 		return {
