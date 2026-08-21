@@ -13,10 +13,7 @@ export default defineShard(async () => {
 	const urls = () =>
 		release
 			.urls()
-			.filter((url) => url.includes('win') && !url.includes('shared') && url.includes('ffmpeg-N'))
-			.map((url) => {
-				return url.includes('arm64') ? { url: `${url}`, architecture: 'arm64' } : url;
-			});
+			.filter((url) => url.includes('win') && !url.includes('shared') && url.includes('ffmpeg-N'));
 	const asset = release
 		.assetNames()
 		.find((name) => name.includes('win') && !name.includes('shared') && name.includes('ffmpeg-N'));
