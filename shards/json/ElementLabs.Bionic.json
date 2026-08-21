@@ -1,0 +1,19 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://versions-prod.lmstudio.ai/update/bionic/win32/x86",
+		"path": "version"
+	},
+	"version": "{version}+{data.build}",
+	"urls": [
+		"https://bionic-installers.lmstudio.ai/win32/x64/{version}-{data.build}/Bionic-{version}-{data.build}-x64.exe"
+	],
+	"releaseNotes": {
+		"source": "json",
+		"nestedSource": "markdown",
+		"sourceUrl": "https://versions-prod.lmstudio.ai/update/bionic/win32/x86",
+		"path": "releaseNotes",
+		"releaseNotesUrl": "https://lmstudio.ai/changelog/bionic-v{version}"
+	}
+}
