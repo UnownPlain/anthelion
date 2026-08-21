@@ -1,5 +1,3 @@
-import { Temporal } from 'temporal-polyfill';
-
 import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers.ts';
 import { defineShard } from '@/schema/script-shard.ts';
