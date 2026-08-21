@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "dprint", "repo": "dprint" },
+	"urls": [
+		"https://github.com/dprint/dprint/releases/download/{version}/dprint-x86_64-pc-windows-msvc.zip",
+		"https://github.com/dprint/dprint/releases/download/{version}/dprint-aarch64-pc-windows-msvc.zip"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
+}
