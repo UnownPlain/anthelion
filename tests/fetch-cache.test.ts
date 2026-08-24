@@ -97,4 +97,70 @@ describe('createCachedFetch', () => {
 		expect(await (await fetch('https://example.com/resource')).text()).toBe('recovered');
 		expect(fetchCount).toBe(3);
 	});
+
+	test('aborts an in-flight request when its last consumer aborts', async () => {
+		let fetchCount = 0;
+		const networkAborted = Promise.withResolvers<void>();
+		let networkSignal: AbortSignal | undefined;
+		const fetch = createCachedFetch(async (input) => {
+			fetchCount++;
+			if (fetchCount > 1) return new Response('recovered');
+
+			const request = input as Request;
+			networkSignal = request.signal;
+			return new Promise<Response>((_resolve, reject) => {
+				request.signal.addEventListener(
+					'abort',
+					() => {
+						networkAborted.resolve();
+						reject(request.signal.reason);
+					},
+					{ once: true },
+				);
+			});
+		});
+		const controller = new AbortController();
+		const response = fetch('https://example.com/resource', { signal: controller.signal });
+		const abortReason = new Error('consumer aborted');
+
+		controller.abort(abortReason);
+
+		await expect(response).rejects.toBe(abortReason);
+		await networkAborted.promise;
+		expect(networkSignal?.aborted).toBe(true);
+		expect(await (await fetch('https://example.com/resource')).text()).toBe('recovered');
+		expect(fetchCount).toBe(2);
+	});
+
+	test('keeps an in-flight request alive while it still has a consumer', async () => {
+		let fetchCount = 0;
+		const networkStarted = Promise.withResolvers<void>();
+		const networkResponse = Promise.withResolvers<Response>();
+		let networkSignal: AbortSignal | undefined;
+		const fetch = createCachedFetch(async (input) => {
+			fetchCount++;
+			const request = input as Request;
+			networkSignal = request.signal;
+			networkStarted.resolve();
+			return networkResponse.promise;
+		});
+		const firstController = new AbortController();
+		const secondController = new AbortController();
+		const firstResponse = fetch('https://example.com/resource', {
+			signal: firstController.signal,
+		});
+		const secondResponse = fetch('https://example.com/resource', {
+			signal: secondController.signal,
+		});
+		const abortReason = new Error('first consumer aborted');
+
+		await networkStarted.promise;
+		firstController.abort(abortReason);
+
+		await expect(firstResponse).rejects.toBe(abortReason);
+		expect(networkSignal?.aborted).toBe(false);
+		networkResponse.resolve(new Response('response body'));
+		expect(await (await secondResponse).text()).toBe('response body');
+		expect(fetchCount).toBe(1);
+	});
 });

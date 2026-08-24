@@ -20,6 +20,14 @@ const REQUEST_INIT_PROPERTIES = new Set([
 
 type Fetch = (input: string | URL | Request, init?: BunFetchRequestInit) => Promise<Response>;
 
+type CachedResponse = {
+	controller: AbortController;
+	consumers: number;
+	isPending: () => boolean;
+	response: Promise<Response>;
+	token: symbol;
+};
+
 function cacheKey(request: Request) {
 	return JSON.stringify([
 		request.method,
@@ -66,7 +74,13 @@ function waitForResponse(
 }
 
 export function createCachedFetch(fetch: Fetch): Fetch {
-	const responses = new Map<string, Promise<Response>>();
+	const responses = new Map<string, CachedResponse>();
+
+	function deleteResponse(key: string, token: symbol) {
+		if (responses.get(key)?.token === token) {
+			responses.delete(key);
+		}
+	}
 
 	const cachedFetch = async (
 		input: string | URL | Request,
@@ -85,28 +99,50 @@ export function createCachedFetch(fetch: Fetch): Fetch {
 		}
 
 		const key = cacheKey(request);
-		let response = responses.get(key);
+		let cachedResponse = responses.get(key);
 
-		if (!response) {
-			const networkRequest = new Request(request, { signal: null });
-			response = Promise.resolve()
+		if (!cachedResponse) {
+			const controller = new AbortController();
+			const networkRequest = new Request(request, { signal: controller.signal });
+			const token = Symbol();
+			let pending = true;
+			const response = Promise.resolve()
 				.then(() => fetch(networkRequest))
 				.then(
 					(result) => {
+						pending = false;
 						if (RETRYABLE_STATUS_CODES.has(result.status)) {
-							responses.delete(key);
+							deleteResponse(key, token);
 						}
 						return result;
 					},
 					(error: unknown) => {
-						responses.delete(key);
+						pending = false;
+						deleteResponse(key, token);
 						throw error;
 					},
 				);
-			responses.set(key, response);
+
+			cachedResponse = {
+				controller,
+				consumers: 0,
+				isPending: () => pending,
+				response,
+				token,
+			};
+			responses.set(key, cachedResponse);
 		}
 
-		return (await waitForResponse(response, request.signal)).clone() as Response;
+		cachedResponse.consumers++;
+		try {
+			return (await waitForResponse(cachedResponse.response, request.signal)).clone() as Response;
+		} finally {
+			cachedResponse.consumers--;
+			if (cachedResponse.consumers === 0 && cachedResponse.isPending()) {
+				deleteResponse(key, cachedResponse.token);
+				cachedResponse.controller.abort();
+			}
+		}
 	};
 
 	return cachedFetch;
