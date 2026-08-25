@@ -4,5 +4,5 @@
 	"electronBuilder": {
 		"url": "https://updates.bestnotes.com/latest.yml"
 	},
-	"urls": ["https://updates.bestnotes.com/3.5.1/BestNotes-3.5.1-Installer.exe"]
+	"urls": ["https://updates.bestnotes.com/{version}/BestNotes-{version}-Installer.exe"]
 }
