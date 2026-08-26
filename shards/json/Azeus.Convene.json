@@ -7,5 +7,6 @@
 	},
 	"urls": [
 		"https://www.azeusconvene.com/installers/winos/standard/convene_setup.{version}-64bit.exe"
-	]
+	],
+	"ignoreOtherPrs": true
 }
