@@ -3,8 +3,5 @@
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://github.com/pingdotgg/t3code/releases/latest/download/latest.yml"
-	},
-	"urls": [
-		"https://github.com/pingdotgg/t3code/releases/download/v{version}/T3-Code-{version}-x64.exe"
-	]
+	}
 }

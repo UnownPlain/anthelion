@@ -3,8 +3,5 @@
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://github.com/agata/dl.biscuit/releases/latest/download/latest.yml"
-	},
-	"urls": [
-		"https://github.com/agata/dl.biscuit/releases/download/{version}/Biscuit-{version}-setup.exe"
-	]
+	}
 }

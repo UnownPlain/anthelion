@@ -3,8 +3,5 @@
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://github.com/jitsi/jitsi-meet-electron/releases/latest/download/latest.yml"
-	},
-	"urls": [
-		"https://github.com/jitsi/jitsi-meet-electron/releases/download/v{version}/jitsi-meet.exe"
-	]
+	}
 }

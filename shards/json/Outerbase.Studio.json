@@ -3,8 +3,5 @@
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://github.com/outerbase/studio-desktop/releases/latest/download/latest.yml"
-	},
-	"urls": [
-		"https://github.com/outerbase/studio-desktop/releases/download/v{version}/outerbase-setup-{version}.exe"
-	]
+	}
 }

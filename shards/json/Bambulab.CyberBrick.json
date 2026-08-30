@@ -3,8 +3,5 @@
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://public-cdn.bblmw.com/upgrade/cyber-brick/updates/Release_win32_x64/latest.yml"
-	},
-	"urls": [
-		"https://public-cdn.bblmw.com/upgrade/cyber-brick/updates/Release_win32_x64/versions/{version}/cyber-brick-v{version}-win32-x64.exe"
-	]
+	}
 }

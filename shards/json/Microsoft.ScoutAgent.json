@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "ms-download-center",
+	"msDownloadCenter": {
+		"id": 108685,
+		"regex": "^MicrosoftScout-Windows-\\d+(?:\\.\\d+)+-(?:arm64|x64)-Setup\\.exe$"
+	}
+}

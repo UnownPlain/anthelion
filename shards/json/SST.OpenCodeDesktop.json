@@ -3,9 +3,5 @@
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://github.com/anomalyco/opencode/releases/latest/download/latest.yml"
-	},
-	"urls": [
-		"https://github.com/anomalyco/opencode/releases/download/v{version}/opencode-desktop-win-x64.exe",
-		"https://github.com/anomalyco/opencode/releases/download/v{version}/opencode-desktop-win-arm64.exe"
-	]
+	}
 }

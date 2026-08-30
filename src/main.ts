@@ -30,7 +30,16 @@ import {
 import { resolveReleaseNotes } from '@/release-notes';
 import { JsonShardSchema, Strategy } from '@/schema/json-shard';
 import { ScriptShardResult } from '@/schema/script-shard';
-import { electronBuilder, pageMatch, redirectMatch, sortVersions, sourceforge } from '@/strategies';
+import {
+	electronBuilder,
+	msDownloadCenter,
+	pageMatch,
+	redirectMatch,
+	sortVersions,
+	sourceforge,
+	tauri,
+	toDesktop,
+} from '@/strategies';
 
 installFetchCache();
 
@@ -155,14 +164,64 @@ async function executeShard(file: FileRef) {
 					};
 					break;
 				}
-				case Strategy.ElectronBuilder:
+				case Strategy.ElectronBuilder: {
+					const result = await electronBuilder(jsonShard.electronBuilder);
+
 					resolvedStrategy = {
-						version: (await electronBuilder(jsonShard.electronBuilder)).version,
-						urls: () => initialUrls,
+						version: result.version,
+						urls: () => (jsonShard.urls ? initialUrls : result.urls),
 					};
 					break;
+				}
+				case Strategy.Tauri: {
+					const result = await tauri(jsonShard.tauri);
+
+					resolvedStrategy = {
+						version: result.version,
+						urls: () =>
+							jsonShard.urls
+								? resolveDataBackedUrls({ installers: initialUrls, data: result.data })
+								: result.urls,
+						templateValues: { data: result.data },
+					};
+					break;
+				}
+				case Strategy.ToDesktop: {
+					const result = await toDesktop(jsonShard.todesktop);
+
+					resolvedStrategy = {
+						version: result.version,
+						urls: () =>
+							jsonShard.urls
+								? resolveDataBackedUrls({ installers: initialUrls, data: result.data })
+								: result.urls,
+						templateValues: { data: result.data },
+					};
+					break;
+				}
+				case Strategy.MsDownloadCenter: {
+					const result = await msDownloadCenter({
+						...jsonShard.msDownloadCenter,
+						regex: jsonShard.msDownloadCenter.regex
+							? new RegExp(jsonShard.msDownloadCenter.regex, 'i')
+							: undefined,
+					});
+
+					resolvedStrategy = {
+						version: result.version,
+						urls: () =>
+							jsonShard.urls
+								? resolveDataBackedUrls({ installers: initialUrls, data: result.data })
+								: result.urls,
+						templateValues: { data: result.data },
+					};
+					break;
+				}
 				case Strategy.PageMatch: {
-					const { version, captures } = await pageMatch(jsonShard.pageMatch);
+					const { version, captures } = await pageMatch({
+						...jsonShard.pageMatch,
+						regex: new RegExp(jsonShard.pageMatch.regex, 'i'),
+					});
 
 					resolvedStrategy = {
 						version,
@@ -173,12 +232,18 @@ async function executeShard(file: FileRef) {
 					};
 					break;
 				}
-				case Strategy.SortVersions:
+				case Strategy.SortVersions: {
+					const result = await sortVersions({
+						...jsonShard.sortVersions,
+						regex: new RegExp(jsonShard.sortVersions.regex, 'i'),
+					});
+
 					resolvedStrategy = {
-						version: (await sortVersions(jsonShard.sortVersions)).version,
+						version: result.version,
 						urls: () => initialUrls,
 					};
 					break;
+				}
 				case Strategy.Json: {
 					const response = await ky(jsonShard.json.url).json();
 
@@ -192,7 +257,10 @@ async function executeShard(file: FileRef) {
 					break;
 				}
 				case Strategy.RedirectMatch: {
-					const result = await redirectMatch(jsonShard.redirectMatch);
+					const result = await redirectMatch({
+						...jsonShard.redirectMatch,
+						regex: new RegExp(jsonShard.redirectMatch.regex, 'i'),
+					});
 
 					resolvedStrategy = {
 						version: result.version,
@@ -217,6 +285,9 @@ async function executeShard(file: FileRef) {
 					resolvedStrategy = {
 						version: parseString(getPath(yaml, jsonShard.yaml.path)),
 						urls: () => resolveDataBackedUrls({ installers: initialUrls, data: yaml }),
+						templateValues: {
+							data: yaml,
+						},
 					};
 					break;
 				}

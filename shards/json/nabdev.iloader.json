@@ -1,9 +1,8 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "json",
-	"json": {
+	"strategy": "tauri",
+	"tauri": {
 		"url": "https://github.com/nab138/iloader/releases/latest/download/latest.json",
-		"path": "version"
-	},
-	"urls": ["platforms.windows-x86_64-msi.url", "platforms.windows-x86_64-nsis.url"]
+		"platforms": ["windows-x86_64-msi", "windows-x86_64-nsis"]
+	}
 }

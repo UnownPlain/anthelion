@@ -1,9 +1,5 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "json",
-	"json": {
-		"url": "https://download.todesktop.com/200402kk4yak2og/td-latest.json",
-		"path": "version"
-	},
-	"urls": ["artifacts.nsis.x64.url"]
+	"strategy": "todesktop",
+	"todesktop": { "appId": "200402kk4yak2og" }
 }

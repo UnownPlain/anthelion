@@ -3,8 +3,5 @@
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://github.com/trezor/trezor-suite/releases/latest/download/latest.yml"
-	},
-	"urls": [
-		"https://github.com/trezor/trezor-suite/releases/download/v{version}/Trezor-Suite-{version}-win-x64.exe"
-	]
+	}
 }

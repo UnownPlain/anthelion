@@ -127,7 +127,7 @@ Choose the most specific strategy that fits the upstream source. Prefer a JSON s
 configuration is slightly longer than a script. When multiple strategies can work, prefer them in
 this order:
 
-1. `electron-builder`, `json`, or `yaml`
+1. `electron-builder`, `tauri`, `todesktop`, `ms-download-center`, `json`, or `yaml`
 2. `github-release`
 3. `github-commit`
 4. `redirect-match`
@@ -136,18 +136,21 @@ this order:
 7. `static`
 8. Script shard
 
-| Strategy           | Use it when                                                                                                |
-| ------------------ | ---------------------------------------------------------------------------------------------------------- |
-| `electron-builder` | The app publishes an Electron Builder `latest.yml` or equivalent channel file.                             |
-| `json`             | An API or metadata file contains the version.                                                              |
-| `yaml`             | A YAML document contains the version.                                                                      |
-| `github-release`   | The package publishes versioned GitHub releases.                                                           |
-| `github-commit`    | A file's latest commit on a public GitHub repository identifies the current build.                         |
-| `sourceforge`      | Releases are hosted in a SourceForge project.                                                              |
-| `redirect-match`   | A stable URL redirects to a versioned installer URL.                                                       |
-| `page-match`       | One contextual regular-expression match on a page contains the version.                                    |
-| `sort-versions`    | A page lists several versions and the greatest version must be selected.                                   |
-| `static`           | No upstream version lookup is needed; pass a fixed value or installer metadata selector directly to komac. |
+| Strategy             | Use it when                                                                                                |
+| -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `electron-builder`   | The app publishes an Electron Builder `latest.yml` or equivalent channel file.                             |
+| `tauri`              | The app publishes a static Tauri updater JSON file.                                                        |
+| `todesktop`          | The app publishes installers through ToDesktop.                                                            |
+| `ms-download-center` | The installers are published on a Microsoft Download Center details page.                                  |
+| `json`               | An API or metadata file contains the version.                                                              |
+| `yaml`               | A YAML document contains the version.                                                                      |
+| `github-release`     | The package publishes versioned GitHub releases.                                                           |
+| `github-commit`      | A file's latest commit on a public GitHub repository identifies the current build.                         |
+| `sourceforge`        | Releases are hosted in a SourceForge project.                                                              |
+| `redirect-match`     | A stable URL redirects to a versioned installer URL.                                                       |
+| `page-match`         | One contextual regular-expression match on a page contains the version.                                    |
+| `sort-versions`      | A page lists several versions and the greatest version must be selected.                                   |
+| `static`             | No upstream version lookup is needed; pass a fixed value or installer metadata selector directly to komac. |
 
 ### GitHub Releases
 
@@ -206,7 +209,8 @@ comes from installer metadata, override `version` and use the commit as update s
 
 ### Electron Builder
 
-Point the strategy at the channel YAML file and provide installer URL templates:
+Point the strategy at the channel YAML file. Anthelion resolves the installer URLs from
+`files[].url`, or from the legacy `path` field when `files` is absent:
 
 ```json
 {
@@ -214,8 +218,81 @@ Point the strategy at the channel YAML file and provide installer URL templates:
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://example.com/releases/latest.yml"
-	},
-	"urls": ["https://example.com/releases/example-{version}-setup.exe"]
+	}
+}
+```
+
+Add top-level `urls` only when the feed's updater artifacts are not the installers represented by
+the WinGet package, or when architecture or nested-installer overrides are required.
+
+### Tauri
+
+Point the strategy at a static Tauri updater JSON file. By default, Anthelion uses the URL from
+every platform key beginning with `windows-` and removes duplicate URLs:
+
+```json
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "tauri",
+	"tauri": {
+		"url": "https://example.com/releases/latest.json"
+	}
+}
+```
+
+Use `platforms` when the feed contains multiple Windows installer types and the package should only
+use specific entries:
+
+```json
+"tauri": {
+	"url": "https://example.com/releases/latest.json",
+	"platforms": ["windows-x86_64-msi", "windows-aarch64-msi"]
+}
+```
+
+Alternatively, add top-level `urls` containing paths such as
+`platforms.windows-x86_64-msi.url`. This has the same data-backed URL behavior as the `json`
+strategy.
+
+### ToDesktop
+
+Provide the application ID from the ToDesktop download URL. Anthelion reads `td-latest.json` and,
+when `urls` is omitted, uses every available artifact URL:
+
+```json
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "todesktop",
+	"todesktop": { "appId": "190911i1k98bqno" }
+}
+```
+
+When the WinGet package represents only a particular artifact, select it with a data path instead:
+
+```json
+"urls": ["artifacts.nsis.x64.url"]
+```
+
+### Microsoft Download Center
+
+Use the numeric ID from a Microsoft Download Center details URL. Anthelion reads the version and
+installer URLs from the page's download metadata:
+
+```json
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "ms-download-center",
+	"msDownloadCenter": { "id": 12345 }
+}
+```
+
+All selected files must report the same version. If a page also contains non-Windows downloads or
+unrelated files, filter their names with a case-insensitive regex:
+
+```json
+"msDownloadCenter": {
+	"id": 12345,
+	"regex": "^Example-Windows-\\d+(?:\\.\\d+)+-(?:x64|arm64)\\.exe$"
 }
 ```
 
@@ -236,8 +313,8 @@ Installer entries may be paths into the same response instead of literal URLs:
 }
 ```
 
-The JSON response is also available to templates under `{data.*}`. This can be used in the
-`version` override, installer URLs, state, and release-note templates:
+The parsed JSON or YAML response is also available to templates under `{data.*}`. This can be used
+in the `version` override, installer URLs, state, and release-note templates:
 
 ```json
 {
@@ -251,7 +328,8 @@ The JSON response is also available to templates under `{data.*}`. This can be u
 }
 ```
 
-The `yaml` strategy has the same shape, using a `yaml` object instead of `json`.
+The `yaml` strategy has the same shape and template support, using a `yaml` object instead of
+`json`.
 
 ### Matching a web page
 

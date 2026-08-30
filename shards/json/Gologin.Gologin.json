@@ -3,6 +3,5 @@
 	"strategy": "electron-builder",
 	"electronBuilder": {
 		"url": "https://releases.gologin.com/latest.yml"
-	},
-	"urls": ["https://releases.gologin.com/Gologin%20Setup%20{version}.exe"]
+	}
 }

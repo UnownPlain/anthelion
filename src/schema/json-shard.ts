@@ -14,6 +14,9 @@ export enum Strategy {
 	RedirectMatch = 'redirect-match',
 	SourceForge = 'sourceforge',
 	ElectronBuilder = 'electron-builder',
+	Tauri = 'tauri',
+	ToDesktop = 'todesktop',
+	MsDownloadCenter = 'ms-download-center',
 	Yaml = 'yaml',
 	Json = 'json',
 	Static = 'static',
@@ -79,6 +82,27 @@ const sourceforgeSchema = z.object({
 
 const electronBuilderSchema = z.object({
 	url: z.url().describe('Direct YAML URL (latest.yml, beta.yml, etc.).'),
+});
+
+const tauriSchema = z.object({
+	url: z.url().describe('Direct URL to a static Tauri updater JSON file.'),
+	platforms: z
+		.array(z.string().min(1))
+		.min(1)
+		.describe('Platform keys to use. Defaults to every key beginning with windows-.')
+		.optional(),
+});
+
+const toDesktopSchema = z.object({
+	appId: z.string().min(1).describe('ToDesktop application ID.'),
+});
+
+const msDownloadCenterSchema = z.object({
+	id: z.number().int().positive().describe('Microsoft Download Center details ID.'),
+	regex: z
+		.string()
+		.describe('Optional case-insensitive regex used to filter download file names.')
+		.optional(),
 });
 
 const jsonStrategySchema = z.object({
@@ -220,7 +244,28 @@ const electronBuilderVariant = z.object({
 	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.ElectronBuilder),
 	electronBuilder: electronBuilderSchema,
-	urls: urlsSchema,
+	urls: urlsSchema.optional(),
+});
+
+const tauriVariant = z.object({
+	...baseShardFieldsWithoutGithub,
+	strategy: z.literal(Strategy.Tauri),
+	tauri: tauriSchema,
+	urls: urlsSchema.optional(),
+});
+
+const toDesktopVariant = z.object({
+	...baseShardFieldsWithoutGithub,
+	strategy: z.literal(Strategy.ToDesktop),
+	todesktop: toDesktopSchema,
+	urls: urlsSchema.optional(),
+});
+
+const msDownloadCenterVariant = z.object({
+	...baseShardFieldsWithoutGithub,
+	strategy: z.literal(Strategy.MsDownloadCenter),
+	msDownloadCenter: msDownloadCenterSchema,
+	urls: urlsSchema.optional(),
 });
 
 const jsonVariant = z.object({
@@ -253,6 +298,9 @@ export const JsonShardSchema = z
 		redirectMatchVariant,
 		sourceforgeVariant,
 		electronBuilderVariant,
+		tauriVariant,
+		toDesktopVariant,
+		msDownloadCenterVariant,
 		jsonVariant,
 		yamlVariant,
 		staticVariant,
