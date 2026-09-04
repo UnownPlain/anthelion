@@ -44,15 +44,5 @@
 			"matchPackageNames": ["@unownplain/*", "UnownPlain/*"],
 			"minimumReleaseAge": null
 		}
-	],
-	"customManagers": [
-		{
-			"customType": "regex",
-			"managerFilePatterns": ["/(^|/)package.json$/"],
-			"depNameTemplate": "bun",
-			"datasourceTemplate": "npm",
-			"versioningTemplate": "npm",
-			"matchStrings": ["\"packageManager\":\\s+\"bun@(?<currentValue>\\d+\\.\\d+\\.\\d+)\""]
-		}
 	]
 }
