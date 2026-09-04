@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://updates.openlogi.org/channels/stable/latest.json",
+		"path": "version"
+	},
+	"urls": [
+		"https://github.com/AprilNEA/OpenLogi/releases/download/v{version}/OpenLogi-v{version}-windows-x86_64.msi",
+		"https://github.com/AprilNEA/OpenLogi/releases/download/v{version}/OpenLogi-v{version}-windows-arm64.msi"
+	]
+}
