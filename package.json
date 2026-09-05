@@ -70,7 +70,7 @@
 		"tsdown": "0.22.14",
 		"typescript": "7.0.2",
 		"vitest": "4.1.11",
-		"zod-compiler": "2.0.2"
+		"zod-compiler": "2.0.3"
 	},
 	"packageManager": "bun@1.4.0"
 }
