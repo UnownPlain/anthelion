@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://get.namespace.so/nsl.versions.VersionsService/GetLatest",
+		"method": "post",
+		"body": { "nsc": {} },
+		"path": "version"
+	},
+	"urls": [
+		"https://get.namespace.so/packages/nsc/v{version}/nsc_{version}_windows_amd64.zip",
+		"https://get.namespace.so/packages/nsc/v{version}/nsc_{version}_windows_arm64.zip"
+	]
+}
