@@ -40,6 +40,7 @@ import {
 	sourceforge,
 	tauri,
 	toDesktop,
+	xml,
 } from '@/strategies';
 
 installFetchCache();
@@ -298,6 +299,15 @@ async function executeShard(file: FileRef) {
 						templateValues: {
 							data: yaml,
 						},
+					};
+					break;
+				}
+				case Strategy.Xml: {
+					const result = await xml(jsonShard.xml);
+					resolvedStrategy = {
+						version: result.version,
+						urls: () => resolveDataBackedUrls({ installers: initialUrls, data: result.data }),
+						templateValues: { data: result.data },
 					};
 					break;
 				}

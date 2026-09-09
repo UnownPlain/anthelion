@@ -1,14 +1,33 @@
 import { parseYaml } from '@unownplain/anthelion-komac';
 import ky from 'ky';
-import { parse as parseXml, type TNode } from 'txml/txml';
+import { parse as parseXml, simplifyLostLess, type TNode } from 'txml/txml';
 import { z } from 'zod';
 
-import { compareVersions, match, parseString } from '@/helpers.ts';
+import { compareVersions, getPath, match, parseString } from '@/helpers.ts';
 
 export type MatchStrategyOptions = {
 	url: string;
 	regex: RegExp;
 };
+
+export async function xml(options: { url: string; path: string }) {
+	const response = await ky(options.url).text();
+	const nodes = parseXml(response, {
+		decodeEntities: true,
+		skipXmlDeclaration: true,
+		selfClosingTags: [],
+	});
+	const roots = nodes.filter((node): node is TNode => typeof node === 'object');
+	if (roots.length !== 1) {
+		throw new Error(`Expected exactly one XML root element in ${options.url}`);
+	}
+	const data = simplifyLostLess(roots);
+	const version = parseString(getPath(data, options.path));
+	if (!version) {
+		throw new Error(`No XML version found at ${options.path}`);
+	}
+	return { version, data };
+}
 
 const appInstallerPackageSchema = z.object({
 	Version: z.string().regex(/^\d+\.\d+\.\d+\.\d+$/),

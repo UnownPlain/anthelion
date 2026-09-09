@@ -18,6 +18,7 @@ export enum Strategy {
 	Tauri = 'tauri',
 	ToDesktop = 'todesktop',
 	MsDownloadCenter = 'ms-download-center',
+	Xml = 'xml',
 	Yaml = 'yaml',
 	Json = 'json',
 	Static = 'static',
@@ -122,6 +123,16 @@ const jsonStrategySchema = z.object({
 const yamlStrategySchema = z.object({
 	url: z.url().describe('Endpoint returning YAML.'),
 	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
+});
+
+const xmlStrategySchema = z.object({
+	url: z.url().describe('Endpoint returning XML.'),
+	path: z
+		.string()
+		.min(1)
+		.describe(
+			'Dot-separated path including the root element. All elements use numeric indexes (including the root); attributes use _attributes; text on elements with attributes uses value.',
+		),
 });
 
 const stateSchema = z.discriminatedUnion('source', [
@@ -298,6 +309,13 @@ const yamlVariant = z.object({
 	urls: urlsSchema,
 });
 
+const xmlVariant = z.object({
+	...baseShardFieldsWithoutGithub,
+	strategy: z.literal(Strategy.Xml),
+	xml: xmlStrategySchema,
+	urls: urlsSchema,
+});
+
 const staticVariant = z.object({
 	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.Static),
@@ -320,6 +338,7 @@ export const JsonShardSchema = z
 		msDownloadCenterVariant,
 		jsonVariant,
 		yamlVariant,
+		xmlVariant,
 		staticVariant,
 	])
 	.superRefine((shard, ctx) => {

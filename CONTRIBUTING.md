@@ -127,7 +127,7 @@ Choose the most specific strategy that fits the upstream source. Prefer a JSON s
 configuration is slightly longer than a script. When multiple strategies can work, prefer them in
 this order:
 
-1. `appinstaller`, `electron-builder`, `tauri`, `todesktop`, `ms-download-center`, `json`, or `yaml`
+1. `appinstaller`, `electron-builder`, `tauri`, `todesktop`, `ms-download-center`, `json`, `yaml`, or `xml`
 2. `github-release`
 3. `github-commit`
 4. `redirect-match`
@@ -144,6 +144,7 @@ this order:
 | `todesktop`          | The app publishes installers through ToDesktop.                                                            |
 | `ms-download-center` | The installers are published on a Microsoft Download Center details page.                                  |
 | `json`               | An API or metadata file contains the version.                                                              |
+| `xml`                | An XML document contains the version.                                                                      |
 | `yaml`               | A YAML document contains the version.                                                                      |
 | `github-release`     | The package publishes versioned GitHub releases.                                                           |
 | `github-commit`      | A file's latest commit on a public GitHub repository identifies the current build.                         |
@@ -351,6 +352,38 @@ in the `version` override, installer URLs, state, and release-note templates:
 
 The `yaml` strategy has the same shape and template support, using a `yaml` object instead of
 `json`.
+
+### XML data
+
+Use `xml` with a dot-separated path that includes the root element. Installer paths and
+`{data.*}` templates work as they do for JSON and YAML:
+
+```json
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "xml",
+	"xml": {
+		"url": "https://example.com/releases.xml",
+		"path": "releases.0.release.0._attributes.version"
+	},
+	"urls": ["releases.0.release.0.download.0"]
+}
+```
+
+For example, this selects version `1.2.3` and the first download from:
+
+```xml
+<releases>
+  <release version="1.2.3"><download>https://example.com/1.2.3.exe</download></release>
+  <release version="1.2.2"><download>https://example.com/1.2.2.exe</download></release>
+</releases>
+```
+
+The strategy uses `txml`'s `simplifyLostLess` representation. Every element name maps to an array,
+including the root and single elements; use `.0` to select the first occurrence. Attributes are
+under `_attributes`. Text-only elements are strings; text on an element with attributes is under `value`. Namespace prefixes
+are preserved (for example, `rss.0.channel.0.item.0.enclosure.0._attributes.sparkle:version`). XML
+entities are decoded and CDATA text is preserved. Use `appinstaller` for App Installer feeds.
 
 ### Matching a web page
 
@@ -774,8 +807,8 @@ well-defined upstream conventions.
 
 ### A URL placeholder cannot be resolved
 
-Check that the placeholder is available for the chosen strategy. Data-backed URL paths apply only
-to `json` and `yaml`; named captures apply only to `page-match` and `redirect-match`; GitHub
+Check that the placeholder is available for the chosen strategy. Data-backed URL paths apply
+to `json`, `yaml`, and `xml`; named captures apply only to `page-match` and `redirect-match`; GitHub
 metadata applies only to `github-release`.
 
 ### komac derived the version from the wrong executable
