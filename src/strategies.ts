@@ -10,6 +10,19 @@ export type MatchStrategyOptions = {
 	regex: RegExp;
 };
 
+export async function json(options: {
+	url: string;
+	path: string;
+	method?: 'get' | 'post';
+	body?: unknown;
+}) {
+	const data = await ky(options.url, {
+		method: options.method ?? 'get',
+		json: options.body,
+	}).json();
+	return { version: parseString(getPath(data, options.path)), data };
+}
+
 export async function xml(options: { url: string; path: string }) {
 	const response = await ky(options.url).text();
 	const nodes = parseXml(response, {

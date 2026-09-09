@@ -33,6 +33,7 @@ import { ScriptShardResult } from '@/schema/script-shard';
 import {
 	appinstaller,
 	electronBuilder,
+	json,
 	msDownloadCenter,
 	pageMatch,
 	redirectMatch,
@@ -256,13 +257,13 @@ async function executeShard(file: FileRef) {
 					break;
 				}
 				case Strategy.Json: {
-					const response = await ky(jsonShard.json.url).json();
+					const result = await json(jsonShard.json);
 
 					resolvedStrategy = {
-						version: parseString(getPath(response, jsonShard.json.path)),
-						urls: () => resolveDataBackedUrls({ installers: initialUrls, data: response }),
+						version: result.version,
+						urls: () => resolveDataBackedUrls({ installers: initialUrls, data: result.data }),
 						templateValues: {
-							data: response,
+							data: result.data,
 						},
 					};
 					break;

@@ -115,10 +115,17 @@ const msDownloadCenterSchema = z.object({
 		.optional(),
 });
 
-const jsonStrategySchema = z.object({
-	url: z.url().describe('Endpoint returning JSON.'),
-	path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
-});
+const jsonStrategySchema = z
+	.object({
+		url: z.url().describe('Endpoint returning JSON.'),
+		path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
+		method: z.enum(['get', 'post']).default('get').optional(),
+		body: z.json().describe('JSON request body. Requires method: post.').optional(),
+	})
+	.refine((options) => options.body === undefined || options.method === 'post', {
+		message: 'A JSON request body requires method: post.',
+		path: ['body'],
+	});
 
 const yamlStrategySchema = z.object({
 	url: z.url().describe('Endpoint returning YAML.'),

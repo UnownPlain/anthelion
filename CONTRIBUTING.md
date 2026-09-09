@@ -353,6 +353,21 @@ in the `version` override, installer URLs, state, and release-note templates:
 The `yaml` strategy has the same shape and template support, using a `yaml` object instead of
 `json`.
 
+The `json` strategy defaults to GET. For APIs that require POST, set `method` and supply a
+JSON value in `body`. Anthelion serializes the body and sets `Content-Type: application/json`:
+
+```json
+"json": {
+	"url": "https://get.namespace.so/nsl.versions.VersionsService/GetLatest",
+	"method": "post",
+	"body": { "nsc": {} },
+	"path": "version"
+}
+```
+
+`body` requires `method: "post"`; POST without a body is also supported. These request options
+apply to the `json` strategy.
+
 ### XML data
 
 Use `xml` with a dot-separated path that includes the root element. Installer paths and
