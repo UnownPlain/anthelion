@@ -127,7 +127,7 @@ Choose the most specific strategy that fits the upstream source. Prefer a JSON s
 configuration is slightly longer than a script. When multiple strategies can work, prefer them in
 this order:
 
-1. `electron-builder`, `tauri`, `todesktop`, `ms-download-center`, `json`, or `yaml`
+1. `appinstaller`, `electron-builder`, `tauri`, `todesktop`, `ms-download-center`, `json`, or `yaml`
 2. `github-release`
 3. `github-commit`
 4. `redirect-match`
@@ -138,6 +138,7 @@ this order:
 
 | Strategy             | Use it when                                                                                                |
 | -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `appinstaller`       | The app publishes an App Installer XML feed containing a main package or bundle.                           |
 | `electron-builder`   | The app publishes an Electron Builder `latest.yml` or equivalent channel file.                             |
 | `tauri`              | The app publishes a static Tauri updater JSON file.                                                        |
 | `todesktop`          | The app publishes installers through ToDesktop.                                                            |
@@ -206,6 +207,26 @@ comes from installer metadata, override `version` and use the commit as update s
 "version": { "source": "product" },
 "state": { "source": "value", "value": "{github.commit}" }
 ```
+
+### App Installer
+
+Use `appinstaller` for an `.appinstaller` XML feed. Anthelion reads `Version` and `Uri` from its
+`MainPackage` or `MainBundle`, ignoring the root feed version, dependencies, and optional packages:
+
+```json
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "appinstaller",
+	"appinstaller": { "url": "https://example.com/App.appinstaller" }
+}
+```
+
+For separate architecture feeds, set `appinstaller.url` to a non-empty array of URLs. Every feed
+must report the same package version; duplicate package URLs are removed. Each feed must contain
+exactly one `MainPackage` or `MainBundle` with a four-part `Version` and an absolute `Uri`.
+
+The strategy uses `txml`, with XML entity decoding and support for namespace-prefixed elements. Add top-level `urls` only to override the discovered installer URLs
+or supply installer metadata overrides. URL templates can use `{version}` as usual.
 
 ### Electron Builder
 

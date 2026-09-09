@@ -31,6 +31,7 @@ import { resolveReleaseNotes } from '@/release-notes';
 import { JsonShardSchema, Strategy } from '@/schema/json-shard';
 import { ScriptShardResult } from '@/schema/script-shard';
 import {
+	appinstaller,
 	electronBuilder,
 	msDownloadCenter,
 	pageMatch,
@@ -161,6 +162,15 @@ async function executeShard(file: FileRef) {
 								commit,
 							},
 						},
+					};
+					break;
+				}
+				case Strategy.AppInstaller: {
+					const result = await appinstaller(jsonShard.appinstaller);
+
+					resolvedStrategy = {
+						version: result.version,
+						urls: () => (jsonShard.urls ? initialUrls : result.urls),
 					};
 					break;
 				}

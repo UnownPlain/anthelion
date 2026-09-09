@@ -1,5 +1,6 @@
 import { parseYaml } from '@unownplain/anthelion-komac';
 import ky from 'ky';
+import { parse as parseXml, type TNode } from 'txml/txml';
 import { z } from 'zod';
 
 import { compareVersions, match, parseString } from '@/helpers.ts';
@@ -8,6 +9,53 @@ export type MatchStrategyOptions = {
 	url: string;
 	regex: RegExp;
 };
+
+const appInstallerPackageSchema = z.object({
+	Version: z.string().regex(/^\d+\.\d+\.\d+\.\d+$/),
+	Uri: z.url(),
+});
+
+export async function appinstaller(options: { url: string | string[] }) {
+	const feedUrls = typeof options.url === 'string' ? [options.url] : options.url;
+	const packages = await Promise.all(
+		feedUrls.map(async (url) => {
+			const response = await ky(url);
+			const nodes = parseXml(await response.text(), {
+				decodeEntities: true,
+				skipXmlDeclaration: true,
+				selfClosingTags: [],
+			});
+			const roots = nodes.filter((node): node is TNode => typeof node === 'object');
+			const root = roots[0];
+			if (roots.length !== 1 || root?.tagName.split(':').at(-1) !== 'AppInstaller') {
+				throw new Error(`No AppInstaller root element found in ${url}`);
+			}
+
+			const mainPackages = root.children.filter(
+				(child): child is TNode =>
+					typeof child === 'object' &&
+					['MainPackage', 'MainBundle'].includes(child.tagName.split(':').at(-1) ?? ''),
+			);
+			if (mainPackages.length !== 1) {
+				throw new Error(`Expected exactly one MainPackage or MainBundle in ${url}`);
+			}
+
+			return appInstallerPackageSchema.parse(mainPackages[0]?.attributes);
+		}),
+	);
+	const firstPackage = packages[0];
+	if (!firstPackage) {
+		throw new Error('At least one App Installer feed URL is required');
+	}
+	if (packages.some((entry) => entry.Version !== firstPackage.Version)) {
+		throw new Error('App Installer feeds have different package versions');
+	}
+
+	return {
+		version: firstPackage.Version,
+		urls: Array.from(new Set(packages.map((entry) => entry.Uri))),
+	};
+}
 
 const electronBuilderUpdateSchema = z.object({
 	version: z.string().min(1),

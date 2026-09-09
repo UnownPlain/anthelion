@@ -147,7 +147,7 @@ export function isHttpUrl(value: string) {
 
 export function resolveValuePlaceholders(template: string, values: Record<string, unknown>) {
 	const VALUE_PLACEHOLDER_REGEX =
-		/\{([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)(?:\|([^|{}]*)\|([^{}]*))?\}/g;
+		/\{([A-Za-z_]\w*(?:\.(?:[A-Za-z_]\w*|\d+))*)(?:\|([^|{}]*)\|([^{}]*))?\}/g;
 
 	return template.replaceAll(VALUE_PLACEHOLDER_REGEX, (placeholder, path, from, to) => {
 		const value = getPath(values, path);

@@ -13,6 +13,7 @@ export enum Strategy {
 	SortVersions = 'sort-versions',
 	RedirectMatch = 'redirect-match',
 	SourceForge = 'sourceforge',
+	AppInstaller = 'appinstaller',
 	ElectronBuilder = 'electron-builder',
 	Tauri = 'tauri',
 	ToDesktop = 'todesktop',
@@ -78,6 +79,14 @@ const redirectMatchSchema = z.object({
 const sourceforgeSchema = z.object({
 	project: z.string().describe('SourceForge project slug (e.g. winscp).'),
 	file: z.string().describe('File name pattern with {version} placeholder.').optional(),
+});
+
+const appInstallerSchema = z.object({
+	url: z
+		.union([z.url(), z.array(z.url()).min(1)])
+		.describe(
+			'One or more App Installer XML feed URLs. All feeds must report the same package version.',
+		),
 });
 
 const electronBuilderSchema = z.object({
@@ -240,6 +249,13 @@ const sourceforgeVariant = z.object({
 	urls: urlsSchema,
 });
 
+const appInstallerVariant = z.object({
+	...baseShardFieldsWithoutGithub,
+	strategy: z.literal(Strategy.AppInstaller),
+	appinstaller: appInstallerSchema,
+	urls: urlsSchema.optional(),
+});
+
 const electronBuilderVariant = z.object({
 	...baseShardFieldsWithoutGithub,
 	strategy: z.literal(Strategy.ElectronBuilder),
@@ -297,6 +313,7 @@ export const JsonShardSchema = z
 		sortVersionsVariant,
 		redirectMatchVariant,
 		sourceforgeVariant,
+		appInstallerVariant,
 		electronBuilderVariant,
 		tauriVariant,
 		toDesktopVariant,

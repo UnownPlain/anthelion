@@ -60,6 +60,7 @@
 		"es-toolkit": "1.52.0",
 		"ky": "2.1.0",
 		"octokit": "5.0.5",
+		"txml": "6.0.3",
 		"zod": "4.5.4"
 	},
 	"devDependencies": {
