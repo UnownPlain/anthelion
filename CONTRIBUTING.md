@@ -502,9 +502,9 @@ derive the real version during installer analysis:
 
 The installer metadata sources are `{ "source": "display" }`, `{ "source": "product" }`,
 `{ "source": "file" }`, and `{ "source": "fontVersion" }`. A concrete version may also be supplied,
-although another strategy should normally discover versions that upstream publishes. When the
-download is an archive, put `nestedInstallerMatches` on that installer URL to select the executable
-that supplies the metadata.
+although another strategy should normally discover versions that upstream publishes. If a metadata-
+derived version comes from an archive containing multiple executables, use `nestedInstallerMatches`
+only when komac would otherwise analyze the wrong executable.
 
 Because an installer-derived version is unknown until komac downloads and analyzes the file,
 Anthelion cannot perform its normal version check first. Add `state` as a cheap upstream change
@@ -611,10 +611,10 @@ package version.
 
 ## Selecting installer metadata inside archives
 
-`nestedInstallerMatches` is primarily useful for `static` shards that derive their version from
-`display`, `product`, or `file` metadata. It belongs to an individual installer source, so archives
-in the same shard can use different match rules. When an archive contains multiple executables, it
-restricts komac's analysis to the executable that supplies the package version:
+Use `nestedInstallerMatches` only when the package version is derived from `display`, `product`,
+`file`, or `fontVersion` metadata inside an archive and komac needs help choosing the executable that
+supplies that version. It belongs to an individual installer source, so archives in the same shard
+can use different match rules:
 
 ```json
 "urls": [
@@ -628,8 +628,10 @@ restricts komac's analysis to the executable that supplies the package version:
 Plain values are case-insensitive substring matches. Values containing glob metacharacters are
 treated as glob patterns. Match as narrowly as necessary to select the intended installer.
 
-Do not add `nestedInstallerMatches` to an ordinary version-discovery shard just because its download
-is an archive. It is unnecessary unless komac must select a particular nested installer for analysis.
+`nestedInstallerMatches` does not control which executables appear in the generated WinGet manifest;
+komac discovers nested installer files separately. Do not use it with ordinary version-discovery
+strategies such as `github-release` or `page-match`, or with a concrete version, merely because the
+download is an archive.
 
 ## Adding release notes
 
