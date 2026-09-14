@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.thunderheadtech.com/WxSolution/Download.html",
+		"regex": "Version\\s+(?<version>\\d+(?:\\.\\d+)+)(?:</b>)?</h2>[\\s\\S]+?href=[\\\"'](?<installer>WxSoln\\d+\\.exe)[\\\"']"
+	},
+	"urls": ["https://www.thunderheadtech.com/WxSolution/{captures.installer}"]
+}
