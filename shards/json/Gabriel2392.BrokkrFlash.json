@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "Gabriel2392", "repo": "brokkr-flash" },
+	"urls": [
+		"https://github.com/Gabriel2392/brokkr-flash/releases/download/v{version}/Brokkr-{version}-windows-x64.zip",
+		"https://github.com/Gabriel2392/brokkr-flash/releases/download/v{version}/Brokkr-{version}-windows-arm64.zip",
+		"https://github.com/Gabriel2392/brokkr-flash/releases/download/v{version}/Brokkr-{version}-windows-x64.exe",
+		"https://github.com/Gabriel2392/brokkr-flash/releases/download/v{version}/Brokkr-{version}-windows-arm64.exe"
+	]
+}
