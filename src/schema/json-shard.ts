@@ -24,27 +24,59 @@ export enum Strategy {
 	Static = 'static',
 }
 
-const githubSchema = z.object({
+const githubRepositoryFields = {
 	owner: z.string(),
 	repo: z.string(),
-	preRelease: z.boolean().default(false).optional(),
-	fetchUrlsFromApi: z
-		.boolean()
-		.describe(
-			'Fetch asset download URLs via the GitHub Releases API instead of relying on templates.',
-		)
-		.default(false)
-		.optional(),
-	tagFilter: z.string().optional(),
-	fetchLatest: z.boolean().default(false).optional(),
-	perPage: z
-		.number()
-		.int()
-		.positive()
-		.describe('Number of releases to fetch from the GitHub Releases API.')
-		.default(25)
-		.optional(),
-});
+};
+
+const githubSchema = z.discriminatedUnion('method', [
+	z.strictObject({
+		...githubRepositoryFields,
+		method: z
+			.literal('redirect')
+			.default('redirect')
+			.optional()
+			.describe('Use getLatestReleaseFromRedirect: HEAD /releases/latest, without the GitHub API.'),
+	}),
+	z.strictObject({
+		...githubRepositoryFields,
+		method: z
+			.literal('api-latest')
+			.describe('Use getLatestRelease with useLatestEndpoint: true: GitHub REST latest release.'),
+		assetRegex: z
+			.string()
+			.min(1)
+			.optional()
+			.describe('Case-insensitive regex matched against release asset filenames.'),
+	}),
+	z.strictObject({
+		...githubRepositoryFields,
+		method: z
+			.literal('api-list')
+			.describe('Use getLatestRelease: GitHub REST release list, filtered in response order.'),
+		kind: z
+			.enum(['stable', 'prerelease', 'all'])
+			.default('stable')
+			.describe('Which releases to consider.'),
+		tagIncludes: z
+			.string()
+			.min(1)
+			.optional()
+			.describe('Select tags containing this text and remove it from the detected version.'),
+		perPage: z
+			.number()
+			.int()
+			.min(1)
+			.max(100)
+			.default(25)
+			.describe('Number of releases to inspect in one GitHub REST API page.'),
+		assetRegex: z
+			.string()
+			.min(1)
+			.optional()
+			.describe('Case-insensitive regex matched against release asset filenames.'),
+	}),
+]);
 
 const githubCommitSchema = z.object({
 	owner: z.string(),
@@ -216,17 +248,22 @@ const githubReleaseVariant = z
 		urls: urlsSchema.optional(),
 	})
 	.superRefine((shard, ctx) => {
-		const fetchUrlsFromApi = shard.github.fetchUrlsFromApi;
-		if (fetchUrlsFromApi && shard.urls && shard.urls.length > 0) {
+		if ((shard.github.method ?? 'redirect') === 'redirect' && !shard.urls?.length) {
 			ctx.addIssue({
 				code: 'custom',
-				message: 'Cannot provide URL templates when fetching from the GitHub Releases API.',
+				message: 'At least one URL template is required for the GitHub redirect method.',
 				path: ['urls'],
 			});
-		} else if (!fetchUrlsFromApi && (!shard.urls || shard.urls.length === 0)) {
+		}
+		if (
+			shard.github.method !== 'redirect' &&
+			'assetRegex' in shard.github &&
+			shard.github.assetRegex &&
+			shard.urls?.length
+		) {
 			ctx.addIssue({
 				code: 'custom',
-				message: 'At least one URL template is required unless fetchUrlsFromApi is enabled.',
+				message: 'Cannot provide URL templates when github.assetRegex is enabled.',
 				path: ['urls'],
 			});
 		}

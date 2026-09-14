@@ -4,7 +4,7 @@
 	"github": {
 		"owner": "emoacht",
 		"repo": "Monitorian",
-		"fetchUrlsFromApi": true
+		"method": "api-latest"
 	},
 	"versionRemove": "-Installer"
 }

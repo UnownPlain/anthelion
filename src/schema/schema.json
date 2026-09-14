@@ -336,40 +336,91 @@
 					"const": "github-release"
 				},
 				"github": {
-					"type": "object",
-					"properties": {
-						"owner": {
-							"type": "string"
+					"oneOf": [
+						{
+							"type": "object",
+							"properties": {
+								"owner": {
+									"type": "string"
+								},
+								"repo": {
+									"type": "string"
+								},
+								"method": {
+									"description": "Use getLatestReleaseFromRedirect: HEAD /releases/latest, without the GitHub API.",
+									"default": "redirect",
+									"type": "string",
+									"const": "redirect"
+								}
+							},
+							"required": ["owner", "repo"],
+							"additionalProperties": false
 						},
-						"repo": {
-							"type": "string"
+						{
+							"type": "object",
+							"properties": {
+								"owner": {
+									"type": "string"
+								},
+								"repo": {
+									"type": "string"
+								},
+								"method": {
+									"type": "string",
+									"const": "api-latest",
+									"description": "Use getLatestRelease with useLatestEndpoint: true: GitHub REST latest release."
+								},
+								"assetRegex": {
+									"description": "Case-insensitive regex matched against release asset filenames.",
+									"type": "string",
+									"minLength": 1
+								}
+							},
+							"required": ["owner", "repo", "method"],
+							"additionalProperties": false
 						},
-						"preRelease": {
-							"default": false,
-							"type": "boolean"
-						},
-						"fetchUrlsFromApi": {
-							"default": false,
-							"type": "boolean",
-							"description": "Fetch asset download URLs via the GitHub Releases API instead of relying on templates."
-						},
-						"tagFilter": {
-							"type": "string"
-						},
-						"fetchLatest": {
-							"default": false,
-							"type": "boolean"
-						},
-						"perPage": {
-							"default": 25,
-							"type": "integer",
-							"exclusiveMinimum": 0,
-							"maximum": 9007199254740991,
-							"description": "Number of releases to fetch from the GitHub Releases API."
+						{
+							"type": "object",
+							"properties": {
+								"owner": {
+									"type": "string"
+								},
+								"repo": {
+									"type": "string"
+								},
+								"method": {
+									"type": "string",
+									"const": "api-list",
+									"description": "Use getLatestRelease: GitHub REST release list, filtered in response order."
+								},
+								"kind": {
+									"default": "stable",
+									"description": "Which releases to consider.",
+									"type": "string",
+									"enum": ["stable", "prerelease", "all"]
+								},
+								"tagIncludes": {
+									"description": "Select tags containing this text and remove it from the detected version.",
+									"type": "string",
+									"minLength": 1
+								},
+								"perPage": {
+									"default": 25,
+									"description": "Number of releases to inspect in one GitHub REST API page.",
+									"type": "integer",
+									"minimum": 1,
+									"maximum": 100
+								},
+								"assetRegex": {
+									"description": "Case-insensitive regex matched against release asset filenames.",
+									"type": "string",
+									"minLength": 1
+								}
+							},
+							"required": ["owner", "repo", "method", "kind", "perPage"],
+							"additionalProperties": false
 						}
-					},
-					"required": ["owner", "repo"],
-					"additionalProperties": false
+					]
 				},
 				"urls": {
 					"minItems": 1,

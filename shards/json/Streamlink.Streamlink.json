@@ -4,6 +4,7 @@
 	"github": {
 		"owner": "streamlink",
 		"repo": "windows-builds",
-		"fetchUrlsFromApi": true
+		"method": "api-latest",
+		"assetRegex": "^streamlink-.*\\.exe$"
 	}
 }

@@ -4,6 +4,7 @@
 	"github": {
 		"owner": "adventuregamestudio",
 		"repo": "ags",
-		"fetchUrlsFromApi": true
+		"method": "api-latest",
+		"assetRegex": "^AGS-\\d+(?:\\.\\d+)+-P\\d+\\.exe$"
 	}
 }

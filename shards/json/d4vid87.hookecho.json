@@ -1,7 +1,12 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
-	"github": { "owner": "d4vid87", "repo": "hookecho", "preRelease": true },
+	"github": {
+		"owner": "d4vid87",
+		"repo": "hookecho",
+		"method": "api-list",
+		"kind": "prerelease"
+	},
 	"urls": [
 		"https://github.com/d4vid87/hookecho/releases/download/v0.12.0-beta.1/HookEcho-x86_64.msi",
 		"https://github.com/d4vid87/hookecho/releases/download/v0.12.0-beta.1/HookEcho-setup-x86_64.exe",

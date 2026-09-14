@@ -4,8 +4,8 @@
 	"github": {
 		"owner": "mullvad",
 		"repo": "mullvadvpn-app",
-		"fetchUrlsFromApi": true,
-		"tagFilter": "desktop/installer-downloader/",
+		"method": "api-list",
+		"tagIncludes": "desktop/installer-downloader/",
 		"perPage": 50
 	}
 }

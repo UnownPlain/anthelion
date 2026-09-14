@@ -21,6 +21,7 @@ type LatestReleaseOptions = GitHubRepository & {
 	tagIncludes?: string;
 	useLatestEndpoint?: boolean;
 	perPage?: number;
+	assetRegex?: string;
 };
 
 type LatestFileCommitOptions = GitHubRepository & {
@@ -100,7 +101,9 @@ export async function getLatestRelease(options: LatestReleaseOptions) {
 		tagIncludes = '',
 		useLatestEndpoint,
 		perPage = 25,
+		assetRegex,
 	} = options;
+	const assetPattern = assetRegex ? new RegExp(assetRegex, 'i') : undefined;
 	let release;
 
 	if (useLatestEndpoint) {
@@ -143,7 +146,11 @@ export async function getLatestRelease(options: LatestReleaseOptions) {
 		assetNames: () => release.assets.map((asset) => asset.name),
 		urls: () =>
 			release.assets
-				.filter((asset) => INSTALLER_EXTENSIONS.has(extname(asset.name)))
+				.filter(
+					(asset) =>
+						INSTALLER_EXTENSIONS.has(extname(asset.name)) &&
+						(!assetPattern || assetPattern.test(asset.name)),
+				)
 				.map((asset) => asset.browser_download_url),
 	};
 }

@@ -4,7 +4,8 @@
 	"github": {
 		"owner": "ente-io",
 		"repo": "ente",
-		"tagFilter": "auth-v",
+		"method": "api-list",
+		"tagIncludes": "auth-v",
 		"perPage": 50
 	},
 	"urls": [

@@ -156,7 +156,8 @@ this order:
 
 ### GitHub Releases
 
-The default GitHub strategy reads the latest release and applies `urls` as templates:
+The optional `github.method` defaults to `redirect`. For the latest stable release,
+it reads the public release redirect without using the GitHub API and applies `urls` as templates:
 
 ```json
 {
@@ -170,17 +171,49 @@ The default GitHub strategy reads the latest release and applies `urls` as templ
 }
 ```
 
-Useful `github` options are:
+| `github.method` | Backing helper and request                                                                        | Options                                                    |
+| --------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `redirect`      | `getLatestReleaseFromRedirect`: HEAD `https://github.com/{owner}/{repo}/releases/latest`          | Default when omitted; requires `urls` templates.           |
+| `api-latest`    | `getLatestRelease({ useLatestEndpoint: true })`: REST `GET /repos/{owner}/{repo}/releases/latest` | Uses GitHub's designated latest release.                   |
+| `api-list`      | `getLatestRelease`: REST `GET /repos/{owner}/{repo}/releases`                                     | Selects the first matching release from one response page. |
 
-- `preRelease`: select prereleases instead of stable releases.
-- `tagFilter`: only consider tags containing the given text.
-- `fetchLatest`: use GitHub's latest-release API endpoint.
-- `perPage`: change how many releases are inspected.
-- `fetchUrlsFromApi`: use every asset URL returned by GitHub instead of URL templates. Do not add
-  `urls` when this is enabled.
+Only `api-list` accepts these filters:
 
-GitHub templates can also use `{github.version}`, `{github.tag}`, `{github.rawTag}`, and
-`{github.title}`.
+- `kind`: `stable` (default), `prerelease`, or `all`.
+- `tagIncludes`: only consider tags containing this text; also remove it from the detected version.
+- `perPage`: number of releases to inspect, from 1 to 100 (default 25).
+
+For example, to select a prerelease:
+
+```json
+"github": {
+	"owner": "example",
+	"repo": "example",
+	"method": "api-list",
+	"kind": "prerelease",
+	"perPage": 50
+}
+```
+
+For either API method, omit `urls` to use release assets with supported installer/archive extensions
+(`.exe`, `.msi`, `.msix`, `.msixbundle`, `.appx`, `.zip`). Supply `urls` to use templates instead.
+Use `assetRegex` to filter the discovered assets by filename. The regex is case-insensitive and is
+applied after the supported-extension filter, so it can select architectures or exclude unrelated
+ZIPs:
+
+```json
+"github": {
+	"owner": "example",
+	"repo": "example",
+	"method": "api-latest",
+	"assetRegex": "^example-.*-(?:x64|arm64)\\.msi$"
+}
+```
+
+`assetRegex` requires `urls` to be omitted; the filtered assets become the installer URLs.
+
+GitHub templates can use `{github.version}`, `{github.tag}`, and `{github.rawTag}`.
+`{github.title}` is available only with API methods.
 
 ### GitHub file commits
 
@@ -819,7 +852,7 @@ The filename, excluding `.json` or `.ts`, must exactly equal the package identif
 ### The wrong version was detected
 
 Make the regex or data path more specific. Check for prereleases, unrelated products, old releases,
-and tags with fixed prefixes or suffixes. Use `tagFilter` or `versionRemove` only for stable,
+and tags with fixed prefixes or suffixes. Use `tagIncludes` or `versionRemove` only for stable,
 well-defined upstream conventions.
 
 ### A URL placeholder cannot be resolved

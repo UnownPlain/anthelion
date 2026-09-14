@@ -111,31 +111,22 @@ async function executeShard(file: FileRef) {
 
 			switch (jsonShard.strategy) {
 				case Strategy.GithubRelease: {
-					const needsApiData =
-						jsonShard.github.fetchUrlsFromApi ||
-						jsonShard.github.preRelease ||
-						jsonShard.github.tagFilter ||
-						jsonShard.github.fetchLatest;
-					const latest = needsApiData
-						? await getLatestRelease({
-								owner: jsonShard.github.owner,
-								repo: jsonShard.github.repo,
-								kind: jsonShard.github.preRelease ? 'prerelease' : 'stable',
-								tagIncludes: jsonShard.github.tagFilter,
-								useLatestEndpoint: jsonShard.github.fetchLatest,
-								perPage: jsonShard.github.perPage,
-							})
-						: await getLatestReleaseFromRedirect({
-								owner: jsonShard.github.owner,
-								repo: jsonShard.github.repo,
-							});
+					const github = jsonShard.github;
+					const latest =
+						github.method === undefined || github.method === 'redirect'
+							? await getLatestReleaseFromRedirect(github)
+							: await getLatestRelease({
+									...github,
+									useLatestEndpoint: github.method === 'api-latest',
+								});
+					const useReleaseAssets = jsonShard.urls === undefined;
 
 					resolvedStrategy = {
 						version: latest.version,
 						urls: () => {
-							const releaseUrls = jsonShard.github.fetchUrlsFromApi ? latest.urls() : [];
+							const releaseUrls = useReleaseAssets ? latest.urls() : [];
 
-							if (jsonShard.github.fetchUrlsFromApi && releaseUrls.length === 0) {
+							if (useReleaseAssets && releaseUrls.length === 0) {
 								throw new Error('No URLs found in GitHub release');
 							}
 

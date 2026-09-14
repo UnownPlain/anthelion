@@ -4,6 +4,6 @@
 	"github": {
 		"owner": "bambulab",
 		"repo": "BambuStudio",
-		"fetchUrlsFromApi": true
+		"method": "api-latest"
 	}
 }
