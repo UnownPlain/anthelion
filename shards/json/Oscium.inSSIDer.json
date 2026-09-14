@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://metageek.link/inssider-update-url-v1-0-2/releases.win.json",
+		"path": "Assets.0.Version"
+	},
+	"urls": ["https://files.oscium.com/Installers/inSSIDerLitePlus/inSSIDerSetup.exe"],
+	"replace": true
+}
