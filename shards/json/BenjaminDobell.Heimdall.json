@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://glassechidna.com.au/heimdall/index.html",
+		"regex": "<div id=[\\\"']windows[\\\"'][^>]*>[\\s\\S]+?href=[\\\"']https://bitbucket\\.org/benjamin_dobell/heimdall/downloads/heimdall-suite-(?<version>\\d+(?:\\.\\d+)+)-win32\\.zip[\\\"']"
+	},
+	"urls": [
+		"https://bitbucket.org/benjamin_dobell/heimdall/downloads/heimdall-suite-{version}-win32.zip"
+	]
+}
