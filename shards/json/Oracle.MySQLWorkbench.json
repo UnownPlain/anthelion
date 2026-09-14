@@ -2,10 +2,8 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "page-match",
 	"pageMatch": {
-		"url": "https://dev.mysql.com/downloads/workbench/",
-		"regex": "mysql-workbench-community-v?(\\d+(?:\\.\\d+)+)-winx64"
+		"url": "https://dev.mysql.com/downloads/workbench/?os=3&tpl=files",
+		"regex": "mysql-workbench-v?(\\d+(?:\\.\\d+)+)-winx64\\.msi"
 	},
-	"urls": [
-		"https://cdn.mysql.com/Downloads/MySQLGUITools/mysql-workbench-community-{version}-winx64.msi"
-	]
+	"urls": ["https://cdn.mysql.com/Downloads/MySQLGUITools/mysql-workbench-{version}-winx64.msi"]
 }

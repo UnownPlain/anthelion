@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "sourceforge",
+	"sourceforge": {
+		"project": "astyle",
+		"file": "astyle-{version}.zip"
+	},
+	"urls": [
+		"https://prdownloads.sourceforge.net/astyle/astyle-{version}.zip",
+		"https://prdownloads.sourceforge.net/astyle/astyle-{version}-x64.zip"
+	]
+}
