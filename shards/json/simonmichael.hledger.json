@@ -1,9 +1,9 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
-	"github": { "owner": "plaintextaccounting", "repo": "hledger" },
+	"github": { "owner": "hledgerorg", "repo": "hledger" },
 	"urls": [
-		"https://github.com/plaintextaccounting/hledger/releases/download/{version}/hledger-windows-x64.zip"
+		"https://github.com/hledgerorg/hledger/releases/download/{version}/hledger-windows-x64.zip"
 	],
 	"releaseNotes": {
 		"source": "github",
