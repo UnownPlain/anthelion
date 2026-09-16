@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": {
+		"owner": "bitwarden",
+		"repo": "clients",
+		"method": "api-list",
+		"tagIncludes": "cli-v"
+	},
+	"urls": [
+		"https://github.com/bitwarden/clients/releases/download/cli-v{version}/bw-windows-{version}.zip"
+	]
+}
