@@ -394,8 +394,8 @@
 									"description": "Use getLatestRelease: GitHub REST release list, filtered in response order."
 								},
 								"kind": {
-									"default": "stable",
 									"description": "Which releases to consider.",
+									"default": "stable",
 									"type": "string",
 									"enum": ["stable", "prerelease", "all"]
 								},
@@ -405,8 +405,8 @@
 									"minLength": 1
 								},
 								"perPage": {
-									"default": 25,
 									"description": "Number of releases to inspect in one GitHub REST API page.",
+									"default": 25,
 									"type": "integer",
 									"minimum": 1,
 									"maximum": 100
@@ -417,7 +417,7 @@
 									"minLength": 1
 								}
 							},
-							"required": ["owner", "repo", "method", "kind", "perPage"],
+							"required": ["owner", "repo", "method"],
 							"additionalProperties": false
 						}
 					]

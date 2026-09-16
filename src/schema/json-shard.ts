@@ -57,6 +57,7 @@ const githubSchema = z.discriminatedUnion('method', [
 		kind: z
 			.enum(['stable', 'prerelease', 'all'])
 			.default('stable')
+			.optional()
 			.describe('Which releases to consider.'),
 		tagIncludes: z
 			.string()
@@ -69,6 +70,7 @@ const githubSchema = z.discriminatedUnion('method', [
 			.min(1)
 			.max(100)
 			.default(25)
+			.optional()
 			.describe('Number of releases to inspect in one GitHub REST API page.'),
 		assetRegex: z
 			.string()
