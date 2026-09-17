@@ -123,9 +123,10 @@ Omitting `--dry-run` while developing a shard can submit a pull request to the c
 
 ## Choosing a strategy
 
-Choose the most specific strategy that fits the upstream source. Prefer a JSON shard even when its
-configuration is slightly longer than a script. When multiple strategies can work, prefer them in
-this order:
+Choose the most specific strategy that fits the upstream source. Prefer a JSON shard when it can
+discover the version directly, even when its configuration is slightly longer than a script. If
+version discovery needs custom requests or parsing, prefer a script shard over combining `static`
+with `state`. When multiple approaches can work, prefer them in this order:
 
 1. `appinstaller`, `electron-builder`, `tauri`, `todesktop`, `ms-download-center`, `json`, `yaml`, or `xml`
 2. `github-release`
@@ -133,26 +134,26 @@ this order:
 4. `redirect-match`
 5. `sourceforge`
 6. `page-match` or `sort-versions`
-7. `static`
-8. Script shard
+7. Script shard
+8. `static`
 
-| Strategy             | Use it when                                                                                                |
-| -------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `appinstaller`       | The app publishes an App Installer XML feed containing a main package or bundle.                           |
-| `electron-builder`   | The app publishes an Electron Builder `latest.yml` or equivalent channel file.                             |
-| `tauri`              | The app publishes a static Tauri updater JSON file.                                                        |
-| `todesktop`          | The app publishes installers through ToDesktop.                                                            |
-| `ms-download-center` | The installers are published on a Microsoft Download Center details page.                                  |
-| `json`               | An API or metadata file contains the version.                                                              |
-| `xml`                | An XML document contains the version.                                                                      |
-| `yaml`               | A YAML document contains the version.                                                                      |
-| `github-release`     | The package publishes versioned GitHub releases.                                                           |
-| `github-commit`      | A file's latest commit on a public GitHub repository identifies the current build.                         |
-| `sourceforge`        | Releases are hosted in a SourceForge project.                                                              |
-| `redirect-match`     | A stable URL redirects to a versioned installer URL.                                                       |
-| `page-match`         | One contextual regular-expression match on a page contains the version.                                    |
-| `sort-versions`      | A page lists several versions and the greatest version must be selected.                                   |
-| `static`             | No upstream version lookup is needed; pass a fixed value or installer metadata selector directly to komac. |
+| Strategy             | Use it when                                                                        |
+| -------------------- | ---------------------------------------------------------------------------------- |
+| `appinstaller`       | The app publishes an App Installer XML feed containing a main package or bundle.   |
+| `electron-builder`   | The app publishes an Electron Builder `latest.yml` or equivalent channel file.     |
+| `tauri`              | The app publishes a static Tauri updater JSON file.                                |
+| `todesktop`          | The app publishes installers through ToDesktop.                                    |
+| `ms-download-center` | The installers are published on a Microsoft Download Center details page.          |
+| `json`               | An API or metadata file contains the version.                                      |
+| `xml`                | An XML document contains the version.                                              |
+| `yaml`               | A YAML document contains the version.                                              |
+| `github-release`     | The package publishes versioned GitHub releases.                                   |
+| `github-commit`      | A file's latest commit on a public GitHub repository identifies the current build. |
+| `sourceforge`        | Releases are hosted in a SourceForge project.                                      |
+| `redirect-match`     | A stable URL redirects to a versioned installer URL.                               |
+| `page-match`         | One contextual regular-expression match on a page contains the version.            |
+| `sort-versions`      | A page lists several versions and the greatest version must be selected.           |
+| `static`             | The version is fixed or available only from installer metadata analyzed by komac.  |
 
 ### GitHub Releases
 
@@ -519,9 +520,13 @@ The optional `file` pattern narrows the project feed when it contains unrelated 
 
 ### Installer-derived versions and update state
 
-Unlike the other strategies, `static` does not fetch or extract a version. It passes the required
-`version` value directly to komac. This is useful for an unversioned download URL when komac can
-derive the real version during installer analysis:
+An unversioned download URL can still expose the current package version in a response header or
+other metadata. Use a script shard to read that version and return the installer URLs. This lets
+Anthelion compare versions before downloading the installer and avoids a separate state file.
+
+Use `static` when no lightweight upstream lookup exposes the version and komac must derive it from
+the installer. `static` does not fetch or extract a version; it passes the required `version` value
+directly to komac:
 
 ```json
 {
@@ -540,8 +545,8 @@ derived version comes from an archive containing multiple executables, use `nest
 only when komac would otherwise analyze the wrong executable.
 
 Because an installer-derived version is unknown until komac downloads and analyzes the file,
-Anthelion cannot perform its normal version check first. Add `state` as a cheap upstream change
-token to avoid analyzing the same file on every scheduled run:
+Anthelion cannot perform its normal version check first. In this case, add `state` as a cheap
+upstream change token to avoid analyzing the same file on every scheduled run:
 
 ```json
 "state": {
@@ -868,9 +873,10 @@ installer object to select the intended executable inside the archive.
 
 ### An unversioned installer is analyzed repeatedly
 
-Add state based on an `etag`, content hash, `last-modified`, release tag, or another token that
-changes with the installer. Set `replace` separately only when the previous latest manifest
-version must be removed.
+If a response header or other lightweight source provides the version, use a script shard to read
+it. Otherwise, add state based on an `etag`, content hash, `last-modified`, release tag, or another
+token that changes with the installer. Set `replace` separately only when the previous latest
+manifest version must be removed.
 
 ### The JSON format is not expressive enough
 
