@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "editorconfig-checker", "repo": "editorconfig-checker" },
+	"urls": [
+		"https://github.com/editorconfig-checker/editorconfig-checker/releases/download/v{version}/editorconfig-checker-windows-386.zip",
+		"https://github.com/editorconfig-checker/editorconfig-checker/releases/download/v{version}/editorconfig-checker-windows-amd64.zip",
+		"https://github.com/editorconfig-checker/editorconfig-checker/releases/download/v{version}/editorconfig-checker-windows-arm64.zip"
+	]
+}
