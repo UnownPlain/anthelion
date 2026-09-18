@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "tauri",
+	"tauri": { "url": "https://github.com/eythaann/Seelen-UI/releases/latest/download/latest.json" },
+	"urls": [
+		"https://github.com/eythaann/Seelen-UI/releases/download/v{version}/Seelen.UI_{version}.0_x64.Msix",
+		"https://github.com/eythaann/Seelen-UI/releases/download/v{version}/Seelen.UI_{version}.0_arm64.Msix",
+		"https://github.com/eythaann/Seelen-UI/releases/download/v{version}/Seelen.UI_{version}_x64-setup.exe",
+		"https://github.com/eythaann/Seelen-UI/releases/download/v{version}/Seelen.UI_{version}_arm64-setup.exe"
+	]
+}
