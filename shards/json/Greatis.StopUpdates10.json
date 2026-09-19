@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://greatis.com/stopupdates10/",
+		"regex": "Version:\\s*(\\d+\\.\\d+\\.\\d{4}\\.\\d+)\\s*\\(Date:"
+	},
+	"urls": ["https://www.greatissoftware.com/stopupdates10.zip"],
+	"replace": true,
+	"releaseNotes": {
+		"releaseNotesUrl": "https://greatis.com/stopupdates10/#changelog"
+	}
+}
