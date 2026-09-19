@@ -273,7 +273,7 @@ export async function updateVersionState(options: { packageIdentifier: string; s
 				branchName: process.env.GITHUB_REF_NAME,
 			},
 			message: {
-				headline: `[ci skip] Update ${options.packageIdentifier} version state`,
+				headline: `[ci skip] ${options.packageIdentifier}: update version state`,
 			},
 			fileChanges: {
 				additions: [
