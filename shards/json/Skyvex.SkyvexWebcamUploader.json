@@ -1,0 +1,18 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "static",
+	"state": {
+		"source": "response-header",
+		"url": "https://skyvex.org/downloads/SkyvexWebcamUploader.zip",
+		"header": "etag"
+	},
+	"version": { "source": "file" },
+	"urls": [
+		{
+			"url": "https://skyvex.org/downloads/SkyvexWebcamUploader.zip",
+			"nestedInstallerMatches": ["SkyvexWebcam.exe"]
+		}
+	],
+	"replace": true,
+	"releaseNotes": { "releaseNotesUrl": "https://skyvex.org/" }
+}
