@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "tauri",
+	"tauri": {
+		"url": "https://github.com/d4vid87/stormdesk/releases/latest/download/latest.json"
+	},
+	"urls": [
+		"https://github.com/d4vid87/stormdesk/releases/download/v{version}/StormDesk_{version}_x64-setup.exe",
+		"https://github.com/d4vid87/stormdesk/releases/download/v{version}/StormDesk_{version}_x64_en-US.msi"
+	]
+}
