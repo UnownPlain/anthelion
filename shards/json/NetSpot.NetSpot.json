@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "static",
+	"state": {
+		"source": "response-header",
+		"url": "https://cdn.netspotapp.com/download/Win/NetSpot.exe",
+		"header": "etag"
+	},
+	"version": { "source": "product" },
+	"urls": ["https://cdn.netspotapp.com/download/Win/NetSpot.exe"],
+	"replace": true,
+	"releaseNotes": { "releaseNotesUrl": "https://www.netspotapp.com/press.html" }
+}
