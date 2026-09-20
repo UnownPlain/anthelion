@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "sort-versions",
+	"sortVersions": {
+		"url": "https://api.nuget.org/v3-flatcontainer/microsoft.gameinput/index.json",
+		"regex": "\"(\\d+(?:\\.\\d+)+)\""
+	},
+	"urls": ["https://globalcdn.nuget.org/packages/microsoft.gameinput.{version}.nupkg"]
+}
