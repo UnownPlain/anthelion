@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": {
+		"owner": "microsoft",
+		"repo": "SymCrypt",
+		"method": "api-latest",
+		"assetRegex": "^symcrypt-windows-(?:amd64|arm64)-release-\\d+(?:\\.\\d+)+-[0-9a-f]+\\.zip$"
+	}
+}
