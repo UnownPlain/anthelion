@@ -1,0 +1,6 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "microsoft", "repo": "diskspd" },
+	"urls": ["https://github.com/microsoft/diskspd/releases/download/v{version}/DiskSpd.ZIP"]
+}
