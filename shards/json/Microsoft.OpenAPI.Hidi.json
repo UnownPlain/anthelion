@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": {
+		"owner": "microsoft",
+		"repo": "OpenAPI.NET",
+		"method": "api-latest",
+		"assetRegex": "^Microsoft\\.OpenApi\\.Hidi\\.exe$"
+	},
+	"version": "{version}.0"
+}
