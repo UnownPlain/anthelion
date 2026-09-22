@@ -1,0 +1,18 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://stereo.jpn.org/eng/stphmkr/index.html",
+		"regex": "href=[\"']file/stphmkrpro_e_\\d+\\.zip[\"']>StereoPhoto Maker Pro \\(64bit\\) Ver(?<version>\\d+(?:\\.\\d+)+)"
+	},
+	"urls": [
+		"https://stereo.jpn.org/eng/stphmkr/file/stphmkrpro_e_{version|.|}.zip",
+		"https://stereo.jpn.org/eng/stphmkr/file/stphmkre{version|.|}.zip",
+		"https://stereo.jpn.org/jpn/stphmkr/file/stphmkrpro_j_{version|.|}.zip",
+		"https://stereo.jpn.org/jpn/stphmkr/file/stphmkr{version|.|}.zip",
+		"https://stereo.jpn.org/fra/stphmkr/file/stphmkrpro_f_{version|.|}.zip",
+		"https://stereo.jpn.org/fra/stphmkr/file/stphmkrf{version|.|}.zip",
+		"https://stereo.jpn.org/ger/stphmkr/file/stphmkrpro_g_{version|.|}.zip",
+		"https://stereo.jpn.org/ger/stphmkr/file/stphmkrg{version|.|}.zip"
+	]
+}
