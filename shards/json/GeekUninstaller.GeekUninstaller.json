@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://geekuninstaller.com/download",
+		"regex": "<b>(\\d+(?:\\.\\d+)+)</b>\\s*\\[\\d{1,2} [A-Za-z]+ \\d{4}\\]"
+	},
+	"urls": ["https://geekuninstaller.com/geek.zip"],
+	"replace": true
+}
