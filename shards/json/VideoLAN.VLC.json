@@ -15,5 +15,6 @@
 		"https://download.videolan.org/pub/videolan/vlc/{version}/winarm64/vlc-{version}-winarm64.exe",
 		"https://download.videolan.org/pub/videolan/vlc/{version}/winarm64/vlc-{version}-winarm64.msi",
 		"https://download.videolan.org/pub/videolan/vlc/{version}/winarm64/vlc-{version}-winarm64.zip"
-	]
+	],
+	"ignoreOtherPrs": true
 }
