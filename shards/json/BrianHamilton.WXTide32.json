@@ -1,0 +1,17 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "static",
+	"state": {
+		"source": "response-header",
+		"url": "https://www.weather-display.com/downloadfiles/tidesetup.zip",
+		"header": "last-modified"
+	},
+	"version": { "source": "file" },
+	"urls": [
+		{
+			"url": "https://www.weather-display.com/downloadfiles/tidesetup.zip",
+			"nestedInstallerMatches": ["wxtide32.exe"]
+		}
+	],
+	"replace": true
+}
