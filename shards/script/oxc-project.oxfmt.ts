@@ -9,7 +9,7 @@ export default defineShard(async () => {
 	const release = await getLatestRelease({
 		owner,
 		repo,
-		tagIncludes: 'apps_v',
+		tagRegex: 'apps_v',
 	});
 
 	const {

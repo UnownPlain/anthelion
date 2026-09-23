@@ -181,7 +181,7 @@ it reads the public release redirect without using the GitHub API and applies `u
 Only `api-list` accepts these filters:
 
 - `kind`: `stable` (default), `prerelease`, or `all`.
-- `tagIncludes`: only consider tags containing this text; also remove it from the detected version.
+- `tagRegex`: only consider tags matching this regex; also remove the match from the detected version.
 - `perPage`: number of releases to inspect, from 1 to 100 (default 25).
 
 For example, to select a prerelease:
@@ -857,7 +857,7 @@ The filename, excluding `.json` or `.ts`, must exactly equal the package identif
 ### The wrong version was detected
 
 Make the regex or data path more specific. Check for prereleases, unrelated products, old releases,
-and tags with fixed prefixes or suffixes. Use `tagIncludes` or `versionRemove` only for stable,
+and tags with fixed prefixes or suffixes. Use `tagRegex` or `versionRemove` only for stable,
 well-defined upstream conventions.
 
 ### A URL placeholder cannot be resolved

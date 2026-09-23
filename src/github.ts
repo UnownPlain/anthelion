@@ -18,7 +18,7 @@ type GitHubRepository = {
 
 type LatestReleaseOptions = GitHubRepository & {
 	kind?: 'stable' | 'prerelease' | 'all';
-	tagIncludes?: string;
+	tagRegex?: string;
 	useLatestEndpoint?: boolean;
 	perPage?: number;
 	assetRegex?: string;
@@ -28,6 +28,11 @@ type LatestFileCommitOptions = GitHubRepository & {
 	branch?: string;
 	path: string;
 };
+
+function versionFromTag(tag: string, tagPattern?: RegExp) {
+	const version = tag.replace(/^v/, '');
+	return tagPattern ? version.replace(tagPattern, '') : version;
+}
 
 export async function getLatestFileCommit({
 	owner,
@@ -59,8 +64,8 @@ export async function getLatestFileCommit({
 export async function getLatestReleaseFromRedirect({
 	owner,
 	repo,
-	tagIncludes = '',
-}: GitHubRepository & { tagIncludes?: string }) {
+	tagRegex,
+}: GitHubRepository & { tagRegex?: string }) {
 	const response = await ky.head(`https://github.com/${owner}/${repo}/releases/latest`, {
 		redirect: 'manual',
 		throwHttpErrors: false,
@@ -83,8 +88,10 @@ export async function getLatestReleaseFromRedirect({
 		throw new Error(`Unexpected GitHub release redirect: ${releaseUrl.href}`);
 	}
 
+	const tagPattern = tagRegex ? new RegExp(tagRegex) : undefined;
+
 	return {
-		version: tag.replace(/^v/, '').replace(tagIncludes, ''),
+		version: versionFromTag(tag, tagPattern),
 		tag: tag.replace(/^v/, ''),
 		rawTag: tag,
 		title: undefined,
@@ -98,12 +105,13 @@ export async function getLatestRelease(options: LatestReleaseOptions) {
 		owner,
 		repo,
 		kind = 'stable',
-		tagIncludes = '',
+		tagRegex,
 		useLatestEndpoint,
 		perPage = 25,
 		assetRegex,
 	} = options;
 	const assetPattern = assetRegex ? new RegExp(assetRegex, 'i') : undefined;
+	const tagPattern = tagRegex ? new RegExp(tagRegex) : undefined;
 	let release;
 
 	if (useLatestEndpoint) {
@@ -127,8 +135,8 @@ export async function getLatestRelease(options: LatestReleaseOptions) {
 				break;
 		}
 
-		if (tagIncludes) {
-			release = releases.find((release) => release.tag_name.includes(tagIncludes));
+		if (tagPattern) {
+			release = releases.find((release) => tagPattern.test(release.tag_name));
 		} else {
 			release = releases[0];
 		}
@@ -139,7 +147,7 @@ export async function getLatestRelease(options: LatestReleaseOptions) {
 	}
 
 	return {
-		version: release.tag_name.replace(/^v/, '').replace(tagIncludes, ''),
+		version: versionFromTag(release.tag_name, tagPattern),
 		tag: release.tag_name.replace(/^v/, ''),
 		rawTag: release.tag_name,
 		title: release.name,

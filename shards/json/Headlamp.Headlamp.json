@@ -5,7 +5,7 @@
 		"owner": "kubernetes-sigs",
 		"repo": "headlamp",
 		"method": "api-list",
-		"tagIncludes": "v"
+		"tagRegex": "^v"
 	},
 	"urls": [
 		"https://github.com/kubernetes-sigs/headlamp/releases/download/v{version}/Headlamp-{version}-win-x64.exe"

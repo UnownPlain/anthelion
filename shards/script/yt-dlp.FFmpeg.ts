@@ -7,7 +7,7 @@ export default defineShard(async () => {
 	const release = await getLatestRelease({
 		owner: 'yt-dlp',
 		repo: 'FFmpeg-Builds',
-		tagIncludes: date.toString(),
+		tagRegex: date.toString(),
 	});
 
 	const urls = () =>

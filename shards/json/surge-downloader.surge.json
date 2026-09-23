@@ -1,7 +1,12 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
-	"github": { "owner": "SurgeDM", "repo": "Surge" },
+	"github": {
+		"owner": "SurgeDM",
+		"repo": "Surge",
+		"method": "api-list",
+		"tagRegex": "^v"
+	},
 	"urls": [
 		"https://github.com/SurgeDM/Surge/releases/download/v{version}/Surge_{version}_windows_386.zip",
 		"https://github.com/SurgeDM/Surge/releases/download/v{version}/Surge_{version}_windows_amd64.zip",

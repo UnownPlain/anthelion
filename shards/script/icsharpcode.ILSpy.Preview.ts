@@ -7,7 +7,7 @@ export default defineShard(async () => {
 		owner: 'icsharpcode',
 		repo: 'ILSpy',
 		kind: 'all',
-		tagIncludes: 'preview',
+		tagRegex: 'preview',
 	});
 
 	const urls = () => release.urls().filter((url) => url.endsWith('.msi'));

@@ -399,8 +399,8 @@
 									"type": "string",
 									"enum": ["stable", "prerelease", "all"]
 								},
-								"tagIncludes": {
-									"description": "Select tags containing this text and remove it from the detected version.",
+								"tagRegex": {
+									"description": "Select tags matching this regex and remove the match from the detected version.",
 									"type": "string",
 									"minLength": 1
 								},

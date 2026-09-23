@@ -5,7 +5,7 @@
 		"owner": "biomejs",
 		"repo": "biome",
 		"method": "api-list",
-		"tagIncludes": "@biomejs/biome@"
+		"tagRegex": "^@biomejs/biome@"
 	},
 	"urls": [
 		"https://github.com/biomejs/biome/releases/download/@biomejs/biome@{version}/biome-win32-x64.exe",

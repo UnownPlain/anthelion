@@ -6,7 +6,7 @@ export default defineShard(async () => {
 		owner: 'duplicati',
 		repo: 'duplicati',
 		kind: 'prerelease',
-		tagIncludes: 'canary',
+		tagRegex: 'canary',
 	});
 
 	const version = release.tag.split('_')[0];

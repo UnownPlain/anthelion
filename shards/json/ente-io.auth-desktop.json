@@ -5,7 +5,7 @@
 		"owner": "ente-io",
 		"repo": "ente",
 		"method": "api-list",
-		"tagIncludes": "auth-v",
+		"tagRegex": "^auth-v",
 		"perPage": 50
 	},
 	"urls": [

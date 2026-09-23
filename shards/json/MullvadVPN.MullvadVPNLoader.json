@@ -5,7 +5,7 @@
 		"owner": "mullvad",
 		"repo": "mullvadvpn-app",
 		"method": "api-list",
-		"tagIncludes": "desktop/installer-downloader/",
+		"tagRegex": "^desktop/installer-downloader/",
 		"perPage": 50
 	}
 }

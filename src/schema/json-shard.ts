@@ -59,11 +59,11 @@ const githubSchema = z.discriminatedUnion('method', [
 			.default('stable')
 			.optional()
 			.describe('Which releases to consider.'),
-		tagIncludes: z
+		tagRegex: z
 			.string()
 			.min(1)
 			.optional()
-			.describe('Select tags containing this text and remove it from the detected version.'),
+			.describe('Select tags matching this regex and remove the match from the detected version.'),
 		perPage: z
 			.number()
 			.int()
