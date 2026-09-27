@@ -11,7 +11,10 @@
 		"value": "{github.rawTag}"
 	},
 	"urls": [
-		"https://github.com/CXWorld/CapFrameX/releases/download/{github.rawTag}/release_{github.version}_installer.zip",
+		{
+			"url": "https://github.com/CXWorld/CapFrameX/releases/download/{github.rawTag}/release_{github.version}_installer.zip",
+			"architecture": "x64"
+		},
 		{
 			"url": "https://github.com/CXWorld/CapFrameX/releases/download/{github.rawTag}/release_{github.version}_portable.zip",
 			"architecture": "x64"
