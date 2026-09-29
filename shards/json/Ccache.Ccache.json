@@ -8,6 +8,7 @@
 	],
 	"releaseNotes": {
 		"source": "html",
-		"sourceUrl": "https://ccache.dev/releasenotes.html#_ccache_{version|.|_}"
+		"sourceUrl": "https://ccache.dev/releasenotes.html#_ccache_{version|.|_}",
+		"characterLimit": 20000
 	}
 }
