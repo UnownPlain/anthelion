@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "PredatH0r", "repo": "ChanSort" },
+	"urls": [
+		"https://github.com/PredatH0r/ChanSort/releases/download/v{version}/ChanSort_{version}.zip"
+	]
+}
