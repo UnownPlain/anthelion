@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "TeoSlayer", "repo": "shell.online" },
+	"urls": [
+		"https://github.com/TeoSlayer/shell.online/releases/download/v{version}/shell-windows-386.exe",
+		"https://github.com/TeoSlayer/shell.online/releases/download/v{version}/shell-windows-amd64.exe",
+		"https://github.com/TeoSlayer/shell.online/releases/download/v{version}/shell-windows-arm64.exe"
+	]
+}
