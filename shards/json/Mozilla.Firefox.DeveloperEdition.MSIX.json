@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://product-details.mozilla.org/1.0/firefox_versions.json",
+		"path": "FIREFOX_DEVEDITION"
+	},
+	"version": "{version|b|.}.0",
+	"urls": [
+		"https://archive.mozilla.org/pub/devedition/releases/{version}/win64/multi/Firefox%20Setup%20{version}.msix",
+		"https://archive.mozilla.org/pub/devedition/releases/{version}/win32/multi/Firefox%20Setup%20{version}.msix",
+		"https://archive.mozilla.org/pub/devedition/releases/{version}/win64-aarch64/multi/Firefox%20Setup%20{version}.msix"
+	]
+}
