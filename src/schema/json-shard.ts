@@ -37,6 +37,11 @@ const githubSchema = z.discriminatedUnion('method', [
 			.default('redirect')
 			.optional()
 			.describe('Use getLatestReleaseFromRedirect: HEAD /releases/latest, without the GitHub API.'),
+		tagRegex: z
+			.string()
+			.min(1)
+			.optional()
+			.describe('Remove this regex match from the detected version of the latest release tag.'),
 	}),
 	z.strictObject({
 		...githubRepositoryFields,

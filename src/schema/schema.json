@@ -351,6 +351,11 @@
 									"default": "redirect",
 									"type": "string",
 									"const": "redirect"
+								},
+								"tagRegex": {
+									"description": "Remove this regex match from the detected version of the latest release tag.",
+									"type": "string",
+									"minLength": 1
 								}
 							},
 							"required": ["owner", "repo"],
