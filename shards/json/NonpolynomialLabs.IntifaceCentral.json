@@ -4,5 +4,6 @@
 	"github": { "owner": "intiface", "repo": "intiface-central" },
 	"urls": [
 		"https://github.com/intiface/intiface-central/releases/download/v.*/intiface-central-v{version}-win-x64.exe"
-	]
+	],
+	"versionRemove": "%2B\\d{1,}"
 }
