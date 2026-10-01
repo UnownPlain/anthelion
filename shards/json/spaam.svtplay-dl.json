@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://svtplay-dl.se/archive/",
+		"regex": "href=[\"']https://svtplay-dl\\.se/download/(\\d+(?:\\.\\d+)+)/svtplay-dl-amd64\\.zip[\"']"
+	},
+	"urls": ["https://svtplay-dl.se/download/{version}/svtplay-dl-amd64.zip"],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://svtplay-dl.se/{version}"
+	}
+}
