@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "tukaani-project", "repo": "xz" },
+	"urls": [
+		"https://github.com/tukaani-project/xz/releases/download/v{version}/xz-{version}-windows.zip"
+	]
+}
