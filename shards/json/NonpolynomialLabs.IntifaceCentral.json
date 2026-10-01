@@ -3,6 +3,6 @@
 	"strategy": "github-release",
 	"github": { "owner": "intiface", "repo": "intiface-central" },
 	"urls": [
-		"https://github.com/intiface/intiface-central/releases/download/v{version}(%2B\d{1,})?/intiface-central-v{version}-win-x64.exe"
+		"https://github.com/intiface/intiface-central/releases/download/v{version}(%2B\\d{1,})?/intiface-central-v{version}-win-x64.exe"
 	]
 }
