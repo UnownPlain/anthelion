@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": {
+		"owner": "intiface",
+		"repo": "intiface-central",
+		"tagRegex": "(?:\\+|%2B)\\d+$"
+	},
+	"urls": [
+		"https://github.com/intiface/intiface-central/releases/download/{github.rawTag}/intiface-central-v{version}-win-x64.exe"
+	]
+}
