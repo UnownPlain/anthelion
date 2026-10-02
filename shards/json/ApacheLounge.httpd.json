@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.apachelounge.com/download/",
+		"regex": "href=[\"']/(?<x64>download/[^\"' >]*httpd-(?<version>\\d+(?:\\.\\d+)+)-\\d+-win64-vs\\d+\\.zip)[\"'][\\s\\S]*?href=[\"']/(?<x86>download/[^\"' >]*httpd-\\k<version>-\\d+-win32-vs\\d+\\.zip)[\"']"
+	},
+	"urls": [
+		"https://www.apachelounge.com/{captures.x64}",
+		"https://www.apachelounge.com/{captures.x86}"
+	]
+}
