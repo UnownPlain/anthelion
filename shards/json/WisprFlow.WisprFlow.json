@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://dl.wisprflow.com/wispr-flow/win32/latest.json",
+		"regex": "\"url\"\\s*:\\s*\"https://dl\\.wisprflow\\.com/wispr-flow/win32/x64/Wispr%20Flow%20Setup-v(\\d+(?:\\.\\d+)+)\\.exe\""
+	},
+	"urls": ["https://dl.wisprflow.com/wispr-flow/win32/x64/Wispr%20Flow%20Setup-v{version}.exe"]
+}
