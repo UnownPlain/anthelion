@@ -288,7 +288,9 @@ the WinGet package, or when architecture or nested-installer overrides are requi
 
 ### Tauri
 
-Point the strategy at a static Tauri updater JSON file. By default, Anthelion uses the URL from
+Point the strategy at a static Tauri updater JSON file or a platform-specific updater endpoint.
+For a platform-specific response, Anthelion reads its `version` and `url` fields.
+For a static feed, Anthelion uses the URL from
 every platform key beginning with `windows-` and removes duplicate URLs:
 
 ```json

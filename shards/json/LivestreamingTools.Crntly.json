@@ -1,9 +1,8 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "json",
-	"json": {
-		"url": "https://canvas.livestreaming.tools/updates/latest.json",
-		"path": "version"
+	"strategy": "tauri",
+	"tauri": {
+		"url": "https://canvas.livestreaming.tools/updates/latest.json"
 	},
 	"urls": ["https://canvas.livestreaming.tools/updates/Crntly_{version}_x64-setup.exe"],
 	"ignoreOtherPrs": true

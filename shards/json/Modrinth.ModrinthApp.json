@@ -1,9 +1,8 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "json",
-	"json": {
-		"url": "https://launcher-files.modrinth.com/updates.json",
-		"path": "version"
+	"strategy": "tauri",
+	"tauri": {
+		"url": "https://launcher-files.modrinth.com/updates.json"
 	},
 	"urls": [
 		"https://launcher-files.modrinth.com/versions/{version}/windows/Modrinth%20App_{version}_x64-setup.exe"

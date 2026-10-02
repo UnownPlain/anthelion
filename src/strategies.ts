@@ -120,13 +120,25 @@ export async function electronBuilder(options: { url: string }) {
 	return { version: parseString(data.version), urls };
 }
 
-const tauriUpdateSchema = z.object({
-	version: z.string().min(1),
-	platforms: z.record(z.string(), z.object({ url: z.url() })),
-});
+const tauriUpdateSchema = z.union([
+	z.object({
+		version: z.string().min(1),
+		platforms: z.record(z.string(), z.object({ url: z.url() })),
+	}),
+	z.object({
+		version: z.string().min(1),
+		url: z.url(),
+	}),
+]);
 
 export async function tauri(options: { url: string; platforms?: string[] }) {
 	const data = tauriUpdateSchema.parse(await ky(options.url).json());
+	if (!('platforms' in data)) {
+		if (options.platforms) {
+			throw new Error('Platform selection requires a static Tauri update feed');
+		}
+		return { version: data.version, urls: [data.url], data };
+	}
 	const platforms = options.platforms
 		? options.platforms.map((platform) => {
 				const update = data.platforms[platform];

@@ -1,9 +1,8 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "json",
-	"json": {
-		"url": "https://github.com/github/app/releases/latest/download/latest.json",
-		"path": "version"
+	"strategy": "tauri",
+	"tauri": {
+		"url": "https://github.com/github/app/releases/latest/download/latest.json"
 	},
 	"urls": [
 		"https://github.com/github/app/releases/download/v{version}/GitHub-Copilot-windows-x64-setup.exe",
