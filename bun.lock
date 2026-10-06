@@ -6,7 +6,7 @@
       "name": "anthelion",
       "dependencies": {
         "@ai-sdk/groq": "4.0.54",
-        "@rcompat/fs": "0.35.2",
+        "@rcompat/fs": "0.35.3",
         "@unownplain/anthelion-komac": "0.0.71",
         "ai": "7.0.127",
         "ansis": "4.4.0",
@@ -197,7 +197,7 @@
 
     "@rcompat/error": ["@rcompat/error@0.9.0", "", { "dependencies": { "@rcompat/is": "^0.12.0", "@rcompat/type": "^0.18.0" } }, "sha512-AJSflZm2QrfSCyaYiLBYZo3X6PjIzNp2BwclX3rZhkuGVLhm+0JjkJYJ7t3YLw/T1vbTjn2ry4++DYQ1QFdYvA=="],
 
-    "@rcompat/fs": ["@rcompat/fs@0.35.2", "", { "dependencies": { "@rcompat/assert": "^0.14.0", "@rcompat/crypto": "^0.22.0", "@rcompat/dict": "^0.11.0", "@rcompat/error": "^0.9.0", "@rcompat/is": "^0.12.2", "@rcompat/symbol": "^0.3.0" } }, "sha512-v05/n3hfSO8tqbis/wdQD95tPE/rfuxxjzn8G0eRd6H1jj1OqTaTE3U6IPiKFPjpYoEYnEDU0lqaC//T9i6YkA=="],
+    "@rcompat/fs": ["@rcompat/fs@0.35.3", "", { "dependencies": { "@rcompat/assert": "^0.14.0", "@rcompat/crypto": "^0.22.0", "@rcompat/dict": "^0.11.0", "@rcompat/error": "^0.9.0", "@rcompat/is": "^0.12.2", "@rcompat/symbol": "^0.3.0" } }, "sha512-PzwJapPTlGecN6MZBH7hPml8Ve2fy6LMOcAgCpYQj0WlAYZwX4W5lW5tdWf5ZCVue0A+JCQBwfSAeaIZXaxEEg=="],
 
     "@rcompat/is": ["@rcompat/is@0.12.2", "", {}, "sha512-iw97HpJXlP98lqHVutr012cKCJ5VGUK3cOPQFUVI8zasfqp3rDgu3W2uLQdpXMazasrPROqt7L74LXC126zT+w=="],
 
