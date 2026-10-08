@@ -3,13 +3,10 @@
 	"strategy": "github-release",
 	"github": { "owner": "git-ecosystem", "repo": "git-credential-manager" },
 	"urls": [
-		"https://github.com/git-ecosystem/git-credential-manager/releases/download/v{version}/gcm-win-x86-{version}.exe",
-		"https://github.com/git-ecosystem/git-credential-manager/releases/download/v{version}/gcmuser-win-x86-{version}.exe",
 		"https://github.com/git-ecosystem/git-credential-manager/releases/download/v{version}/gcm-win-x64-{version}.exe",
 		"https://github.com/git-ecosystem/git-credential-manager/releases/download/v{version}/gcmuser-win-x64-{version}.exe",
 		"https://github.com/git-ecosystem/git-credential-manager/releases/download/v{version}/gcm-win-arm64-{version}.exe",
 		"https://github.com/git-ecosystem/git-credential-manager/releases/download/v{version}/gcmuser-win-arm64-{version}.exe",
-		"https://github.com/git-ecosystem/git-credential-manager/releases/download/v{version}/gcm-win-x86-{version}.zip",
 		"https://github.com/git-ecosystem/git-credential-manager/releases/download/v{version}/gcm-win-x64-{version}.zip",
 		"https://github.com/git-ecosystem/git-credential-manager/releases/download/v{version}/gcm-win-arm64-{version}.zip"
 	]
