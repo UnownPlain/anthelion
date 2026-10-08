@@ -2,15 +2,15 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "page-match",
 	"pageMatch": {
-		"url": "https://stratoshark.org/",
-		"regex": "href=\"https:\\/\\/1\\.na\\.dl\\.wireshark\\.org\\/win64\\/all-versions\\/Stratoshark-(\\d+(?:\\.\\d+)+)-x64\\.exe\""
+		"url": "https://stratoshark.org/download",
+		"regex": "href=[\"'][^\"' >]+/Stratoshark-(\\d+(?:\\.\\d+)+)-x64\\.exe[\"']"
 	},
 	"urls": [
-		"https://1.na.dl.wireshark.org/win64/all-versions/Stratoshark-{version}-x64.exe",
-		"https://1.na.dl.wireshark.org/win64/all-versions/Stratoshark-{version}-arm64.exe"
+		"https://2.na.dl.wireshark.org/win64/all-versions/Stratoshark-{version}-x64.exe",
+		"https://2.na.dl.wireshark.org/win64/all-versions/Stratoshark-{version}-arm64.exe"
 	],
 	"releaseNotes": {
-		"source": "browser-rendering",
+		"source": "html",
 		"sourceUrl": "https://stratoshark.org/docs/relnotes/stratoshark-{version}"
 	}
 }
