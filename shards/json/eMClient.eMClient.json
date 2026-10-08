@@ -1,8 +1,0 @@
-{
-	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "redirect-match",
-	"redirectMatch": {
-		"url": ["https://www.emclient.com/dist/latest/setup.msi"],
-		"regex": "dist/v?(\\d+(?:\\.\\d+)+)/setup\\.msi"
-	}
-}
