@@ -1,0 +1,17 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "ms-download-center",
+	"msDownloadCenter": { "id": 105222 },
+	"urls": [
+		"https://download.microsoft.com/download/143fe9b7-9e20-4683-961e-656261c16943/OneLake_{version}.msix",
+		{
+			"url": "https://download.microsoft.com/download/143fe9b7-9e20-4683-961e-656261c16943/OneLake_{version}.msix?p",
+			"architecture": "x64"
+		}
+	],
+	"releaseNotes": {
+		"source": "markdown",
+		"sourceUrl": "https://raw.githubusercontent.com/MicrosoftDocs/fabric-docs/main/docs/onelake/onelake-file-explorer-release-notes.md",
+		"releaseNotesUrl": "https://learn.microsoft.com/fabric/onelake/onelake-file-explorer-release-notes"
+	}
+}
