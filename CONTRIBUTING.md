@@ -177,17 +177,25 @@ it reads the public release redirect without using the GitHub API and applies `u
 | `redirect`      | `getLatestReleaseFromRedirect`: HEAD `https://github.com/{owner}/{repo}/releases/latest`          | Default when omitted; requires `urls` templates; accepts `tagRegex` for version cleanup. |
 | `api-latest`    | `getLatestRelease({ useLatestEndpoint: true })`: REST `GET /repos/{owner}/{repo}/releases/latest` | Uses GitHub's designated latest release.                                                 |
 | `api-list`      | `getLatestRelease`: REST `GET /repos/{owner}/{repo}/releases`                                     | Selects the first matching release from one response page.                               |
+| `api-sort`      | `getLatestRelease({ sortByVersion: true })`: REST `GET /repos/{owner}/{repo}/releases`            | Selects the greatest numeric version from one response page.                             |
 
 For `redirect`, `tagRegex` removes its match from the detected version; it does not select a
 different release. The redirect tag may be URL-encoded, so account for that in the regex. For
 example, `"tagRegex": "(?:\\+|%2B)\\d+$"` removes a build suffix such as `+45` or `%2B45`.
 `{github.rawTag}` retains the original tag for installer URL templates.
 
-Only `api-list` accepts these release-selection filters:
+`api-list` and `api-sort` accept these release-selection filters:
 
 - `kind`: `stable` (default), `prerelease`, or `all`.
 - `tagRegex`: only consider tags matching this regex; also remove the match from the detected version.
 - `perPage`: number of releases to inspect, from 1 to 100 (default 25).
+
+Use `api-sort` when GitHub's designated latest release or release-list order does not identify
+the greatest package version. It sorts numeric versions component by component after removing
+the leading `v` and any `tagRegex` match, so `4.10.0` sorts above `4.9.0`. Drafts and tags that
+do not normalize to numeric, dot-separated versions are excluded. Use `tagRegex` to remove
+fixed prefixes or suffixes when necessary. Only the configured response page is inspected;
+`api-sort` does not paginate through the full release history.
 
 For example, to select a prerelease:
 
@@ -201,7 +209,7 @@ For example, to select a prerelease:
 }
 ```
 
-For either API method, omit `urls` to use release assets with supported installer/archive extensions
+For any API method, omit `urls` to use release assets with supported installer/archive extensions
 (`.exe`, `.msi`, `.msix`, `.msixbundle`, `.appx`, `.zip`). Supply `urls` to use templates instead.
 Use `assetRegex` to filter the discovered assets by filename. The regex is case-insensitive and is
 applied after the supported-extension filter, so it can select architectures or exclude unrelated
@@ -217,6 +225,19 @@ ZIPs:
 ```
 
 `assetRegex` requires `urls` to be omitted; the filtered assets become the installer URLs.
+With `api-sort`, it also excludes releases without a matching supported asset before sorting.
+This can separate Windows releases from other platforms without restricting version numbers:
+
+```json
+"github": {
+	"owner": "pwsafe",
+	"repo": "pwsafe",
+	"method": "api-sort",
+	"assetRegex": "^pwsafe64-\\d+(?:\\.\\d+)+\\.msi$"
+}
+```
+
+For `api-list` and `api-latest`, `assetRegex` only filters assets after selecting the release.
 
 GitHub templates can use `{github.version}`, `{github.tag}`, and `{github.rawTag}`.
 `{github.title}` is available only with API methods.

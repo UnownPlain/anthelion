@@ -118,6 +118,7 @@ async function executeShard(file: FileRef) {
 							: await getLatestRelease({
 									...github,
 									useLatestEndpoint: github.method === 'api-latest',
+									sortByVersion: github.method === 'api-sort',
 								});
 					const useReleaseAssets = jsonShard.urls === undefined;
 

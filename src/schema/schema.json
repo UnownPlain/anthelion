@@ -395,8 +395,8 @@
 								},
 								"method": {
 									"type": "string",
-									"const": "api-list",
-									"description": "Use getLatestRelease: GitHub REST release list, filtered in response order."
+									"enum": ["api-list", "api-sort"],
+									"description": "Use getLatestRelease: api-list selects in response order; api-sort selects the greatest numeric version."
 								},
 								"kind": {
 									"description": "Which releases to consider.",
@@ -417,7 +417,7 @@
 									"maximum": 100
 								},
 								"assetRegex": {
-									"description": "Case-insensitive regex matched against release asset filenames.",
+									"description": "Case-insensitive regex matched against release asset filenames. With api-sort, only consider releases with a matching supported installer/archive asset.",
 									"type": "string",
 									"minLength": 1
 								}

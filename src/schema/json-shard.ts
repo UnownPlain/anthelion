@@ -57,8 +57,10 @@ const githubSchema = z.discriminatedUnion('method', [
 	z.strictObject({
 		...githubRepositoryFields,
 		method: z
-			.literal('api-list')
-			.describe('Use getLatestRelease: GitHub REST release list, filtered in response order.'),
+			.enum(['api-list', 'api-sort'])
+			.describe(
+				'Use getLatestRelease: api-list selects in response order; api-sort selects the greatest numeric version.',
+			),
 		kind: z
 			.enum(['stable', 'prerelease', 'all'])
 			.default('stable')
@@ -81,7 +83,9 @@ const githubSchema = z.discriminatedUnion('method', [
 			.string()
 			.min(1)
 			.optional()
-			.describe('Case-insensitive regex matched against release asset filenames.'),
+			.describe(
+				'Case-insensitive regex matched against release asset filenames. With api-sort, only consider releases with a matching supported installer/archive asset.',
+			),
 	}),
 ]);
 

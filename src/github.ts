@@ -5,6 +5,7 @@ import ky from 'ky';
 import { Octokit } from 'octokit';
 
 import { getTargetRepository } from '@/config';
+import { compareVersions } from '@/helpers';
 
 export const githubClient = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
@@ -20,6 +21,7 @@ type LatestReleaseOptions = GitHubRepository & {
 	kind?: 'stable' | 'prerelease' | 'all';
 	tagRegex?: string;
 	useLatestEndpoint?: boolean;
+	sortByVersion?: boolean;
 	perPage?: number;
 	assetRegex?: string;
 };
@@ -107,11 +109,14 @@ export async function getLatestRelease(options: LatestReleaseOptions) {
 		kind = 'stable',
 		tagRegex,
 		useLatestEndpoint,
+		sortByVersion,
 		perPage = 25,
 		assetRegex,
 	} = options;
 	const assetPattern = assetRegex ? new RegExp(assetRegex, 'i') : undefined;
 	const tagPattern = tagRegex ? new RegExp(tagRegex) : undefined;
+	const isInstallerAsset = (name: string) =>
+		INSTALLER_EXTENSIONS.has(extname(name)) && (!assetPattern || assetPattern.test(name));
 	let release;
 
 	if (useLatestEndpoint) {
@@ -136,10 +141,25 @@ export async function getLatestRelease(options: LatestReleaseOptions) {
 		}
 
 		if (tagPattern) {
-			release = releases.find((release) => tagPattern.test(release.tag_name));
-		} else {
-			release = releases[0];
+			releases = releases.filter((release) => tagPattern.test(release.tag_name));
 		}
+
+		if (sortByVersion) {
+			releases = releases.filter(
+				(release) =>
+					!release.draft &&
+					/^\d+(?:\.\d+)*$/.test(versionFromTag(release.tag_name, tagPattern)) &&
+					(!assetPattern || release.assets.some((asset) => isInstallerAsset(asset.name))),
+			);
+			releases.sort((a, b) =>
+				compareVersions(
+					versionFromTag(b.tag_name, tagPattern),
+					versionFromTag(a.tag_name, tagPattern),
+				),
+			);
+		}
+
+		release = releases[0];
 	}
 
 	if (!release) {
@@ -154,11 +174,7 @@ export async function getLatestRelease(options: LatestReleaseOptions) {
 		assetNames: () => release.assets.map((asset) => asset.name),
 		urls: () =>
 			release.assets
-				.filter(
-					(asset) =>
-						INSTALLER_EXTENSIONS.has(extname(asset.name)) &&
-						(!assetPattern || assetPattern.test(asset.name)),
-				)
+				.filter((asset) => isInstallerAsset(asset.name))
 				.map((asset) => asset.browser_download_url),
 	};
 }
