@@ -171,6 +171,7 @@ export async function getLatestRelease(options: LatestReleaseOptions) {
 		tag: release.tag_name.replace(/^v/, ''),
 		rawTag: release.tag_name,
 		title: release.name,
+		assets: release.assets,
 		assetNames: () => release.assets.map((asset) => asset.name),
 		urls: () =>
 			release.assets
