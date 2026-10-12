@@ -3,8 +3,6 @@
 	"strategy": "github-release",
 	"github": { "owner": "Timthreetwelve", "repo": "GetMyIP" },
 	"urls": [
-		"https://github.com/Timthreetwelve/GetMyIP/releases/download/v{version}/GetMyIP_{version}_SC_x86_Setup.exe",
-		"https://github.com/Timthreetwelve/GetMyIP/releases/download/v{version}/GetMyIP_{version}_SC_x86_Portable.zip",
 		"https://github.com/Timthreetwelve/GetMyIP/releases/download/v{version}/GetMyIP_{version}_SC_x64_Setup.exe",
 		"https://github.com/Timthreetwelve/GetMyIP/releases/download/v{version}/GetMyIP_{version}_SC_x64_Portable.zip"
 	],
