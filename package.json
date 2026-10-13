@@ -73,5 +73,5 @@
 		"vitest": "5.0.3",
 		"zod-compiler": "2.0.7"
 	},
-	"packageManager": "bun@1.4.2"
+	"packageManager": "bun@1.4.3"
 }
