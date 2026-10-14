@@ -26,7 +26,7 @@ jobs:
         uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           version: 2026.10.3
-          install_args: zizmor actionlint shellcheck
+          install_args: zizmor jactionlint shellcheck
 
       - parallel:
           - name: Run zizmor 🌈
@@ -35,14 +35,10 @@ jobs:
             env:
               ZIZMOR_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          - name: Run actionlint
+          - name: Run jactionlint
             continue-on-error: true
             run: |
-              actionlint -format "$(cat .github/actionlint-sarif.txt)" -color \
-                -ignore 'label "ubuntu-26\.04-arm" is unknown' \
-                -ignore 'reusable workflow call "\$/\.github/workflows/[^" ]+\.yml".*not following the format' \
-                -ignore 'step must run script with "run" section or run action with "uses" section' \
-                > actionlint.sarif
+              jactionlint --format sarif > jactionlint.sarif
 
       - parallel:
           - name: Upload zizmor SARIF file
@@ -51,8 +47,8 @@ jobs:
               sarif_file: zizmor.sarif
               category: zizmor
 
-          - name: Upload actionlint SARIF file
+          - name: Upload jactionlint SARIF file
             uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
             with:
-              sarif_file: actionlint.sarif
-              category: actionlint
+              sarif_file: jactionlint.sarif
+              category: jactionlint

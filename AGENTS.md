@@ -22,5 +22,5 @@ Prefer a JSON shard whenever the update can be expressed declaratively.
 
 Run `bun start` only when a full shard run is necessary.
 
-Changes to GitHub Actions must pass `actionlint` and `zizmor` as configured in
+Changes to GitHub Actions must pass `jactionlint` and `zizmor` as configured in
 `.github/workflows/lint-actions.yml`.

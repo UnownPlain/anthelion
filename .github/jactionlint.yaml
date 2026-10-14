@@ -1,0 +1,2 @@
+# Keep the existing correctness checks; zizmor handles security policy.
+profile: correctness
