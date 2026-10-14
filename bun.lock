@@ -14,7 +14,7 @@
         "ky": "2.2.0",
         "octokit": "5.0.5",
         "txml": "6.0.3",
-        "zod": "4.6.5",
+        "zod": "4.6.6",
       },
       "devDependencies": {
         "@types/bun": "1.4.2",
@@ -503,7 +503,7 @@
 
     "yuku-parser": ["yuku-parser@0.19.0", "", { "dependencies": { "@yuku-toolchain/types": "^0.19.0", "yuku-core": "0.19.0" } }, "sha512-XrBh9ZiQK5mJVRxZBAvD6LwRyAYrK3MFtH3+onyuxFL5hFD44EC3QOmIC1FjTj6H2MMwq46/NAI+NZxLZPZgxg=="],
 
-    "zod": ["zod@4.6.5", "", {}, "sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q=="],
+    "zod": ["zod@4.6.6", "", {}, "sha512-4UmzQUF5fxvfcYHlbjBmejU+w+hbDnWFx4aS8kBx7nPBHcO2SqPbpAG8snbdg+Xse4pRefR98hgjFgIMCI/UhA=="],
 
     "zod-compiler": ["zod-compiler@2.0.7", "", { "dependencies": { "@jridgewell/remapping": "^2.3.5", "acorn": "^8.16.0", "es-module-lexer": "^2.3.1", "get-tsconfig": "^4.14.0", "jiti": "^2.7.0", "magic-string": "^0.30.21", "picomatch": "^4.0.4", "unplugin": "^3.0.0" }, "peerDependencies": { "@rsbuild/core": "^1.0.0 || ^2.0.0", "@swc/core": ">=1.3.0", "zod": "^4.5.0" }, "optionalPeers": ["@rsbuild/core", "@swc/core"], "bin": { "zod-compiler": "dist/cli/index.js" } }, "sha512-wjouyQzwW45KnU1ChPivEFX1AcmWum5Qu0S7XBYqmEuaoDcF/0RBFJjxfgPOVoeZRuPGwngJJisd4or04WCALA=="],
 
