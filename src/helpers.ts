@@ -216,10 +216,18 @@ export async function checkVersionInRepo(options: {
 				cache: 'no-store',
 				throwHttpErrors: false,
 			})
-		: await ky.head(jsdelivrUrl, {
-				cache: 'no-store',
-				throwHttpErrors: false,
-			});
+		: await ky
+				.head(jsdelivrUrl, {
+					cache: 'no-store',
+					timeout: 500,
+					retry: 0,
+				})
+				.catch(() =>
+					ky.head(githubUrl, {
+						cache: 'no-store',
+						throwHttpErrors: false,
+					}),
+				);
 
 	if (response.ok && !process.env.DRY_RUN && !options.ignoreOtherPrs) {
 		logger.present(options.version);
