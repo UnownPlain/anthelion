@@ -1,8 +1,11 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
-	"strategy": "github-release",
-	"github": { "owner": "ShianMike", "repo": "SHARPpy-Reimagined" },
+	"strategy": "tauri",
+	"tauri": {
+		"url": "https://github.com/ShianMike/SHARPpy-Reimagined/releases/latest/download/latest.json"
+	},
 	"urls": [
-		"https://github.com/ShianMike/SHARPpy-Reimagined/releases/download/v{version}/SHARPpy-Reimagined-v{version}-windows-x64-portable.exe"
+		"platforms.windows-x86_64.url",
+		"https://github.com/ShianMike/SHARPpy-Reimagined/releases/download/v{version}/SHARPpy-Reimagined-v{version}-windows-x64.zip"
 	]
 }
