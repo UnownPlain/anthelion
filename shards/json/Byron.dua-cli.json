@@ -1,7 +1,12 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
-	"github": { "owner": "Byron", "repo": "dua-cli" },
+	"github": {
+		"owner": "Byron",
+		"repo": "dua-cli",
+		"method": "api-list",
+		"tagRegex": "^v"
+	},
 	"urls": [
 		"https://github.com/Byron/dua-cli/releases/download/v{version}/dua-v{version}-i686-pc-windows-msvc.zip",
 		"https://github.com/Byron/dua-cli/releases/download/v{version}/dua-v{version}-x86_64-pc-windows-msvc.zip",
