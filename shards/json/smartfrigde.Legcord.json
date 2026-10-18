@@ -5,7 +5,6 @@
 		"url": "https://github.com/Legcord/Legcord/releases/latest/download/latest.yml"
 	},
 	"urls": [
-		"https://github.com/Legcord/Legcord/releases/download/v{version}/Legcord-{version}-win-ia32.exe",
 		"https://github.com/Legcord/Legcord/releases/download/v{version}/Legcord-{version}-win-x64.exe",
 		"https://github.com/Legcord/Legcord/releases/download/v{version}/Legcord-{version}-win-arm64.exe"
 	]
