@@ -5,7 +5,7 @@
     "": {
       "name": "anthelion",
       "dependencies": {
-        "@ai-sdk/groq": "4.0.58",
+        "@ai-sdk/groq": "4.0.62",
         "@rcompat/fs": "0.35.3",
         "@unownplain/anthelion-komac": "0.0.72",
         "ai": "7.0.142",
@@ -31,11 +31,11 @@
   "packages": {
     "@ai-sdk/gateway": ["@ai-sdk/gateway@4.0.115", "", { "dependencies": { "@ai-sdk/provider": "4.0.28", "@ai-sdk/provider-utils": "5.0.61", "@vercel/oidc": "3.2.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-Xn+gDWM4Ti2FzYmxhlZtjEuGBGZlOYaQMpwcVRSN4c9qCMUszD5F5TAbkxgLV/tHKeMfEX+WEuTCl6Kkj2r73A=="],
 
-    "@ai-sdk/groq": ["@ai-sdk/groq@4.0.58", "", { "dependencies": { "@ai-sdk/provider": "4.0.25", "@ai-sdk/provider-utils": "5.0.57" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-Y2rxNreSaWdlGW3pQz5/rEexdYxUvilaKGKBvwdVoTX0a7Z5AY4meLgaLwUqYD/qgc0g5bX0pISNtwGlCw0veg=="],
+    "@ai-sdk/groq": ["@ai-sdk/groq@4.0.62", "", { "dependencies": { "@ai-sdk/provider": "4.0.28", "@ai-sdk/provider-utils": "5.0.61" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-0RylnxfFajAZzWTtqaiKTQltTbnf843pGjdZnF4v+S3vnP2SJ+TlWRLA7W4bk+vL8NQJ1g8iHadzIS4MxXqWZg=="],
 
-    "@ai-sdk/provider": ["@ai-sdk/provider@4.0.25", "", { "dependencies": { "json-schema": "^0.4.0" } }, "sha512-vG0l7MUavfhn6c5+Z0y1/E6lKUrzecsLtFkuIknnHjAGAIiuwFDucafzebJuFVTZcLyhf8qhYYU2zeKP55Mymw=="],
+    "@ai-sdk/provider": ["@ai-sdk/provider@4.0.28", "", { "dependencies": { "json-schema": "^0.4.0" } }, "sha512-6ThcmkJQXSMlBrf6mirIjUUS04Q5/kApbYTOzd5lZfYXLa1XPpnDLxP/G96/DKc00fDIUOW9S2ls0mSzb0+l9w=="],
 
-    "@ai-sdk/provider-utils": ["@ai-sdk/provider-utils@5.0.57", "", { "dependencies": { "@ai-sdk/provider": "4.0.25", "@standard-schema/spec": "^1.1.0", "@workflow/serde": "4.1.0", "eventsource-parser": "^3.0.8", "undici": "^7.29.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-giQ9mNwVzYUbahU2DG1FWEjXkDU8D8Hitz7Rk4AlRGtqh8Ss48msQ9+wEAXquWs/GYOETzxMMFsgcHK0i7TbUQ=="],
+    "@ai-sdk/provider-utils": ["@ai-sdk/provider-utils@5.0.61", "", { "dependencies": { "@ai-sdk/provider": "4.0.28", "@standard-schema/spec": "^1.1.0", "@workflow/serde": "4.1.0", "eventsource-parser": "^3.0.8", "undici": "^7.29.0" }, "peerDependencies": { "zod": "^3.25.76 || ^4.1.8" } }, "sha512-Y+Z3539UXw0ctFDNepTtG23VqBQHr2A6yI2qUxvQcg75DJYgJoD2F9U2Vp5OgQjX7lxto1BLgFtKuOhzrr52vQ=="],
 
     "@jridgewell/gen-mapping": ["@jridgewell/gen-mapping@0.3.13", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA=="],
 
