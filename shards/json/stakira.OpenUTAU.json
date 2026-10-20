@@ -7,7 +7,6 @@
 	},
 	"urls": [
 		"https://github.com/stakira/OpenUtau/releases/download/{version}/OpenUtau-win-x64.exe",
-		"https://github.com/stakira/OpenUtau/releases/download/{version}/OpenUtau-win-x86.exe",
 		"https://github.com/stakira/OpenUtau/releases/download/{version}/OpenUtau-win-arm64.exe"
 	]
 }
