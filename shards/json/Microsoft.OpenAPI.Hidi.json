@@ -4,7 +4,7 @@
 	"github": {
 		"owner": "microsoft",
 		"repo": "OpenAPI.NET",
-		"method": "api-latest",
+		"method": "api-sort",
 		"assetRegex": "^Microsoft\\.OpenApi\\.Hidi\\.exe$"
 	},
 	"version": "{version}.0"
