@@ -2,10 +2,8 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "page-match",
 	"pageMatch": {
-		"url": "https://o.steinberg.net/en/support/downloads_hardware/yamaha_steinberg_usb_driver.html",
-		"regex": "yamaha[._-]steinberg[._-]usb[._-]driver[/\\\\]win[/\\\\](\\d+(?:\\.\\d+)+)[/\\\\]"
+		"url": "https://uk.yamaha.com/en/support/updates/yamaha-steinberg-usb-driver-for-win.html",
+		"regex": "<h1\\b[^>]*\\bid=[\"']d(?<downloadId>\\d+)[\"'][^>]*>Yamaha Steinberg USB Driver V(?<version>\\d+(?:\\.\\d+)+) for Windows\\b"
 	},
-	"urls": [
-		"https://download.steinberg.net/downloads_hardware/Yamaha_Steinberg_USB_Driver/Win/{version}/YSUSB_V{version|.|}_Win.zip"
-	]
+	"urls": ["https://uk.yamaha.com/en/download/files/{captures.downloadId}/"]
 }
