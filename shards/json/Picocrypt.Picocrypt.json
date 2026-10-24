@@ -2,5 +2,9 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
 	"github": { "owner": "Picocrypt", "repo": "Picocrypt" },
-	"urls": ["https://github.com/Picocrypt/Picocrypt/releases/download/{version}/Picocrypt.exe"]
+	"urls": ["https://github.com/Picocrypt/Picocrypt/releases/download/{version}/Picocrypt.exe"],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

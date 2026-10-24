@@ -4,5 +4,9 @@
 	"github": { "owner": "git-lfs", "repo": "git-lfs" },
 	"urls": [
 		"https://github.com/git-lfs/git-lfs/releases/download/v{version}/git-lfs-windows-v{version}.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

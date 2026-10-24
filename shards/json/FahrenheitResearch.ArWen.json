@@ -4,5 +4,9 @@
 	"github": { "owner": "FahrenheitResearch", "repo": "arwen" },
 	"urls": [
 		"https://github.com/FahrenheitResearch/arwen/releases/download/v{version}/gpuwm-bridges-v{version}-win-x86_64.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

@@ -4,5 +4,9 @@
 	"github": { "owner": "FahrenheitResearch", "repo": "nexview" },
 	"urls": [
 		"https://github.com/FahrenheitResearch/nexview/releases/download/v{version}/NexView-Windows-x64.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

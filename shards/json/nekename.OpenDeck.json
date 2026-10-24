@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/nekename/OpenDeck/releases/download/v{version}/OpenDeck_{version}_x64-setup.exe",
 		"https://github.com/nekename/OpenDeck/releases/download/v{version}/OpenDeck_{version}_x64_en-US.msi"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

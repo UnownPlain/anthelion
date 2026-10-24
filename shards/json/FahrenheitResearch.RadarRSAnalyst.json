@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/FahrenheitResearch/radar-rs-analyst/releases/download/v{version}/radar-rs-analyst-windows-x64.zip",
 		"https://github.com/FahrenheitResearch/radar-rs-analyst/releases/download/v{version}/radar-rs-analyst-windows-arm64.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

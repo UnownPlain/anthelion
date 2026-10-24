@@ -4,5 +4,9 @@
 	"github": { "owner": "feather-wallet", "repo": "feather" },
 	"urls": [
 		"https://github.com/feather-wallet/feather/releases/download/{version}/FeatherWalletSetup-{version}.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

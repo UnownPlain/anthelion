@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/thonny/thonny/releases/download/v{version}/thonny-{version}-x64.exe",
 		"https://github.com/thonny/thonny/releases/download/v{version}/thonny-{version}-arm64.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

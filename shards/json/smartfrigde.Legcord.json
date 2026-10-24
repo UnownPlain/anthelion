@@ -7,5 +7,12 @@
 	"urls": [
 		"https://github.com/Legcord/Legcord/releases/download/v{version}/Legcord-{version}-win-x64.exe",
 		"https://github.com/Legcord/Legcord/releases/download/v{version}/Legcord-{version}-win-arm64.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"owner": "Legcord",
+		"repo": "Legcord",
+		"tag": "v{version}",
+		"cleanup": true
+	}
 }

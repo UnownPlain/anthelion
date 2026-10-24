@@ -4,5 +4,9 @@
 	"github": { "owner": "oracle", "repo": "oci-cli" },
 	"urls": [
 		"https://github.com/oracle/oci-cli/releases/download/v{version}/oci-cli-{version}-Windows-Server-Installer.msi"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

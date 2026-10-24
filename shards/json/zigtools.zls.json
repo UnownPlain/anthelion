@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/zigtools/zls/releases/download/{version}/zls-x86_64-windows.zip",
 		"https://github.com/zigtools/zls/releases/download/{version}/zls-aarch64-windows.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

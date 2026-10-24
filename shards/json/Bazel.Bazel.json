@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/bazelbuild/bazel/releases/download/{version}/bazel-{version}-windows-arm64.exe",
 		"https://github.com/bazelbuild/bazel/releases/download/{version}/bazel-{version}-windows-x86_64.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

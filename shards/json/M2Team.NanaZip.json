@@ -4,5 +4,9 @@
 	"github": { "owner": "M2Team", "repo": "NanaZip" },
 	"urls": [
 		"https://github.com/M2Team/NanaZip/releases/download/{version}/NanaZip_{version}.msixbundle"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

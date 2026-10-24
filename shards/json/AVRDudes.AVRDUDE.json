@@ -6,5 +6,9 @@
 		"repo": "avrdude",
 		"method": "api-latest",
 		"assetRegex": "windows[-_.](?:x86|x64|arm64)\\.zip$"
+	},
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
 	}
 }

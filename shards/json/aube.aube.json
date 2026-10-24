@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/aubepkg/aube/releases/download/v{version}/aube-v{version}-x86_64-pc-windows-msvc.zip",
 		"https://github.com/aubepkg/aube/releases/download/v{version}/aube-v{version}-aarch64-pc-windows-msvc.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

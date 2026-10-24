@@ -4,5 +4,9 @@
 	"github": { "owner": "js8call", "repo": "js8call" },
 	"urls": [
 		"https://github.com/js8call/js8call/releases/download/v{version}/js8call-{version}-win64.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

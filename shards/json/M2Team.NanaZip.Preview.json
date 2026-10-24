@@ -10,5 +10,9 @@
 	},
 	"urls": [
 		"https://github.com/M2Team/NanaZip/releases/download/{version}/NanaZipPreview_{version}.msixbundle"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

@@ -4,5 +4,9 @@
 	"github": { "owner": "buildpacks", "repo": "pack" },
 	"urls": [
 		"https://github.com/buildpacks/pack/releases/download/v{version}/pack-v{version}-windows.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

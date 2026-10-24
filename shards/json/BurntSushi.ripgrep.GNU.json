@@ -4,5 +4,9 @@
 	"github": { "owner": "BurntSushi", "repo": "ripgrep" },
 	"urls": [
 		"https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-x86_64-pc-windows-gnu.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

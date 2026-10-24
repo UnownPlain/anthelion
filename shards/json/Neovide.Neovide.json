@@ -2,5 +2,9 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
 	"github": { "owner": "neovide", "repo": "neovide" },
-	"urls": ["https://github.com/neovide/neovide/releases/download/{version}/neovide.msi"]
+	"urls": ["https://github.com/neovide/neovide/releases/download/{version}/neovide.msi"],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

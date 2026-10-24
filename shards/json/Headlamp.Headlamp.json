@@ -11,5 +11,9 @@
 		"https://github.com/kubernetes-sigs/headlamp/releases/download/v{version}/Headlamp-{version}-win-x64.exe",
 		"https://github.com/kubernetes-sigs/headlamp/releases/download/v{version}/Headlamp-{version}-win-x64.msi",
 		"https://github.com/kubernetes-sigs/headlamp/releases/download/v{version}/Headlamp-{version}-win-arm64.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

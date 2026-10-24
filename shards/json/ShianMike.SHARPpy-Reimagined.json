@@ -7,5 +7,12 @@
 	"urls": [
 		"platforms.windows-x86_64.url",
 		"https://github.com/ShianMike/SHARPpy-Reimagined/releases/download/v{version}/SHARPpy-Reimagined-v{version}-windows-x64.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"owner": "ShianMike",
+		"repo": "SHARPpy-Reimagined",
+		"tag": "v{version}",
+		"cleanup": true
+	}
 }

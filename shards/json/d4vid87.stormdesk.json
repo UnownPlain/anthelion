@@ -7,5 +7,12 @@
 	"urls": [
 		"https://github.com/d4vid87/stormdesk/releases/download/v{version}/StormDesk_{version}_x64-setup.exe",
 		"https://github.com/d4vid87/stormdesk/releases/download/v{version}/StormDesk_{version}_x64_en-US.msi"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"owner": "d4vid87",
+		"repo": "stormdesk",
+		"tag": "v{version}",
+		"cleanup": true
+	}
 }

@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/neovim/neovim/releases/download/v{version}/nvim-win64.msi",
 		"https://github.com/neovim/neovim/releases/download/v{version}/nvim-win-arm64.msi"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

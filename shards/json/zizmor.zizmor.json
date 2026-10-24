@@ -4,5 +4,9 @@
 	"github": { "owner": "zizmorcore", "repo": "zizmor" },
 	"urls": [
 		"https://github.com/zizmorcore/zizmor/releases/download/v{version}/zizmor-x86_64-pc-windows-msvc.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

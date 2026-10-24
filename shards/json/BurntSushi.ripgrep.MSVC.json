@@ -6,5 +6,9 @@
 		"https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-i686-pc-windows-msvc.zip",
 		"https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-x86_64-pc-windows-msvc.zip",
 		"https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-aarch64-pc-windows-msvc.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

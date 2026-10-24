@@ -6,5 +6,9 @@
 		"repo": "windows-builds",
 		"method": "api-latest",
 		"assetRegex": "^streamlink-.*\\.exe$"
+	},
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
 	}
 }

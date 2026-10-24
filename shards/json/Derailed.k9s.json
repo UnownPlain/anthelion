@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/derailed/k9s/releases/download/v{version}/k9s_Windows_amd64.zip",
 		"https://github.com/derailed/k9s/releases/download/v{version}/k9s_Windows_arm64.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

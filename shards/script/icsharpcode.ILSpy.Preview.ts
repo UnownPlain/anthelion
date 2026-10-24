@@ -1,5 +1,6 @@
 import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers';
+import { ReleaseNotesSource } from '@/schema/release-notes.ts';
 import { defineShard } from '@/schema/script-shard.ts';
 
 export default defineShard(async () => {
@@ -19,5 +20,12 @@ export default defineShard(async () => {
 	return {
 		version,
 		urls,
+		releaseNotes: {
+			source: ReleaseNotesSource.Github,
+			owner: 'icsharpcode',
+			repo: 'ILSpy',
+			tag: release.rawTag,
+			cleanup: true,
+		},
 	};
 });

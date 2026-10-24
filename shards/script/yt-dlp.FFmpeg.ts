@@ -1,12 +1,15 @@
 import { getLatestRelease } from '@/github.ts';
 import { match } from '@/helpers.ts';
+import { ReleaseNotesSource } from '@/schema/release-notes.ts';
 import { defineShard } from '@/schema/script-shard.ts';
 
 export default defineShard(async () => {
+	const owner = 'yt-dlp';
+	const repo = 'FFmpeg-Builds';
 	const date = Temporal.Now.plainDateISO().add({ days: 1 }).with({ day: 1 }).subtract({ days: 1 });
 	const release = await getLatestRelease({
-		owner: 'yt-dlp',
-		repo: 'FFmpeg-Builds',
+		owner,
+		repo,
 		tagRegex: date.toString(),
 	});
 
@@ -25,5 +28,12 @@ export default defineShard(async () => {
 	return {
 		version,
 		urls,
+		releaseNotes: {
+			source: ReleaseNotesSource.Github,
+			owner,
+			repo,
+			tag: release.rawTag,
+			cleanup: true,
+		},
 	};
 });

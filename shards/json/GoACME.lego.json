@@ -6,5 +6,9 @@
 		"https://github.com/go-acme/lego/releases/download/v{version}/lego_v{version}_windows_386.zip",
 		"https://github.com/go-acme/lego/releases/download/v{version}/lego_v{version}_windows_amd64.zip",
 		"https://github.com/go-acme/lego/releases/download/v{version}/lego_v{version}_windows_arm64.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

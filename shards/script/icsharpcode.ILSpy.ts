@@ -1,3 +1,4 @@
+import { ReleaseNotesSource } from '@/schema/release-notes.ts';
 import { defineShard } from '@/schema/script-shard.ts';
 import { pageMatch } from '@/strategies.ts';
 
@@ -17,5 +18,12 @@ export default defineShard(async () => {
 	return {
 		version,
 		urls,
+		releaseNotes: {
+			source: ReleaseNotesSource.Github,
+			owner: 'icsharpcode',
+			repo: 'ILSpy',
+			tag: releaseTag,
+			cleanup: true,
+		},
 	};
 });

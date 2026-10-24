@@ -4,5 +4,9 @@
 	"github": { "owner": "FahrenheitResearch", "repo": "GenericRadar" },
 	"urls": [
 		"https://github.com/FahrenheitResearch/GenericRadar/releases/download/v{version}/GenericRadar.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

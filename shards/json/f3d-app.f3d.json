@@ -4,5 +4,9 @@
 	"github": { "owner": "f3d-app", "repo": "f3d" },
 	"urls": [
 		"https://github.com/f3d-app/f3d/releases/download/v{version}/F3D-{version}-Windows-x86_64.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

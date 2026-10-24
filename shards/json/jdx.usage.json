@@ -5,5 +5,9 @@
 	"urls": [
 		"https://github.com/jdx/usage/releases/download/v{version}/usage-x86_64-pc-windows-msvc.zip",
 		"https://github.com/jdx/usage/releases/download/v{version}/usage-aarch64-pc-windows-msvc.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

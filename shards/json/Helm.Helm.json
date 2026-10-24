@@ -5,5 +5,9 @@
 	"urls": [
 		"https://get.helm.sh/helm-v{version}-windows-amd64.zip",
 		"https://get.helm.sh/helm-v{version}-windows-arm64.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }

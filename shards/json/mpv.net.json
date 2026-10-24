@@ -4,5 +4,9 @@
 	"github": { "owner": "mpvnet-player", "repo": "mpv.net" },
 	"urls": [
 		"https://github.com/mpvnet-player/mpv.net/releases/download/v{version}/mpv.net-v{version}-setup-x64.exe"
-	]
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	}
 }
