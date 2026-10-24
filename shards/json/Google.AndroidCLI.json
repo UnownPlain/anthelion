@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://dl.google.com/android/cli/latest/windows_x86_64/METADATA",
+		"regex": "(?:^|[\\r\\n])version=(\\d+(?:\\.\\d+)+)(?:[\\r\\n]|$)"
+	},
+	"urls": ["https://dl.google.com/android/cli/{version}/windows_x86_64/android.exe"],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://developer.android.com/tools/agents/android-cli/release-notes#version-{version|.|-}"
+	}
+}
