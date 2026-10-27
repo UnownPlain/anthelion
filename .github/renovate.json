@@ -40,6 +40,10 @@
 			"groupName": "oxc ecosystem"
 		},
 		{
+			"matchPackageNames": ["typescript"],
+			"allowedVersions": "!/-dev/"
+		},
+		{
 			"description": "Disable minimum release age checks for internal dependencies",
 			"matchPackageNames": ["@unownplain/*", "UnownPlain/*"],
 			"minimumReleaseAge": null
