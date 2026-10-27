@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "VirusTotal", "repo": "yara-x" },
+	"urls": [
+		"https://github.com/VirusTotal/yara-x/releases/download/v{version}/yara-x-v{version}-x86_64-pc-windows-msvc.zip"
+	]
+}
