@@ -5,5 +5,8 @@
 		"url": "https://mikrotik.com/download/winbox",
 		"regex": "download\\.mikrotik\\.com/routeros/winbox/(\\d+(?:\\.\\d+)+)/WinBox_Windows\\.zip"
 	},
-	"urls": ["https://download.mikrotik.com/routeros/winbox/{version}/WinBox_Windows.zip"]
+	"urls": [
+		"https://download.mikrotik.com/routeros/winbox/{version}/WinBox_Windows.zip",
+		"https://download.mikrotik.com/routeros/winbox/{version}/WinBox_Windows_arm64.zip"
+	]
 }
