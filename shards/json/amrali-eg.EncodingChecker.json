@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "amrali-eg", "repo": "EncodingChecker" },
+	"urls": [
+		"https://github.com/amrali-eg/EncodingChecker/releases/download/v{version}/EncodingChecker-{version}-framework-dependent.zip"
+	],
+	"releaseNotes": {
+		"source": "markdown",
+		"sourceUrl": "https://raw.githubusercontent.com/amrali-eg/EncodingChecker/v{version}/docs/RELEASE-NOTES-v{version}.md",
+		"releaseNotesUrl": "https://github.com/amrali-eg/EncodingChecker/blob/v{version}/docs/RELEASE-NOTES-v{version}.md",
+		"cleanup": false
+	}
+}
