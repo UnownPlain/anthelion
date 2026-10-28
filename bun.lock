@@ -6,7 +6,7 @@
       "name": "anthelion",
       "dependencies": {
         "@ai-sdk/groq": "4.0.69",
-        "@rcompat/fs": "0.37.0",
+        "@rcompat/fs": "0.38.0",
         "@unownplain/anthelion-komac": "0.0.76",
         "ai": "7.0.150",
         "ansis": "4.4.0",
@@ -189,15 +189,15 @@
 
     "@quansync/fs": ["@quansync/fs@1.1.0", "", { "dependencies": { "quansync": "^1.0.0" } }, "sha512-qAPG/t3HqML1TlN7sY/pTbEjzFVAKsMjNNMGheyDosro+kT4iw2KCUoHcVdmliwWjorm4elZbgNQyU2eD97eDg=="],
 
-    "@rcompat/assert": ["@rcompat/assert@0.15.0", "", { "dependencies": { "@rcompat/error": "^0.10.0", "@rcompat/is": "^0.13.0", "@rcompat/type": "^0.19.0" } }, "sha512-gqZS8+LLawo6h9tVssU0xJNgzLXb9v2ksIj3cjDMLu9v6y2e1eax6iBuI5ACx1J09gB92FB2W6oWpWTQO3wI4g=="],
+    "@rcompat/assert": ["@rcompat/assert@0.16.0", "", { "dependencies": { "@rcompat/error": "^0.11.0", "@rcompat/is": "^0.14.0", "@rcompat/type": "^0.19.0" } }, "sha512-rNxyTI4JATNMJTO9FEgOr4zIH4CJzqZZUtFwyjuis1TY+z2BYwEiEVrkYYrAsMHOEWLFcaoNQOIq4jiDg+TRTQ=="],
 
-    "@rcompat/dict": ["@rcompat/dict@0.12.0", "", { "dependencies": { "@rcompat/assert": "^0.15.0", "@rcompat/is": "^0.13.0" } }, "sha512-UMbWQR/0Uo3a7mobAgJf/Xo7K5jITIyuFY/nO/c5pdQcwjRTs13JiKI3nga7uv4mLIC35qJFwN/dyJOYCijsPg=="],
+    "@rcompat/dict": ["@rcompat/dict@0.13.0", "", { "dependencies": { "@rcompat/assert": "^0.16.0", "@rcompat/is": "^0.14.0" } }, "sha512-j6vnJ9T9wbNdJN4/i67TOIv+V9Lo+8yTV14W0dvlwfyPNcklm49yJORUPFVQxQ9833GwBTMD09bq8/fSxl4jOQ=="],
 
-    "@rcompat/error": ["@rcompat/error@0.10.0", "", { "dependencies": { "@rcompat/is": "^0.13.0", "@rcompat/type": "^0.19.0" } }, "sha512-AIZwkGTFa1SL0TlQYDvof2AXXhtkiKOkqhl+Cb0kEI5fWmj+vcUh1cVmkxs+uYP4bUprxzn6Jb+72mo76R2fgA=="],
+    "@rcompat/error": ["@rcompat/error@0.11.0", "", { "dependencies": { "@rcompat/is": "^0.14.0", "@rcompat/type": "^0.19.0" } }, "sha512-aHu77KGuO0ZYC+5P2ePQxeyJu+lA5eZyzXdTjAjWhQz9Pkc07QfDYtlj3c0IZbLrQCtiA9SamBBSItd8lnksmQ=="],
 
-    "@rcompat/fs": ["@rcompat/fs@0.37.0", "", { "dependencies": { "@rcompat/assert": "^0.15.0", "@rcompat/dict": "^0.12.0", "@rcompat/error": "^0.10.0", "@rcompat/is": "^0.13.0" } }, "sha512-mRjphTzliWlSj3XZtcO+fr0nyyOgURDhyn8kBYr6qTZcCwQC2NzQfO0Yh17EhbnyXpKc/+U068fFZqMfFELD2g=="],
+    "@rcompat/fs": ["@rcompat/fs@0.38.0", "", { "dependencies": { "@rcompat/assert": "^0.16.0", "@rcompat/dict": "^0.13.0", "@rcompat/error": "^0.11.0", "@rcompat/is": "^0.14.0" } }, "sha512-Vt8luc2flf9Mw8cARU05dFAAVbN3ZrIp0bwcm93zN1Rwe12JQgmmDpqsof/mp0IUgaKPjBpqunUhr5vy2DZhaw=="],
 
-    "@rcompat/is": ["@rcompat/is@0.13.0", "", {}, "sha512-ryC5R7M8Is6n1UyauUaBLqot+/7sEnJ87ABWy/8MWjsjPOfkwaI1oSTgGJaT8h2myV0/FKyk8kM2aKjPYK3/Mw=="],
+    "@rcompat/is": ["@rcompat/is@0.14.0", "", {}, "sha512-vBXpGDVjWZ03NCPUBdF1jQz0jdxDQ0tAR/mw3gC7DHNxBK7yNyxoEjSNhveCWV7ViUUyi3ltGPzgl5qAY+vPgQ=="],
 
     "@rcompat/type": ["@rcompat/type@0.19.0", "", {}, "sha512-ZlLi7YBIp/Tc0yOfkX9R+GP2GrnVS7snUXF2Fj3N12X5s2POwyPyT2gxNF1DX9Rprv6wl0UJUQvwMNvJcCFc1Q=="],
 
