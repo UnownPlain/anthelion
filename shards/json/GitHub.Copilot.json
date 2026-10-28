@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "github", "repo": "copilot-cli" },
+	"urls": [
+		"https://github.com/github/copilot-cli/releases/download/v{version}/copilot-x64.msi",
+		"https://github.com/github/copilot-cli/releases/download/v{version}/copilot-arm64.msi",
+		"https://github.com/github/copilot-cli/releases/download/v{version}/copilot-win32-x64.zip",
+		"https://github.com/github/copilot-cli/releases/download/v{version}/copilot-win32-arm64.zip"
+	]
+}
