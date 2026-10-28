@@ -25,5 +25,6 @@ export default defineShard(async () => {
 			tag: releaseTag,
 			cleanup: true,
 		},
+		ignoreOtherPrs: true,
 	};
 });
