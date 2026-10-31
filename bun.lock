@@ -6,7 +6,7 @@
       "name": "anthelion",
       "dependencies": {
         "@ai-sdk/groq": "4.0.69",
-        "@rcompat/fs": "0.38.0",
+        "@rcompat/fs": "0.39.0",
         "@unownplain/anthelion-komac": "0.0.78",
         "ai": "7.0.150",
         "ansis": "4.4.0",
@@ -195,7 +195,7 @@
 
     "@rcompat/error": ["@rcompat/error@0.11.0", "", { "dependencies": { "@rcompat/is": "^0.14.0", "@rcompat/type": "^0.19.0" } }, "sha512-aHu77KGuO0ZYC+5P2ePQxeyJu+lA5eZyzXdTjAjWhQz9Pkc07QfDYtlj3c0IZbLrQCtiA9SamBBSItd8lnksmQ=="],
 
-    "@rcompat/fs": ["@rcompat/fs@0.38.0", "", { "dependencies": { "@rcompat/assert": "^0.16.0", "@rcompat/dict": "^0.13.0", "@rcompat/error": "^0.11.0", "@rcompat/is": "^0.14.0" } }, "sha512-Vt8luc2flf9Mw8cARU05dFAAVbN3ZrIp0bwcm93zN1Rwe12JQgmmDpqsof/mp0IUgaKPjBpqunUhr5vy2DZhaw=="],
+    "@rcompat/fs": ["@rcompat/fs@0.39.0", "", { "dependencies": { "@rcompat/assert": "^0.16.0", "@rcompat/dict": "^0.13.0", "@rcompat/error": "^0.11.0", "@rcompat/is": "^0.14.0" } }, "sha512-pAAPw6kXJ2CaXYr5Kfcz1YrJV7YmGiQwr1fi8pPvgIUNrvHdPA4wXCWIdwqTfDvMvRVX5XossZl0eWOcEqroJQ=="],
 
     "@rcompat/is": ["@rcompat/is@0.14.0", "", {}, "sha512-vBXpGDVjWZ03NCPUBdF1jQz0jdxDQ0tAR/mw3gC7DHNxBK7yNyxoEjSNhveCWV7ViUUyi3ltGPzgl5qAY+vPgQ=="],
 
