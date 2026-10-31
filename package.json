@@ -68,10 +68,13 @@
 		"oxfmt": "0.75.0",
 		"oxlint": "1.90.0",
 		"oxlint-tsgolint": "7.0.2005",
-		"tsdown": "0.23.2",
+		"tsdown": "0.23.3",
 		"typescript": "7.1.0-beta",
 		"vitest": "5.0.5",
 		"zod-compiler": "2.0.7"
+	},
+	"overrides": {
+		"rolldown-plugin-dts": "0.29.0"
 	},
 	"packageManager": "bun@1.4.4"
 }
