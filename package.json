@@ -56,7 +56,7 @@
 		"@rcompat/fs": "0.39.1",
 		"@unownplain/anthelion-komac": "0.0.78",
 		"ai": "7.0.158",
-		"ansis": "4.4.0",
+		"ansis": "4.5.0",
 		"es-toolkit": "1.53.1",
 		"ky": "2.2.0",
 		"octokit": "5.0.5",
