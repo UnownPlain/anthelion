@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.progdvb.com/download_progdvb.html",
+		"regex": "href=[\"']https://files4\\.progdvb\\.com/progdvb/ProgDVB(\\d+(?:\\.\\d+)+)\\.x64\\.exe[\"']"
+	},
+	"urls": [
+		"https://files4.progdvb.com/progdvb/ProgDVB{version}.x64.exe",
+		"https://files4.progdvb.com/progdvb/ProgDVB{version}.Std.exe"
+	]
+}
