@@ -3,8 +3,8 @@
 	"strategy": "github-release",
 	"github": { "owner": "horsicq", "repo": "DIE-engine" },
 	"urls": [
-		"https://github.com/horsicq/DIE-engine/releases/download/{github.tag}/die_win64_portable_{version}_x64.zip",
-		"https://github.com/horsicq/DIE-engine/releases/download/{github.tag}/die_win32_portable_{version}_x86.zip"
+		"https://github.com/horsicq/DIE-engine/releases/download/{version}/die_win64_{version}.zip",
+		"https://github.com/horsicq/DIE-engine/releases/download/{version}/die_win32_{version}.zip"
 	],
 	"releaseNotes": {
 		"source": "plain-text",
