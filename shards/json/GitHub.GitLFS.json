@@ -3,7 +3,10 @@
 	"strategy": "github-release",
 	"github": { "owner": "git-lfs", "repo": "git-lfs" },
 	"urls": [
-		"https://github.com/git-lfs/git-lfs/releases/download/v{version}/git-lfs-windows-v{version}.exe"
+		"https://github.com/git-lfs/git-lfs/releases/download/v{version}/git-lfs-windows-v{version}.exe",
+		"https://github.com/git-lfs/git-lfs/releases/download/v{version}/git-lfs-windows-386-v{version}.zip",
+		"https://github.com/git-lfs/git-lfs/releases/download/v{version}/git-lfs-windows-amd64-v{version}.zip",
+		"https://github.com/git-lfs/git-lfs/releases/download/v{version}/git-lfs-windows-arm64-v{version}.zip"
 	],
 	"releaseNotes": {
 		"source": "github",
