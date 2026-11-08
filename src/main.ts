@@ -1,4 +1,4 @@
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 
 import fs, { type FileRef } from '@rcompat/fs';
 import { parseYaml, type UpdatePackageRequest } from '@unownplain/anthelion-komac';
@@ -6,7 +6,7 @@ import ansis from 'ansis';
 import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 
-import { getShardsDirectory } from '@/config';
+import { config, komac } from '@/config';
 import { installFetchCache } from '@/fetch-cache';
 import {
 	closeAllButMostRecentPR,
@@ -19,7 +19,6 @@ import {
 	getPath,
 	getShardTarget,
 	isStateMatching,
-	komac,
 	Logger,
 	normalizeVersion,
 	parseString,
@@ -46,7 +45,6 @@ import {
 
 installFetchCache();
 
-const MAX_CONCURRENCY = 256;
 export const SCRIPTS_FOLDER = 'script';
 export const JSON_FOLDER = 'json';
 
@@ -435,7 +433,7 @@ async function executeShard(file: FileRef) {
 			releaseNotes:
 				releaseNotes || releaseNotesUrl ? { text: releaseNotes, url: releaseNotesUrl } : undefined,
 			packageKind: font ? 'font' : 'auto',
-			mode: process.env.DRY_RUN ? 'generate' : 'submit',
+			mode: config.dryRun ? 'generate' : 'submit',
 		});
 
 		logger.logUpdateResult(updateResult);
@@ -462,7 +460,8 @@ async function executeShard(file: FileRef) {
 	}
 }
 
-export async function runAllShards(testShards?: string[], shardsDirectory = getShardsDirectory()) {
+export async function runAllShards(testShards?: string[]) {
+	const shardsDirectory = resolve(config.shardsDirectory);
 	async function listShards(directory: string): Promise<FileRef[]> {
 		const ref = fs.ref(directory);
 		return (await ref.exists()) ? ref.list() : [];
@@ -486,7 +485,9 @@ export async function runAllShards(testShards?: string[], shardsDirectory = getS
 
 	console.log(`Found ${shards.length} shards to run\n`);
 
-	const results = await Promise.allSettled(shards.map(limitAsync(executeShard, MAX_CONCURRENCY)));
+	const results = await Promise.allSettled(
+		shards.map(limitAsync(executeShard, config.concurrency)),
+	);
 
 	const failures = results.flatMap((result, i) => {
 		const file = shards[i];
@@ -496,7 +497,7 @@ export async function runAllShards(testShards?: string[], shardsDirectory = getS
 
 	const completed = `✅ Run completed: ${shards.length - failures.length}/${shards.length} shards successful`;
 
-	if (process.env.GITHUB_STEP_SUMMARY) {
+	if (config.stepSummary) {
 		const generatedManifests = results.flatMap((result) => {
 			if (result.status !== 'fulfilled') return [];
 			const updateResult = result.value.updateResult;
@@ -550,7 +551,7 @@ export async function runAllShards(testShards?: string[], shardsDirectory = getS
 
 		const summary = summarySections.join('\n');
 
-		await fs.ref(process.env.GITHUB_STEP_SUMMARY).write(summary);
+		await fs.ref(config.stepSummary).write(summary);
 	}
 
 	console.log(completed);

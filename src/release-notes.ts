@@ -1,16 +1,10 @@
-import { groq } from '@ai-sdk/groq';
 import { parseYaml, releaseNotesToPlainText } from '@unownplain/anthelion-komac';
-import { generateText } from 'ai';
+import { generateText, type LanguageModel, type ModelMessage } from 'ai';
+import { limitAsync } from 'es-toolkit';
 import ky from 'ky';
 
-import {
-	dedent,
-	getPath,
-	isHttpUrl,
-	komac,
-	parseString,
-	resolveValuePlaceholders,
-} from '@/helpers.ts';
+import { config, komac } from '@/config';
+import { dedent, getPath, isHttpUrl, parseString, resolveValuePlaceholders } from '@/helpers.ts';
 import {
 	browserRenderingOptionsSchema,
 	browserRenderingResponseSchema,
@@ -28,7 +22,7 @@ const CLEANUP_SYSTEM_PROMPT = dedent`
 
 	Return only the cleaned plain text. Do not return JSON, markdown fences, commentary, or an explanation. Return an empty response if the input does not contain release notes for the requested package and version.
 
-	Do not summarize the content and format the text verbatim. Place newlines between headers but not between bullet points.
+	Format the text verbatim. Place newlines between headers but not between bullet points.
 
 	Remove any unnecessary info such as:
 	- Headers such as "Release Notes", "<app_name> Release Notes", "<app_name> Release", "<version>", "<app_name> version", etc.
@@ -40,7 +34,7 @@ const CLEANUP_SYSTEM_PROMPT = dedent`
 	The package identifier is {packageIdentifier} and current package version is {version}. Only include the release notes for this version and package. If the package or version is not specified, assume it is the correct version or package.
 `;
 
-const ARCHITECTURE_OVERRIDE = /\|(?:arm|arm64|neutral|x64|x86)$/;
+const MAX_RELEASE_NOTES_LENGTH = 10_000;
 
 type ResolvedReleaseNotes = {
 	releaseNotes: string | undefined;
@@ -53,30 +47,65 @@ type DataSourceConfig = Extract<
 	{ source: ReleaseNotesSource.Json | ReleaseNotesSource.Yaml }
 >;
 
-async function cleanupReleaseNotes(
+let cleanup:
+	| ((
+			model: LanguageModel,
+			system: string,
+			messages: ModelMessage[],
+	  ) => ReturnType<typeof generateText>)
+	| undefined;
+
+export async function cleanupReleaseNotes(
 	releaseNotes: string,
 	version: string,
 	packageIdentifier: string,
 	characterLimit?: number,
 ) {
-	if (!process.env.GROQ_API_KEY) {
+	const cleanupConfig = config.releaseNotes;
+	if (!cleanupConfig?.model) {
 		return;
 	}
+	cleanup ??= limitAsync(
+		(model: LanguageModel, system: string, messages: ModelMessage[]) =>
+			generateText({ model, system, messages }),
+		cleanupConfig.concurrency,
+	);
+	const model =
+		typeof cleanupConfig.model === 'function' ? cleanupConfig.model() : cleanupConfig.model;
 
-	const { text } = await generateText({
-		model: groq('openai/gpt-oss-120b'),
-		system: CLEANUP_SYSTEM_PROMPT.replaceAll('{version}', version).replaceAll(
-			'{packageIdentifier}',
-			packageIdentifier,
-		),
-		prompt: limitLength(releaseNotes, characterLimit),
-		temperature: 0,
-	});
+	const system = CLEANUP_SYSTEM_PROMPT.replaceAll('{version}', version).replaceAll(
+		'{packageIdentifier}',
+		packageIdentifier,
+	);
+	const messages: ModelMessage[] = [
+		{ role: 'user', content: limitLength(releaseNotes, characterLimit) },
+	];
+	let result = await cleanup(model, system, [...messages]);
+	let text = result.text.trim();
 
-	return text.trim() || undefined;
+	if (text.length > MAX_RELEASE_NOTES_LENGTH && /\bfull\s+change\s*log\b/i.test(text)) {
+		messages.push(...result.responseMessages, {
+			role: 'user',
+			content:
+				'Remove the full changelog section, including its heading and contents. Preserve the rest of the release notes verbatim.',
+		});
+		result = await cleanup(model, system, [...messages]);
+		text = result.text.trim();
+	}
+
+	if (text.length > MAX_RELEASE_NOTES_LENGTH) {
+		messages.push(...result.responseMessages, {
+			role: 'user',
+			content: `Summarize these release notes to under ${MAX_RELEASE_NOTES_LENGTH} characters. Prioritize the main changes, fixes, and breaking changes. Return only the plain-text summary.`,
+		});
+		result = await cleanup(model, system, [...messages]);
+		text = result.text.trim();
+	}
+
+	return limitLength(text, MAX_RELEASE_NOTES_LENGTH) || undefined;
 }
 
-function emptyReleaseNotes(): ResolvedReleaseNotes {
+function emptyReleaseNotes() {
 	return {
 		releaseNotes: undefined,
 		releaseNotesUrl: undefined,
@@ -102,13 +131,13 @@ async function formatReleaseNotes(content: string, source: NestedReleaseNotesSou
 
 async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
 	const parsedOptions = browserRenderingOptionsSchema.parse(options);
-	const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN } = process.env;
+	const credentials = config.browserRendering;
 
-	if (!CLOUDFLARE_ACCOUNT_ID || !CLOUDFLARE_API_TOKEN) {
+	if (!credentials?.apiToken) {
 		return;
 	}
 
-	const endpoint = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/browser-rendering/markdown`;
+	const endpoint = `https://api.cloudflare.com/client/v4/accounts/${credentials.accountId}/browser-rendering/markdown`;
 	const requestBody = {
 		url: parsedOptions.url,
 		...(parsedOptions.waitUntil && {
@@ -121,7 +150,7 @@ async function fetchBrowserRenderedMarkdown(options: BrowserRenderingOptions) {
 
 	const response = await ky.post(endpoint, {
 		headers: {
-			authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+			authorization: `Bearer ${credentials.apiToken}`,
 		},
 		json: requestBody,
 		throwHttpErrors: false,
@@ -267,9 +296,7 @@ export async function resolveReleaseNotes(
 		};
 	}
 
-	const urlsToValidate = new Set(
-		installerUrls.map((url) => url.replace(ARCHITECTURE_OVERRIDE, '')),
-	);
+	const urlsToValidate = new Set(installerUrls);
 	if (urlsToValidate.size === 0) {
 		throw new Error('No installer URLs were resolved');
 	}

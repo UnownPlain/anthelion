@@ -2,12 +2,9 @@ import { extname } from 'node:path';
 
 import { delay } from 'es-toolkit';
 import ky from 'ky';
-import { Octokit } from 'octokit';
 
-import { getTargetRepository } from '@/config';
+import { config, githubClient } from '@/config';
 import { compareVersions } from '@/helpers';
-
-export const githubClient = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
 const INSTALLER_EXTENSIONS = new Set(['.exe', '.msi', '.msix', '.msixbundle', '.appx', '.zip']);
 const COMMIT_FEED_REGEX = /Grit::Commit\/([0-9a-f]{40})/;
@@ -192,33 +189,30 @@ export async function getReleaseByTag(options: GitHubRepository & { tag: string 
 }
 
 export async function getRepositoryHeadSha() {
-	const repository = process.env.GITHUB_REPOSITORY;
+	const repository = config.github?.repository;
 
 	if (!repository) {
-		throw new Error('Missing GITHUB_REPOSITORY environment variable');
+		throw new Error('Set github.repository in anthelion.config.ts');
 	}
 
-	const [owner, repo] = repository.split('/');
-	if (!owner || !repo) {
-		throw new Error('Invalid GITHUB_REPOSITORY format; expected owner/repo');
-	}
+	const { owner, repo, branch } = repository;
 
 	const { data } = await githubClient.rest.repos.getCommit({
 		owner,
 		repo,
-		ref: 'HEAD',
+		ref: branch,
 	});
 
 	return data.sha;
 }
 
 export async function closeAllButMostRecentPR(packageIdentifier: string) {
-	if (process.env.DRY_RUN) return;
+	if (config.dryRun) return;
 
 	// Wait for GitHub API to update
 	await delay(10_000);
 
-	const { owner, repo } = getTargetRepository();
+	const { owner, repo } = config.github.targetRepository;
 	const { viewer } = await githubClient.graphql<{ viewer: { login: string } }>(`
 		query {
 			viewer {

@@ -20,7 +20,7 @@ jobs:
     name: Remove Dead Versions
     runs-on: ubuntu-26.04-arm
     environment:
-      name: Production (gh only)
+      name: Production
       deployment: false
     timeout-minutes: 5
     steps:
@@ -52,4 +52,4 @@ jobs:
           done
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MAINTENANCE_TOKEN }}

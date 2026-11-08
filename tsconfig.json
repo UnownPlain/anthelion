@@ -1,5 +1,12 @@
 {
-	"include": ["src", "shards", "tests", "tsdown.config.ts", "vitest.config.ts"],
+	"include": [
+		"src",
+		"shards",
+		"tests",
+		"anthelion.config.ts",
+		"tsdown.config.ts",
+		"vitest.config.ts"
+	],
 
 	"compilerOptions": {
 		"paths": {

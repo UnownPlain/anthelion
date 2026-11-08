@@ -1,0 +1,14 @@
+diff --git a/package.json b/package.json
+index 9a6e3c0df03140b23046159005c9ce705475b55c..f42d727b986b035273224d54b4cab31b962b5721 100644
+--- a/package.json
++++ b/package.json
+@@ -61,9 +61,6 @@
+     "@ai-sdk/provider-utils": "^5.0.0",
+     "jsonc-parser": "^3.3.1"
+   },
+-  "optionalDependencies": {
+-    "@openai/codex": "^0.156.1"
+-  },
+   "devDependencies": {
+     "@eslint/js": "^9.14.0",
+     "@types/node": "^22.10.2",

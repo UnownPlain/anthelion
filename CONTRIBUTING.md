@@ -31,16 +31,10 @@ cp .env.example .env
 At minimum, a `GITHUB_TOKEN` with zero permissions is required. Bun loads `.env` automatically,
 and the file is ignored by Git. Never commit tokens.
 
-The other variables are needed only for the corresponding workflow:
-
-- `GITHUB_REPOSITORY_OWNER`, `GITHUB_REPOSITORY`, and `GITHUB_REF_NAME` identify the Anthelion
-  repository and branch whose `version-state` files are updated during a real run.
-- `KOMAC_FORK_OWNER` identifies the fork where komac creates branches for WinGet submissions.
-- `KOMAC_GITHUB_OWNER` and `KOMAC_GITHUB_REPO` override the target repository; they default to
-  `microsoft/winget-pkgs`.
-- `GROQ_API_KEY` is required only when release-note cleanup is enabled.
-- `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` are required only for
-  `browser-rendering` release notes.
+Edit `anthelion.config.ts` to override runtime settings. GitHub, Cloudflare, and CI settings
+default to environment variables, including secret tokens. Shard paths and all concurrency
+settings are configured only in this file. See [Runtime configuration](EXTERNAL.md#runtime-configuration)
+and [Provider configuration](EXTERNAL.md#provider-configuration).
 
 The GitHub token used for a real run must have permission to update the configured Anthelion
 repository, push to the komac fork, and open pull requests against the target repository. A focused
@@ -750,7 +744,7 @@ cleanup.
 not directly truncate the cleanup result and has no effect when cleanup is disabled. Use it for
 large changelogs so the cleanup request contains only the relevant leading content.
 
-When cleanup is enabled, `GROQ_API_KEY` must be available. If fetching or cleanup produces no
+When cleanup is enabled, configure an AI SDK model and its authentication. If fetching or cleanup produces no
 release notes, Anthelion omits both `ReleaseNotes` and `ReleaseNotesUrl`. A configuration containing
 only `releaseNotesUrl` is not fetched or cleaned and always supplies that manifest field.
 
