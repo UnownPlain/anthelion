@@ -1,0 +1,14 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "microsoft", "repo": "wassette" },
+	"urls": [
+		"https://github.com/microsoft/wassette/releases/download/v{version}/wassette_{version}_windows_amd64.zip",
+		"https://github.com/microsoft/wassette/releases/download/v{version}/wassette_{version}_windows_arm64.zip"
+	],
+	"releaseNotes": {
+		"source": "github",
+		"cleanup": true
+	},
+	"ignoreOtherPrs": true
+}
