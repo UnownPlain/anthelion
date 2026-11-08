@@ -8,6 +8,10 @@ on:
         description: Package IDs to test (space-separated)
         required: false
         type: string
+      komac-run-url:
+        description: Optional komac Actions run URL to test Node bindings from
+        required: false
+        type: string
 
 permissions: {}
 
@@ -67,6 +71,56 @@ jobs:
 
       - name: Install Dependencies
         run: bun ci --production
+
+      - name: Install Komac Node Bindings from Run
+        if: ${{ inputs.komac-run-url != '' }}
+        run: |
+          if [[ "$KOMAC_RUN_URL" =~ ^https://github\.com/unpn-org/Komac/actions/runs/([0-9]+)/?$ ]]; then
+            run_id="${BASH_REMATCH[1]}"
+          else
+            echo '::error::Expected a run URL like https://github.com/unpn-org/Komac/actions/runs/42461657593'
+            exit 1
+          fi
+
+          platform="$(bun -p 'process.platform')"
+          arch="$(bun -p 'process.arch')"
+          case "$arch" in
+            x64) target_arch=x86_64 ;;
+            arm64) target_arch=aarch64 ;;
+            *) echo "::error::Unsupported architecture: $arch"; exit 1 ;;
+          esac
+          case "$platform" in
+            linux)
+              libc="$(bun -p 'process.report.getReport().header.glibcVersionRuntime ? "gnu" : "musl"')"
+              target="$target_arch-unknown-linux-$libc"
+              ;;
+            darwin) target="$target_arch-apple-darwin" ;;
+            win32) target="$target_arch-pc-windows-msvc" ;;
+            *) echo "::error::Unsupported platform: $platform"; exit 1 ;;
+          esac
+
+          artifact_dir="$RUNNER_TEMP/komac-bindings"
+          gh run download "$run_id" --repo unpn-org/Komac \
+            --name "bindings-$target" --dir "$artifact_dir"
+
+          shopt -s nullglob
+          bindings=("$artifact_dir"/*.node)
+          if [[ "${#bindings[@]}" != 1 ]]; then
+            echo '::error::Expected exactly one native binding in the artifact'
+            exit 1
+          fi
+          binding="$(basename "${bindings[0]}")"
+          for file in index.js index.d.ts "$binding"; do
+            test -s "$artifact_dir/$file"
+          done
+
+          package_dir="$GITHUB_WORKSPACE/node_modules/@unownplain/anthelion-komac"
+          cp "$artifact_dir/index.js" "$artifact_dir/index.d.ts" "$artifact_dir/$binding" "$package_dir/"
+          # Force the selected binary so a load failure cannot fall back to npm.
+          echo "NAPI_RS_NATIVE_LIBRARY_PATH=$package_dir/$binding" >> "$GITHUB_ENV"
+        env:
+          KOMAC_RUN_URL: ${{ inputs.komac-run-url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test Packages
         run: |
