@@ -7,7 +7,9 @@
 		"https://github.com/ShareX/XerahS/releases/download/v{version}/XerahS-{version}-win-arm64.exe"
 	],
 	"releaseNotes": {
-		"source": "github",
-		"cleanup": true
+		"source": "markdown",
+		"sourceUrl": "https://raw.githubusercontent.com/ShareX/XerahS/refs/heads/develop/docs/CHANGELOG.md",
+		"releaseNotesUrl": "https://github.com/ShareX/XerahS/blob/v{version}/docs/CHANGELOG.md#v{version}",
+		"characterLimit": 10000
 	}
 }
