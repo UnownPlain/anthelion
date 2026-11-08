@@ -1,6 +1,5 @@
 import fs from '@rcompat/fs';
 import {
-	Komac,
 	type PullRequest,
 	type UpdatePackageRequest,
 	type UpdatePackageResult,
@@ -9,10 +8,8 @@ import { bgRed, blue, green, magenta, redBright, yellow } from 'ansis';
 import ky from 'ky';
 import { z, ZodError } from 'zod';
 
-import { getTargetRepository } from '@/config';
-import { githubClient, getRepositoryHeadSha } from '@/github.ts';
-
-export const komac = new Komac();
+import { config, githubClient, komac } from '@/config';
+import { getRepositoryHeadSha } from '@/github.ts';
 
 export class Logger {
 	private logs: string[] = [];
@@ -179,7 +176,7 @@ export async function isStateMatching(options: {
 	state: string;
 	ignoreQuotes?: boolean;
 }) {
-	if (process.env.DRY_RUN) return;
+	if (config.dryRun) return;
 	const versionStatePath = `version-state/${options.packageIdentifier}`;
 	const storedVersion = (await fs.ref(versionStatePath).text()).trim();
 
@@ -197,10 +194,10 @@ export async function checkVersionInRepo(options: {
 	font?: boolean;
 	ignoreOtherPrs?: boolean;
 }) {
-	if (process.env.DRY_RUN) return false;
+	if (config.dryRun) return false;
 	const logger = options.logger ?? new Logger();
 
-	const { owner, repo, branch } = getTargetRepository();
+	const { owner, repo, branch } = config.github.targetRepository;
 
 	const manifestDirectory = options.font ? 'fonts' : 'manifests';
 	const JSDELIVR_MANIFEST_ROOT = `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/${manifestDirectory}`;
@@ -229,7 +226,7 @@ export async function checkVersionInRepo(options: {
 					}),
 				);
 
-	if (response.ok && !process.env.DRY_RUN && !options.ignoreOtherPrs) {
+	if (response.ok && !options.ignoreOtherPrs) {
 		logger.present(options.version);
 		return true;
 	}
@@ -261,7 +258,10 @@ export async function checkVersionInRepo(options: {
 }
 
 export async function updateVersionState(options: { packageIdentifier: string; state: string }) {
-	if (process.env.DRY_RUN) return;
+	if (config.dryRun) return;
+	const repository = config.github.repository;
+	if (!repository) throw new Error('Set github.repository in anthelion.config.ts');
+	const { owner, repo, branch } = repository;
 
 	const versionStatePath = `version-state/${options.packageIdentifier}`;
 	const mutation = `
@@ -277,8 +277,8 @@ export async function updateVersionState(options: { packageIdentifier: string; s
 	await githubClient.graphql(mutation, {
 		input: {
 			branch: {
-				repositoryNameWithOwner: process.env.GITHUB_REPOSITORY,
-				branchName: process.env.GITHUB_REF_NAME,
+				repositoryNameWithOwner: `${owner}/${repo}`,
+				branchName: branch,
 			},
 			message: {
 				headline: `[ci skip] ${options.packageIdentifier}: update version state`,

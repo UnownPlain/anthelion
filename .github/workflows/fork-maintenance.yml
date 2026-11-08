@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 permissions: {}
@@ -16,7 +16,7 @@ jobs:
     name: Fork Maintenance
     runs-on: ubuntu-slim
     environment:
-      name: Production (gh only)
+      name: Production
       deployment: false
     timeout-minutes: 1
     steps:
@@ -31,9 +31,9 @@ jobs:
             run: komac sync
             env:
               KOMAC_FORK_OWNER: ${{ github.repository_owner }}
-              GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.MAINTENANCE_TOKEN }}
           - name: Cleanup Branches
             run: komac cleanup -a
             env:
               KOMAC_FORK_OWNER: ${{ github.repository_owner }}
-              GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.MAINTENANCE_TOKEN }}

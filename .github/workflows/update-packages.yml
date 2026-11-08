@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 permissions: {}
 
@@ -17,6 +17,13 @@ jobs:
       name: Production
       deployment: false
     timeout-minutes: 20
+    permissions:
+      id-token: write # Required to authenticate to Infisical with GitHub OIDC.
+    env:
+      INFISICAL_IDENTITY_ID: ${{ vars.INFISICAL_IDENTITY_ID }}
+      INFISICAL_PROJECT_ID: ${{ vars.INFISICAL_PROJECT_ID }}
+      INFISICAL_ENVIRONMENT: ${{ vars.INFISICAL_ENVIRONMENT }}
+      INFISICAL_DOMAIN: ${{ vars.INFISICAL_DOMAIN }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -27,16 +34,21 @@ jobs:
         uses: jdx/mise-action@6612f0ef07ed2a736cd1e00a94a065522dd41195 # v5.2.5
         with:
           version: 2026.10.25
-          install_args: bun
+          install_args: bun codex infisical
 
-      - name: Install Dependencies
-        run: bun ci --production
+      - parallel:
+          - name: Install Dependencies
+            run: bun ci --production
+
+          - name: Restore Credentials
+            id: credentials
+            run: bash .github/scripts/infisical.sh restore
 
       - name: Update Packages
         run: bun start
         env:
           KOMAC_FORK_OWNER: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.UPDATE_TOKEN }}
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Save Refreshed Credentials
+        if: always() && steps.credentials.outcome == 'success'
+        run: bash .github/scripts/infisical.sh save

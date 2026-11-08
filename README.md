@@ -11,65 +11,7 @@ updated WinGet manifests, and submits them to the
 
 See the [Shard Guide](CONTRIBUTING.md) to add or modify a package shard.
 
-## Using Anthelion from another repository
-
-Anthelion can be installed as a pinned Git dependency. Keep the consuming repository's shards in
-`shards/json` and `shards/script`; Anthelion resolves those paths from the current working directory.
-
-```json
-{
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"update": "anthelion",
-		"test:shard": "anthelion-test"
-	},
-	"dependencies": {
-		"anthelion": "github:UnownPlain/anthelion-external#{COMMIT}"
-	}
-}
-```
-
-Install dependencies and test one or more shards:
-
-```sh
-bun install
-bun test:shard {PACKAGE_IDENTIFIER} # Simulates a real run
-bun test:shard {PACKAGE_IDENTIFIER_ONE} {PACKAGE_IDENTIFIER_TWO} --dry-run # Generates manifests without opening PRs
-```
-
-Set `ANTHELION_SHARDS_DIR` when shards are not under the current working directory. Set
-`KOMAC_GITHUB_OWNER` and `KOMAC_GITHUB_REPO` to update a repository other than
-`microsoft/winget-pkgs`.
-
-JSON shards use the published schema URL for completion and validation. TypeScript shards can import
-the public helpers and use `defineShard` for return-value IntelliSense:
-
-```ts
-import { defineShard } from 'anthelion';
-import { getLatestReleaseFromRedirect } from 'anthelion/github';
-import { match } from 'anthelion/helpers';
-
-export default defineShard(async () => {
-	const release = await getLatestReleaseFromRedirect({
-		owner: 'git-for-windows',
-		repo: 'git',
-	});
-	const {
-		groups: [baseVersion, buildNumber],
-	} = match(release.tag, /^(\d+(?:\.\d+)+)\.windows\.(\d+)$/);
-	const version = buildNumber === '1' ? baseVersion : `${baseVersion}.${buildNumber}`;
-
-	return {
-		version,
-		urls: () => [
-			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-32-bit.zip`,
-			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-64-bit.zip`,
-			`https://github.com/git-for-windows/git/releases/download/${release.rawTag}/MinGit-${version}-arm64.zip`,
-		],
-	};
-});
-```
+See [Using Anthelion from another repository](EXTERNAL.md) to install and configure it for your own shards.
 
 ## License
 

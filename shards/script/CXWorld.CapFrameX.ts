@@ -1,5 +1,5 @@
-import { getTargetRepository } from '@/config';
-import { getLatestRelease, githubClient } from '@/github.ts';
+import { config, githubClient } from '@/config';
+import { getLatestRelease } from '@/github.ts';
 import { compareVersions } from '@/helpers';
 import { defineShard } from '@/schema/script-shard.ts';
 
@@ -24,7 +24,7 @@ export default defineShard(async () => {
 		}));
 	};
 
-	const { owner, repo, branch } = getTargetRepository();
+	const { owner, repo, branch } = config.github.targetRepository;
 	const { data: versions } = await githubClient.rest.repos.getContent({
 		owner,
 		repo,

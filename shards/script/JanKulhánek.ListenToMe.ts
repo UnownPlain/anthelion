@@ -1,6 +1,6 @@
 import ky from 'ky';
 
-import { komac } from '@/helpers';
+import { komac } from '@/config';
 import { defineShard } from '@/schema/script-shard.ts';
 
 export default defineShard(async () => {

@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+--- a/package.json
++++ b/package.json
+@@ -61,9 +61,6 @@
+     "@ai-sdk/provider-utils": "^5.0.0",
+     "jsonc-parser": "^3.3.1"
+   },
+-  "optionalDependencies": {
+-    "@openai/codex": "^0.156.1"
+-  },
+   "devDependencies": {
+     "@eslint/js": "^9.14.0",
+     "@types/node": "^22.10.2",
