@@ -38,7 +38,11 @@ if [[ "$1" == restore ]]; then
 
 	infisical export --format=json --silent --expand=false \
 		--projectId "$INFISICAL_PROJECT_ID" --env "$INFISICAL_ENVIRONMENT" |
-		jq -r '.[] | select(.key != "CODEX_AUTH_JSON") | "\(.key)=\(.value)"' >>"$GITHUB_ENV"
+		jq -r '.[] | select(.key != "CODEX_AUTH_JSON") | "\(.key)=\(.value)"' |
+		while IFS='=' read -r key value; do
+			printf '::add-mask::%s\n' "$value"
+			printf '%s=%s\n' "$key" "$value" >>"$GITHUB_ENV"
+		done
 	printf 'INFISICAL_TOKEN=%s\n' "$INFISICAL_TOKEN" >>"$GITHUB_ENV"
 fi
 
