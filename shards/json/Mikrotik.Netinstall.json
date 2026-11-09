@@ -8,5 +8,10 @@
 	"urls": [
 		"https://download.mikrotik.com/routeros/{version}/netinstall-{version}.zip",
 		"https://download.mikrotik.com/routeros/{version}/netinstall64-{version}.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "plain-text",
+		"sourceUrl": "https://download.mikrotik.com/routeros/{version}/CHANGELOG",
+		"cleanup": false
+	}
 }

@@ -8,5 +8,10 @@
 	"urls": [
 		"https://download.mikrotik.com/routeros/winbox/{version}/WinBox_Windows.zip",
 		"https://download.mikrotik.com/routeros/winbox/{version}/WinBox_Windows_arm64.zip"
-	]
+	],
+	"releaseNotes": {
+		"source": "plain-text",
+		"sourceUrl": "https://download.mikrotik.com/routeros/winbox/{version}/CHANGELOG",
+		"cleanup": false
+	}
 }
