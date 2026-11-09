@@ -5,15 +5,7 @@
 		"owner": "oxc-project",
 		"repo": "oxc",
 		"method": "api-list",
-		"tagRegex": "^apps_v"
-	},
-	"urls": [
-		"https://github.com/oxc-project/oxc/releases/download/apps_v{version}/oxlint-i686-pc-windows-msvc.zip",
-		"https://github.com/oxc-project/oxc/releases/download/apps_v{version}/oxlint-x86_64-pc-windows-msvc.zip",
-		"https://github.com/oxc-project/oxc/releases/download/apps_v{version}/oxlint-aarch64-pc-windows-msvc.zip"
-	],
-	"releaseNotes": {
-		"source": "github",
-		"cleanup": true
+		"tagRegex": "^oxlint_v",
+		"assetRegex": "^oxlint-(?:i686|x86_64|aarch64)-pc-windows-msvc\\.zip$"
 	}
 }

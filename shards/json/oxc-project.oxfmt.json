@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": {
+		"owner": "oxc-project",
+		"repo": "oxc",
+		"method": "api-list",
+		"tagRegex": "^oxfmt_v",
+		"assetRegex": "^oxfmt-(?:i686|x86_64|aarch64)-pc-windows-msvc\\.zip$"
+	}
+}
