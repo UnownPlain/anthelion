@@ -57,7 +57,7 @@
 		"ai": "7.0.163",
 		"ai-sdk-provider-codex-cli": "2.4.0",
 		"ansis": "4.5.0",
-		"es-toolkit": "1.53.1",
+		"es-toolkit": "1.53.2",
 		"ky": "2.2.0",
 		"octokit": "5.0.5",
 		"txml": "6.0.3",
