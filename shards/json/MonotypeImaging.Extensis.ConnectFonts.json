@@ -10,6 +10,8 @@
 		{ "url": "https://bin.extensis.com/ExtensisConnect-W-{version}.zip", "architecture": "x64" }
 	],
 	"releaseNotes": {
-		"releaseNotesUrl": "https://www.extensis.com/support/connect/release-notes"
+		"source": "html",
+		"sourceUrl": "https://www.extensis.com/support/connect/release-notes",
+		"characterLimit": 5000
 	}
 }
