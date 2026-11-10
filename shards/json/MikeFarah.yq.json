@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "mikefarah", "repo": "yq" },
+	"urls": [
+		"https://github.com/mikefarah/yq/releases/download/v{version}/yq_windows_386.exe",
+		"https://github.com/mikefarah/yq/releases/download/v{version}/yq_windows_amd64.exe",
+		"https://github.com/mikefarah/yq/releases/download/v{version}/yq_windows_arm64.exe"
+	]
+}
