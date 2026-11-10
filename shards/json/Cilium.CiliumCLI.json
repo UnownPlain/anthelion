@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "cilium", "repo": "cilium-cli" },
+	"urls": [
+		"https://github.com/cilium/cilium-cli/releases/download/v{version}/cilium-windows-amd64.zip",
+		"https://github.com/cilium/cilium-cli/releases/download/v{version}/cilium-windows-arm64.zip"
+	]
+}
