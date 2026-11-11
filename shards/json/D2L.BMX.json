@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "Brightspace", "repo": "bmx" },
+	"urls": [
+		"https://github.com/Brightspace/bmx/releases/download/v{version}/bmx-win-x64.zip",
+		"https://github.com/Brightspace/bmx/releases/download/v{version}/bmx-win-arm64.zip"
+	]
+}
