@@ -1,0 +1,17 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://www.sublimemerge.com/updates/stable_update_check",
+		"path": "latest_version"
+	},
+	"urls": [
+		"https://download.sublimetext.com/sublime_merge_build_{version}_x64_setup.exe",
+		"https://download.sublimetext.com/sublime_merge_build_{version}_x64.zip"
+	],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://www.sublimemerge.com/download",
+		"characterLimit": 10000
+	}
+}
