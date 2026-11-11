@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "Scottnine", "repo": "filamental" },
+	"urls": [
+		"https://github.com/Scottnine/filamental/releases/download/v{version}/Filamental_{version}_x64-setup.exe",
+		"https://github.com/Scottnine/filamental/releases/download/v{version}/Filamental_{version}_x64_en-US.msi"
+	]
+}
