@@ -1,9 +1,9 @@
 {
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "github-release",
-	"github": { "owner": "FahrenheitResearch", "repo": "arwen" },
+	"github": { "owner": "recastsystems", "repo": "arwen" },
 	"urls": [
-		"https://github.com/FahrenheitResearch/arwen/releases/download/v{version}/gpuwm-bridges-v{version}-win-x86_64.zip"
+		"https://github.com/recastsystems/arwen/releases/download/v{version}/gpuwm-bridges-v{version}-win-x86_64.zip"
 	],
 	"releaseNotes": {
 		"source": "github",
