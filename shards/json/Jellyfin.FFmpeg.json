@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "jellyfin", "repo": "jellyfin-ffmpeg" },
+	"urls": [
+		"https://github.com/jellyfin/jellyfin-ffmpeg/releases/download/v{version}/jellyfin-ffmpeg_{version}_portable_win64-clang-gpl.zip",
+		"https://github.com/jellyfin/jellyfin-ffmpeg/releases/download/v{version}/jellyfin-ffmpeg_{version}_portable_winarm64-clang-gpl.zip"
+	]
+}
