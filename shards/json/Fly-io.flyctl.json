@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "superfly", "repo": "flyctl" },
+	"urls": [
+		"https://github.com/superfly/flyctl/releases/download/v{version}/flyctl_{version}_Windows_x86_64.zip",
+		"https://github.com/superfly/flyctl/releases/download/v{version}/flyctl_{version}_Windows_arm64.zip"
+	]
+}
