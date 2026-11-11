@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "pulsar-edit", "repo": "pulsar" },
+	"urls": [
+		"https://github.com/pulsar-edit/pulsar/releases/download/v{version}/Windows.Pulsar.Setup.{version}.exe"
+	]
+}
