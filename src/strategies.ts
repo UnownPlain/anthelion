@@ -20,7 +20,8 @@ export async function json(options: {
 		method: options.method ?? 'get',
 		json: options.body,
 	}).json();
-	return { version: parseString(getPath(data, options.path)), data };
+	const version = z.union([z.string(), z.number()]).parse(getPath(data, options.path));
+	return { version: parseString(String(version)), data };
 }
 
 export async function xml(options: { url: string; path: string }) {

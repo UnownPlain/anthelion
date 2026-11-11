@@ -161,7 +161,9 @@ const msDownloadCenterSchema = z.object({
 const jsonStrategySchema = z
 	.object({
 		url: z.url().describe('Endpoint returning JSON.'),
-		path: z.string().describe('Dot-separated path to string value (arrays use numeric indexes).'),
+		path: z
+			.string()
+			.describe('Dot-separated path to string or number value (arrays use numeric indexes).'),
 		method: z.enum(['get', 'post']).default('get').optional(),
 		body: z.json().describe('JSON request body. Requires method: post.').optional(),
 	})

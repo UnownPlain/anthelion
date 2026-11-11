@@ -4706,7 +4706,7 @@
 						},
 						"path": {
 							"type": "string",
-							"description": "Dot-separated path to string value (arrays use numeric indexes)."
+							"description": "Dot-separated path to string or number value (arrays use numeric indexes)."
 						},
 						"method": {
 							"default": "get",

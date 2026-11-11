@@ -376,7 +376,8 @@ unrelated files, filter their names with a case-insensitive regex:
 
 ### JSON and YAML data
 
-Use a dot-separated `path` to select the version. Numeric path components address array indexes.
+Use a dot-separated `path` to select the version. JSON versions may be strings or numbers; numbers
+are converted to strings. Numeric path components address array indexes.
 Installer entries may be paths into the same response instead of literal URLs:
 
 ```json
