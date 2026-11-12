@@ -2,7 +2,13 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "tauri",
 	"tauri": {
-		"url": "https://plexamp.plex.tv/desktop/tauri-update.json",
-		"platforms": ["windows-x86_64"]
+		"url": "https://plexamp.plex.tv/desktop/tauri-update.json"
+	},
+	"releaseNotes": {
+		"source": "json",
+		"nestedSource": "markdown",
+		"sourceUrl": "https://plexamp.plex.tv/desktop/tauri-update.json",
+		"path": "notes",
+		"cleanup": false
 	}
 }
