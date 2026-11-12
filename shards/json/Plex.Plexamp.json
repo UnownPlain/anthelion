@@ -1,0 +1,15 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "tauri",
+	"tauri": {
+		"url": "https://plexamp.plex.tv/desktop/tauri-update.json"
+	},
+	"releaseNotes": {
+		"source": "json",
+		"nestedSource": "markdown",
+		"sourceUrl": "https://plexamp.plex.tv/desktop/tauri-update.json",
+		"releaseNotesUrl": "https://forums.plex.tv/t/plexamp-release-notes/221280",
+		"path": "notes",
+		"cleanup": false
+	}
+}
