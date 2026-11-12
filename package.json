@@ -53,7 +53,7 @@
 	},
 	"dependencies": {
 		"@rcompat/fs": "0.39.1",
-		"@unownplain/anthelion-komac": "0.0.84",
+		"@unownplain/anthelion-komac": "0.0.85",
 		"ai": "7.0.163",
 		"ai-sdk-provider-codex-cli": "2.4.0",
 		"ansis": "4.5.0",
