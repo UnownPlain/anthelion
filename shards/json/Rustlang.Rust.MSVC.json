@@ -6,9 +6,8 @@
 		"regex": "\\[pkg\\.rust\\]\\s+version\\s*=\\s*\"(\\d+(?:\\.\\d+)+)"
 	},
 	"urls": [
-		"https://static.rust-lang.org/dist/rust-{version}-aarch64-pc-windows-msvc.msi",
-		"https://static.rust-lang.org/dist/rust-{version}-i686-pc-windows-msvc.msi",
-		"https://static.rust-lang.org/dist/rust-{version}-x86_64-pc-windows-msvc.msi"
+		"https://static.rust-lang.org/dist/rust-{version}-x86_64-pc-windows-msvc.msi",
+		"https://static.rust-lang.org/dist/rust-{version}-aarch64-pc-windows-msvc.msi"
 	],
 	"releaseNotes": {
 		"source": "github",
