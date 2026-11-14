@@ -3,6 +3,6 @@
 	"strategy": "github-release",
 	"github": { "owner": "gohugoio", "repo": "hugo" },
 	"urls": [
-		"https://github.com/gohugoio/hugo/releases/download/v{version}/hugo_extended_withdeploy_{version}_windows-amd64.zip"
+		"https://github.com/gohugoio/hugo/releases/download/v{version}/hugo_withdeploy_{version}_windows-amd64.zip"
 	]
 }
