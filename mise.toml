@@ -4,4 +4,4 @@ codex = "0.166.0"
 zizmor = "1.32.0"
 jactionlint = "v2.5.0"
 shellcheck = "0.11.0"
-infisical = { version = "0.45.4", asset_pattern = "{% raw %}cli_{{ version }}_{{ os(macos='darwin') }}_{{ arch(x64='amd64') }}.{{ os(windows='zip', macos='tar.gz', linux='tar.gz') }}{% endraw %}" }
+infisical = { version = "v0.45.6", asset_pattern = "{% raw %}cli_{{ version }}_{{ os(macos='darwin') }}_{{ arch(x64='amd64') }}.{{ os(windows='zip', macos='tar.gz', linux='tar.gz') }}{% endraw %}" }
