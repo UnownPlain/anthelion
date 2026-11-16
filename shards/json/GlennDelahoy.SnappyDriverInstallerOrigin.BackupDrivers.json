@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.glenn.delahoy.com/snappy-driver-installer-origin/",
+		"regex": "href=[\"'](?<installer>/downloads/sdio/SDIOBackupDrivers\\d+\\.zip)[\"'][^>]*>SDIO Backup Drivers v(?<version>\\d+(?:\\.\\d+)+)"
+	},
+	"urls": ["https://www.glenn.delahoy.com{captures.installer}"]
+}
