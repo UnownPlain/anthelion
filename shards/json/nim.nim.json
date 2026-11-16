@@ -1,0 +1,12 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://nim-lang.org/install_windows.html",
+		"regex": "href=[\"']/download/nim-(\\d+(?:\\.\\d+)+)_x64\\.zip[\"']"
+	},
+	"urls": [
+		"https://nim-lang.org/download/nim-{version}_x64.zip",
+		"https://nim-lang.org/download/nim-{version}_x32.zip"
+	]
+}
