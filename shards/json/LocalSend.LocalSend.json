@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "localsend", "repo": "localsend" },
+	"urls": [
+		"https://github.com/localsend/localsend/releases/download/v{version}/LocalSend-{version}-windows-x86-64.exe"
+	]
+}
