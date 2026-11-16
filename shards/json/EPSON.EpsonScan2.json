@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.epson.eu/en_EU/support/sc/epson-workforce-ds-530/s/s1493?selected-os=Windows+11&selected-lang=en",
+		"regex": "EPSON Scan 2 \\(v(?<version>\\d+(?:\\.\\d+)+)\\)(?:(?!support-resource__title)[\\s\\S])*?href=[\"'](?<installer>https://download\\.epson-europe\\.com/pub/download/\\d+/epson\\d+eu\\.exe)[\"']"
+	},
+	"urls": [{ "url": "{captures.installer}", "architecture": "x86" }]
+}
