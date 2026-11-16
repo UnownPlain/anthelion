@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "emanuele-em", "repo": "proxelar" },
+	"urls": [
+		"https://github.com/emanuele-em/proxelar/releases/download/v{version}/proxelar-v{version}-x86_64-pc-windows-msvc.zip"
+	]
+}
