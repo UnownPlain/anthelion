@@ -3,6 +3,6 @@
 	"strategy": "github-release",
 	"github": { "owner": "vrcx-team", "repo": "VRCX" },
 	"urls": [
-		"https://github.com/vrcx-team/VRCX/releases/download/v{version}/VRCX_{version}_Setup.exe"
+		"https://github.com/vrcx-team/VRCX/releases/download/v{version}/VRCX_{version}_Setup_x64.exe"
 	]
 }
