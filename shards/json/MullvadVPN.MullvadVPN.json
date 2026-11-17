@@ -1,0 +1,10 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": {
+		"owner": "mullvad",
+		"repo": "mullvadvpn-app",
+		"method": "api-sort",
+		"assetRegex": "^MullvadVPN-\\d+\\.\\d+_(?:x64|arm64)\\.exe$"
+	}
+}
