@@ -8,6 +8,6 @@
 		"tagRegex": "^cli-v"
 	},
 	"urls": [
-		"https://github.com/bitwarden/clients/releases/download/cli-v{version}/bw-windows-{version}.zip"
+		"https://github.com/bitwarden/clients/releases/download/cli-v{version}/bw-bit-windows-{version}.zip"
 	]
 }
