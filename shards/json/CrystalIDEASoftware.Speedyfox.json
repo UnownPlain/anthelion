@@ -1,0 +1,15 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://crystalidea.com/speedyfox/release-notes",
+		"regex": "<h2 class=\"content-title\">\\s*Version <u>(\\d+(?:\\.\\d+)+)</u>"
+	},
+	"urls": ["https://crystalidea.com/downloads/speedyfox.exe"],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://crystalidea.com/speedyfox/release-notes",
+		"characterLimit": 5000
+	},
+	"replace": true
+}
