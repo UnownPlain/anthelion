@@ -1,5 +1,5 @@
 [tools]
-bun = "1.4.4"
+bun = "1.4.5"
 codex = "0.166.0"
 zizmor = "1.32.0"
 jactionlint = "v2.6.0"
