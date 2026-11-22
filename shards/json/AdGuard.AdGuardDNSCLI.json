@@ -1,0 +1,13 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "AdguardTeam", "repo": "AdGuardDNSCLI" },
+	"urls": [
+		"https://github.com/AdguardTeam/AdGuardDNSCLI/releases/download/v{version}/AdGuardDNSCLI_windows_amd64.msi",
+		"https://github.com/AdguardTeam/AdGuardDNSCLI/releases/download/v{version}/AdGuardDNSCLI_windows_386.msi",
+		"https://github.com/AdguardTeam/AdGuardDNSCLI/releases/download/v{version}/AdGuardDNSCLI_windows_arm64.msi",
+		"https://github.com/AdguardTeam/AdGuardDNSCLI/releases/download/v{version}/AdGuardDNSCLI_windows_amd64.zip",
+		"https://github.com/AdguardTeam/AdGuardDNSCLI/releases/download/v{version}/AdGuardDNSCLI_windows_386.zip",
+		"https://github.com/AdguardTeam/AdGuardDNSCLI/releases/download/v{version}/AdGuardDNSCLI_windows_arm64.zip"
+	]
+}
