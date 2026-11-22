@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "ruffle-rs", "repo": "ruffle" },
+	"urls": [
+		"https://github.com/ruffle-rs/ruffle/releases/download/v{version}/ruffle-{version}-windows-x86_32.zip",
+		"https://github.com/ruffle-rs/ruffle/releases/download/v{version}/ruffle-{version}-windows-x86_64.zip"
+	]
+}
