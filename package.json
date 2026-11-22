@@ -71,7 +71,7 @@
 		"tsrs": "7.1.0-beta.tsrs4",
 		"typescript": "7.1.0-beta",
 		"vitest": "5.1.1",
-		"zod-compiler": "2.0.8"
+		"zod-compiler": "2.0.10"
 	},
 	"packageManager": "bun@1.4.4",
 	"patchedDependencies": {
