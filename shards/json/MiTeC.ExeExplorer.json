@@ -1,0 +1,15 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.mitec.cz/wp/mee/",
+		"regex": "class=\"changelog-scroll-wrapper\"[^>]*>\\s*<table\\b[^>]*>\\s*<tr>\\s*<td\\b[^>]*>\\s*<font\\b[^>]*>\\s*<b>(\\d+(?:\\.\\d+)+)</b>"
+	},
+	"urls": ["https://www.mitec.cz/wp/files/EXE.zip"],
+	"releaseNotes": {
+		"source": "html",
+		"sourceUrl": "https://www.mitec.cz/wp/mee/#vh",
+		"characterLimit": 8000
+	},
+	"replace": true
+}
