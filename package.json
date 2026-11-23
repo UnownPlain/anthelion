@@ -64,7 +64,7 @@
 		"zod": "4.6.7"
 	},
 	"devDependencies": {
-		"@types/bun": "1.4.4",
+		"@types/bun": "1.4.5",
 		"oxfmt": "0.79.0",
 		"oxlint": "1.94.0",
 		"tsdown": "0.23.7",
