@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "page-match",
+	"pageMatch": {
+		"url": "https://www.microsoft.com/en-us/download/details.aspx?id=105302",
+		"regex": "href=[\"'](?<installer>https://download\\.microsoft\\.com/download/[^\"'<>\\s]+/Microsoft\\.SurfaceHub_(?<version>\\d+(?:\\.\\d+){3})_Desktop_(?:Arm64\\.X64|X64\\.Arm64)\\.msixbundle)[\"']"
+	},
+	"urls": ["{captures.installer}"]
+}
