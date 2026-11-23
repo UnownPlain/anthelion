@@ -1,0 +1,8 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "fwupd", "repo": "fwupd" },
+	"urls": [
+		"https://github.com/fwupd/fwupd/releases/download/{version}/fwupd-{version}-setup-x86_64.msi"
+	]
+}
