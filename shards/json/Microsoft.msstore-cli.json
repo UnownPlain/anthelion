@@ -1,0 +1,9 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "github-release",
+	"github": { "owner": "microsoft", "repo": "msstore-cli" },
+	"urls": [
+		"https://github.com/microsoft/msstore-cli/releases/download/v{version}/MSStoreCLI-win-x64.zip",
+		"https://github.com/microsoft/msstore-cli/releases/download/v{version}/MSStoreCLI-win-arm64.zip"
+	]
+}
