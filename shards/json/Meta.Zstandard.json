@@ -4,6 +4,7 @@
 	"github": { "owner": "meta", "repo": "zstd" },
 	"urls": [
 		"https://github.com/meta/zstd/releases/download/v{version}/zstd-v{version}-win32.zip",
-		"https://github.com/meta/zstd/releases/download/v{version}/zstd-v{version}-win64.zip"
+		"https://github.com/meta/zstd/releases/download/v{version}/zstd-v{version}-win64.zip",
+		"https://github.com/meta/zstd/releases/download/v{version}/zstd-v{version}-win-arm64.zip"
 	]
 }
