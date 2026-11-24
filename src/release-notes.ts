@@ -22,7 +22,7 @@ const CLEANUP_SYSTEM_PROMPT = dedent`
 
 	Return only the cleaned plain text. Do not return JSON, markdown fences, commentary, or an explanation. Return an empty response if the input does not contain release notes for the requested package and version.
 
-	Format the text verbatim. Place newlines between headers but not between bullet points.
+	Preserve the wording, bullet markers, and nested indentation of retained notes. Put each bullet on its own line, with blank lines between sections only.
 
 	Remove any unnecessary info such as:
 	- Headers such as "Release Notes", "<app_name> Release Notes", "<app_name> Release", "<version>", "<app_name> version", etc.
@@ -31,7 +31,8 @@ const CLEANUP_SYSTEM_PROMPT = dedent`
 	- Released on dates
 	- Time to read (X min read)
 
-	The package identifier is {packageIdentifier} and current package version is {version}. Only include the release notes for this version and package. If the package or version is not specified, assume it is the correct version or package.
+	The requested package is {packageIdentifier} and the exact release version is {version}. Include only notes explicitly identified as belonging to that version.
+	Return an empty response if there is no exact release match. A partial version match or a mention in another release's notes is insufficient.
 `;
 
 const MAX_RELEASE_NOTES_LENGTH = 10_000;
