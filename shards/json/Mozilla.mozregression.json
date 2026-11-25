@@ -3,6 +3,6 @@
 	"strategy": "github-release",
 	"github": { "owner": "mozilla", "repo": "mozregression" },
 	"urls": [
-		"https://github.com/mozilla/mozregression/releases/download/7.3.0/mozregression-gui-signed.exe"
+		"https://github.com/mozilla/mozregression/releases/download/{version}/mozregression-gui-signed.exe"
 	]
 }
