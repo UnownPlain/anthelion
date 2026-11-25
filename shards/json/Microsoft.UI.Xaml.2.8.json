@@ -2,8 +2,7 @@
 	"$schema": "https://anthelion.unownplain.dev/schema.json",
 	"strategy": "static",
 	"redirectMatch": {
-		"url": ["https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml"],
-		"regex": "^https://globalcdn\\.nuget\\.org/packages/microsoft\\.ui\\.xaml\\.{version}\\.nupkg$"
+		"url": ["https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/"]
 	},
 	"version": { "source": "file" },
 	"urls": [
