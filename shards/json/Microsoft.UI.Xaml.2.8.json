@@ -11,10 +11,10 @@
 		{
 			"url": "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml",
 			"nestedInstallerMatches": [
-				"extracted\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.8.appx",
-				"extracted\tools\AppX\x86\Release\Microsoft.UI.Xaml.2.8.appx",
-				"extracted\tools\AppX\arm64\Release\Microsoft.UI.Xaml.2.8.appx",
-				"extracted\tools\AppX\arm\Release\Microsoft.UI.Xaml.2.8.appx"
+				"extracted\\tools\\AppX\\x64\\Release\\Microsoft.UI.Xaml.2.8.appx",
+				"extracted\\tools\\AppX\\x86\\Release\\Microsoft.UI.Xaml.2.8.appx",
+				"extracted\\tools\\AppX\\arm64\\Release\\Microsoft.UI.Xaml.2.8.appx",
+				"extracted\\tools\\AppX\\arm\\Release\\Microsoft.UI.Xaml.2.8.appx"
 			]
 		}
 	]
