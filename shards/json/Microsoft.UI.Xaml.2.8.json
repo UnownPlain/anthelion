@@ -1,0 +1,21 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "static",
+	"state": {
+		"source": "response-header",
+		"url": "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml",
+		"header": "etag"
+	},
+	"version": { "source": "file" },
+	"urls": [
+		{
+			"url": "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml",
+			"nestedInstallerMatches": [
+				"extracted\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.8.appx",
+				"extracted\tools\AppX\x86\Release\Microsoft.UI.Xaml.2.8.appx",
+				"extracted\tools\AppX\arm64\Release\Microsoft.UI.Xaml.2.8.appx",
+				"extracted\tools\AppX\arm\Release\Microsoft.UI.Xaml.2.8.appx"
+			]
+		}
+	]
+}
