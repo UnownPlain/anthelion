@@ -4,7 +4,7 @@
 	"redirectMatch": {
 		"url": ["https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml"],
 		"regex": "^.*\\.nupkg"
-	}
+	},
 	"version": { "source": "file" },
 	"urls": [
 		{
