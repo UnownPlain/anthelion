@@ -3,12 +3,12 @@
 	"strategy": "redirect-match",
 	"redirectMatch": {
 		"url": ["https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml"],
-		"regex": "^.*\\.nupkg"
+		"regex": "^https://globalcdn\.nuget\.org/packages/microsoft\.ui\.xaml\.{version}\.nupkg$"
 	},
-	"version": { "source": "file" },
+	"version": { "source": "product" },
 	"urls": [
 		{
-			"url": "https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml",
+			"url": "https://globalcdn.nuget.org/packages/microsoft.ui.xaml.{version}.nupkg",
 			"nestedInstallerMatches": [
 				"extracted\\tools\\AppX\\x64\\Release\\Microsoft.UI.Xaml.2.8.appx",
 				"extracted\\tools\\AppX\\x86\\Release\\Microsoft.UI.Xaml.2.8.appx",
