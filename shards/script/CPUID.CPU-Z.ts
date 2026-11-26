@@ -22,6 +22,9 @@ export default defineShard(async () => {
 		releaseNotes: {
 			source: ReleaseNotesSource.Html,
 			sourceUrl: `https://www.cpuid.com/softwares/cpu-z.html#version-history`,
+			regex:
+				'<div class="version">\\s*<span>CPU-Z {version|.|\\.}</span>\\s*</div>(?:(?!<div class="version">)[\\s\\S])*?<div class="release-content">([\\s\\S]*?)(?=<div class="(?:links|custom-links)">|</div>)',
+			cleanup: false,
 		},
 	};
 });

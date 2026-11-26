@@ -12,6 +12,10 @@
 		}
 	],
 	"releaseNotes": {
-		"releaseNotesUrl": "https://docs.cyberhive.com/connect/release-notes/#{version|.|}"
+		"source": "html",
+		"sourceUrl": "https://docs.cyberhive.com/connect/release-notes/",
+		"regex": "<h2 id=\"{version|.|}\">[\\s\\S]*?</h2>\\s*(?:<p><em>[^<]*</em></p>\\s*)?(?:<p>CyberHive Connect release [\\s\\S]*?</p>\\s*)?([\\s\\S]*?)(?=<h2\\b|</article>)",
+		"releaseNotesUrl": "https://docs.cyberhive.com/connect/release-notes/#{version|.|}",
+		"cleanup": false
 	}
 }

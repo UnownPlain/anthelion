@@ -12,6 +12,7 @@
 	"releaseNotes": {
 		"source": "html",
 		"sourceUrl": "https://www.extensis.com/support/connect/release-notes",
-		"characterLimit": 5000
+		"regex": "<h3\\b[^>]*>\\s*Version {packageVersion|.|\\.}\\s*</h3>\\s*(?:<p\\b[^>]*>[^<]*\\d{4}\\s*</p>\\s*)?([\\s\\S]*?)(?=<h3\\b[^>]*>\\s*Version\\b|<h2\\b)",
+		"cleanup": false
 	}
 }

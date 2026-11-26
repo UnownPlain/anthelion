@@ -8,6 +8,10 @@
 	"urls": ["https://www.greatissoftware.com/stopupdates10.zip"],
 	"replace": true,
 	"releaseNotes": {
-		"releaseNotesUrl": "https://greatis.com/stopupdates10/#changelog"
+		"source": "html",
+		"sourceUrl": "https://greatis.com/stopupdates10/",
+		"regex": "</b>\\s*(?:<br\\s*/?>\\s*)?Version {version|.|\\.}\\s*(<ul>[\\s\\S]*?</ul>)",
+		"releaseNotesUrl": "https://greatis.com/stopupdates10/#changelog",
+		"cleanup": false
 	}
 }

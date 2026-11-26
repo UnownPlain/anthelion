@@ -9,6 +9,7 @@
 	"releaseNotes": {
 		"source": "html",
 		"sourceUrl": "https://ccache.dev/releasenotes.html#_ccache_{version|.|_}",
-		"characterLimit": 20000
+		"regex": "<h2 id=\"_ccache_{version|.|_}\">(?:<a\\b[^>]*></a>)?[^<]*</h2>\\s*<div class=\"sectionbody\">\\s*<div class=\"paragraph\">\\s*<p>Release date:[^<]*</p>\\s*</div>([\\s\\S]*?)(?=<div class=\"sect1\">|<div id=\"footer\">)",
+		"cleanup": false
 	}
 }

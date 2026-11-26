@@ -10,8 +10,9 @@
 		}
 	],
 	"releaseNotes": {
-		"source": "markdown",
-		"sourceUrl": "https://raw.githubusercontent.com/MicrosoftDocs/fabric-docs/main/docs/onelake/onelake-file-explorer-release-notes.md",
-		"releaseNotesUrl": "https://learn.microsoft.com/fabric/onelake/onelake-file-explorer-release-notes"
+		"source": "html",
+		"sourceUrl": "https://learn.microsoft.com/fabric/onelake/onelake-file-explorer-release-notes",
+		"regex": "(?:<h2\\b[^>]*>[^<]*\\(v\\s*{version|.|\\.}\\)\\s*</h2>|<h3\\b[^>]*>\\s*v\\s*{version|.|\\.}\\s+-[^<]*</h3>)([\\s\\S]*?)(?=<h2\\b|<h3\\b[^>]*>\\s*v\\s*\\d|</div>)",
+		"cleanup": false
 	}
 }

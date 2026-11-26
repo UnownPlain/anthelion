@@ -7,6 +7,8 @@
 	},
 	"releaseNotes": {
 		"source": "html",
-		"sourceUrl": "https://filepilot.tech/starlog/{captures.date}-v{version}"
+		"sourceUrl": "https://filepilot.tech/starlog/{captures.date}-v{version}",
+		"regex": "<div class=\"starlog-right\">([\\s\\S]*?)<div class=\"starlog-navigation\">",
+		"cleanup": false
 	}
 }

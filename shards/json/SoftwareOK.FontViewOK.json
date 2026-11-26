@@ -11,9 +11,9 @@
 	],
 	"replace": true,
 	"releaseNotes": {
-		"source": "plain-text",
-		"sourceUrl": "https://www.softwareok.com/pad_en/FontViewOK.xml",
-		"releaseNotesUrl": "https://www.softwareok.com/?seite=Freeware/FontViewOK/History",
-		"characterLimit": 5000
+		"source": "html",
+		"sourceUrl": "https://www.softwareok.com/?seite=Freeware/FontViewOK/History",
+		"regex": "<b>New in version {version|.|\\.}\\s*//[^<]*</b>([\\s\\S]*?)(?=<!--|<b>New in version\\b|<div\\b)",
+		"cleanup": false
 	}
 }

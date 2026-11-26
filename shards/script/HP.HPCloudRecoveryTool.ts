@@ -29,6 +29,8 @@ export default defineShard(async () => {
 		releaseNotes: {
 			source: ReleaseNotesSource.Html,
 			sourceUrl: `${softpaqUrl}.html`,
+			regex: '(?:ENHANCEMENTS|FIXES):(?:\\s|<br\\s*/?>)*([\\s\\S]*?)(?=PREREQUISITES:|HOW TO USE:)',
+			cleanup: false,
 		},
 	};
 });

@@ -8,6 +8,8 @@
 	"urls": ["https://svtplay-dl.se/download/{version}/svtplay-dl-amd64.zip"],
 	"releaseNotes": {
 		"source": "html",
-		"sourceUrl": "https://svtplay-dl.se/{version}"
+		"sourceUrl": "https://svtplay-dl.se/{version}",
+		"regex": "<div class=\"md-content\">([\\s\\S]*?)</div>",
+		"cleanup": false
 	}
 }

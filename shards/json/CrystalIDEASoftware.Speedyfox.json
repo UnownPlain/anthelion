@@ -9,7 +9,8 @@
 	"releaseNotes": {
 		"source": "html",
 		"sourceUrl": "https://crystalidea.com/speedyfox/release-notes",
-		"characterLimit": 5000
+		"regex": "<h2 class=\"content-title\">\\s*Version <u>{version|.|\\.}</u>\\s*</h2>\\s*<div class=\"title-meta\">[\\s\\S]*?</div>\\s*(<ul class=\"changes\">[\\s\\S]*?</ul>)",
+		"cleanup": false
 	},
 	"replace": true
 }

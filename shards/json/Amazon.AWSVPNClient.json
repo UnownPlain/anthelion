@@ -11,6 +11,8 @@
 	],
 	"releaseNotes": {
 		"source": "html",
-		"sourceUrl": "https://docs.aws.amazon.com/vpn/latest/clientvpn-user/client-vpn-connect-windows-release-notes.html"
+		"sourceUrl": "https://docs.aws.amazon.com/vpn/latest/clientvpn-user/client-vpn-connect-windows-release-notes.html",
+		"regex": "<td\\b[^>]*>\\s*{version|.|\\.}\\s*</td>\\s*<td\\b[^>]*>([\\s\\S]*?)</td>",
+		"cleanup": false
 	}
 }

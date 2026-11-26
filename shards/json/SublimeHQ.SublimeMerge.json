@@ -12,6 +12,7 @@
 	"releaseNotes": {
 		"source": "html",
 		"sourceUrl": "https://www.sublimemerge.com/download",
-		"characterLimit": 10000
+		"regex": "<article\\b[^>]*>\\s*<h3>Build {version}</h3>\\s*<div class=\"release-date\">[^<]*</div>([\\s\\S]*?)</article>",
+		"cleanup": false
 	}
 }

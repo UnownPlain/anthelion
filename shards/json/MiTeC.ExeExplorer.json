@@ -9,6 +9,7 @@
 	"releaseNotes": {
 		"source": "html",
 		"sourceUrl": "https://www.mitec.cz/wp/mee/#vh",
+		"regex": "(<tr>\\s*<td\\b[^>]*>\\s*<font\\b[^>]*>\\s*<b>{version|.|\\.}</b>\\s*</font>\\s*</td>\\s*<td\\b[^>]*>[\\s\\S]*?</td>\\s*</tr>\\s*<tr>\\s*<td\\b[^>]*>\\s*<table\\b[\\s\\S]*?</table>\\s*</td>\\s*</tr>)",
 		"characterLimit": 8000
 	},
 	"replace": true

@@ -11,6 +11,8 @@
 	],
 	"releaseNotes": {
 		"source": "html",
-		"sourceUrl": "https://fossil-scm.org/home/doc/trunk/www/changes.wiki#v{version|.|_}"
+		"sourceUrl": "https://fossil-scm.org/home/doc/trunk/www/changes.wiki#v{version|.|_}",
+		"regex": "<h2 id=\"v{version|.|_}\">[^<]*</h2>\\s*(<(?:ol|ul)\\b[\\s\\S]*?)(?=<h2\\b|</div>)",
+		"cleanup": false
 	}
 }

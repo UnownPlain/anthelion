@@ -13,6 +13,8 @@
 	],
 	"releaseNotes": {
 		"source": "html",
-		"sourceUrl": "https://developer.android.com/tools/releases/platform-tools"
+		"sourceUrl": "https://developer.android.com/tools/releases/platform-tools",
+		"regex": "<h4\\b[^>]*>\\s*{version|.|\\.}(?:\\s+\\([^<]*\\))?\\s*</h4>([\\s\\S]*?)(?=<h[234]\\b|</article>|</devsite-content-footer>)",
+		"cleanup": false
 	}
 }

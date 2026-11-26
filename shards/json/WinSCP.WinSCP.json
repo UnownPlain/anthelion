@@ -12,6 +12,8 @@
 	"releaseNotes": {
 		"source": "html",
 		"sourceUrl": "https://winscp.net/docs/history",
-		"characterLimit": 20000
+		"regex": "<h2 id=\"{version}\">[^<]*</h2>(?:(?!</section>)[\\s\\S])*?</header>([\\s\\S]*?)(?=<div class=\"promo-block\">|</section>)",
+		"releaseNotesUrl": "https://winscp.net/eng/docs/history#{version}",
+		"cleanup": false
 	}
 }
