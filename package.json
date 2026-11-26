@@ -52,7 +52,7 @@
 		"gen:schema": "bun run src/schema/generate.ts && bun fmt"
 	},
 	"dependencies": {
-		"@rcompat/fs": "0.39.1",
+		"@rcompat/fs": "0.40.0",
 		"@unownplain/anthelion-komac": "0.0.88",
 		"ai": "7.0.177",
 		"ai-sdk-provider-codex-cli": "2.4.0",
