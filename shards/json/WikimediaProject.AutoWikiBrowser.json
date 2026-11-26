@@ -1,0 +1,11 @@
+{
+	"$schema": "https://anthelion.unownplain.dev/schema.json",
+	"strategy": "json",
+	"json": {
+		"url": "https://en.wikipedia.org/w/api.php?action=expandtemplates&text=%7B%7BWikipedia%3AAutoWikiBrowser%2FCurrentVersion%7D%7D&prop=wikitext&format=json&formatversion=2",
+		"path": "expandtemplates.wikitext"
+	},
+	"urls": [
+		"https://downloads.sourceforge.net/project/autowikibrowser/autowikibrowser/AutoWikiBrowser{version|.|}/AutoWikiBrowser{version|.|}.zip"
+	]
+}
