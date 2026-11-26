@@ -1980,12 +1980,19 @@
 						},
 						"regex": {
 							"type": "string",
-							"description": "Regex whose first capture or named \"version\" capture contains the version. Use {version} in templates; other named captures from the first redirect are available as {captures.name}."
+							"description": "Regex whose first capture or named \"version\" capture contains the version. Use {version} in templates; other named captures from the matched redirect for the first URL are available as {captures.name}."
 						},
 						"method": {
 							"default": "get",
 							"type": "string",
 							"enum": ["head", "get"]
+						},
+						"maxRedirects": {
+							"description": "Maximum redirects to inspect per URL. Stops at the first matching Location header.",
+							"default": 1,
+							"type": "integer",
+							"exclusiveMinimum": 0,
+							"maximum": 9007199254740991
 						}
 					},
 					"required": ["url", "regex"],

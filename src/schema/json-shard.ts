@@ -115,9 +115,15 @@ const redirectMatchSchema = z.object({
 	regex: z
 		.string()
 		.describe(
-			'Regex whose first capture or named "version" capture contains the version. Use {version} in templates; other named captures from the first redirect are available as {captures.name}.',
+			'Regex whose first capture or named "version" capture contains the version. Use {version} in templates; other named captures from the matched redirect for the first URL are available as {captures.name}.',
 		),
 	method: z.enum(['head', 'get']).default('get').optional(),
+	maxRedirects: z
+		.int()
+		.positive()
+		.default(1)
+		.optional()
+		.describe('Maximum redirects to inspect per URL. Stops at the first matching Location header.'),
 });
 
 const sourceforgeSchema = z.object({

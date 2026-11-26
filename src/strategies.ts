@@ -250,28 +250,36 @@ export async function redirectMatch(
 	options: Omit<MatchStrategyOptions, 'url'> & {
 		url: string[];
 		method?: 'head' | 'get';
+		maxRedirects?: number;
 	},
 ) {
+	const maxRedirects = options.maxRedirects ?? 1;
 	const results = await Promise.all(
 		options.url.map(async (url) => {
-			const response = await ky(url, {
-				method: options.method ?? 'get',
-				redirect: 'manual',
-				throwHttpErrors: false,
-			});
+			let requestUrl = url;
+			for (let redirectCount = 0; redirectCount < maxRedirects; redirectCount++) {
+				const response = await ky(requestUrl, {
+					method: options.method ?? 'get',
+					redirect: 'manual',
+					throwHttpErrors: false,
+				});
 
-			const redirect = response.headers.get('location');
-			if (!redirect) {
-				throw new Error(`No redirect location found for ${url}`);
+				const location = response.headers.get('location');
+				if (!location) {
+					throw new Error(`No redirect location found for ${requestUrl}`);
+				}
+
+				const redirectUrl = URL.canParse(location) ? location : new URL(location, requestUrl).href;
+				if (location.search(options.regex) !== -1) {
+					const { groups, captures } = match(location, options.regex);
+					const version = captures.version ?? groups[0];
+					return { version: parseString(version), url: redirectUrl, captures };
+				}
+				requestUrl = redirectUrl;
 			}
-
-			const { groups, captures } = match(
-				redirect,
-				options.regex,
-				'Failed to extract version from URL',
+			throw new Error(
+				`Failed to extract version from URL within ${maxRedirects} redirect(s) from ${url}`,
 			);
-			const version = captures.version ?? groups[0];
-			return { version: parseString(version), url: redirect, captures };
 		}),
 	);
 	const firstResult = results[0];

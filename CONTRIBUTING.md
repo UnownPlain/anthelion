@@ -507,10 +507,14 @@ Use `redirect-match` when a stable download link redirects to a URL containing t
 }
 ```
 
-`redirectMatch.url` must be a non-empty array, and every redirect must resolve to the same version.
-If the top-level `urls` field is omitted, Anthelion passes all redirect destinations to komac.
+`redirectMatch.url` must be a non-empty array, and every link must resolve to the same version.
+By default, Anthelion checks one redirect per link. Set `redirectMatch.maxRedirects` to a higher
+integer when a link has intermediate redirects. Anthelion tests each `Location` header and stops
+at the first match. If the top-level `urls` field is omitted, Anthelion passes the matched
+destinations to komac as absolute URLs.
 As with `page-match`, the first capture group or named `version` group supplies the version. Other
-named groups from the first redirect are available in templates as `{captures.name}`.
+named groups from the matched redirect for the first link are available in templates as
+`{captures.name}`.
 
 For packages with multiple stable download links, such as separate architecture installers, list
 each link in `redirectMatch.url`:
