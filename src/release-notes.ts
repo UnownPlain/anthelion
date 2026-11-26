@@ -212,7 +212,12 @@ async function resolveFromSource(
 		case ReleaseNotesSource.Markdown:
 		case ReleaseNotesSource.PlainText: {
 			const { sourceUrl, releaseNotesUrl } = resolveSourceUrls(config, values);
-			const releaseNotes = await formatReleaseNotes(await ky(sourceUrl).text(), config.source);
+			const response = await ky(sourceUrl).text();
+			const htmlRegex = 'regex' in config && config.regex;
+			const content = htmlRegex
+				? new RegExp(resolveValuePlaceholders(htmlRegex, values), 'i').exec(response)?.[1]
+				: response;
+			const releaseNotes = content ? await formatReleaseNotes(content, config.source) : undefined;
 
 			return {
 				releaseNotes,

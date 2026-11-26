@@ -25,6 +25,13 @@ const releaseNotesHtmlSchema = z.object({
 		.describe(
 			'Source URL to fetch and parse release notes from. Supports {version} placeholders in URL.',
 		),
+	regex: z
+		.string()
+		.min(1)
+		.describe(
+			'Optional case-insensitive regex whose first capture contains the release notes HTML. Supports template placeholders.',
+		)
+		.optional(),
 	releaseNotesUrl: z
 		.string()
 		.describe(

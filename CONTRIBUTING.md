@@ -739,6 +739,10 @@ For a non-GitHub changelog or release page, choose its source format:
 Supported sources are `github`, `html`, `markdown`, `plain-text`, `json`, `yaml`, and
 `browser-rendering`. If only a link is useful, provide just `releaseNotesUrl`.
 
+For an HTML changelog with multiple releases, set `regex` to capture the relevant release's HTML
+before formatting. The regex is case-insensitive and uses the first capture group. It can use
+templates such as `{version}` or `{captures.releaseDate}`.
+
 AI cleanup is enabled by default for `html`, `markdown`, `plain-text`, `json`, `yaml`, and
 `browser-rendering` sources. Set `cleanup` to `false` when formatting the source as plain text is
 sufficient. GitHub release notes are the exception: cleanup is disabled by default because GitHub
