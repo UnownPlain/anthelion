@@ -65,8 +65,8 @@
 	},
 	"devDependencies": {
 		"@types/bun": "1.4.5",
-		"oxfmt": "0.79.0",
-		"oxlint": "1.94.0",
+		"oxfmt": "0.80.0",
+		"oxlint": "1.95.0",
 		"tsdown": "0.23.7",
 		"tsrs": "7.1.0-beta.tsrs4",
 		"typescript": "7.1.0-beta",
