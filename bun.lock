@@ -6,7 +6,7 @@
       "name": "anthelion",
       "dependencies": {
         "@rcompat/fs": "0.40.0",
-        "@unownplain/anthelion-komac": "0.0.88",
+        "@unownplain/anthelion-komac": "0.0.89",
         "ai": "7.0.177",
         "ai-sdk-provider-codex-cli": "2.4.0",
         "ansis": "4.5.0",
@@ -263,23 +263,23 @@
 
     "@types/node": ["@types/node@26.6.5", "", { "dependencies": { "undici-types": "~8.9.0" } }, "sha512-uMzsv9stDdofIZBx4UGh4Z9ZgXnGC9seRDscilBcTHAeOFk67MZg/k9bWVfO+bk4qZmG+l52hRnLwUiH2LnJTg=="],
 
-    "@unownplain/anthelion-komac": ["@unownplain/anthelion-komac@0.0.88", "", { "optionalDependencies": { "@unownplain/anthelion-komac-darwin-arm64": "0.0.88", "@unownplain/anthelion-komac-darwin-x64": "0.0.88", "@unownplain/anthelion-komac-linux-arm64-gnu": "0.0.88", "@unownplain/anthelion-komac-linux-arm64-musl": "0.0.88", "@unownplain/anthelion-komac-linux-x64-gnu": "0.0.88", "@unownplain/anthelion-komac-linux-x64-musl": "0.0.88", "@unownplain/anthelion-komac-win32-arm64-msvc": "0.0.88", "@unownplain/anthelion-komac-win32-x64-msvc": "0.0.88" } }, "sha512-+T6+N9Odesc5OMdax/cbfu+HaQlSBTfMmEP8GHs0FcIbS5t3pceAOfbTEI+oUIiWAzzO2rQc5BEI2ZsLt/t0Ow=="],
+    "@unownplain/anthelion-komac": ["@unownplain/anthelion-komac@0.0.89", "", { "optionalDependencies": { "@unownplain/anthelion-komac-darwin-arm64": "0.0.89", "@unownplain/anthelion-komac-darwin-x64": "0.0.89", "@unownplain/anthelion-komac-linux-arm64-gnu": "0.0.89", "@unownplain/anthelion-komac-linux-arm64-musl": "0.0.89", "@unownplain/anthelion-komac-linux-x64-gnu": "0.0.89", "@unownplain/anthelion-komac-linux-x64-musl": "0.0.89", "@unownplain/anthelion-komac-win32-arm64-msvc": "0.0.89", "@unownplain/anthelion-komac-win32-x64-msvc": "0.0.89" } }, "sha512-fy8A7vA+pfz0kJFOcDJljqOb/v3ZsxalO/7FLEMl8mWox16CkVTPPWi3lG25uPSARrVM1R9AK5qLZGgd2s1nWA=="],
 
-    "@unownplain/anthelion-komac-darwin-arm64": ["@unownplain/anthelion-komac-darwin-arm64@0.0.88", "", { "os": "darwin", "cpu": "arm64" }, "sha512-qUFq0YndnfaTQOK8jCWnLpKhwNfNBDEC5saiWmNgqp/UJeWFyPzhBc9E5h/Hu385+uuv2mJ4KgvyeL5TDDB9sw=="],
+    "@unownplain/anthelion-komac-darwin-arm64": ["@unownplain/anthelion-komac-darwin-arm64@0.0.89", "", { "os": "darwin", "cpu": "arm64" }, "sha512-zH2A27gMr6GiHqTkcKGDxhjrmqU8w3TRIRNfSv3s5D+Bk0PhrzanmwGJ1R8FSj4Dyq+Hp3CJ3DjJjpedv8VfSg=="],
 
-    "@unownplain/anthelion-komac-darwin-x64": ["@unownplain/anthelion-komac-darwin-x64@0.0.88", "", { "os": "darwin", "cpu": "x64" }, "sha512-EejS8vQb5RpgzsNtl3GCgk54q/TQICnlDnhpJKeRmEyrtsc3kM3L+Bm702s5Sf9spOfJIiwStmNJX0CFmWcLKQ=="],
+    "@unownplain/anthelion-komac-darwin-x64": ["@unownplain/anthelion-komac-darwin-x64@0.0.89", "", { "os": "darwin", "cpu": "x64" }, "sha512-c6kccViKd46UXB2FwRHGYZeHsoXZGVHGk053rSKPD8ARmP68Ss7ZmDHuN4uvILjFcusEVxB55iexvs1P2/mhaw=="],
 
-    "@unownplain/anthelion-komac-linux-arm64-gnu": ["@unownplain/anthelion-komac-linux-arm64-gnu@0.0.88", "", { "os": "linux", "cpu": "arm64", "libc": "glibc" }, "sha512-funvxFJrK7SMAVTVWIkNwnEyUUKNesHlBYDM8Qh3rdxGDIVuE0y5SqfaGedDM5+8n0doyaFcbsIb+ixHs+ku/A=="],
+    "@unownplain/anthelion-komac-linux-arm64-gnu": ["@unownplain/anthelion-komac-linux-arm64-gnu@0.0.89", "", { "os": "linux", "cpu": "arm64", "libc": "glibc" }, "sha512-wD6JV4961udvZwsRYa2YsKN08wL316IU0BhNiZYXCnB9iGMoEjX55JBdznNYWQqbqyhoQJcRk5CBoAZAMb/4YQ=="],
 
-    "@unownplain/anthelion-komac-linux-arm64-musl": ["@unownplain/anthelion-komac-linux-arm64-musl@0.0.88", "", { "os": "linux", "cpu": "arm64", "libc": "musl" }, "sha512-VKZs2f0u30ThziPgHFgNyAAbevroc9pVyQCi2g3VG43pThoEkMJ6PTzyT10lecUMtVhQm04ZfS37Usf4nU+zgg=="],
+    "@unownplain/anthelion-komac-linux-arm64-musl": ["@unownplain/anthelion-komac-linux-arm64-musl@0.0.89", "", { "os": "linux", "cpu": "arm64", "libc": "musl" }, "sha512-vYBAKU8pU9nAthiu75bCM8vPKGJi+GNABiqtB4zESzNOi6qXW5Fm+f5DtW+Wjh3KDTByL59fm140NqbT8ZAb3g=="],
 
-    "@unownplain/anthelion-komac-linux-x64-gnu": ["@unownplain/anthelion-komac-linux-x64-gnu@0.0.88", "", { "os": "linux", "cpu": "x64", "libc": "glibc" }, "sha512-tNPxSq22Q6eE2KGZK0oSFUHRarnlnF+AwDTVOVhFyO1BAYianMhl2X7vbcvZSArib/VUV4bGX3SW74/wxxCnQw=="],
+    "@unownplain/anthelion-komac-linux-x64-gnu": ["@unownplain/anthelion-komac-linux-x64-gnu@0.0.89", "", { "os": "linux", "cpu": "x64", "libc": "glibc" }, "sha512-AThDKF7+dC9JDSDemiZEI3746l1WNZilRpEHtMeqippuVMrCLhbfmfVEEgfyouF0lRzMB3HKjkH2YB9rtuyLkg=="],
 
-    "@unownplain/anthelion-komac-linux-x64-musl": ["@unownplain/anthelion-komac-linux-x64-musl@0.0.88", "", { "os": "linux", "cpu": "x64", "libc": "musl" }, "sha512-plz+yRmXbXZEv9DXdxfI24VF5PmYhObaByEL7C6vFFEe4k5XkrKuqZByQlM0nb/PPhnvZb62zhf32qlNp3oOGg=="],
+    "@unownplain/anthelion-komac-linux-x64-musl": ["@unownplain/anthelion-komac-linux-x64-musl@0.0.89", "", { "os": "linux", "cpu": "x64", "libc": "musl" }, "sha512-Gta9CMz5aB8lnjOMzWChRleUspE1/Nb8sHXaaBCerwqALAOJQd5Gllo3Gg52v75ydvaYJeVtQkZsK++IeTo+hw=="],
 
-    "@unownplain/anthelion-komac-win32-arm64-msvc": ["@unownplain/anthelion-komac-win32-arm64-msvc@0.0.88", "", { "os": "win32", "cpu": "arm64" }, "sha512-Go+YjLPi51bZGP7LBO8J9Hejk1rqmzfoQmN0g4xZbso+EuswAPJ1A9NTO8twMvZIMS+qgFMRbn3YFu565WhuLA=="],
+    "@unownplain/anthelion-komac-win32-arm64-msvc": ["@unownplain/anthelion-komac-win32-arm64-msvc@0.0.89", "", { "os": "win32", "cpu": "arm64" }, "sha512-0CAZ4UzmgFeb0kkHJnzbduzeYImrz8dYvK2yserSJtFQWd+YZwYPi/xwJnFdRNFx3yYHyzNVdnIQE5UwWT4vsw=="],
 
-    "@unownplain/anthelion-komac-win32-x64-msvc": ["@unownplain/anthelion-komac-win32-x64-msvc@0.0.88", "", { "os": "win32", "cpu": "x64" }, "sha512-0rCP/Buix+UsKCAu2NguMsd4AfVbkRb0PedBMgeXbHfEa2Ithw8NCMnTzV9VGs0POJf5pajRVjZF9szKNsvnEA=="],
+    "@unownplain/anthelion-komac-win32-x64-msvc": ["@unownplain/anthelion-komac-win32-x64-msvc@0.0.89", "", { "os": "win32", "cpu": "x64" }, "sha512-ogxvKxnQqmN1T9KNNSr28Y7+dBg8Y4hSDh2/DgJWMaCNh1PCln6XUqd0y9i42XCb0RkZbl4iBtKdaZV+PfNt7Q=="],
 
     "@vercel/oidc": ["@vercel/oidc@3.2.0", "", {}, "sha512-UycprH3T6n3jH0k44NHMa7pnFHGu/N05MjojYr+Mc6I7obkoLIJujSWwin1pCvdy/eOxrI/l3uDLQsmcrOb4ug=="],
 
