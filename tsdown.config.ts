@@ -13,7 +13,7 @@ export default defineConfig([
 		},
 		format: 'esm',
 		plugins: [zodCompiler({ codegenMode: 'inline' })],
-		dts: true,
+		dts: { generator: 'tsrs' },
 		fixedExtension: false,
 		hash: false,
 		alias: {
